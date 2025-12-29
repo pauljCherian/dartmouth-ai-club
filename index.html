@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dartmouth AI Club</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <span class="logo-icon">🌲</span>
+                <span class="logo-text">DAIC</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#industry-trek" class="nav-link">Industry Trek</a></li>
+                <li><a href="resources.html" class="nav-link">Resources</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="#home" class="mobile-nav-link">Home</a></li>
+            <li><a href="#about" class="mobile-nav-link">About</a></li>
+            <li><a href="#industry-trek" class="mobile-nav-link">Industry Trek</a></li>
+            <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
+            <li><a href="team.html" class="mobile-nav-link">Team</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+            <div class="grid-pattern"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge animate-fade-in">
+                <span class="badge-dot"></span>
+                <span>Welcome to Dartmouth AI Club</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line animate-slide-up" style="--delay: 0.1s">Dartmouth</span>
+                <span class="title-line animate-slide-up" style="--delay: 0.2s">AI Club</span>
+            </h1>
+            <p class="hero-subtitle animate-fade-in" style="--delay: 0.4s">
+                Exploring the frontiers of artificial intelligence together
+            </p>
+            <div class="hero-cta animate-fade-in" style="--delay: 0.6s">
+                <a href="#about" class="btn btn-primary">
+                    <span>Learn More</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator animate-fade-in" style="--delay: 1s">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">About Us</h2>
+            </div>
+            
+            <div class="about-grid">
+                <!-- Who We Are -->
+                <div class="about-card animate-on-scroll">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Who We Are</h3>
+                    <p>Dartmouth AI Club is a student-driven organization bringing together undergraduates passionate about artificial intelligence. We've built a welcoming community where students can dive into cutting-edge AI topics, share ideas, and learn from each other—no prior experience required.</p>
+                </div>
+
+                <!-- What We Do -->
+                <div class="about-card animate-on-scroll" style="--delay: 0.1s">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>What We Do</h3>
+                    <p>Each week, members lead discussions on exciting AI breakthroughs—from generative models and computer vision to the latest in LLMs and reinforcement learning. We also organize speaker events, hands-on workshops, and collaborative projects that bridge classroom theory with real-world applications.</p>
+                </div>
+
+                <!-- How to Join -->
+                <div class="about-card animate-on-scroll" style="--delay: 0.2s">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <line x1="19" y1="8" x2="19" y2="14"/>
+                            <line x1="22" y1="11" x2="16" y2="11"/>
+                        </svg>
+                    </div>
+                    <h3>How to Join</h3>
+                    <p>Getting involved is simple—just show up! We welcome everyone from complete beginners to experienced practitioners. Come to two meetings in a row to become an official member, or just drop by whenever a topic catches your interest. Sign up for our mailing list to stay in the loop.</p>
+                </div>
+
+                <!-- Faculty Involvement -->
+                <div class="about-card animate-on-scroll" style="--delay: 0.3s">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                    </div>
+                    <h3>Faculty Involvement</h3>
+                    <p>Our club partners with Dartmouth's Computer Science department and benefits from guidance by a dedicated faculty advisor. These connections open doors to research opportunities, academic insights, and networking with professors working on groundbreaking AI projects.</p>
+                </div>
+            </div>
+
+            <!-- Mission Statement -->
+            <div class="mission-statement animate-on-scroll">
+                <blockquote>
+                    "We believe AI literacy should be accessible to every Dartmouth student. Our goal is to demystify artificial intelligence through peer learning, hands-on exploration, and a supportive community where curiosity drives discovery."
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section class="section goals-section">
+        <div class="section-container">
+            <div class="goals-header">
+                <h2 class="goals-title animate-on-scroll">Our Goals</h2>
+            </div>
+            <div class="goals-grid">
+                <div class="goal-item animate-on-scroll">
+                    <div class="goal-number">01</div>
+                    <h3>Facilitate Peer Learning</h3>
+                    <p>Host weekly meetings where students present on recent AI developments and research topics.</p>
+                </div>
+                <div class="goal-item animate-on-scroll" style="--delay: 0.1s">
+                    <div class="goal-number">02</div>
+                    <h3>Connect with Faculty & Industry</h3>
+                    <p>Collaborate with the COSC department to host faculty Q&A sessions and invite distinguished guest speakers.</p>
+                </div>
+                <div class="goal-item animate-on-scroll" style="--delay: 0.2s">
+                    <div class="goal-number">03</div>
+                    <h3>Build Community</h3>
+                    <p>Organize social events and discussion groups to cultivate a strong, interdisciplinary network.</p>
+                </div>
+                <div class="goal-item animate-on-scroll" style="--delay: 0.3s">
+                    <div class="goal-number">04</div>
+                    <h3>Provide Career Exposure</h3>
+                    <p>Connect students with engineers, investors, and entrepreneurs at leading AI companies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industry Trek Section -->
+    <section class="section trek-section" id="industry-trek">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">AI Industry Trek</h2>
+                <div class="coming-soon-badge" style="display: inline-block; background: linear-gradient(135deg, var(--accent-gold), #e8c547); color: var(--forest-green); padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.875rem; font-weight: 600; margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                    ✨ Coming Soon
+                </div>
+            </div>
+
+            <div class="trek-content">
+                <div class="trek-main animate-on-scroll">
+                    <h3>What is the AI Industry Trek?</h3>
+                    <p>We're developing an exciting new program that will take Dartmouth students behind the scenes at leading AI companies, research labs, and startups. Imagine meeting the engineers building the next generation of AI systems, learning from founders who've turned ideas into impactful ventures, and exploring what a career in AI really looks like.</p>
+                    <p>This initiative is being developed <strong>in collaboration with the <a href="https://magnuson.dartmouth.edu/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-mint); text-decoration: underline;">Magnuson Center for Entrepreneurship</a></strong>, Dartmouth's hub for innovation and startup support. Together, we're working to create an immersive experience that connects our members with the people shaping the future of artificial intelligence.</p>
+                </div>
+
+                <div class="trek-features">
+                    <div class="trek-feature animate-on-scroll" style="--delay: 0.1s">
+                        <div class="feature-icon">🚀</div>
+                        <h4>On-Site Visits</h4>
+                        <p>Experience firsthand how top AI teams operate and see cutting-edge research in action.</p>
+                    </div>
+                    <div class="trek-feature animate-on-scroll" style="--delay: 0.2s">
+                        <div class="feature-icon">🎓</div>
+                        <h4>Prep Sessions</h4>
+                        <p>Get up to speed on key AI concepts before the trip so you can engage in deeper conversations.</p>
+                    </div>
+                    <div class="trek-feature animate-on-scroll" style="--delay: 0.3s">
+                        <div class="feature-icon">🤝</div>
+                        <h4>Build Connections</h4>
+                        <p>Form lasting relationships with industry mentors, entrepreneurs, and peers who share your passion.</p>
+                    </div>
+                    <div class="trek-feature animate-on-scroll" style="--delay: 0.4s">
+                        <div class="feature-icon">💡</div>
+                        <h4>All Levels Welcome</h4>
+                        <p>Whether you're just AI-curious or already building models, there's a place for you on this journey.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trek-cta animate-on-scroll">
+                <p>Want to be the first to know when applications open?</p>
+                <a href="#contact" class="btn btn-primary">
+                    <span>Join the Waitlist</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact-section" id="contact">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Reach Out!</h2>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info animate-on-scroll">
+                    <div class="contact-card">
+                        <h3>Email</h3>
+                        <p>If you are interested in getting in touch with the club or have any questions, please reach out to us.</p>
+                        <a href="mailto:daic@dartmouth.edu" class="contact-link">daic@dartmouth.edu</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Listserv</h3>
+                        <p>Join our mailing list to stay updated on meetings, events, and opportunities.</p>
+                        <a href="#" class="btn btn-outline">Join Listserv</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Meetings</h3>
+                        <p>Weekly meetings are held during the academic term. Check our listserv for current times and locations.</p>
+                        <div class="meeting-info">
+                            <span class="meeting-detail">📍 Dartmouth Campus</span>
+                            <span class="meeting-detail">🕐 Weekly during term</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container animate-on-scroll" style="--delay: 0.2s">
+                    <form class="contact-form" id="contactForm">
+                        <h3>Send us a message</h3>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@dartmouth.edu">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="How can we help?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <span>Send Message</span>
+                            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="#home" class="footer-logo">
+                        <span class="logo-icon">🌲</span>
+                        <span class="logo-text">DAIC</span>
+                    </a>
+                    <p>Dartmouth AI Club</p>
+                    <p class="footer-tagline">Exploring the future of AI at Dartmouth</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#industry-trek">Industry Trek</a></li>
+                            <li><a href="resources.html">Resources</a></li>
+                            <li><a href="team.html">Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="mailto:daic@dartmouth.edu">Email Us</a></li>
+                            <li><a href="#">Twitter/X</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Meetings</h4>
+                        <p class="footer-meeting-info">Weekly during term</p>
+                        <p class="footer-meeting-info">Dartmouth Campus</p>
+                        <a href="#contact" class="footer-join-link">Join our listserv →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
+                <p>A student organization at Dartmouth College</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

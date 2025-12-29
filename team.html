@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team - Dartmouth AI Club</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">🌲</span>
+                <span class="logo-text">DAIC</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#industry-trek" class="nav-link">Industry Trek</a></li>
+                <li><a href="resources.html" class="nav-link">Resources</a></li>
+                <li><a href="team.html" class="nav-link active">Team</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="index.html#about" class="mobile-nav-link">About</a></li>
+            <li><a href="index.html#industry-trek" class="mobile-nav-link">Industry Trek</a></li>
+            <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
+            <li><a href="team.html" class="mobile-nav-link">Team</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <h1 class="animate-slide-up">Our Team</h1>
+        <p class="animate-fade-in" style="--delay: 0.2s">
+            Meet the students leading the Dartmouth AI Club
+        </p>
+    </section>
+
+    <!-- Executive Committee Section -->
+    <section class="team-section">
+        <div class="section-container">
+            <div class="section-header text-center mb-2xl">
+                <span class="section-number">Executive Committee</span>
+                <h2 class="section-title">Leadership</h2>
+            </div>
+
+            <div class="team-grid">
+                <!-- President -->
+                <div class="team-card animate-on-scroll">
+                    <div class="team-avatar">👤</div>
+                    <h3>President</h3>
+                    <span class="team-role">President</span>
+                    <p>Leads all meetings of the membership, coordinates events, and serves as the liaison with COSO.</p>
+                    <div class="team-social">
+                        <a href="#" aria-label="Email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect x="2" y="9" width="4" height="12"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Vice President -->
+                <div class="team-card animate-on-scroll" style="--delay: 0.1s">
+                    <div class="team-avatar">👤</div>
+                    <h3>Vice President</h3>
+                    <span class="team-role">Vice President</span>
+                    <p>Assumes presidential responsibilities in the President's absence and assists with club operations.</p>
+                    <div class="team-social">
+                        <a href="#" aria-label="Email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect x="2" y="9" width="4" height="12"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Secretary -->
+                <div class="team-card animate-on-scroll" style="--delay: 0.2s">
+                    <div class="team-avatar">👤</div>
+                    <h3>Secretary</h3>
+                    <span class="team-role">Secretary</span>
+                    <p>Records meeting minutes, maintains membership records, and distributes meeting notices.</p>
+                    <div class="team-social">
+                        <a href="#" aria-label="Email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect x="2" y="9" width="4" height="12"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Treasurer -->
+                <div class="team-card animate-on-scroll" style="--delay: 0.3s">
+                    <div class="team-avatar">👤</div>
+                    <h3>Treasurer</h3>
+                    <span class="team-role">Treasurer</span>
+                    <p>Maintains financial records and prepares budget requests for COSO with the President.</p>
+                    <div class="team-social">
+                        <a href="#" aria-label="Email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect x="2" y="9" width="4" height="12"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Faculty Advisor Section -->
+    <section class="section" style="background: var(--forest-green);">
+        <div class="section-container">
+            <div class="section-header text-center mb-2xl">
+                <span class="section-number">Guidance & Support</span>
+                <h2 class="section-title">Faculty Advisor</h2>
+            </div>
+
+            <div class="advisor-card animate-on-scroll" style="max-width: 600px; margin: 0 auto; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1.5rem; padding: 2rem; text-align: center;">
+                <div class="team-avatar" style="margin: 0 auto 1.5rem;">🎓</div>
+                <h3 style="font-family: var(--font-serif); font-size: 1.75rem; color: var(--white); margin-bottom: 0.5rem;">Faculty Advisor</h3>
+                <span class="team-role" style="display: block; margin-bottom: 1rem;">Computer Science Department</span>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.7;">
+                    Our faculty advisor attends all Executive Committee meetings as a non-voting member, providing guidance and administrative assistance to help Dartmouth AI Club achieve its mission.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join the Team Section -->
+    <section class="section" style="background: var(--pine-green);">
+        <div class="section-container">
+            <div class="trek-cta animate-on-scroll" style="max-width: 800px; margin: 0 auto;">
+                <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--white); margin-bottom: 1rem;">Want to Get Involved?</h2>
+                <p style="margin-bottom: 1.5rem;">
+                    We're always looking for passionate students to join our community. Whether you want to present at meetings, help organize events, or run for leadership positions, there's a place for you at DAIC!
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="index.html#contact" class="btn btn-primary">
+                        <span>Get In Touch</span>
+                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="index.html#about" class="btn btn-secondary">
+                        <span>Learn More</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Constitution Excerpt -->
+    <section class="section" style="background: var(--forest-green);">
+        <div class="section-container">
+            <div class="section-header text-center mb-2xl">
+                <span class="section-number">Our Foundation</span>
+                <h2 class="section-title">From Our Constitution</h2>
+            </div>
+
+            <div class="constitution-excerpt animate-on-scroll" style="max-width: 900px; margin: 0 auto;">
+                <div class="mission-statement">
+                    <blockquote>
+                        "Dartmouth AI Club is a student-driven community where undergraduates explore the frontiers of artificial intelligence. We're committed to making AI accessible, fostering hands-on learning, and building a supportive network of curious minds ready to shape the future of technology."
+                    </blockquote>
+                </div>
+
+                <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 1.5rem;">
+                        <h4 style="color: var(--accent-mint); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Membership</h4>
+                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Open to all members of the Dartmouth community. Attend two consecutive meetings to become a member.</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 1.5rem;">
+                        <h4 style="color: var(--accent-mint); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Elections</h4>
+                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Officers elected by majority vote during the third week of spring term.</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 1.5rem;">
+                        <h4 style="color: var(--accent-mint); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Meetings</h4>
+                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Regular meetings held at least twice per term, with at least one day's notice to all members.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">🌲</span>
+                        <span class="logo-text">DAIC</span>
+                    </a>
+                    <p>Dartmouth AI Club</p>
+                    <p class="footer-tagline">Exploring the future of AI at Dartmouth</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#industry-trek">Industry Trek</a></li>
+                            <li><a href="resources.html">Resources</a></li>
+                            <li><a href="team.html">Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="mailto:daic@dartmouth.edu">Email Us</a></li>
+                            <li><a href="#">Twitter/X</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Meetings</h4>
+                        <p class="footer-meeting-info">Weekly during term</p>
+                        <p class="footer-meeting-info">Dartmouth Campus</p>
+                        <a href="index.html#contact" class="footer-join-link">Join our listserv →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
+                <p>A student organization at Dartmouth College</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+{
+  "name": "dartmouth-ai-club",
+  "version": "1.0.0",
+  "description": "Dartmouth AI Club Website",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": ["dartmouth", "ai", "student", "club"],
+  "author": "Dartmouth AI Club",
+  "license": "MIT"
+}
+

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Dartmouth AI Club</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">🌲</span>
+                <span class="logo-text">DAIC</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#industry-trek" class="nav-link">Industry Trek</a></li>
+                <li><a href="resources.html" class="nav-link active">Resources</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="index.html#about" class="mobile-nav-link">About</a></li>
+            <li><a href="index.html#industry-trek" class="mobile-nav-link">Industry Trek</a></li>
+            <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
+            <li><a href="team.html" class="mobile-nav-link">Team</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <h1 class="animate-slide-up">Resources</h1>
+        <p class="animate-fade-in" style="--delay: 0.2s">
+            Presentations, learning materials, and helpful resources for AI enthusiasts
+        </p>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="resources-grid">
+            <!-- Past Presentations -->
+            <div class="resource-card animate-on-scroll">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h3>Past Presentations</h3>
+                <p>Access slides and recordings from our weekly meetings covering topics like diffusion models, LLMs, semantic segmentation, and more.</p>
+                <a href="#" class="resource-link">
+                    <span>View Presentations</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Learning Paths -->
+            <div class="resource-card animate-on-scroll" style="--delay: 0.1s">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                </div>
+                <h3>Learning Paths</h3>
+                <p>Curated learning paths for different skill levels, from AI fundamentals to advanced deep learning and research topics.</p>
+                <a href="#" class="resource-link">
+                    <span>Start Learning</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Research Papers -->
+            <div class="resource-card animate-on-scroll" style="--delay: 0.2s">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                </div>
+                <h3>Research Papers</h3>
+                <p>A collection of influential and recent AI research papers recommended by our members and faculty advisor.</p>
+                <a href="#" class="resource-link">
+                    <span>Browse Papers</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Ideas -->
+            <div class="resource-card animate-on-scroll" style="--delay: 0.3s">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                </div>
+                <h3>Project Ideas</h3>
+                <p>Looking to build something? Check out our collection of AI project ideas ranging from beginner-friendly to research-level.</p>
+                <a href="#" class="resource-link">
+                    <span>Explore Projects</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Tools & Frameworks -->
+            <div class="resource-card animate-on-scroll" style="--delay: 0.4s">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                </div>
+                <h3>Tools & Frameworks</h3>
+                <p>Essential tools and frameworks for AI development including PyTorch, TensorFlow, Hugging Face, and development environments.</p>
+                <a href="#" class="resource-link">
+                    <span>View Tools</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Community Links -->
+            <div class="resource-card animate-on-scroll" style="--delay: 0.5s">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                </div>
+                <h3>Community Links</h3>
+                <p>Connect with AI communities, forums, Discord servers, and other resources to stay engaged with the broader AI ecosystem.</p>
+                <a href="#" class="resource-link">
+                    <span>Join Communities</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Covered Section -->
+    <section class="section" style="background: var(--forest-green);">
+        <div class="section-container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Topics We Cover</h2>
+            </div>
+            <div class="topics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                <div class="topic-tag animate-on-scroll" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Large Language Models</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.05s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Diffusion Models</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.1s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Computer Vision</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.15s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Reinforcement Learning</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Semantic Segmentation</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.25s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Neural Networks</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.3s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Transformers</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.35s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">AI Ethics</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.4s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">Generative AI</div>
+                <div class="topic-tag animate-on-scroll" style="--delay: 0.45s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; text-align: center; color: rgba(255,255,255,0.8);">ML Ops</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">🌲</span>
+                        <span class="logo-text">DAIC</span>
+                    </a>
+                    <p>Dartmouth AI Club</p>
+                    <p class="footer-tagline">Exploring the future of AI at Dartmouth</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#industry-trek">Industry Trek</a></li>
+                            <li><a href="resources.html">Resources</a></li>
+                            <li><a href="team.html">Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="mailto:daic@dartmouth.edu">Email Us</a></li>
+                            <li><a href="#">Twitter/X</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Meetings</h4>
+                        <p class="footer-meeting-info">Weekly during term</p>
+                        <p class="footer-meeting-info">Dartmouth Campus</p>
+                        <a href="index.html#contact" class="footer-join-link">Join our listserv →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
+                <p>A student organization at Dartmouth College</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
