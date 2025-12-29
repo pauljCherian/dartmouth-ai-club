@@ -395,11 +395,11 @@ ul, ol {
 }
 
 .hero-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: clamp(3rem, 10vw, 7rem);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
     margin-bottom: var(--space-lg);
 }
 
