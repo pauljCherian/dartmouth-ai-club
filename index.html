@@ -9,6 +9,152 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+    <style>
+        /* ─── SPEAKER CARDS (index page) ─────────────── */
+        .speakers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .speaker-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            overflow: hidden;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .famous .speaker-card {
+            border-left: 4px solid var(--accent-gold, #d4a843);
+        }
+
+        .student .speaker-card {
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .speaker-photo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .speaker-photo-placeholder {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.6));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: white;
+            flex-shrink: 0;
+            font-weight: bold;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .speaker-info {
+            flex: 1;
+        }
+
+        .speaker-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .speaker-title {
+            font-size: 0.85rem;
+            color: var(--accent-gold, #d4a843);
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .speaker-description {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        .speaker-tags {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .famous .tag {
+            background-color: rgba(212, 168, 67, 0.15);
+            color: var(--accent-gold, #d4a843);
+            border-color: rgba(212, 168, 67, 0.3);
+        }
+
+        .student .tag {
+            background-color: rgba(79, 195, 247, 0.15);
+            color: #4fc3f7;
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .speakers-section-title {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            color: #fff;
+            border-left: 4px solid var(--accent-gold, #d4a843);
+            padding-left: 15px;
+        }
+
+        .speakers-section-subtitle {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            padding-left: 19px;
+        }
+
+        .speakers-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.2), transparent);
+            margin: 1rem 0 3rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .speaker-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .speaker-tags {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -22,6 +168,7 @@
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#industry-trek" class="nav-link">Industry Trek</a></li>
+                <li><a href="#speakers" class="nav-link">Speakers</a></li>
                 <li><a href="resources.html" class="nav-link">Resources</a></li>
                 <li><a href="team.html" class="nav-link">Team</a></li>
             </ul>
@@ -39,6 +186,7 @@
             <li><a href="#home" class="mobile-nav-link">Home</a></li>
             <li><a href="#about" class="mobile-nav-link">About</a></li>
             <li><a href="#industry-trek" class="mobile-nav-link">Industry Trek</a></li>
+            <li><a href="#speakers" class="mobile-nav-link">Speakers</a></li>
             <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
             <li><a href="team.html" class="mobile-nav-link">Team</a></li>
         </ul>
@@ -91,7 +239,6 @@
             </div>
             
             <div class="about-grid">
-                <!-- Who We Are -->
                 <div class="about-card animate-on-scroll">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -104,8 +251,6 @@
                     <h3>Our Community</h3>
                     <p>A new way for Dartmouth students to engage with AI—particularly what's not covered in classes. Meet the people on campus who are actually building and researching AI. No prior experience required, just curiosity.</p>
                 </div>
-
-                <!-- What We Do -->
                 <div class="about-card animate-on-scroll" style="--delay: 0.1s">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -117,8 +262,6 @@
                     <h3>Member-Led Sessions</h3>
                     <p>Each meeting, officers present on an AI topic of their choice—whether it's a research concept, recent paper, AI company deep-dive, or their own work. Topics range from foundational ML to cutting-edge research on agents, LLMs, and more.</p>
                 </div>
-
-                <!-- How to Join -->
                 <div class="about-card animate-on-scroll" style="--delay: 0.2s">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -131,8 +274,6 @@
                     <h3>Become a Member</h3>
                     <p>Getting involved is simple—just show up! We welcome everyone from complete beginners to experienced practitioners.</p>
                 </div>
-
-                <!-- Faculty Involvement -->
                 <div class="about-card animate-on-scroll" style="--delay: 0.3s">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -145,7 +286,6 @@
                 </div>
             </div>
 
-            <!-- Mission Statement -->
             <div class="mission-statement animate-on-scroll">
                 <blockquote>
                     "We're building a durable, student-led institution around current AI research, infrastructure, and applications—bringing together the substantial interest on campus that currently has no home."
@@ -195,12 +335,56 @@
                     ✨ Coming Soon
                 </div>
             </div>
-
             <div class="trek-content">
                 <div class="trek-main animate-on-scroll">
                     <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.85); max-width: 800px;">We're working to plan a trip to visit leading AI companies, research labs, and startups—connecting members with the engineers and founders shaping the future of AI.</p>
                     <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.85); max-width: 800px; margin-top: 1.5rem;">We hope to offer compute credits to help members access the computational resources needed for AI research and projects.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--                SPEAKERS SECTION                  -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section class="section trek-section" id="speakers">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Our Speakers</h2>
+            </div>
+
+            <!-- Featured Speakers -->
+            <h3 class="speakers-section-title">Featured Speakers</h3>
+            <p class="speakers-section-subtitle">Industry leaders, innovators, and renowned experts</p>
+
+            <div class="speakers-grid famous">
+                <!-- Speaker 1 -->
+                <div class="speaker-card animate-on-scroll">
+                    <img
+                        src="images/andrew-milich.png"
+                        alt="Andrew Milich"
+                        class="speaker-photo"
+                    />
+                    <div class="speaker-info">
+                        <div class="speaker-name">Andrew Milich</div>
+                        <div class="speaker-title"> xAI | Former Head of Engineering, Product at Cursor | Former CEO of Skiff (Acquired by Notion) </div>
+                    </div>
+                </div>
+
+                <!-- Speaker 2 -->
+                <div class="speaker-card animate-on-scroll" style="--delay: 0.1s">
+                    <img
+                        src="images/ted-li.png"
+                        alt="Andrew Milich"
+                        class="speaker-photo"
+                    />
+                    <div class="speaker-info">
+                        <div class="speaker-name">Ted Li</div>
+                        <div class="speaker-title"> Former Meta Superintelligence Labs </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -210,10 +394,9 @@
     <section class="section contact-section" id="contact">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-number">03</span>
+                <span class="section-number">04</span>
                 <h2 class="section-title">Get In Touch</h2>
             </div>
-
             <div class="contact-grid">
                 <div class="contact-info animate-on-scroll">
                     <div class="contact-card">
@@ -221,7 +404,6 @@
                         <p>If you are interested in getting in touch with the club or have any questions, please reach out to us.</p>
                         <a href="mailto:paul.cherian.27@dartmouth.edu" class="contact-link">paul.cherian.27@dartmouth.edu</a>
                     </div>
-
                     <div class="contact-card">
                         <h3>Meetings</h3>
                         <p>We meet 5-7 times per term. Check your email for times and locations.</p>
@@ -231,7 +413,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="contact-form-container animate-on-scroll" style="--delay: 0.2s">
                     <div class="contact-form">
                         <h3>Send us a message</h3>
@@ -262,7 +443,6 @@
                     <p>Dartmouth AI Club</p>
                     <p class="footer-tagline">Exploring the future of AI at Dartmouth</p>
                 </div>
-
                 <div class="footer-links">
                     <div class="footer-col">
                         <h4>Navigation</h4>
@@ -270,6 +450,7 @@
                             <li><a href="#home">Home</a></li>
                             <li><a href="#about">About</a></li>
                             <li><a href="#industry-trek">Industry Trek</a></li>
+                            <li><a href="#speakers">Speakers</a></li>
                             <li><a href="resources.html">Resources</a></li>
                             <li><a href="team.html">Team</a></li>
                         </ul>
@@ -291,7 +472,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
                 <p>A student organization at Dartmouth College</p>
@@ -302,4 +482,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
