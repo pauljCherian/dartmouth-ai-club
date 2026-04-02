@@ -17,6 +17,22 @@
       color: #0052a3;
       text-decoration: underline;
     }
+    .about-card .resource-links {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    }
+    .about-card .resource-links a {
+        color: var(--accent-silver, #a8b2c0);
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .about-card .resource-links a:hover {
+        text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -55,97 +71,112 @@
     </div>
   <!-- Hero -->
   <section class="page-hero">
-    <h1>Meeting Materials</h1>
-    <p>Slides, readings, and posters from Dartmouth AI Club meetings.</p>
+    <h1 class="animate-slide-up">Session Archive</h1>
+    <p class="animate-fade-in" style="--delay: 0.2s">Slides, readings, and posters from Dartmouth AI Club meetings.</p>
   </section>
   <!-- Content -->
-  <section class="section">
-    <div class="section-container">
-      <!-- Meeting 1 -->
-      <div class="meeting-card">
-        <h3>Jan 28, 2026 — Dartmouth AI Club Kickoff and Intro to Adversarial Attacks · Paul Cherian </h3>
-        <ul class="resource-links">
-          <li>
-            <a href="https://docs.google.com/presentation/d/17oFRVY-wjNaGG4_OnowStdUXzlxbZiwkaQmEMgi0240/edit?usp=sharing" target="_blank">
-              Kickoff Slides
-            </a>
-          </li>
-          <li>
-            <a href="https://docs.google.com/presentation/d/1XkT3s0LtqDh_YAc7iyqrgfMs86tmNXz80K1xVUdhXgE/edit?usp=sharing" target="_blank">
-              Intro to Adversarial Attacks Slides
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Meeting 2 -->
-      <div class="meeting-card" style="margin-top: 2.5rem;">
-        <h3>Feb 4, 2026 — Fireside Chat · Ted Li</h3>
-        <ul class="resource-links">
-          <li>
-            <a href="https://drive.google.com/file/d/1WPp8dIEaEc6CwU1-PiKv9XAA7uLI9vI2/view?usp=sharing" target="_blank">
-              Event Poster
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Meeting 3 -->
-      <div class="meeting-card" style="margin-top: 2.5rem;">
-        <h3>Feb 11, 2026 — Presentation on LLMs for Math · Lisa</h3>
-        <p></p>
-        <ul class="resource-links">
-          <li>
-            <a href="https://docs.google.com/presentation/d/1zwYm6JnHsS19ctDeEoC1m_ISegnAkSXgSRXZ2VULINc/edit?usp=sharing" target="_blank">
-              Slides
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Meeting 4 -->
-      <div class="meeting-card" style="margin-top: 2.5rem;">
-        <h3>Feb 18, 2026 — Recursive Language Models · Jeffery</h3>
-        <p></p>
-        <ul class="resource-links">
-          <li>
-            <a href="https://arxiv.org/abs/2512.24601" target="_blank">
-              Read the Paper
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Meeting 5 -->
-      <div class="meeting-card" style="margin-top: 2.5rem;">
-        <h3>Feb 25, 2026 — Suspicious Alignment of SGD: A Fine-Grained Step Size Condition Analysis · Shenyang Deng</h3>
-        <p></p>
-        <ul class="resource-links">
-          <li>
-            <a href="https://arxiv.org/abs/2601.11789" target="_blank">
-              Read the Paper
-            </a>
-          </li>
-        </ul>
-      </div>
-
-            <!-- Meeting 6 -->
-      <!-- Meeting 2 -->
-      <div class="meeting-card" style="margin-top: 2.5rem;">
-        <h3>Mar 4, 2026 — Interview · Andrew Milich </h3>
-        <ul class="resource-links">
-          <li>
-            <a href="https://drive.google.com/file/d/1Wh1l2Y8znmS1K52bAt8QGz16ghg5sqFp/view?usp=sharing" target="_blank">
-              Event Poster
-            </a>
-          </li>
-        </ul>
-      </div>
-
-
-    </div>
-  </section>
-  <footer class="footer">
-    <div class="footer-container">
-      <p>&copy; 2026 Dartmouth AI Club</p>
-    </div>
-  </footer>
+    <section class="section" style="background: var(--pine-green);">
+        <div class="section-container">
+            <div class="about-grid">
+                <!-- Meeting 1 -->
+                <div class="meeting-card animate-on-scroll">
+                    <h3>Jan 28, 2026 — Dartmouth AI Club Kickoff and Intro to Adversarial Attacks</h3>
+                    <p class="meeting-speaker">Paul Cherian</p>
+                    <ul class="resource-links">
+                        <li><a href="https://docs.google.com/presentation/d/17oFRVY-wjNaGG4_OnowStdUXzlxbZiwkaQmEMgi0240/edit?usp=sharing" target="_blank">Kickoff Slides</a></li>
+                        <li><a href="https://docs.google.com/presentation/d/1XkT3s0LtqDh_YAc7iyqrgfMs86tmNXz80K1xVUdhXgE/edit?usp=sharing" target="_blank">Intro to Adversarial Attacks Slides</a></li>
+                    </ul>
+                </div>
+                <!-- Meeting 2 -->
+                <div class="meeting-card animate-on-scroll" style="--delay: 0.1s">
+                    <h3>Feb 4, 2026 — Fireside Chat</h3>
+                    <p class="meeting-speaker">Ted Li</p>
+                    <ul class="resource-links">
+                        <li><a href="https://drive.google.com/file/d/1WPp8dIEaEc6CwU1-PiKv9XAA7uLI9vI2/view?usp=sharing" target="_blank">Event Poster</a></li>
+                    </ul>
+                </div>
+                <!-- Meeting 3 -->
+                <div class="meeting-card animate-on-scroll" style="--delay: 0.2s">
+                    <h3>Feb 11, 2026 — Presentation on LLMs for Math</h3>
+                    <p class="meeting-speaker">Lisa Samoylov</p>
+                    <ul class="resource-links">
+                        <li><a href="https://docs.google.com/presentation/d/1zwYm6JnHsS19ctDeEoC1m_ISegnAkSXgSRXZ2VULINc/edit?usp=sharing" target="_blank">Slides</a></li>
+                    </ul>
+                </div>
+                <!-- Meeting 4 -->
+                <div class="meeting-card animate-on-scroll" style="--delay: 0.3s">
+                    <h3>Feb 18, 2026 — Recursive Language Models</h3>
+                    <p class="meeting-speaker">Jeffery Xie</p>
+                    <ul class="resource-links">
+                        <li><a href="https://arxiv.org/abs/2512.24601" target="_blank">Read the Paper</a></li>
+                    </ul>
+                </div>
+                <!-- Meeting 5 -->
+                <div class="meeting-card animate-on-scroll" style="--delay: 0.4s">
+                    <h3>Feb 25, 2026 — Suspicious Alignment of SGD: A Fine-Grained Step Size Condition Analysis</h3>
+                    <p class="meeting-speaker">Shenyang Deng</p>
+                    <ul class="resource-links">
+                        <li><a href="https://arxiv.org/abs/2601.11789" target="_blank">Read the Paper</a></li>
+                    </ul>
+                </div>
+                <!-- Meeting 6 -->
+                <div class="meeting-card animate-on-scroll" style="--delay: 0.5s">
+                    <h3>Mar 4, 2026 — Interview</h3>
+                    <p class="meeting-speaker">Andrew Milich</p>
+                    <ul class="resource-links">
+                        <li><a href="https://drive.google.com/file/d/1Wh1l2Y8znmS1K52bAt8QGz16ghg5sqFp/view?usp=sharing" target="_blank">Event Poster</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+   <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="#home" class="footer-logo">
+                        <span class="logo-icon">🌲</span>
+                        <span class="logo-text">DAIC</span>
+                    </a>
+                    <p>Dartmouth AI Club</p>
+                    <p class="footer-tagline">Exploring the future of AI at Dartmouth</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#speakers">Speakers</a></li>
+                            <li><a href="#meeting-materials.html">Session Archive</a></li>
+                            <li><a href="resources.html">Resources</a></li>
+                            <li><a href="team.html">Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="mailto:paul.cherian.27@dartmouth.edu">Email Us</a></li>
+                            <li><a href="#">Twitter/X</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Meetings</h4>
+                        <p class="footer-meeting-info">5-7 times per term</p>
+                        <p class="footer-meeting-info">ECSC</p>
+                        <a href="#contact" class="footer-join-link">Get in touch →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
+                <p>A student organization at Dartmouth College</p>
+            </div>
+        </div>
+    </footer>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -10,72 +10,137 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar scrolled">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-icon">🌲</span>
-        <span class="logo-text">DAIC</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        <li><a href="team.html">Team</a></li>
-      </ul>
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">🌲</span>
+                <span class="logo-text">DAIC</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#speakers" class="nav-link">Speakers</a></li>
+                <li><a href="meeting-materials.html" class="nav-link">Session Archive</a></li>
+                <li><a href="resources.html" class="nav-link">Resources</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="index.html#about" class="mobile-nav-link">About</a></li>
+            <li><a href="index.html#speakers" class="mobile-nav-link">Speakers</a></li>
+            <li><a href="meeting-materials.html" class="mobile-nav-link">Session Archive</a></li>
+            <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
+            <li><a href="team.html" class="mobile-nav-link">Team</a></li>
+        </ul>
     </div>
-  </nav>
   <!-- Page Hero -->
   <section class="page-hero">
-    <h1>Reading Lists</h1>
-    <p>Curated articles, blog posts, and papers recommended by Dartmouth AI Club.</p>
+    <h1 class="animate-slide-up">Reading Lists</h1>
+    <p class="animate-fade-in" style="--delay: 0.2s">Curated articles, blog posts, and papers recommended by Dartmouth AI Club.</p>
   </section>
   <!-- Content -->
-  <section class="section">
+  <section class="section" style="background: var(--pine-green);">
     <div class="section-container">
-    
-
-
-
-      <!-- AI Alignment & Safety -->
-      <h2 class="section-title">AI Alignment & Safety</h2>
-      <ul class="resource-links">
-        <li>
-          <a href="https://www.anthropic.com/research/assistant-axis" target="_blank">
-            The Assistant Axis: Situating and Stabilizing the Character of Large Language Models — Anthropic
-          </a>
-        </li>
-      </ul>
-
-      <!-- AI Science & Research Infrastructure -->
-      <h2 class="section-title">AI Science & Research Infrastructure</h2>
-      <ul class="resource-links">
-        <li>
-          <a href="https://arxiv.org/abs/2408.06292" target="_blank">
-            The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery — Lu et al.
-          </a>
-        </li>
-        <li>
-          <a href="https://arxiv.org/abs/2508.15126" target="_blank">
-            aiXiv: A Next-Generation Open Access Ecosystem for Scientific Discovery — Zhang et al.
-          </a>
-        </li>
-        <li>
-          <a href="https://arxiv.org/abs/2602.03969" target="_blank">
-            Structural Shifts in Institutional Participation in AI Research — Magnur & Kejriwal
-          </a>
-        </li>
-        <li>
-          <a href="https://arxiv.org/abs/2502.20582" target="_blank">
-            CS-PaperSum: Large-Scale AI-Generated Scientific Summaries — Liu et al.
-          </a>
-        </li>
-      </ul>
- 
-  </section>
-  <footer class="footer">
-    <div class="footer-container">
-      <p>&copy; 2026 Dartmouth AI Club</p>
+      <div class="about-grid">
+        <div class="meeting-card animate-on-scroll" style="--delay: 0.1s">
+          <h3>
+            <a href="https://www.anthropic.com/research/assistant-axis" target="_blank" style="color: inherit; text-decoration: none;">
+              The Assistant Axis: Situating and Stabilizing the Character of Large Language Models
+            </a>
+          </h3>
+          <p class="meeting-speaker">Anthropic</p>
+        </div>
+        <div class="meeting-card animate-on-scroll" style="--delay: 0.2s">
+          <h3>
+            <a href="https://arxiv.org/abs/2408.06292" target="_blank" style="color: inherit; text-decoration: none;">
+              The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery
+            </a>
+          </h3>
+          <p class="meeting-speaker">Lu et al.</p>
+        </div>
+        <div class="meeting-card animate-on-scroll" style="--delay: 0.3s">
+          <h3>
+            <a href="https://arxiv.org/abs/2508.15126" target="_blank" style="color: inherit; text-decoration: none;">
+              aiXiv: A Next-Generation Open Access Ecosystem for Scientific Discovery
+            </a>
+          </h3>
+          <p class="meeting-speaker">Zhang et al.</p>
+        </div>
+        <div class="meeting-card animate-on-scroll" style="--delay: 0.4s">
+          <h3>
+            <a href="https://arxiv.org/abs/2602.03969" target="_blank" style="color: inherit; text-decoration: none;">
+              Structural Shifts in Institutional Participation in AI Research
+            </a>
+          </h3>
+          <p class="meeting-speaker">Magnur & Kejriwal</p>
+        </div>
+        <div class="meeting-card animate-on-scroll" style="--delay: 0.5s">
+          <h3>
+            <a href="https://arxiv.org/abs/2502.20582" target="_blank" style="color: inherit; text-decoration: none;">
+              CS-PaperSum: Large-Scale AI-Generated Scientific Summaries
+            </a>
+          </h3>
+          <p class="meeting-speaker">Liu et al.</p>
+        </div>
+      </div>
     </div>
-  </footer>
+  </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">🌲</span>
+                        <span class="logo-text">DAIC</span>
+                    </a>
+                    <p>Dartmouth AI Club</p>
+                    <p class="footer-tagline">Exploring the future of AI at Dartmouth</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#speakers">Speakers</a></li>
+                            <li><a href="resources.html">Resources</a></li>
+                            <li><a href="team.html">Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="mailto:paul.cherian.27@dartmouth.edu">Email Us</a></li>
+                            <li><a href="#">Twitter/X</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Meetings</h4>
+                        <p class="footer-meeting-info">5-7 times per term</p>
+                        <p class="footer-meeting-info">ECSC</p>
+                        <a href="index.html#contact" class="footer-join-link">Get in touch →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
+                <p>A student organization at Dartmouth College</p>
+            </div>
+        </div>
+    </footer>
+  <script src="script.js"></script>
 </body>
 </html>
