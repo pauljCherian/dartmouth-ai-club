@@ -20,20 +20,39 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar scrolled">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-icon">🌲</span>
-        <span class="logo-text">DAIC</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        <li><a href="team.html">Team</a></li>
-      </ul>
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">🌲</span>
+                <span class="logo-text">DAIC</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#speakers" class="nav-link">Speakers</a></li>
+                <li><a href="meeting-materials.html" class="nav-link active">Session Archive</a></li>
+                <li><a href="resources.html" class="nav-link">Resources</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="index.html#about" class="mobile-nav-link">About</a></li>
+            <li><a href="index.html#speakers" class="mobile-nav-link">Speakers</a></li>
+            <li><a href="meeting-materials.html" class="mobile-nav-link">Session Archive</a></li>
+            <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
+            <li><a href="team.html" class="mobile-nav-link">Team</a></li>
+        </ul>
     </div>
-  </nav>
   <!-- Hero -->
   <section class="page-hero">
     <h1>Meeting Materials</h1>
@@ -86,6 +105,10 @@
         <h3>Feb 18, 2026 — Recursive Language Models · Jeffery</h3>
         <p></p>
         <ul class="resource-links">
+          <li>
+            <a href="https://arxiv.org/abs/2512.24601" target="_blank">
+              Read the Paper
+            </a>
           </li>
         </ul>
       </div>
