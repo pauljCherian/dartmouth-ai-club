@@ -145,6 +145,38 @@
             margin: 1rem 0 3rem 0;
         }
 
+        /* ─── SPEAKER CATEGORY PILLS (about card) ──── */
+        .speaker-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .speaker-category {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .category-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-silver, #c0c0c0);
+            min-width: 80px;
+        }
+
+        .category-desc {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
         @media (max-width: 600px) {
             .speaker-card {
                 flex-direction: column;
@@ -249,7 +281,7 @@
                         </svg>
                     </div>
                     <h3>Our Community</h3>
-                    <p>A new way for Dartmouth students to engage with AI—particularly what's not covered in classes. Meet the people on campus who are actually building and researching AI. No prior experience required, just curiosity.</p>
+                    <p>A new way for Dartmouth students to engage with AI–particularly what's not covered in classes. Meet the people on campus who are actually building and researching AI. No prior experience required, just curiosity.</p>
                 </div>
                 <div class="about-card animate-on-scroll" style="--delay: 0.1s">
                     <div class="card-icon">
@@ -260,24 +292,40 @@
                         </svg>
                     </div>
                     <h3>Member-Led Sessions</h3>
-                    <p>Each meeting, officers present on an AI topic of their choice—whether it's a research concept, recent paper, AI company deep-dive, or their own work. Topics range from foundational ML to cutting-edge research on agents, LLMs, and more.</p>
+                    <p>Each meeting, officers present on an AI topic of their choice–whether it's a research concept, recent paper, AI company deep-dive, or their own work. Topics range from foundational ML to cutting-edge research on agents, LLMs, and more.</p>
                 </div>
 
                 <div class="about-card animate-on-scroll" style="--delay: 0.3s">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                            <path d="M12 1a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
                         </svg>
                     </div>
-                    <h3>Academic Connections</h3>
-                    <p>Our club partners with Dartmouth's Computer Science department and Thayer School of Engineering and is advised by Professor Peter Chin. These connections open doors to research opportunities, academic insights, and networking with professors working on groundbreaking AI projects.</p>
+                    <h3>Guest Speakers</h3>
+                    <p>We bring in speakers from across the AI landscape to share their expertise with our members.</p>
+                    <div class="speaker-categories">
+                        <div class="speaker-category">
+                            <span class="category-label">Research</span>
+                            <span class="category-desc">ML labs & frontier research orgs</span>
+                        </div>
+                        <div class="speaker-category">
+                            <span class="category-label">Industry</span>
+                            <span class="category-desc">AI startups & tech companies</span>
+                        </div>
+                        <div class="speaker-category">
+                            <span class="category-label">Academia</span>
+                            <span class="category-desc">Dartmouth faculty & visiting scholars</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="mission-statement animate-on-scroll">
                 <blockquote>
-                    "We're building a durable, student-led institution around current AI research, infrastructure, and applications—bringing together the substantial interest on campus that currently has no home."
+                    "We're building a durable, student-led institution around current AI research, infrastructure, and applications–bringing together the substantial interest on campus that currently has no home."
                 </blockquote>
             </div>
         </div>
@@ -300,7 +348,7 @@
                 <div class="goal-item animate-on-scroll" style="--delay: 0.1s">
                     <div class="goal-number">02</div>
                     <h3>AI Families</h3>
-                    <p>Small mentorship groups pairing upperclassmen with newer members—learn from peers who've been there.</p>
+                    <p>Small mentorship groups pairing upperclassmen with newer members–learn from peers who've been there.</p>
                 </div>
                 <div class="goal-item animate-on-scroll" style="--delay: 0.2s">
                     <div class="goal-number">03</div>
@@ -310,7 +358,7 @@
                 <div class="goal-item animate-on-scroll" style="--delay: 0.3s">
                     <div class="goal-number">04</div>
                     <h3>Newsletter & Resources</h3>
-                    <p>Stay in the loop with our bi-weekly newsletter covering AI news, conferences, and opportunities.</p>
+                    <p>We curate reading lists, papers, and tutorials so members always have high-quality resources to explore between meetings.</p>
                 </div>
             </div>
         </div>
@@ -378,15 +426,51 @@
             </div>
             <div class="contact-card animate-on-scroll" style="--delay: 0.1s">
                 <h3>Meetings</h3>
-                <p>We meet 5-7 times per term. Check your email for times and locations.</p>
+                <p>We meet Tuesday nights at 8pm. Check your email for updates.</p>
                 <div class="meeting-info">
-                    <span class="meeting-detail">📍 ECSC</span>
-                    <span class="meeting-detail">🕐 5-7 times a term</span>
+                    <span class="meeting-detail">📍 ECSC 116</span>
+                    <span class="meeting-detail">🕐 Tuesday nights, 8pm</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+    <!-- Advisors Section -->
+    <section class="section trek-section" id="advisors">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Our Advisors</h2>
+            </div>
+
+            <div class="speakers-grid famous">
+                <div class="speaker-card animate-on-scroll">
+                    <img
+                        src="https://media.licdn.com/dms/image/v2/D5622AQFiNVOHUKk-8w/feedshare-shrink_1280/B56Zf1Vp24G0Ak-/0/1752167784327?e=2147483647&v=beta&t=PCFLRMt7cuYsOl6FieopGWk5x5yb4oLs8uPaSibMqO0"
+                        alt="Professor Peter Chin"
+                        class="speaker-photo"
+                    />
+                    <div class="speaker-info">
+                        <div class="speaker-name">Professor Peter Chin</div>
+                        <div class="speaker-title">Department of Computer Science, Dartmouth College</div>
+                    </div>
+                </div>
+
+                <div class="speaker-card animate-on-scroll" style="--delay: 0.1s">
+                    <img
+                        src="https://faculty-directory.dartmouth.edu/sites/faculty_directory.prod/files/styles/profile_portrait/public/faculty_directory/images/20221103-soroush-vosoughi-kl-00-16.jpg?itok=jUk2E24f"
+                        alt="Professor Soroush Vosoughi"
+                        class="speaker-photo"
+                    />
+                    <div class="speaker-info">
+                        <div class="speaker-name">Professor Soroush Vosoughi</div>
+                        <div class="speaker-title">Department of Computer Science, Dartmouth College</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -416,21 +500,19 @@
                         <h4>Connect</h4>
                         <ul>
                             <li><a href="mailto:paul.cherian.27@dartmouth.edu">Email Us</a></li>
-                            <li><a href="#">Twitter/X</a></li>
                             <li><a href="#">LinkedIn</a></li>
-                            <li><a href="#">GitHub</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>Meetings</h4>
-                        <p class="footer-meeting-info">5-7 times per term</p>
-                        <p class="footer-meeting-info">ECSC</p>
+                        <p class="footer-meeting-info">Tuesday nights, 8pm</p>
+                        <p class="footer-meeting-info">ECSC 116</p>
                         <a href="#contact" class="footer-join-link">Get in touch →</a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Dartmouth AI Club. All rights reserved.</p>
+                <p>&copy; 2026 Dartmouth AI Club. All rights reserved.</p>
                 <p>A student organization at Dartmouth College</p>
             </div>
         </div>

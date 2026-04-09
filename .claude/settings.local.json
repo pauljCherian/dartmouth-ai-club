@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s https://arxiv.org/abs/1602.05629)",
+      "Bash(curl -s https://arxiv.org/abs/1412.6572)"
+    ]
+  }
+}
