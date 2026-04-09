@@ -177,6 +177,32 @@
             color: rgba(255, 255, 255, 0.55);
         }
 
+        /* ─── ADVISORS GRID ─────────────────────────── */
+        .advisors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .advisors-grid .speaker-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 2.5rem;
+        }
+
+        .advisors-grid .speaker-photo {
+            width: 160px;
+            height: 160px;
+        }
+
+        .advisors-grid .speaker-name {
+            font-size: 1.5rem;
+        }
+
+        .advisors-grid .speaker-title {
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 600px) {
             .speaker-card {
                 flex-direction: column;
@@ -184,6 +210,9 @@
             }
             .speaker-tags {
                 justify-content: center;
+            }
+            .advisors-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -305,21 +334,7 @@
                         </svg>
                     </div>
                     <h3>Guest Speakers</h3>
-                    <p>We bring in speakers from across the AI landscape to share their expertise with our members.</p>
-                    <div class="speaker-categories">
-                        <div class="speaker-category">
-                            <span class="category-label">Research</span>
-                            <span class="category-desc">ML labs & frontier research orgs</span>
-                        </div>
-                        <div class="speaker-category">
-                            <span class="category-label">Industry</span>
-                            <span class="category-desc">AI startups & tech companies</span>
-                        </div>
-                        <div class="speaker-category">
-                            <span class="category-label">Academia</span>
-                            <span class="category-desc">Dartmouth faculty & visiting scholars</span>
-                        </div>
-                    </div>
+                    <p>We bring in speakers from across the AI landscape – research, industry, and academia – to share their expertise with our members.</p>
                 </div>
             </div>
 
@@ -389,7 +404,7 @@
                     />
                     <div class="speaker-info">
                         <div class="speaker-name">Andrew Milich</div>
-                        <div class="speaker-title"> xAI | Former Head of Engineering, Product at Cursor | Former CEO of Skiff (Acquired by Notion) </div>
+                        <div class="speaker-title"> xAI | Former Head of Engineering, Product at Cursor</div>
                     </div>
                 </div>
 
@@ -444,7 +459,7 @@
                 <h2 class="section-title">Our Advisors</h2>
             </div>
 
-            <div class="speakers-grid famous">
+            <div class="advisors-grid">
                 <div class="speaker-card animate-on-scroll">
                     <img
                         src="https://media.licdn.com/dms/image/v2/D5622AQFiNVOHUKk-8w/feedshare-shrink_1280/B56Zf1Vp24G0Ak-/0/1752167784327?e=2147483647&v=beta&t=PCFLRMt7cuYsOl6FieopGWk5x5yb4oLs8uPaSibMqO0"
@@ -453,7 +468,7 @@
                     />
                     <div class="speaker-info">
                         <div class="speaker-name">Professor Peter Chin</div>
-                        <div class="speaker-title">Department of Computer Science, Dartmouth College</div>
+                        <div class="speaker-title">Thayer School of Engineering, Dartmouth College</div>
                     </div>
                 </div>
 
