@@ -145,6 +145,56 @@
             margin: 1rem 0 3rem 0;
         }
 
+        /* ─── FEATURED SPEAKER HIGHLIGHT ─────────────── */
+        .featured-speaker {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            border-left: 4px solid var(--accent-gold, #d4a843);
+        }
+
+        .featured-speaker-photo {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .featured-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-gold, #d4a843);
+            margin-bottom: 0.75rem;
+        }
+
+        .featured-speaker-info .speaker-name {
+            font-size: 1.75rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .featured-speaker-info .speaker-description {
+            margin-top: 0.75rem;
+        }
+
+        @media (max-width: 800px) {
+            .featured-speaker {
+                grid-template-columns: 1fr;
+            }
+            .featured-speaker-photo {
+                height: 220px;
+            }
+        }
+
         /* ─── SPEAKER CATEGORY PILLS (about card) ──── */
         .speaker-categories {
             display: flex;
@@ -390,13 +440,44 @@
                 <h2 class="section-title">Our Speakers</h2>
             </div>
 
+            <!-- Featured Visit -->
+            <div class="featured-speaker animate-on-scroll">
+                <img
+                    src="images/yann-lecun.jpg"
+                    alt="Dartmouth AI Club with Yann LeCun"
+                    class="featured-speaker-photo"
+                />
+                <div class="featured-speaker-info">
+                    <span class="featured-label">Featured Visit</span>
+                    <div class="speaker-name">Yann LeCun</div>
+                    <div class="speaker-title">Chief AI Scientist, Meta | Turing Award Laureate</div>
+                    <p class="speaker-description">
+                        Dartmouth AI Club hosted a conversation with Yann LeCun, a pioneering researcher in deep learning and convolutional neural networks.
+                    </p>
+                </div>
+            </div>
+
             <!-- Featured Speakers -->
             <h3 class="speakers-section-title">Past Featured Speakers</h3>
             <p class="speakers-section-subtitle">Industry leaders, innovators, and renowned experts</p>
 
             <div class="speakers-grid famous">
-                <!-- Speaker 1 -->
+                <!-- Speaker - Yann LeCun -->
                 <div class="speaker-card animate-on-scroll">
+                    <img
+                        src="images/yann-lecun.jpg"
+                        alt="Yann LeCun with Dartmouth AI Club"
+                        class="speaker-photo"
+                        style="object-position: 45% 35%;"
+                    />
+                    <div class="speaker-info">
+                        <div class="speaker-name">Yann LeCun</div>
+                        <div class="speaker-title">Chief AI Scientist, Meta | Turing Award Laureate</div>
+                    </div>
+                </div>
+
+                <!-- Speaker 1 -->
+                <div class="speaker-card animate-on-scroll" style="--delay: 0.1s">
                     <img
                         src="images/andrew-milich.png"
                         alt="Andrew Milich"
