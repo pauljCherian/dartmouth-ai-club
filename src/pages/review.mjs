@@ -48,7 +48,7 @@ export function render(c) {
     ['Speakers', [
       ['Lead', 'Changed', 'Adds “New talks are announced in the GroupMe.”: the job the Next block did, without anyone updating the site. Not a link: the footer’s “How to join →” is on the same page.'],
       ['Next', 'Cut', 'Nobody would keep it current. A talk is added on its day or after, so the list is a record that never shows a talk as coming up (the site launches the day of Mazda Moayeri’s talk).'],
-      ['Each talk', 'Changed', 'The same five things for everyone, in the same sizes and order as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. No format, interviewer, room, poster or talk title.'],
+      ['Each talk', 'Changed', 'The same five things for everyone, in the same order and type sizes as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. The photo is the same crop and tone, smaller. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],
       ['Member sessions', 'Cut', 'A dated archive that stopped in April. Three of its topics now appear as examples in About.'],
       ['Reading list page', 'Cut', 'Expert titles say “experts only” to a beginner, and nobody would keep it current. /reading goes to the home page.'],
@@ -207,7 +207,7 @@ export function render(c) {
       <li>A page has one giant title. A section has one heading, top left, and its content on the right, under a gray hairline from margin to margin. Rules between items in a section run across the content column; the header’s runs edge to edge.</li>
       <li>Green means you can act: every Join link and button, hover, focus. Numbered green discs mean steps, and only appear on /join.</li>
       <li>→ goes somewhere on this site; ↗ leaves it. A network’s own mark (LinkedIn, X, YouTube) needs neither. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
-      <li>A speaker is shown the same way everywhere, in the same sizes: photo, name, role at the time of the talk, date last. The Speakers page adds one line on their work, before the date.</li>
+      <li>A speaker is shown the same way everywhere: photo, name, role at the time of the talk, date last, in the same type sizes and colours; the photo is the same 4:5 crop and tone at the width its layout gives it. The Speakers page adds one line on their work, before the date.</li>
       <li>The logo is one drawing. The home title and the header logo are the same SVG at two sizes.</li>
       <li>Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don’t (“Speakers”, “Team”).</li>
     </ul>

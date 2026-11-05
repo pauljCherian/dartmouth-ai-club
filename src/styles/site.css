@@ -176,7 +176,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 .button {
   display: inline-flex;
   align-items: center;
-  gap: 0.55em;
+  gap: 0.4em;
   min-height: 52px;
   padding: 14px 22px 13px;
   border: 2px solid transparent;    /* visible in forced-colours mode */
@@ -188,7 +188,6 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
   text-decoration: none;
 }
 .button:hover { background: var(--green-deep); color: var(--paper); }
-.button .arrow { height: 0.68em; }
 
 /* ---------- Header ---------- */
 .site-header {
