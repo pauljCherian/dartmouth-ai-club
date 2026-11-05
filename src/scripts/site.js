@@ -11,6 +11,8 @@
   'use strict';
 
   var doc = document.documentElement;
+  window.__daicSite = true;
+  doc.classList.add('js');  // in case the early script's last-resort timer gave up on this file before it arrived
   var clamp = function (v, a, b) { return Math.min(b === undefined ? 1 : b, Math.max(a === undefined ? 0 : a, v)); };
   var seg = function (p, a, b) { return clamp((p - a) / (b - a)); };
   var mix = function (a, b, t) { return a + (b - a) * t; };
@@ -89,18 +91,25 @@
     panel.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[href]')) close(false);
     });
-    // Widening the window (or turning a phone) past the menu breakpoint closes the menu. Keep keyboard
-    // focus: move it to the same link in the desktop navigation, or to its first link.
+    // Crossing the menu breakpoint (resizing, turning a phone, zooming) hides either the menu button or the
+    // desktop navigation. Keep keyboard focus on the matching control on the other side. The browser may move
+    // focus to <body> before this runs, so remember the last focused element (cleared by pointer use).
+    var lastFocus = null;
+    document.addEventListener('focusin', function (e) { lastFocus = e.target; });
+    document.addEventListener('pointerdown', function () { lastFocus = null; }, true);
     listen(mq('(min-width: 900px)'), function (e) {
-      if (!e.matches || panel.hidden) return;
-      var active = document.activeElement;
-      var hadFocus = active && (active === button || panel.contains(active));
-      close(false);
-      if (!hadFocus) return;
-      var nav = document.querySelectorAll('.site-nav a[href]'), target = nav[0];
-      var href = active.getAttribute && active.getAttribute('href');
-      for (var i = 0; i < nav.length; i++) if (href && nav[i].getAttribute('href') === href) target = nav[i];
-      if (target) target.focus({ preventScroll: true });
+      var active = document.activeElement && document.activeElement !== document.body ? document.activeElement : lastFocus;
+      if (e.matches) {
+        var hadFocus = active && (active === button || panel.contains(active));
+        if (!panel.hidden) close(false);
+        if (!hadFocus) return;
+        var nav = document.querySelectorAll('.site-nav a[href]'), target = nav[0];
+        var href = active.getAttribute && active.getAttribute('href');
+        for (var i = 0; i < nav.length; i++) if (href && nav[i].getAttribute('href') === href) target = nav[i];
+        if (target) target.focus({ preventScroll: true });
+      } else if (active && active.closest && active.closest('.site-nav')) {
+        button.focus({ preventScroll: true });
+      }
     });
   })();
 
@@ -108,6 +117,7 @@
   var handoff = (function () {
     var hero = document.querySelector('[data-handoff]');
     if (!hero || !doc.classList.contains('js-handoff')) return null;
+    if (mq('(prefers-reduced-motion: reduce)').matches) return null;  // turned on while this file was loading
     window.__daicHandoff = true;
 
     var stage = hero.querySelector('.hero__stage');

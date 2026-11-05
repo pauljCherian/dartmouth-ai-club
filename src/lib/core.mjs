@@ -178,7 +178,11 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&matchMedia('(min-height: 300px)').matches){d.classList.add('js-handoff');` +
     // site.js always runs before DOMContentLoaded (deferred or inline at the end), so this cannot race it:
     // if the hand-off did not start by then, fall back to the static layout.
-    `document.addEventListener('DOMContentLoaded',function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')})}}catch(e){}})(document.documentElement);`;
+    `document.addEventListener('DOMContentLoaded',function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')})}` +
+    // Last resort for a site.js request that never answers (DOMContentLoaded then never fires): 12 s after the
+    // HTML is parsed, fall back to the no-script layout. site.js restores the js class if it arrives later.
+    `document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){if(!window.__daicSite)d.classList.remove('js','js-handoff')},12000)})` +
+    `}catch(e){}})(document.documentElement);`;
 
   const same = site.socials.filter((s) => s.url).map((s) => s.url);
   const jsonLd = () =>

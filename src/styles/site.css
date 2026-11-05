@@ -733,5 +733,6 @@ main { display: block; }
   /* The hand-off rules are screen-only, so print gets the static hero. Undo the script's inline styles. */
   .hero__title, .hero__tagline, .hero__frame, .hero__img, .hero__caption { transform: none !important; opacity: 1 !important; }
   .hero__img, .hero__caption { width: auto !important; height: auto !important; }
+  .hero__figure { break-inside: avoid; }  /* landscape paper: the photo moves to page 2 whole, not cut */
   a { text-decoration: none; }
 }
