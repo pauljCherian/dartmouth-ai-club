@@ -35,15 +35,6 @@ const content = {
   photos: await readJSON('content/photos.json'),
 };
 
-// Every talk is in Hanover: an offset must be New York's offset on that date (-04:00 in summer, -05:00 in winter).
-const nyOffsetMinutes = (date) => {
-  const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
-  const v = Object.fromEntries(f.formatToParts(date).map((x) => [x.type, Number(x.value)]));
-  return Math.round((Date.UTC(v.year, v.month - 1, v.day, v.hour, v.minute, v.second) - date.getTime()) / 60000);
-};
-const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(min) / 60)).padStart(2, '0')}:${String(Math.abs(min) % 60).padStart(2, '0')}`;
-// New York calendar date and clock time of an instant, for checking the printed labels.
-
 (function validate({ site, speakers, team }) {
   const need = (obj, keys, where) => keys.forEach((k) => (obj[k] === undefined || obj[k] === '') && fail(`${where}: missing "${k}"`));
   need(site, ['name', 'origin', 'tagline', 'description'], 'site.json');
@@ -55,7 +46,7 @@ const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(m
   const ids = new Set();
   speakers.forEach((ev, i) => {
     const where = `speakers.json[${i}] ${ev.name || ''}`;
-    need(ev, ['id', 'name', 'org', 'description', 'photo'], where);
+    need(ev, ['id', 'name', 'role', 'description', 'date', 'photo'], where);
     if (ev.photo_credit !== undefined) {
       const pc = ev.photo_credit || {};
       need(pc, ['by', 'source', 'license', 'license_url'], `${where} photo_credit`);
@@ -64,32 +55,9 @@ const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(m
     if (typeof ev.photo_alt !== 'string') fail(`${where}: "photo_alt" must be text: "" for a plain portrait, a description for an event photo`);
     if (ids.has(ev.id)) fail(`${where}: duplicate id "${ev.id}"`);
     ids.add(ev.id);
-    let datesOk = true;
-    for (const k of ['start', 'end']) {
-      if (!ev[k]) continue;
-      if (!/^\d{4}-\d\d-\d\dT\d\d:\d\d(:\d\d)?([+-]\d\d:\d\d|Z)$/.test(ev[k]) || Number.isNaN(Date.parse(ev[k]))) {
-        fail(`${where}: "${k}" must look like 2026-11-06T16:00:00-05:00 (date, time and New York offset)`);
-        datesOk = false;
-        continue;
-      }
-      const m = ev[k].match(/([+-])(\d\d):(\d\d)$/);
-      const given = m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) : 0;
-      // The date must exist: Date.parse quietly rolls Nov 31 over to Dec 1.
-      if (new Date(Date.parse(ev[k]) + given * 60000).toISOString().slice(0, 16) !== ev[k].slice(0, 16)) {
-        fail(`${where}: "${k}" is not a real date and time (${ev[k].slice(0, 16)})`);
-        datesOk = false;
-        continue;
-      }
-      const expected = nyOffsetMinutes(new Date(ev[k]));
-      if (given !== expected) fail(`${where}: "${k}" uses offset ${fmtOffset(given)}, but New York is on ${fmtOffset(expected)} that day`);
-    }
-    if (ev.end && !ev.start) fail(`${where}: "end" is set but "start" is not`);
-    if (datesOk && ev.start && ev.end && !(Date.parse(ev.end) > Date.parse(ev.start))) fail(`${where}: "end" must be after "start"`);
-    if (datesOk && ev.start && ev.end && Date.parse(ev.end) - Date.parse(ev.start) > 72 * 3600e3) fail(`${where}: "end" is more than 3 days after "start" (typo?)`);
-    // The date shown is taken from "start". "date_label" is only for a talk whose exact date is unknown.
-    if (!ev.start && !ev.date_label) fail(`${where}: needs "start" (the date and time of the talk), or "date_label" if the exact date is unknown`);
-    if (ev.start && ev.date_label) fail(`${where}: has both "start" and "date_label": the date is shown from "start", delete "date_label"`);
-    for (const k of ['format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is no longer shown on the site; delete it (a talk shows who, what and when)`);
+    // The day of the talk, as YYYY-MM-DD. It must exist (Date.parse would quietly roll Nov 31 over to Dec 1).
+    if (typeof ev.date !== 'string' || !/^\d{4}-\d\d-\d\d$/.test(ev.date) || new Date(`${ev.date}T00:00:00Z`).toISOString().slice(0, 10) !== ev.date) fail(`${where}: "date" must be the day of the talk, like 2027-01-19`);
+    for (const k of ['org', 'start', 'end', 'date_label', 'format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is not used any more; delete it (a talk shows name, role, description and date: see README)`);
   });
   team.officers.forEach((o, i) => need(o, ['name', 'role', 'photo'], `team.json officers[${i}]`));
   team.advisors.forEach((a, i) => need(a, ['name', 'title', 'unit'], `team.json advisors[${i}]`));

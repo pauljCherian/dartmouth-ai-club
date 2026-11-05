@@ -84,34 +84,29 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     })}</p>`;
   };
 
-  const affil = (ev) =>
-    html`${ev.role ? html`<span class="muted">${esc(ev.role)}</span> ` : ''}<strong>${keepLast(ev.org)}</strong>`;
+  // A talk counts as past from midnight after its date in New York (Hanover), wherever the visitor is.
+  const nyOffsetMs = (t) => {
+    const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+    const v = Object.fromEntries(f.formatToParts(new Date(t)).map((x) => [x.type, Number(x.value)]));
+    return Date.UTC(v.year, v.month - 1, v.day, v.hour, v.minute) - t;
+  };
+  const dayEnds = (date) => {
+    const [y, m, d] = date.split('-').map(Number);
+    const wall = Date.UTC(y, m - 1, d + 1, 0, 0);  // 00:00 the next day, on New York's clock
+    return wall - nyOffsetMs(wall - 5 * 3600e3);    // the offset just before that midnight
+  };
 
   // Upcoming vs past at build time.
-  const ends = (ev) => (ev.end ? Date.parse(ev.end) : ev.start ? Date.parse(ev.start) + 2 * 3600e3 : NaN);
+  const ends = (ev) => dayEnds(ev.date);
   const upcoming = content.speakers
-    .filter((ev) => ev.start && ends(ev) > now.getTime())
-    .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
-  // Every talk, newest first. A talk without a date keeps its place next to the dated talks around it in the
-  // file, kept inside the year on its label (so one added at the top of the file still sorts into its year).
-  let lastKnown = Infinity;
-  const labelYear = (ev) => Number(String(ev.date_label || '').match(/\d{4}/)?.[0]) || null;
+    .filter((ev) => ends(ev) > now.getTime())
+    .sort((a, b) => a.date.localeCompare(b.date));
+  // Every talk, newest first (talks on the same day keep their order in the file).
   const ordered = content.speakers
-    .map((ev, i) => {
-      let t;
-      if (ev.start) t = lastKnown = Date.parse(ev.start);
-      else {
-        const y = labelYear(ev);
-        t = lastKnown - 1;
-        if (y) t = Math.min(Math.max(t, Date.UTC(y, 0, 1)), Date.UTC(y + 1, 0, 1) - 1);
-        else if (!Number.isFinite(t)) t = -Infinity;
-      }
-      return { ev, t, i };
-    })
-    .sort((a, b) => b.t - a.t || a.i - b.i)
+    .map((ev, i) => ({ ev, i }))
+    .sort((a, b) => b.ev.date.localeCompare(a.ev.date) || a.i - b.i)
     .map((x) => x.ev);
   const past = ordered.filter((ev) => !upcoming.includes(ev));
-  const endISO = (ev) => new Date(ends(ev)).toISOString();
 
   // Talk states, decided before the first paint. The upcoming talks sorted by end time end in that order, so
   // "state k" means the first k of them have ended (state 0 is the build). The early script in <head> picks
@@ -301,8 +296,8 @@ ${preview ? script : ''}
 
   return {
     mode, preview, now, site, content, brand, manifest,
-    link, asset, href, isExternal, svg, arrow, picture, photo, affil,
-    upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html, credits,
+    link, asset, href, isExternal, svg, arrow, picture, photo,
+    upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits,
     STATES, endedIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
   };
 }

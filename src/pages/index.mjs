@@ -22,7 +22,6 @@ export function render(c) {
   const candidates = [...[...c.upcoming].reverse(), ...c.past];
   const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
   const recent = candidates.filter((ev) => c.STATES.some((k) => recentIn(k).includes(ev)));
-  const plain = (ev) => [ev.role, ev.org].filter(Boolean).join(' ');
   // Claims from the club's own material, pending an officer's confirmation (content/site.json "claims").
   const build = site.claims?.build_nights, majors = site.claims?.majors;
   // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
@@ -109,8 +108,8 @@ export function render(c) {
       <li class="person"${c.show((k) => recentIn(k).includes(ev))}>
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
-        <p class="person__meta">${c.keepLast(plain(ev))}</p>
-        <p class="person__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>
+        <p class="person__meta">${c.keepLast(ev.role)}</p>
+        <p class="person__date">${esc(c.shortDate(ev.date))}</p>
       </li>`)}
     </ul>
     <p class="row__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>

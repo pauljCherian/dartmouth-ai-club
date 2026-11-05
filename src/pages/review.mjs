@@ -25,7 +25,7 @@ export function render(c) {
     ['Research groups, Nonprofits', 'Pillar descriptions', 'Placeholder copy. What do these programs actually do?'],
     ['Who can join', '“Open to Dartmouth students, whatever you study.”', 'Undergraduates only, or graduate students too?'],
     ['Contact email', site.contact.email, 'You chose a person over the long official address; one line in content/site.json to change.'],
-    ...speakers.filter((s) => s.confirm).map((s) => [s.name, `${[s.role, s.org].filter(Boolean).join(' ')}`, s.confirm]),
+    ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role, s.confirm]),
     ['Soroush Vosoughi', 'Associate Professor', 'Corrected from “Professor”: Dartmouth’s faculty directory lists him as Associate Professor of Computer Science.'],
   ];
 

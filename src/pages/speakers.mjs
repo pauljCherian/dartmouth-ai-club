@@ -6,8 +6,8 @@ export function render(c) {
   const { content } = c;
   const isUpcoming = (ev) => c.upcoming.includes(ev);
 
-  // Newest first, grouped by calendar year of the talk; talks without a date keep their year label.
-  const yearOf = (ev) => (ev.start ? ev.start.slice(0, 4) : String(ev.date_label).match(/\d{4}/)?.[0] || 'Earlier');
+  // Newest first, grouped by the calendar year of the talk.
+  const yearOf = (ev) => ev.date.slice(0, 4);
   const groups = [];
   for (const ev of c.ordered) {
     const y = yearOf(ev);
@@ -15,7 +15,6 @@ export function render(c) {
     if (!g) groups.push((g = { year: y, items: [] }));
     g.items.push(ev);
   }
-  groups.sort((a, b) => (a.year === 'Earlier') - (b.year === 'Earlier'));  // stable: years keep their order
 
   // Each talk: who they are, what they do, and when they came. Nothing else.
   const talk = (ev) => html`
@@ -23,10 +22,10 @@ export function render(c) {
       <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 128px, 84px' })}</div>
       <div class="talk__body">
         <h4 class="talk__name">${esc(ev.name)}</h4>
-        <p class="talk__affil">${c.affil(ev)}</p>
+        <p class="talk__affil">${c.keepLast(ev.role)}</p>
         ${ev.description ? html`<p class="talk__desc">${c.keepLast(ev.description)}</p>` : ''}
       </div>
-      <p class="talk__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>
+      <p class="talk__date">${esc(c.shortDate(ev.date))}</p>
     </li>`;
 
   const main = html`

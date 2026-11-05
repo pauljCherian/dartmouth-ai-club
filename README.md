@@ -14,27 +14,26 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 
 ### Add a speaker
 
-Add an entry to `content/speakers.json` (anywhere; the top is easiest). Every talk shows the same four things: who they are, what they do, and when they came, with their photo.
+Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Every talk shows the same things: their photo, who they are, what they do, and when they came.
 
 ```json
 {
   "id": "first-last",
   "name": "First Last",
-  "role": "Research at",
-  "org": "Company",
-  "description": "One line on what they work on, under about 90 characters.",
-  "start": "2027-01-19T19:00:00-05:00",
+  "role": "Head of Research, Company",
+  "description": "One plain line on what they work on, under about 90 characters.",
+  "date": "2027-01-19",
   "photo": "first-last",
   "photo_alt": ""
 }
 ```
 
-- `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**". Use their current role.
-- `description` is required: one plain line about the person's own work (not their company's slogan).
-- `start` is when the talk began, with New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks the offset and that the date exists. The date shown ("Jan 19, 2027") comes from it. If the exact date is unknown, use `"date_label": "2027"` instead of `start`.
-- You can add a talk before it happens: it stays hidden until two hours after `start` (or until `end`, if you add one), decided in the visitor's browser, so nobody has to remember to update the site afterwards.
-- The home page shows the six most recent talks. `/speakers` shows every talk, grouped by year.
+- `role`: their role and organisation **at the time of the talk**, as one line ("Head of Data, Simile"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
+- `description`: required, one plain line about the person's own work (not their company's slogan).
+- `date`: the day of the talk. You can add a talk before it happens: it stays hidden until that day is over in New York, decided in the visitor's browser, so nobody has to remember to update the site afterwards.
+- The home page shows the six most recent talks; `/speakers` shows every talk, grouped by year.
 - `photo_alt`: leave it `""` for a plain head-and-shoulders portrait (the name is printed right next to it, so screen readers would hear it twice). Describe the photo only when it shows more, such as the speaker at the event.
+- `photo_credit` (only for a photo whose licence asks for a credit, e.g. from Wikimedia Commons): `{"by": "Photographer", "source": "https://…", "license": "CC BY-SA 2.0", "license_url": "https://…"}`. The credit line is shown wherever the photo appears.
 
 ### Add or replace a photo
 
