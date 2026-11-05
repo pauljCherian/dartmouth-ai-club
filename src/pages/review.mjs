@@ -71,7 +71,7 @@ export function render(c) {
     <thead><tr><th scope="col">Decision</th><th scope="col">Recommended</th><th scope="col">Alternative</th></tr></thead>
     <tbody>
       <tr><th scope="row">Hero motion</th><td>Hand-off: the title shrinks into the header logo.</td><td>Logo visible from the start; the title fades as the photo grows.</td></tr>
-      <tr><th scope="row">Hero photo</th><td>Full colour, lightly corrected.</td><td>Starts black-and-white, turns to colour as it grows.</td></tr>
+      <tr><th scope="row">Hero photo</th><td>Leaning: starts black-and-white, turns to colour as it grows (the “#mono” link above). The first screen becomes one monochrome poster with a single green action, like the portraits.</td><td>Full colour from the start, lightly corrected (built as the default until you decide).</td></tr>
       <tr><th scope="row">Tab icon</th><td>A: off-white arrow on an ink square.</td><td>B: green square. C: “DA/AI” crop of the logo.</td></tr>
       <tr><th scope="row">Speaker and team photos</th><td>Ink-and-paper monochrome, one crop for everyone.</td><td>Colour, balanced for consistency.</td></tr>
       <tr><th scope="row">Nav label</th><td>“Speakers”: the page also shows the next talk.</td><td>“Past Speakers”.</td></tr>
