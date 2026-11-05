@@ -15,6 +15,7 @@ export function render(c) {
 
   const confirmations = [
     ['Tagline', `“${site.tagline}”`, 'Draft I wrote to replace “the best undergrad AI club”: a claim nobody can check.'],
+    ['Who we are', '“Read the paper. Build the thing. Meet the makers. Bring a friend.”', 'Shortened from “Meet the people who made it.”, which broke onto two lines on most laptops; now each sentence fits one line at every width.'],
     ['Members', String(site.members.count), site.members.source],
     ['Build nights', '“Every week … there is a build night.”', site.claims.build_nights.source],
     ['Majors', '“most of them in computer science and engineering”', site.claims.majors.source],
