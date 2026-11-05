@@ -349,6 +349,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .hero__img img { object-fit: cover; object-position: 50% 100%; }  /* crop from the top: ceiling, never people */
 .hero__photo--mono { display: none; position: absolute; inset: 0; }
 .hero__caption {
+  text-wrap: balance;  /* "The club with Yann LeCun. / Hanover, Oct 29, 2026." in a narrow column */
   padding: 12px var(--gutter-r) 0 var(--gutter-l);
   font-size: var(--t-6);
   line-height: 1.35;

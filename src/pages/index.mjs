@@ -16,6 +16,13 @@ const feature = (c, ev, { sizes, next = true, show = '' }) => html`
 
 export { feature };
 
+// Runs right after the tagline is parsed, before the first paint: reserve its real height under the title, so
+// the title doesn't jump when site.js measures the same thing (same rule as measure() in site.js).
+const TAG_ROOM = `(function(){var d=document.documentElement;if(!d.classList.contains('js-handoff'))return;` +
+  `if(matchMedia('(min-width: 56.25em)').matches&&!matchMedia('(orientation: landscape) and (max-height: 38.6875em)').matches)return;` +
+  `var t=document.currentScript.previousElementSibling,s=getComputedStyle(t),g=Math.max(16,Math.min(28,innerWidth*0.02));` +
+  `t.closest('.hero').style.setProperty('--tag-h',Math.ceil(t.getBoundingClientRect().height+(parseFloat(s.marginTop)||0)+(parseFloat(s.marginBottom)||0)+g)+'px')})();`;
+
 export function render(c) {
   const { site, brand } = c;
   // "Next": the earliest talk that hasn't ended. "Recently": the six most recent past talks, newest first (two
@@ -45,6 +52,7 @@ export function render(c) {
   <div class="hero__stage">
     <h1 class="hero__title"><span class="visually-hidden">Dartmouth AI Club</span>${c.svg('logo-display')}</h1>
     <p class="hero__tagline">${esc(site.tagline)}</p>
+    <script>${TAG_ROOM}</script>
     <div class="hero__thumb" aria-hidden="true"></div>
     <figure class="hero__figure">
       <div class="hero__frame">

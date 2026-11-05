@@ -138,7 +138,8 @@
     var heroCS = getComputedStyle(hero);
     var ASPECT = parseFloat(heroCS.getPropertyValue('--hero-aspect')) || 4 / 3;
     var MAX_ASPECT = parseFloat(heroCS.getPropertyValue('--hero-max-aspect')) || 1.6;
-    var dead = false;
+    var dead = false;    // reduced motion: off for good
+    var parked = false;  // too short, or the title would be too small: static layout until the window changes
     var MIN_H = 300;
     var CONTENT_MAX = 1920;  // the page's content width cap (.wrap in main), so the photo shares the grid
     // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34).
@@ -246,8 +247,14 @@
             if (hNext <= hU + 0.5) break;
             hU = hNext;
           }
-          capHeight(F.x > 0 ? F.w : content);
-          cap = { x: F.x > 0 ? F.x : gutter, y: F.y + F.h + gap * 0.6, w: F.x > 0 ? F.w : content };
+          var band2 = content - F.w - gap;
+          if (F.x > 0 && band2 >= capFont * 12) {
+            var hB2 = capHeight(band2);  // the shorter photo freed columns: use them after all
+            cap = { x: F.x + F.w + gap, y: F.y + F.h - hB2, w: band2 };
+          } else {
+            capHeight(F.x > 0 ? F.w : content);
+            cap = { x: F.x > 0 ? F.x : gutter, y: F.y + F.h + gap * 0.6, w: F.x > 0 ? F.w : content };
+          }
         }
       } else {
         // Tall screens (phones): full width at the photo's own aspect, nothing cropped; caption under it.
@@ -272,7 +279,7 @@
         return { x: mix(T.x, F.x, e), y: mix(T.y, F.y, e), w: mix(T.w, F.w, e), h: mix(T.h, F.h, e) };
       };
       var clashes = function (c) {
-        for (var q = 0; q <= 0.34; q += 0.005) {
+        for (var q = 0; q <= 0.34; q += 0.001) {
           var a = titleAt(q, c), f = frameAt(q);
           if (a.x < f.x + f.w + 2 && f.x < a.x + a.w + 2 && a.y < f.y + f.h + 2 && f.y < a.y + a.h + 2) return true;
         }
@@ -304,7 +311,7 @@
     }
 
     function apply(p) {
-      if (!L || dead) return;
+      if (!L || dead || parked) return;
       // Title: shrinks into the header logo, then cross-fades into the real small lockup.
       if (logoAlways) {
         var fadeOnly = seg(p, 0.06, 0.4);
@@ -347,14 +354,14 @@
 
     function tick() {
       raf = 0;
-      if (dead) return;
+      if (dead || parked) return;
       var d = target - current;
       current = Math.abs(d) < 0.0006 ? target : current + d * lerp;
       apply(current);
       if (current !== target) raf = window.requestAnimationFrame(tick);
     }
     function onScroll() {
-      if (!L || dead) return;
+      if (!L || dead || parked) return;
       target = clamp((window.scrollY - L.heroTop) / L.pin);
       if (!raf) raf = window.requestAnimationFrame(tick);
     }
@@ -363,12 +370,19 @@
     function relayout(force) {
       if (dead) return;
       var w = stage.clientWidth, h = probe.getBoundingClientRect().height;
-      if (h && h < MIN_H) { teardown(); return; }
-      if (!force && w === lastW && Math.abs(h - lastH) < 1) return;
+      var same = w === lastW && Math.abs(h - lastH) < 1;
+      if (parked && same) return;  // parked at this size: try again only when the window changes
+      if (!force && same) return;
       lastW = w; lastH = h;
+      if (h && h < MIN_H) { park(); return; }
+      if (parked) {
+        parked = false;
+        doc.classList.add('js-handoff');
+        if (mono) mono.style.display = monoMode ? 'block' : 'none';
+      }
       measure();
       // A title squeezed to a sliver (very short screens with large text) reads worse than the static layout.
-      if (L.Ti.w < 0.4 * (w - 2 * (parseFloat(getComputedStyle(title).left) || 16))) { teardown(); return; }
+      if (L.Ti.w < 0.4 * (w - 2 * (parseFloat(getComputedStyle(title).left) || 16))) { park(); return; }
       current = target = clamp((window.scrollY - L.heroTop) / L.pin);
       apply(current);
       updateRule();
@@ -380,16 +394,10 @@
 
     function onLoad() { relayout(true); }
     // Text that changes size after load (fonts arriving, a text-spacing tool, a larger default size) re-measures.
-    var sizeWatch = window.ResizeObserver && tagline ? new ResizeObserver(function () { relayout(true); }) : null;
+    var sizeWatch = window.ResizeObserver && tagline ? new ResizeObserver(function () { window.requestAnimationFrame(function () { relayout(true); }); }) : null;
 
-    function teardown() {
-      if (dead) return;
-      dead = true;
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('load', onLoad);
-      if (sizeWatch) sizeWatch.disconnect();
-      window.clearTimeout(resizeTimer);
+    // Back to the static layout: no inline styles left behind.
+    function toStatic() {
       if (raf) window.cancelAnimationFrame(raf);
       raf = 0;
       doc.classList.remove('js-handoff');
@@ -401,9 +409,26 @@
       if (mono) mono.style.display = 'none';
       hero.style.removeProperty('--tag-h');
       hero.classList.remove('hero--tag-under');
-      if (probe.parentNode) probe.parentNode.removeChild(probe);
       ruleAfter = 4;
       updateRule();
+    }
+    // Size-based: static for now, listeners kept, so the hand-off returns when the window has room again.
+    function park() {
+      if (parked) return;
+      parked = true;
+      toStatic();
+    }
+    // Reduced motion: static for good.
+    function teardown() {
+      if (dead) return;
+      dead = true;
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('load', onLoad);
+      if (sizeWatch) sizeWatch.disconnect();
+      window.clearTimeout(resizeTimer);
+      toStatic();
+      if (probe.parentNode) probe.parentNode.removeChild(probe);
     }
 
     relayout(true);
