@@ -10,7 +10,7 @@ const feature = (c, ev, { sizes, next = true, show = '' }) => html`
     <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
     <p class="feature__affil">${c.affil(ev)}</p>
     ${ev.title ? html`<p class="feature__title">${c.keepLast(ev.title)}</p>` : ''}
-    <p class="feature__when">${[ev.date_label, ev.time_label, ev.place].filter(Boolean).map(c.unbroken).join(' · ')}</p>
+    <p class="feature__when"><span class="feature__date">${c.unbrokenDate(ev.date_label)}</span>${[ev.time_label, ev.place].filter(Boolean).length ? html`<span class="feature__sep"> · </span>${[ev.time_label, ev.place].filter(Boolean).map(c.unbroken).join(' · ')}` : ''}</p>
   </div>
 </article>`;
 
@@ -20,12 +20,12 @@ export { feature };
 // when site.js measures the same thing (same rule as measure() in site.js). The title stays transparent until
 // this has run (.is-measured), so a page that arrives in pieces on a slow network never paints it in the
 // wrong place first.
-const TAG_ROOM = `(function(){var d=document.documentElement,t=document.currentScript.previousElementSibling,h=t.parentNode.parentNode;` +
-  `try{if(!d.classList.contains('js-handoff'))return;` +
+const TAG_ROOM = `(function(){var d=document.documentElement,h=document.querySelector('[data-handoff]'),t=h&&h.querySelector('.hero__tagline');` +
+  `try{if(!t||!d.classList.contains('js-handoff'))return;` +
   `if(matchMedia('(min-width: 56.25em)').matches&&!matchMedia('(orientation: landscape) and (max-height: 619px)').matches)return;` +
   `var s=getComputedStyle(t),g=Math.max(16,Math.min(28,innerWidth*0.02));` +
   `h.style.setProperty('--tag-h',Math.ceil(t.getBoundingClientRect().height+(parseFloat(s.marginTop)||0)+(parseFloat(s.marginBottom)||0)+g)+'px')` +
-  `}finally{h.classList.add('is-measured')}})();`;
+  `}finally{if(h)h.classList.add('is-measured')}})();`;
 
 export function render(c) {
   const { site, brand } = c;

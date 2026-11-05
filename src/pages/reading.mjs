@@ -5,7 +5,7 @@ export const page = { id: 'reading', path: '/reading', out: 'reading.html' };
 export function render(c) {
   // The arrow follows the last word wherever the title wraps: last word and arrow never split.
   const titleArrow = (t) => {
-    const m = String(t).match(/^(.*\s)?(\S+)$/s);
+    const m = String(t).trim().match(/^(.*\s)?(\S+)$/s);
     return html`${m[1] ? esc(m[1]) : ''}<span class="nowrap">${esc(m[2])}&nbsp;${c.arrow('ne')}</span>`;
   };
   const main = html`

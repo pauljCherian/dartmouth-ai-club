@@ -219,10 +219,11 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 @media (min-width: 56.25em) {
   /* The nav sits on the baseline of "AI CLUB". The logo has no text, so its baseline is its bottom edge, which is
      that baseline (the viewBox is tight to the letters). The negative margin takes out what hangs below the
-     links' baseline (6px padding + 0.455em: half-leading 0.225 + descent 0.23), so the line is exactly as tall
-     as the logo and align-content centres the logo in the header as before. */
+     links' baseline (0.455em: half-leading 0.225 + descent 0.23), so the line is exactly as tall as the logo and
+     align-content centres the logo in the header as before. */
   .site-header__inner { flex-wrap: wrap; align-content: center; align-items: baseline; }
-  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); margin-bottom: calc(-6px - 0.455rem); }
+  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); margin-bottom: -0.455rem; }
+  .site-nav a { padding-block: 6px 0; }  /* nothing below the text: the focus ring stays inside the header */
 }
 
 .menu-button {
@@ -590,15 +591,35 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .feature__photo { grid-column: 1; max-width: none; }
   .feature__text { grid-column: 2 / -1; }
 }
-/* /speakers ("Next", across the page): photo beside the text at every width and the text from the top, so the
-   name and the date are on the first screen. Wide screens: the photo is 3 of the 12 columns. */
+/* /speakers ("Next", across the page), text from the top so the name and the date are on the first screen.
+   Tablets: photo beside the text. Wide screens: the photo is 3 of the 12 columns. Phones: the name across the
+   full width (a long surname never breaks), then the photo with the details beside it, the date on its own
+   line. Very narrow (zoomed in, very large text): one column. */
 .features { display: grid; row-gap: clamp(56px, 7vw, 104px); }  /* two talks booked: the gap skips hidden ones */
 .features .feature { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; }
 .features .feature__photo { grid-column: 1; max-width: none; }
 .features .feature__text { grid-column: 2; }
-@media not all and (min-width: 22.5em) { .features .feature { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }  /* 320px phones: room for long names */
-@media not all and (min-width: 43.75em) {  /* the narrow text column on phones: "Superintelligence Labs" on one line */
-  .features .feature__affil, .features .feature__title { font-size: var(--t-4); }
+@media not all and (min-width: 43.75em) {
+  /* The text box steps aside (display: contents) so its lines can be placed on the feature's own grid. The
+     last row is flexible: the photo spans into it, so its height never spreads the details apart. */
+  .features .feature { grid-template-rows: auto auto auto auto auto 1fr; row-gap: 0; }
+  .features .feature__text { display: contents; }
+  .features .feature__label { grid-column: 1 / -1; grid-row: 1; }
+  .features .feature__name { grid-column: 1 / -1; grid-row: 2; margin-bottom: 20px; }
+  .features .feature__photo { grid-column: 1; grid-row: 3 / -1; }
+  .features .feature__affil { grid-column: 2; grid-row: 3; margin-top: 0; font-size: var(--t-4); }
+  .features .feature__title { grid-column: 2; grid-row: 4; margin-top: 16px; font-size: var(--t-4); }
+  .features .feature__when { grid-column: 2; grid-row: 5; margin-top: 16px; }
+  .features .feature__date { display: block; }
+  .features .feature__sep { display: none; }
+}
+@media not all and (min-width: 18em) {  /* the details column would be narrower than "Superintelligence" */
+  .features .feature { grid-template-columns: minmax(0, 1fr); }
+  .features .feature__photo { grid-row: 3; max-width: min(260px, 60%); margin-bottom: 20px; }
+  .features .feature__affil, .features .feature__title, .features .feature__when { grid-column: 1; }
+  .features .feature__affil { grid-row: 4; }
+  .features .feature__title { grid-row: 5; }
+  .features .feature__when { grid-row: 6; }
 }
 @media (min-width: 56.25em) {
   .features .feature { grid-template-columns: repeat(12, minmax(0, 1fr)); }
@@ -655,7 +676,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .talk__extra a { color: var(--ink); }
 .talk__extra a:hover { color: var(--green); }
 @media (min-width: 56.25em) {
-  .talk { grid-template-columns: 128px minmax(0, 1fr) auto; column-gap: var(--gap); padding-block: 32px; }
+  .talk { grid-template-columns: max(128px, 6rem) minmax(0, 1fr) auto; column-gap: var(--gap); padding-block: 32px; }
   .talk__photo { grid-row: 1; }
   .talk__body { grid-row: 1; align-self: baseline; }
   .talk__date { grid-column: 3; grid-row: 1; align-self: baseline; font-size: var(--t-5); text-align: right; white-space: nowrap; }
@@ -676,7 +697,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .session__links { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: var(--t-5); }
 .session__links a, .talk__extra a { padding-block: 2px; }
 @media (min-width: 56.25em) {
-  .session { grid-template-columns: minmax(128px, auto) minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }  /* 128px: the talk photo column, so titles line up with talk names */
+  .session { grid-template-columns: max(128px, 6rem) minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }  /* the talk photo column, so titles line up with talk names at every text size */
   .session__date { grid-column: 1; grid-row: 1 / span 3; }
   .session__title, .session__people, .session__summary { grid-column: 2; }
   .session__links { grid-column: 3; grid-row: 1; justify-content: flex-end; }

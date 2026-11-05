@@ -18,8 +18,10 @@ export const tieDates = (text) =>
   esc(text).replace(/\b((?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) )?(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}, \d{4})\b/g, (d) => d.replace(/ /g, '&nbsp;'));
 // Escaped email address that may break after the @ and nowhere else (not before its last letter).
 export const email = (addr) => esc(addr).replace('@', '@<wbr>');
-// Escaped text that never breaks (a short date, a time, a room).
+// Escaped text that never breaks (a time, a room).
 export const unbroken = (text) => esc(text).replace(/ /g, '&nbsp;');
+// A date label held together except before the year ("Fri Nov 6," / "2026" only if the column is that narrow).
+export const unbrokenDate = (text) => unbroken(text).replace(/,&nbsp;(\d{4})$/, ', $1');
 
 export const shortDate = (iso) => {
   const [y, m, d] = iso.slice(0, 10).split('-').map(Number);
@@ -155,7 +157,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   </div>
   <div class="site-menu__foot wrap">
     ${socials('site-menu__socials socials')}
-    <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>
+    <a href="mailto:${esc(site.contact.email)}">${email(site.contact.email)}</a>
   </div>
 </nav>`;
 
@@ -299,6 +301,6 @@ ${preview ? script : ''}
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
     upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
-    STATES, endedIn, nextIn, show, keepLast, tieDates, email, unbroken,
+    STATES, endedIn, nextIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
   };
 }

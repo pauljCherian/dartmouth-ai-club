@@ -7,9 +7,11 @@ pillow-heif for iPhone .heic originals (optional: a JPEG export works without it
   python3 tools/images.py manifest public/img
   python3 tools/images.py sheet public/img/people <duo|color> out.png id1 id2 ...
   python3 tools/images.py og public/img/hero assets-src/brand/og-logo.png public/og.jpg
-  python3 tools/images.py original ~/Downloads/IMG_0412.HEIC assets-src/hero/hero.jpg
+  python3 tools/images.py original ~/Downloads/IMG_1234.HEIC assets-src/people/first-last.jpg
                                        a clean copy of an original for assets-src/: upright, sRGB, JPEG
-                                       quality 95, and no metadata at all (no location, no camera data)
+                                       quality 95, and no metadata at all (no location, no camera data).
+                                       Won't replace an existing file without --force (the group photo:
+                                       ... assets-src/hero/hero.jpg --force)
   python3 tools/images.py all          rebuild every image listed in content/photos.json, the link-preview
                                        image (public/og.jpg) and the manifest
 
@@ -240,7 +242,9 @@ def cmd_portrait(src: str, pid: str, outdir: str, crop: str, frac: bool = False)
     print(f"{pid}: crop {w}x{h} from {im.width}x{im.height}{note}")
 
 
-def cmd_original(src: str, dest: str) -> None:
+def cmd_original(src: str, dest: str, force: bool = False) -> None:
+    if Path(dest).exists() and not force:
+        sys.exit(f"{dest} already exists: add --force to replace it (check it is the photo you mean to replace)")
     im = load_srgb(src)
     Path(dest).parent.mkdir(parents=True, exist_ok=True)
     im.save(dest, "JPEG", quality=95, subsampling="4:4:4", optimize=True)  # nothing copied over: no EXIF, no GPS
@@ -355,7 +359,7 @@ def main(argv: list[str]) -> None:
     elif cmd == "og":
         cmd_og(args[0], args[1], args[2])
     elif cmd == "original":
-        cmd_original(args[0], args[1])
+        cmd_original(args[0], args[1], force="--force" in args)
     elif cmd == "sheet":
         cmd_sheet(args[0], args[1], args[2], args[3:])
     elif cmd == "all":
