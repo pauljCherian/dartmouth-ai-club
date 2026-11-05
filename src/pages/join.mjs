@@ -14,7 +14,8 @@ export function render(c) {
       ? html`<p>Sign in with your Dartmouth account and the link appears.</p>
        <p><a class="button" href="#get-link" aria-disabled="true">Get the GroupMe link ${c.arrow('ne')}</a></p>
        <p class="step__note">Preview: the Dartmouth-only form doesn’t exist yet, so this button goes nowhere.</p>`
-      : html`<p>Email <a href="mailto:${esc(contact.email)}">${c.email(contact.email)}</a> from your Dartmouth address and we will send you the link.</p>`;
+      : html`<p>Email ${c.email(contact.email)} from your Dartmouth address and we will send you the link.</p>
+       <p><a class="button" href="mailto:${esc(contact.email)}?subject=GroupMe%20link">Email for the link ${c.arrow('ne')}</a></p>`;
 
   const main = html`
 <header class="page-head wrap">

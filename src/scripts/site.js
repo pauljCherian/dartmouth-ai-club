@@ -21,12 +21,16 @@
 
   /* ---------- 1. Header hairline ---------- */
   var header = document.querySelector('[data-header]');
+  var menuPanel = document.getElementById('site-menu');
   var ruleAfter = 4; // px of scroll before the hairline shows; the hand-off raises it on the home page
   function updateRule() {
     if (!header) return;
     var past = window.scrollY > ruleAfter;
-    header.classList.toggle('is-ruled', past);
-    header.classList.toggle('is-solid', past);
+    // With the phone menu open, the menu covers the page: what can pass under the bar is the menu's own links
+    // (on a short screen), so the hairline follows the menu's scroll, not the page's.
+    var menuPast = menuPanel && doc.classList.contains('menu-open') ? menuPanel.scrollTop > 4 : null;
+    header.classList.toggle('is-ruled', menuPast === null ? past : menuPast);
+    header.classList.toggle('is-solid', past || !!menuPast);
   }
 
   /* ---------- 2. Mobile menu ---------- */
@@ -60,12 +64,14 @@
       setInert(true);
       document.addEventListener('keydown', onKey);
       panel.scrollTop = 0;  // a short screen may have left it scrolled; the first link must not sit under the header
+      updateRule();
       var firstLink = panel.querySelector('a[href]');
       if (firstLink) firstLink.focus({ preventScroll: true });
     }
     function close(returnFocus) {
       panel.hidden = true;
       doc.classList.remove('menu-open');
+      updateRule();
       button.setAttribute('aria-expanded', 'false');
       setInert(false);
       document.removeEventListener('keydown', onKey);
@@ -77,6 +83,7 @@
     panel.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[href]')) close(false);
     });
+    panel.addEventListener('scroll', updateRule, { passive: true });
     // Crossing the menu breakpoint (resizing, turning a phone, zooming) hides either the menu button or the
     // desktop navigation. Keep keyboard focus on the matching control on the other side. The browser may move
     // focus to <body> before this runs, so remember the last focused element (cleared by pointer use).

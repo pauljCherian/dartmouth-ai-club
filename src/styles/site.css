@@ -169,7 +169,6 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
   font-weight: 700;
   text-decoration: none;
 }
-.link-arrow:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 .link-arrow .arrow { align-self: center; vertical-align: 0; }
 
 /* ---------- Buttons ---------- */
@@ -217,7 +216,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 .site-nav a { display: inline-block; padding-block: 6px; font-size: var(--t-5); font-weight: 700; text-decoration: none; }
 .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
 .site-nav__join { color: var(--green); }
-.site-nav__join:hover { color: var(--green-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
+.site-nav__join:hover { color: var(--green-deep); }
 @media (min-width: 56.25em) {
   /* The nav sits on the baseline of "AI CLUB". The logo has no text, so its baseline is its bottom edge, which is
      that baseline (the viewBox is tight to the letters). The negative margin takes out what hangs below the
@@ -242,6 +241,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+@media (hover: hover) { .menu-button:hover { color: var(--green); } }  /* not on touch screens, where a tapped button keeps its hover */
 .menu-button__icon { position: relative; display: block; width: 24px; height: 12px; }
 .menu-button__icon span {
   position: absolute; left: 0; right: 0;
@@ -292,6 +292,7 @@ html:not(.js) .menu-button { display: none; }
 }
 .site-menu__nav > a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
 .site-menu__nav > .is-join { color: var(--green); }
+.site-menu__nav > .is-join:hover { color: var(--green-deep); }
 /* The club's channels sit right under the pages, as in the footer; the contact address is in the footer only. */
 .site-menu__socials { margin-top: clamp(20px, 4vw, 32px); }
 @media (prefers-reduced-motion: no-preference) {
@@ -590,10 +591,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .roster__row:last-child { padding-bottom: 0; }
 .roster__who { display: inline-flex; align-items: baseline; gap: 14px; min-width: 0; }
 .roster__name { font-size: var(--t-4); font-weight: 700; line-height: 1.2; }  /* as every name */
-.roster__links { display: inline-flex; gap: 10px; align-self: center; }
-.roster__links .social { color: var(--gray); }  /* quieter than the name; green on hover like any link */
-.roster__links .social:hover { color: var(--green); }
-.roster__link .social__icon { width: 18px; height: 18px; }
+.roster__links { display: inline-flex; gap: 20px; align-self: center; }
 .roster__what { font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
 /* Laptops: the role on the name's line, starting on column 8 of 12 (the footer's contact column). */
 @media (min-width: 56.25em) {
@@ -609,9 +607,9 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .step__body > * + * { margin-top: 16px; }
 .step__note { font-size: var(--t-5); color: var(--gray); }
 .socials { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-.social { display: inline-flex; padding: 4px; margin: -4px; color: var(--ink); }  /* 32px tap target around a 24px mark */
+.social { display: inline-flex; padding: 6px; margin: -6px; color: var(--ink); }  /* a 32px tap target around the 20px mark */
 .social:hover { color: var(--green); }
-.social__icon { width: 24px; height: 24px; fill: currentColor; }
+.social__icon { width: 1.25rem; height: 1.25rem; fill: currentColor; }  /* one size everywhere (footer, menu, /team): a name's line tall */
 .social.is-placeholder { color: var(--gray); opacity: 0.6; }
 .is-placeholder { color: var(--gray); text-decoration-style: dotted; }
 
@@ -656,7 +654,6 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .site-footer__email { display: inline-block; margin-top: -3px; padding-block: 3px; -webkit-user-select: all; user-select: all; }
 .site-footer__socials { margin-top: 16px; }
 .site-footer a:not(.button) { text-decoration: none; }
-.site-footer a:not(.button):hover { text-decoration: underline; }
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .site-footer__nav .is-join { color: var(--green); }
 .site-footer__nav .is-join:hover { color: var(--green-deep); }

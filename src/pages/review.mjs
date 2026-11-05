@@ -61,7 +61,7 @@ export function render(c) {
     ]],
     ['Join', [
       ['Steps', 'Changed', 'Sections like every other page’s: the heading top left, led by its green number (green numbers mean steps, here only).'],
-      ['Step 1', 'Changed', 'With the form: “Sign in with your Dartmouth account and the link appears.” and one button; the sentence about bots is gone. Until the form exists: email the contact address.'],
+      ['Step 1', 'Changed', 'With the form: “Sign in with your Dartmouth account and the link appears.” and one button; the sentence about bots is gone. Until the form exists: the contact address as text, to copy, and a green “Email for the link ↗” button, the same component as the form’s, because it is the page’s one action.'],
       ['Step 2', 'Changed', '“Each week’s time and room are posted in the GroupMe.”'],
       ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact (and the social marks once their links exist).'],
     ]],
@@ -74,7 +74,7 @@ export function render(c) {
   const considered = [
     ['Phone links in the header instead of a menu', 'One reviewer’s idea. “Join the club” does not fit beside the logo on a 320 px phone, and very large text would wrap the header. Your reference, Vitsœ, uses a menu.'],
     ['No speaker descriptions', 'Three reviewers argued for name, role and date only. Kept because you asked for a description on every talk; the rule keeps them honest: one line, under about 90 characters, about the person’s own work at the time of the talk. The live build refuses to run while one is missing.'],
-    ['Links that appear on hover', 'Stanford’s team list shows LinkedIn and X when you hover over a name. Phones have no hover, and most visitors are on phones, so the marks are always shown, quietly gray.'],
+    ['Links that appear on hover', 'Stanford’s team list shows LinkedIn and X when you hover over a name. Phones have no hover, and most visitors are on phones, so the marks are always shown.'],
     ['Cutting the four lines', 'Two reviewers. Kept: they are now the section’s only heading.'],
     ['Cutting the © line', 'Three reviewers. Kept: it is the convention, and Vitsœ keeps it.'],
     ['“Join the club” in the phone header', 'The menu and the footer of every page carry it.'],
@@ -206,7 +206,7 @@ export function render(c) {
       <li>Everything on the site does a job, or is a convention people expect. If it would go wrong without anyone editing it, it isn’t on the site.</li>
       <li>A page has one giant title. A section has one heading, top left, and its content on the right, under a gray hairline from margin to margin. Rules between items in a section run across the content column; the header’s runs edge to edge.</li>
       <li>Green means you can act: every Join link and button, hover, focus. Numbered green discs mean steps, and only appear on /join.</li>
-      <li>→ goes somewhere on this site; ↗ leaves it. A network’s own mark (LinkedIn, X, YouTube) needs neither. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
+      <li>→ goes somewhere on this site; ↗ leaves it. Arrows go on standalone links and buttons only: a link inside a sentence or a list carries none, takes its sentence’s colour and is underlined, and a network’s own mark (LinkedIn, X, YouTube) needs no arrow. Underline marks the current page in a list of pages; hover only changes the colour. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
       <li>A speaker is shown the same way everywhere: photo, name, role at the time of the talk, date last, in the same type sizes and colours; the photo is the same 4:5 crop and tone at the width its layout gives it. The Speakers page adds one line on their work, before the date.</li>
       <li>The logo is one drawing. The home title and the header logo are the same SVG at two sizes.</li>
       <li>Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don’t (“Speakers”, “Team”).</li>
@@ -225,7 +225,7 @@ ${sys ? html`
     ${table('Colours', ['Colour', 'Value', 'Used for'], [
       ['Paper', '#F4F4F1', 'Every background; the type on the 404 sign and on buttons.'],
       ['Ink', '#161616', 'Text, the logo, the 404 sign.'],
-      ['Gray', '#666662', 'Secondary text: roles, dates, captions, credits, the © line; the network marks on /team.'],
+      ['Gray', '#666662', 'Secondary text: roles, dates, captions, credits, the © line.'],
       ['Rule', '#D9D9D4', 'Hairlines only.'],
       ['Green', '#00693E', 'Things you can act on: Join links and buttons, links on hover, keyboard focus; the step numbers on /join.'],
     ], [6, 6])}
