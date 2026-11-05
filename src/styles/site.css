@@ -1,11 +1,13 @@
 /* ==========================================================================
    Dartmouth AI Club - site.css
-   Layout: Swiss 12-column grid. Flush-left, ragged-right text. A page has one
-   giant title; every section below it is a hairline (margin to margin), one
-   heading in columns 1-4 and its content in columns 5-12 (Vitsoe's pattern).
+   Layout: one 12-column grid on every page. Flush-left, ragged-right text. A
+   page has one giant title; every section below it is a hairline (margin to
+   margin), one heading in columns 1-4 and its content in columns 5-12, so a
+   section's name is in the same place on every page and its content lines up.
+   The footer is the last section, laid out the same way.
    Colour: paper and ink, never pure white or black. Dartmouth Green is the
-   only accent and means "act here" or "this is a numbered step": links you
-   should press, the steps on /join, focus, selection. Nowhere else.
+   only accent and means "you can press this": Join links and buttons, hover,
+   focus, selection. Nothing you can't press is green.
    Type: Helvetica on Apple devices, TeX Gyre Heros (a free Helvetica clone)
    everywhere else, through one family name so every platform matches.
    ========================================================================== */
@@ -196,7 +198,6 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
   padding-top: env(safe-area-inset-top, 0px);
   background: var(--paper);
 }
-.site-header { transition: box-shadow 0.2s linear; }
 .site-header.is-ruled { box-shadow: 0 1px 0 var(--rule); }
 /* During the hand-off the title docks into the header, so the header must not paint over it. */
 .js-handoff.page-home .site-header:not(.is-solid) { background: transparent; }
@@ -483,7 +484,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .js-handoff .hero + .row { position: relative; z-index: 1; background-color: var(--paper); }
 }
 
-/* ---------- Sections (Vitsoe's pattern): a hairline, one heading top left, the content on the right ---------- */
+/* ---------- Sections, the same on every page: a hairline, one heading top left, the content on the right ---------- */
 .row {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -514,25 +515,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .about__text { font-size: var(--t-3); line-height: 1.3; letter-spacing: -0.005em; max-width: 30em; }
 .about__photo { margin-top: clamp(40px, 5vw, 64px); }
 
-/* ---------- Numbered markers (green: these are steps or lines) ---------- */
-.bullet {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  width: 2em; height: 2em;
-  padding-top: 0.06em;
-  border-radius: 50%;
-  background: var(--green);
-  color: var(--paper);
-  font-size: var(--t-4);
-  font-weight: 700;
-  letter-spacing: normal;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
 @media (forced-colors: active) {
-  .bullet { border: 2px solid CanvasText; }
   .menu-button__icon span { background: ButtonText; }
   .site-header.is-ruled { border-bottom: 1px solid CanvasText; }
 }
@@ -604,9 +587,9 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
   .roster__what { grid-column: span 5; }
 }
 
-/* ---------- Steps (join page): sections like any other, the heading led by its green number ---------- */
-.step__title { display: grid; grid-template-columns: calc(2 * var(--t-4)) minmax(0, 1fr); column-gap: 14px; align-items: start; }
-.step__title .bullet { margin-top: calc(var(--t-2) * 0.4615 - 1em); }  /* on the capitals' middle: line-height 1.1 puts it 0.4615em down */
+/* ---------- Steps (join page): sections like any other, the heading starting with its number in its own type ---------- */
+.step__title { display: grid; grid-template-columns: 0.9em minmax(0, 1fr); column-gap: 14px; align-items: start; }
+.step__n { font-variant-numeric: tabular-nums; }
 .step__body { max-width: 34em; }
 .step__body > * + * { margin-top: 16px; }
 .step__note { font-size: var(--t-5); color: var(--gray); }
@@ -634,7 +617,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 }
 .notfound__links { margin-top: 28px; display: grid; gap: 12px; justify-items: start; }
 
-/* ---------- Footer: the invitation, the links, the contact (the grid of the sections above) ---------- */
+/* ---------- Footer: the last section of every page: the invitation, the links, the contact ---------- */
 .site-footer {
   padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
   font-size: var(--t-5);
@@ -653,7 +636,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .site-footer__text { margin-top: 16px; max-width: 24em; font-size: var(--t-4); line-height: 1.4; }
 .site-footer__action { margin-top: 28px; }
 .site-footer__nav ul { display: grid; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
-.site-footer__nav a { display: inline-block; padding-block: 3px; }  /* 24px+ tap targets (WCAG 2.5.8) */
+.site-footer__nav a { display: inline-block; padding-block: 3px; font-weight: 700; }  /* bold like every list of pages; 24px+ tap targets (WCAG 2.5.8) */
 .site-footer__contact { min-width: 0; }
 .site-footer__email { display: inline-block; margin-top: -3px; padding-block: 3px; -webkit-user-select: all; user-select: all; }
 .site-footer__socials { margin-top: 16px; }
@@ -664,9 +647,15 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .site-footer__legal { grid-column: 1 / -1; margin-top: clamp(16px, 4vw, 48px); color: var(--gray); }
 @media (min-width: 56.25em) {
   .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-  .site-footer__join { grid-column: 1 / span 4; }
-  .site-footer__nav { grid-column: 5 / span 3; grid-row: 1; }  /* beside the invitation, or alone on /join */
+  /* Like every section: the heading in columns 1-4, its sentence and button in 5-12; then the page links (5-7)
+     and the contact (8-12) under them. On /join, which has no invitation, the links and contact come first. */
+  .site-footer__join { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+  .site-footer__title { grid-column: 1 / span 4; grid-row: 1 / span 2; }
+  .site-footer__text { grid-column: 5 / -1; margin-top: 0; }
+  .site-footer__action { grid-column: 5 / -1; }
+  .site-footer__nav { grid-column: 5 / span 3; grid-row: 1; }
   .site-footer__contact { grid-column: 8 / span 5; grid-row: 1; }
+  .site-footer__join ~ .site-footer__nav, .site-footer__join ~ .site-footer__contact { grid-row: 2; }
 }
 
 /* ---------- Motion and print ---------- */

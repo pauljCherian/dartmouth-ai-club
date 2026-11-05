@@ -25,11 +25,11 @@ export function render(c) {
 
 <ol class="steps" aria-label="How to join">
   <li class="row wrap step" id="get-link">
-    <h2 class="row__title step__title"><span class="bullet" aria-hidden="true">1</span><span>Get the GroupMe link.</span></h2>
+    <h2 class="row__title step__title"><span class="step__n" aria-hidden="true">1</span><span>Get the GroupMe link.</span></h2>
     <div class="row__body step__body">${step1}</div>
   </li>
   <li class="row wrap step">
-    <h2 class="row__title step__title"><span class="bullet" aria-hidden="true">2</span><span>Come to a meeting.</span></h2>
+    <h2 class="row__title step__title"><span class="step__n" aria-hidden="true">2</span><span>Come to a meeting.</span></h2>
     <div class="row__body step__body"><p>Each week’s time and room are posted in the GroupMe.</p></div>
   </li>
 </ol>`;

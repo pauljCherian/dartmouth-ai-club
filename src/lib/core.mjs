@@ -128,8 +128,9 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   </div>
 </nav>`;
 
-  // Footer (Vitsoe's pattern): the invitation to join on the left, on every page but /join itself; the links and
-  // the contact on the right; the copyright line under them.
+  // Footer, the last section of every page and laid out like the others: the invitation to join (on every page but
+  // /join itself), so every other page ends with the one thing we ask of a visitor; the links (also the menu without
+  // JavaScript) and the contact; the copyright line under them.
   const footer = (page) => html`
 <footer class="site-footer" id="contact">
   <div class="site-footer__inner wrap">

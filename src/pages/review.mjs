@@ -26,12 +26,13 @@ export function render(c) {
       ['Header logo', 'Changed', 'One drawing: the header logo is the home title’s own drawing, 124 px wide (108 on phones). In v2 the header had a looser drawing of its own, and the letters jumped apart at the end of the hand-off; with one drawing the title lands as exactly the logo it becomes.'],
       ['Header links', 'Kept', 'Speakers, Team, Join the club. No “Home” on laptops: the logo, top left, is the home link.'],
       ['Phone menu', 'Changed', 'The four pages, Home first, the current one underlined, and the club’s X and YouTube right under them (once their links exist), as in the footer. No email: the contact address lives in the footer only.'],
-      ['Section headings', 'Changed', 'One heading per section, top left, large and regular weight (Vitsœ’s pattern). The small bold labels are gone everywhere, not just “Join”.'],
+      ['Section headings', 'Changed', 'One heading per section, top left, in the heading size and regular weight: the size shows where a section starts, and regular weight keeps it a step below the page’s one bold title. A small bold label above it gave a section two headings, so the labels are gone everywhere, not just “Join”.'],
       ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, officers, advisors) run across the content column. All gray; no ink rules.'],
-      ['Footer', 'Changed', 'Vitsœ’s layout: the invitation to join (on every page but /join), the page links, the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
+      ['Footer', 'Changed', 'The last section of every page, laid out like the others: “Join the club.” top left, its sentence and button on the right (on every page but /join), so every other page ends with the one thing the club asks of a visitor; then the page links and the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, in bold like every list of pages, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
       ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says the GroupMe posts each week’s time and room.'],
       ['Contact email', 'Changed', 'Paul Cherian’s Dartmouth address, as president (the officers’ decision): in the footer of every page, and on /join until the form exists. It changes at each handover, in content/site.json.'],
-      ['© line', 'Kept', 'A convention (Vitsœ has one). It shows the year of the last build.'],
+      ['© line', 'Kept', 'A convention visitors expect at the foot of a page (the club’s old site had one too). On a printed inner page, where the header is hidden, it is the only line that names the club. It shows the year of the last build.'],
+      ['Header rule', 'Changed', 'Appears as soon as the page scrolls under the header, without fading in: nothing on the site fades in as you scroll.'],
     ]],
     ['Home', [
       ['Title, tagline, photo and hand-off', 'Kept', 'The one moment of motion. The photo is the strongest reason to join.'],
@@ -40,7 +41,7 @@ export function render(c) {
       ['Four lines', 'Kept', 'The most memorable copy on the site, now the heading.'],
       ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is.'],
       ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
-      ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link; the green discs mean “steps” everywhere else.'],
+      ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link.'],
       ['Speakers', 'Kept', 'The six newest talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
       ['Join section', 'Moved', 'Into the footer, so every page ends with it. The button says what happens next: “How to join →”.'],
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
@@ -56,27 +57,27 @@ export function render(c) {
     ['Team', [
       ['Lead', 'Cut', 'It repeated the two section headings.'],
       ['Officers', 'Changed', `A list: name, profile links, then the role, flush left like every name and role on the site (on laptops the role starts on column 8, the footer’s contact column), under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
-      ['LinkedIn and X', 'Changed', 'The networks’ marks beside each name, always visible: Stanford shows them on hover, which phones don’t have.'],
+      ['Profile links', 'Changed', 'Each officer’s LinkedIn (and X, if they give one) as the network’s own mark beside the name, always visible: most visitors are on phones, which have no hover, and a speaker or sponsor looking for an officer gets there in one tap. The same mark, in ink at one size, as the club’s own X and YouTube.'],
       ['Faculty advisors', 'Changed', 'The same list: name, and school or department (a rank changes with promotions).'],
     ]],
     ['Join', [
-      ['Steps', 'Changed', 'Sections like every other page’s: the heading top left, led by its green number (green numbers mean steps, here only).'],
+      ['Steps', 'Changed', 'Sections like every other page’s: the heading top left, starting with its number in the heading’s own type. The green discs are gone: green means you can press it, and a number can’t be pressed.'],
       ['Step 1', 'Changed', 'With the form: “Sign in with your Dartmouth account and the link appears.” and one button; the sentence about bots is gone. Until the form exists: the contact address as text, to copy, and a green “Email for the link ↗” button, the same component as the form’s, because it is the page’s one action.'],
       ['Step 2', 'Changed', '“Each week’s time and room are posted in the GroupMe.”'],
       ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact (and the social marks once their links exist).'],
     ]],
     ['404', [
-      ['Sign', 'Kept', 'One ink panel with “Not in service” in the site’s own type, in paper, and a thin rule along its top. The one page that isn’t normal browsing gets the site’s only black shape, so it can’t be mistaken for a page that worked.'],
+      ['Sign', 'To decide', 'One ink panel, so the one page that isn’t normal browsing can’t be mistaken for a page that worked. Its words, “Not in service”, and the thin rule along its top come from New York subway signs, not from the site’s rules: every other page’s title is its name, as in the browser tab (here “Page not found”), and every other rule is a gray hairline between two things. See Open choices.'],
       ['Sentence and link', 'Changed', '“This page doesn’t exist.” and one link home; the header and footer carry the rest.'],
     ]],
   ];
 
   const considered = [
-    ['Phone links in the header instead of a menu', 'One reviewer’s idea. “Join the club” does not fit beside the logo on a 320 px phone, and very large text would wrap the header. Your reference, Vitsœ, uses a menu.'],
+    ['Phone links in the header instead of a menu', 'One reviewer’s idea. Speakers, Team and Join the club need about 250 px beside the logo; a 390 px phone has about 235 px and a 320 px phone about 165 px, and very large text would wrap the header. A menu button is what phone visitors expect, and the footer of every page lists the same links.'],
     ['No speaker descriptions', 'Three reviewers argued for name, role and date only. Kept because you asked for a description on every talk; the rule keeps them honest: one line, under about 90 characters, about the person’s own work at the time of the talk. The live build refuses to run while one is missing.'],
-    ['Links that appear on hover', 'Stanford’s team list shows LinkedIn and X when you hover over a name. Phones have no hover, and most visitors are on phones, so the marks are always shown.'],
+    ['Links that appear on hover', 'Showing an officer’s LinkedIn only while the pointer is over their name. Phones have no hover, and most visitors are on phones, so the marks are always shown.'],
     ['Cutting the four lines', 'Two reviewers. Kept: they are now the section’s only heading.'],
-    ['Cutting the © line', 'Three reviewers. Kept: it is the convention, and Vitsœ keeps it.'],
+    ['Cutting the © line', 'Three reviewers. Kept: visitors expect it at the foot of a page, and on a printed inner page, where the header is hidden, it is the only line that names the club.'],
     ['“Join the club” in the phone header', 'The menu and the footer of every page carry it.'],
     ['Tab icon from the wordmark', 'Two reviewers: inside the site ↗ means “leaves the site”. Kept because you chose it in v1 and the tab icon is not a link, so it sends nobody anywhere; easy to change.'],
   ];
@@ -85,6 +86,7 @@ export function render(c) {
     ['Hero motion', 'Hand-off: the title shrinks into the header logo.', 'Logo visible from the start; the title fades as the photo grows.'],
     ['Hero photo', 'Starts black-and-white and turns to color as it grows (the “Black-and-white photo turning to color” link above).', 'Full color from the start, lightly corrected (built as the default until you decide).'],
     ['Speaker photos', 'Ink-and-paper monochrome, one crop for everyone.', 'Color, balanced for consistency.'],
+    ['404 page', 'Its title is its name, “Page not found”, as in the browser tab, in the page-title size; on the ink panel if you want it to look unlike every other page, with no rule along the top.', 'As built: “Not in service” on an ink panel with a thin rule along its top, after New York subway signs.'],
   ];
 
   const confirmations = [
@@ -120,7 +122,7 @@ export function render(c) {
     [/link-arrow/, 'arrow links'], [/person__name|talk__name|roster__name/, 'names'], [/person__meta|talk__affil|roster__what/, 'roles and schools'],
     [/person__date|talk__date/, 'dates'], [/talk__desc/, 'speaker lines'], [/step__body|step__note/, 'step text'], [/button/, 'buttons'],
     [/site-footer__text/, 'the footer sentence'], [/site-nav/, 'header links'], [/site-menu__nav/, 'menu links'], [/site-footer__email/, 'the contact email'],
-    [/site-footer__legal/, 'the © line'], [/hero__caption/, 'the photo caption'], [/credits/, 'photo credits'], [/bullet/, 'step numbers'],
+    [/site-footer__legal/, 'the © line'], [/hero__caption/, 'the photo caption'], [/credits/, 'photo credits'], [/step__n/, 'step numbers'],
     [/sign__text/, 'the 404 sign'], [/site-footer__nav/, 'footer links'], [/skip-link/, 'the skip link'], [/tnum/, 'section headings'],
   ];
   const roleOf = (sel) => (ROLES.find(([re]) => re.test(sel)) || [null, sel])[1];
@@ -176,6 +178,9 @@ export function render(c) {
   .review-rules { display: grid; gap: 10px; max-width: 40em; }
   .review-rules li { padding-left: 1.1em; text-indent: -1.1em; }
   .review-rules li::before { content: "–"; display: inline-block; width: 1.1em; text-indent: 0; }
+  .review-rules--n { counter-reset: rule; gap: 14px; }
+  .review-rules--n li { counter-increment: rule; padding-left: 1.6em; text-indent: -1.6em; }
+  .review-rules--n li::before { content: counter(rule) "."; width: 1.6em; font-variant-numeric: tabular-nums; }
   .review-pages { display: grid; gap: 40px; }
   .review-page__name { margin-bottom: 10px; font-size: var(--t-4); font-weight: 700; }
   .review-page__shots { display: grid; gap: 16px var(--gap); align-items: start; }
@@ -202,14 +207,19 @@ export function render(c) {
 <section class="row wrap" aria-labelledby="rules-h">
   <h2 class="row__title" id="rules-h">The rules</h2>
   <div class="row__body">
-    <ul class="review-rules">
-      <li>Everything on the site does a job, or is a convention people expect. If it would go wrong without anyone editing it, it isn’t on the site.</li>
-      <li>A page has one giant title. A section has one heading, top left, and its content on the right, under a gray hairline from margin to margin. Rules between items in a section run across the content column; the header’s runs edge to edge.</li>
-      <li>Green means you can act: every Join link and button, hover, focus. Numbered green discs mean steps, and only appear on /join.</li>
-      <li>→ goes somewhere on this site; ↗ leaves it. Arrows go on standalone links and buttons only: a link inside a sentence or a list carries none, takes its sentence’s colour and is underlined, and a network’s own mark (LinkedIn, X, YouTube) needs no arrow. Underline marks the current page in a list of pages; hover only changes the colour. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
-      <li>A speaker is shown the same way everywhere: photo, name, role at the time of the talk, date last, in the same type sizes and colours; the photo is the same 4:5 crop and tone at the width its layout gives it. The Speakers page adds one line on their work, before the date.</li>
-      <li>The logo is one drawing. The home title and the header logo are the same SVG at two sizes.</li>
-      <li>Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don’t (“Speakers”, “Team”).</li>
+    <p class="review-text">Ten rules. Every element on the site follows from one of them, so the review is: does each thing on each page follow its rule? A reference (another club’s site, Vitsœ, a subway sign) can show what visitors expect; it is never the reason.</p>
+    <ol class="review-rules review-rules--n">
+      <li><strong>Jobs.</strong> Everything on the site does a job for a visitor or is a convention visitors expect. What changes at a handover (the officers, their year, the contact) lives in content/ and changes in one commit; nothing else goes stale: no member count, no meeting night or room, no “upcoming” talk.</li>
+      <li><strong>Type.</strong> One family (Helvetica; its free twin TeX Gyre Heros where Helvetica isn’t installed) in seven sizes, each with one job: page title (a page’s name), menu (the four pages in the phone menu), heading (a section’s name or its sentences), lead (what introduces a page or the club: the line under a title, the tagline, About), body (what you read: names, speaker lines, steps, buttons), small (what you look up: roles, dates, page links, the address, the © line) and caption (under a photo: the caption, the credits). Two weights: bold for page titles, people’s names, and links and buttons that stand on their own; regular for what you read (the contact address too: it is read and copied). Line height follows the line: tight for display sizes and single lines, open for running text.</li>
+      <li><strong>Colour.</strong> Ink on paper, never pure black or white. Gray for secondary text (roles, dates, captions, credits, the © line); hairlines in their own lighter gray. Dartmouth Green only on what you can press: every Join link and button, a link under the pointer, the keyboard focus, selected text. Nothing you can’t press is green. Ink panels: the 404 sign, and the skip link when it has focus.</li>
+      <li><strong>Grid and sections.</strong> One twelve-column grid with the same margins on every page; text flush left. A page head holds the title and at most one lead (the 404 adds its link home; the home page, its photo). Everything below is a section: a gray hairline from margin to margin, one heading top left (columns 1–4 on laptops, above the content on phones) and the content on the right (columns 5–12), which may divide its own width (the speaker tiles in thirds). Rows of a list (talks, officers, advisors) are divided by hairlines across the content column. Sections on a page are spaced evenly. The footer is the last section of every page, laid out the same way. The header’s hairline runs edge to edge once the page scrolls under it.</li>
+      <li><strong>Components.</strong> Each kind of thing has one design wherever it appears. A speaker: photo, name, role at the time of the talk, date last; the Speakers page adds one line on their work, before the date; the same type sizes and order everywhere, the photo at the width its layout gives it. A list row: name, the profile mark if any, role. An arrow link: bold words and an arrow. A button: green and bold, only for joining. A network mark: the network’s own logo, in ink, one size. A step: a section whose heading starts with its number.</li>
+      <li><strong>Photos.</strong> Real photos of the club and its guests: no stock, no illustration, no generated images. Portraits share one 4:5 crop and the board’s chosen treatment (ink-and-paper now), so pictures from different sources look like one set. A photo used under a licence carries its credit, in caption size, wherever it appears. The group photo’s treatment is an open choice below.</li>
+      <li><strong>Words.</strong> Plain words a first-year understands. One name per thing: a meeting is the club’s own session, a talk is a guest’s visit, and the people who join are undergraduates. A sentence ends with a full stop, even as a heading (“Join the club.”, “Read the paper.”); a label doesn’t (“Speakers”, “How to join”). A speaker’s role reads “Title, Organisation” as of the talk; dates read “Nov 6, 2026”; an officers’ term reads “2026–27”. Curly quotes, en dashes in ranges, and no sentence ends on a lone word.</li>
+      <li><strong>Links and navigation.</strong> Every page links to every other: the header on laptops (the logo is home), the menu on phones, the footer everywhere (also the menu without JavaScript). The page you are on is underlined; hover only changes the colour. → goes somewhere on this site and ↗ leaves it, on standalone links and buttons only; a link inside a sentence is underlined in its sentence’s colour; a network’s mark needs no arrow.</li>
+      <li><strong>Logo.</strong> One drawing, the club’s name in two lines of TeX Gyre Heros Bold turned into outlines, used at every size: the giant home title, the header, the link preview and the square logo. Never retyped or redrawn. The tab icon is the ↗ on its own: your choice, and not a link.</li>
+      <li><strong>Motion.</strong> One choreographed moment: on the home page the giant title hands off to the header as the photo grows. Everything else moves only when you tap (the menu opening); nothing fades in as you scroll, and scrolling is the browser’s own. A device set to reduce motion, or without JavaScript, gets the still page.</li>
+    </ol>
     </ul>
   </div>
 </section>
