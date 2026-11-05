@@ -36,7 +36,7 @@ export function render(c) {
         ${ev.title ? html`<p class="talk__desc">${esc(ev.title)}</p>` : ''}
         ${extra || links.length ? html`<p class="talk__extra">${extra ? html`<span>${extra}</span>` : ''}${links}</p>` : ''}
       </div>
-      <p class="talk__date">${esc(ev.date_label)}</p>
+      <p class="talk__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>
     </li>`;
   };
 

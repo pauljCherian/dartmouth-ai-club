@@ -114,7 +114,7 @@ export function render(c) {
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 20vw, (min-width: 700px) 30vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
         <p class="person__meta">${esc(plain(ev))}</p>
-        <p class="person__date">${esc(ev.date_label)}</p>
+        <p class="person__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>
       </li>`)}
     </ul>
     <p class="row__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>

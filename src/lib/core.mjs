@@ -185,9 +185,25 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     `}catch(e){}})(document.documentElement);`;
 
   const same = site.socials.filter((s) => s.url).map((s) => s.url);
-  const jsonLd = () =>
+  const portraitUrl = (ev) => { const m = manifest[`people/${ev.photo}-${treatment}`]; return m ? `${site.origin}/${m.variants.at(-1).jpg}` : null; };
+  const eventLd = (ev) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: [ev.format, ev.name].filter(Boolean).join(' with ') + (ev.title ? `: ${ev.title}` : ''),
+    description: `${ev.format || 'Talk'} with ${ev.name}${ev.role || ev.org ? `, ${[ev.role, ev.org].filter(Boolean).join(' ')}` : ''}${ev.title ? `: ${ev.title}` : ''}. Hosted by the ${site.name}; open to Dartmouth students.`,
+    startDate: ev.start,
+    ...(ev.end ? { endDate: ev.end } : {}),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: { '@type': 'Place', name: ev.place || 'Dartmouth College', address: { '@type': 'PostalAddress', addressLocality: 'Hanover', addressRegion: 'NH', postalCode: '03755', addressCountry: 'US' } },
+    ...(portraitUrl(ev) ? { image: [portraitUrl(ev)] } : {}),
+    performer: { '@type': 'Person', name: ev.name },
+    organizer: { '@type': 'Organization', name: site.name, url: site.origin },
+  });
+  // Home: the club and its upcoming talks. /speakers: the upcoming talks it also shows.
+  const jsonLd = (page) =>
     JSON.stringify([
-      {
+      ...(page === 'home' ? [{
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: site.name,
@@ -195,19 +211,8 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
         logo: `${site.origin}/logo-512.png`,
         email: site.contact.email,
         ...(same.length ? { sameAs: same } : {}),
-      },
-      ...upcoming.map((ev) => ({
-        '@context': 'https://schema.org',
-        '@type': 'Event',
-        name: [ev.format, ev.name].filter(Boolean).join(' with ') + (ev.title ? `: ${ev.title}` : ''),
-        startDate: ev.start,
-        ...(ev.end ? { endDate: ev.end } : {}),
-        eventStatus: 'https://schema.org/EventScheduled',
-        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-        location: { '@type': 'Place', name: ev.place || 'Dartmouth College', address: 'Hanover, NH' },
-        performer: { '@type': 'Person', name: ev.name },
-        organizer: { '@type': 'Organization', name: site.name, url: site.origin },
-      })),
+      }] : []),
+      ...upcoming.map(eventLd),
     ]).replace(/</g, '\\u003c');
 
   // Link previews of Vercel preview deployments must point at that deployment's own og.jpg.
@@ -227,7 +232,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <meta property="og:site_name" content="${esc(site.name)}">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:url" content="${esc(url)}">
+<meta property="og:url" content="${esc(ogOrigin === site.origin ? url : `${ogOrigin}${path}`)}">
 <meta property="og:image" content="${esc(ogOrigin)}/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -237,7 +242,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <link rel="icon" href="${icon('favicon.svg')}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${icon('apple-touch-icon.png')}">
 ${preview ? '' : '<link rel="manifest" href="/site.webmanifest">'}
-${page === 'home' ? `<script type="application/ld+json">${jsonLd()}</script>` : ''}`;
+${page === 'home' || (page === 'speakers' && upcoming.length) ? `<script type="application/ld+json">${jsonLd(page)}</script>` : ''}`;
     const body = html`
 <a class="skip-link" href="#main">Skip to content</a>
 ${header(page)}

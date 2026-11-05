@@ -27,7 +27,7 @@ export function render(c) {
     ['Contact email', site.contact.email, 'You chose a person over the long official address; one line in content/site.json to change.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, `${[s.role, s.org].filter(Boolean).join(' ')}`, s.confirm]),
     ...content.sessions.filter((s) => s.confirm).map((s) => [`Session, ${c.shortDate(s.date)}`, s.title, s.confirm]),
-    ['Session archive', '“Jeffery Xie” → “Jeffrey Xie”', 'The old archive and team page spelled the name differently; I used the team page spelling.'],
+    ['Member sessions', '“Jeffery Xie” → “Jeffrey Xie”', 'The old archive and team page spelled the name differently; I used the team page spelling.'],
     ['Reading list', 'Maganur and Kejriwal', 'Corrected from “Magnur” on the old site, with the full paper title from arXiv.'],
     ['Soroush Vosoughi', 'Associate Professor', 'Corrected from “Professor”: Dartmouth’s faculty directory lists him as Associate Professor of Computer Science.'],
   ];
@@ -42,6 +42,7 @@ export function render(c) {
     ['Mazda Moayeri', 'The original photo. It is currently cut out of the event poster.'],
     ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link (setup steps in my message).'],
     ['Socials', 'Instagram and LinkedIn URLs. Empty links are hidden on the live site.'],
+    ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile (LinkedIn blocks automated checks).'],
     ['Talk descriptions', 'One line per past talk. Optional; rows look fine without.'],
   ];
 
