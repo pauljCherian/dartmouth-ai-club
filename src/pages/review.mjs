@@ -121,14 +121,14 @@ export function render(c) {
     [/person__date|talk__date/, 'dates'], [/talk__desc/, 'speaker lines'], [/step__body|step__note/, 'step text'], [/button/, 'buttons'],
     [/site-footer__text/, 'the footer sentence'], [/site-nav/, 'header links'], [/site-menu__nav/, 'menu links'], [/site-footer__email/, 'the contact email'],
     [/site-footer__legal/, 'the © line'], [/hero__caption/, 'the photo caption'], [/credits/, 'photo credits'], [/bullet/, 'step numbers'],
-    [/sign__text/, 'the 404 sign'], [/site-footer__nav/, 'footer links'], [/skip-link/, 'the skip link'],
+    [/sign__text/, 'the 404 sign'], [/site-footer__nav/, 'footer links'], [/skip-link/, 'the skip link'], [/tnum/, 'section headings'],
   ];
   const roleOf = (sel) => (ROLES.find(([re]) => re.test(sel)) || [null, sel])[1];
   const typeRows = () => {
     if (!sys) return [];
     const [ph, lp] = [sys.widths['390'], sys.widths['1440']];
     const px = (wd, t) => `${Math.round(wd.tokens[`--${t}`])} px`;
-    const rows = SIZES.map(([t, name]) => {
+    const rows = SIZES.filter(([t]) => Number.isFinite(ph.tokens[`--${t}`]) && Number.isFinite(lp.tokens[`--${t}`])).map(([t, name]) => {
       const styles = [...ph.styles, ...lp.styles].filter((s) => s.token === t);
       const weights = [...new Set(styles.map((s) => (s.weight >= 700 ? 'Bold' : 'Regular')))].sort().reverse().join(', ');
       const lhs = [...new Set(styles.map((s) => s.lh))].sort().join(', ');

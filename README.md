@@ -32,7 +32,7 @@ Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Ever
 }
 ```
 
-- `role`: their title and organisation **at the time of the talk**, as "Title, Organisation" ("Head of Data, Simile"), the title in Title Case, with a second affiliation after a semicolon if it matters ("…, Anthropic; PhD Student, Oxford"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
+- `role`: their title and organisation **at the time of the talk**, as "Title, Organisation" ("Head of Data, Simile"), the title in Title Case, with a second affiliation after a semicolon if it matters ("…, Anthropic; PhD Student, Oxford"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on. A word too long for a home tile on a phone with large text gets a soft hyphen where it may break, written `\u00ad` ("Meta Super\u00adintelligence Labs"); it is used only on the narrowest screens, so everywhere else the word stays whole.
 - `description`: one plain line about the person's own work at the time, under about 90 characters, starting with a verb ("Studies why AI models fail…"). Not their company's slogan, and not the title again. Write it for someone who doesn't study computer science.
 - The live build stops while a talk has no `role` or `description`. The preview shows the gap in gray instead, so you can see what is missing.
 - `date`: the day of the talk. Add a talk on the day it happens or after: the list is a record of who came, so it never shows a talk as coming up and never needs updating afterwards.

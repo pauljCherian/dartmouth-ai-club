@@ -558,6 +558,10 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .page-lead { margin-top: clamp(20px, 3vw, 36px); max-width: 26em; font-size: var(--t-3); line-height: 1.28; letter-spacing: -0.005em; text-wrap: balance; }
 .site-footer__text, .talk__desc, .step__body p, .about__text,
 .talk__affil, .person__meta, .roster__what { text-wrap: pretty; }
+/* Roles break between whole words. A soft hyphen in a role (\u00ad in speakers.json) is used only in the home tiles on a
+   screen under 20em (two columns with large text), where the word can be wider than its tile. */
+.talk__affil, .person__meta, .roster__what { -webkit-hyphens: none; hyphens: none; }
+@media (max-width: 20em) { .person__meta { -webkit-hyphens: manual; hyphens: manual; } }
 
 /* ---------- Talks list (speakers page): the home tile's record, laid sideways, plus one line ---------- */
 /* Same sizes, colours and order as the tiles (name, role, line, date last), at every width. */

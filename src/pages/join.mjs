@@ -19,7 +19,7 @@ export function render(c) {
 
   const main = html`
 <header class="page-head wrap">
-  <h1 class="page-title">Join the club.</h1>
+  <h1 class="page-title">${c.keepLast('Join the club.')}</h1>
   <p class="page-lead">Open to Dartmouth undergraduates, whatever you study. No&nbsp;experience required.</p>
 </header>
 
