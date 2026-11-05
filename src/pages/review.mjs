@@ -81,7 +81,7 @@ export function render(c) {
 
 <section class="wrap block" aria-labelledby="dec-h">
   <h2 class="year" id="dec-h">Decisions</h2>
-  <div class="review-scroll"><table class="review-table">
+  <div class="review-scroll" tabindex="0" role="region" aria-label="Decisions"><table class="review-table">
     <thead><tr><th scope="col">Decision</th><th scope="col">Recommended</th><th scope="col">Alternative</th></tr></thead>
     <tbody>
       <tr><th scope="row">Hero motion</th><td>Hand-off: the title shrinks into the header logo.</td><td>Logo visible from the start; the title fades as the photo grows.</td></tr>
@@ -107,7 +107,7 @@ export function render(c) {
 
 <section class="wrap block" aria-labelledby="confirm-h">
   <h2 class="year" id="confirm-h">Copy and facts to confirm</h2>
-  <div class="review-scroll"><table class="review-table">
+  <div class="review-scroll" tabindex="0" role="region" aria-label="Copy and facts to confirm"><table class="review-table">
     <thead><tr><th scope="col">Item</th><th scope="col">On the site now</th><th scope="col">Why it needs a look</th></tr></thead>
     <tbody>${confirmations.map(([a, b, d]) => html`<tr><th scope="row">${esc(a)}</th><td>${esc(b)}</td><td>${esc(d)}</td></tr>`)}</tbody>
   </table></div>

@@ -46,7 +46,6 @@
     var button = document.querySelector('[data-menu-button]');
     var panel = document.getElementById('site-menu');
     if (!button || !panel) return;
-    var label = button.querySelector('.menu-button__label');
     var outside = document.querySelectorAll('main, .site-footer, .skip-link');
 
     function setInert(on) {
@@ -55,7 +54,8 @@
       }
     }
     function focusables() {
-      return [button].concat(Array.prototype.slice.call(panel.querySelectorAll('a[href], button:not([disabled])')));
+      var home = document.querySelector('.site-logo');
+      return (home ? [home] : []).concat([button], Array.prototype.slice.call(panel.querySelectorAll('a[href], button:not([disabled])')));
     }
     function onKey(e) {
       if (e.key === 'Escape') { e.preventDefault(); close(true); return; }
@@ -69,7 +69,6 @@
       panel.hidden = false;
       doc.classList.add('menu-open');
       button.setAttribute('aria-expanded', 'true');
-      if (label) label.textContent = 'Close menu';
       setInert(true);
       document.addEventListener('keydown', onKey);
       panel.scrollTop = 0;  // a short screen may have left it scrolled; the first link must not sit under the header
@@ -80,7 +79,6 @@
       panel.hidden = true;
       doc.classList.remove('menu-open');
       button.setAttribute('aria-expanded', 'false');
-      if (label) label.textContent = 'Menu';
       setInert(false);
       document.removeEventListener('keydown', onKey);
       if (returnFocus) button.focus({ preventScroll: true });
@@ -306,6 +304,7 @@
 
     function setLogo(o) {
       if (logoAlways) return;
+      if (!o && document.activeElement === logo) o = 1;  // focused: keep it visible rather than drop focus
       logo.style.opacity = String(o);
       logo.style.visibility = o > 0.01 ? 'visible' : 'hidden';
     }
@@ -332,7 +331,7 @@
       }
 
       // Tagline steps back first.
-      var tg = seg(p, 0, 0.14);
+      var tg = seg(p, 0, 0.03);
       if (tagline) {
         tagline.style.opacity = String(1 - tg);
         tagline.style.transform = 'translate3d(0,' + (-12 * tg) + 'px,0)';
@@ -349,7 +348,7 @@
       inner.style.transform = 'translate3d(' + (ix / sx) + 'px,' + (iy / sy) + 'px,0) scale(' + (si / sx) + ',' + (si / sy) + ')';
       if (monoMode) mono.style.opacity = String(1 - ease(seg(p, 0.15, 0.75)));
 
-      caption.style.opacity = String(seg(p, 0.86, 0.98));
+      caption.style.opacity = p >= 0.86 ? '1' : '0';
     }
 
     function tick() {

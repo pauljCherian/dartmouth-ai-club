@@ -22,8 +22,8 @@ export function render(c) {
     const links = (ev.links || []).map((l) => {
       const h = c.href(l.href);
       const ext = c.isExternal(h);
-      const image = /\.(png|jpe?g|webp|avif)$/i.test(h) ? ', image' : '';
-      return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden">: ${esc(ev.name)}${image}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
+      const image = /\.(png|jpe?g|webp|avif)$/i.test(h) ? ' (image)' : '';
+      return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden"> for ${esc(ev.name)}${image}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
     });
     const extra = [ev.format, ev.host, ev.place].filter(Boolean).map(esc).join(' · ');
     return html`
@@ -70,14 +70,14 @@ ${c.upcoming.length ? html`
   <ul class="sessions">
     ${content.sessions.map((s) => html`
     <li class="session">
-      <p class="session__date">${esc(c.shortDate(s.date))}</p>
       <h3 class="session__title">${esc(s.title)}</h3>
+      <p class="session__date">${esc(c.shortDate(s.date))}</p>
       <p class="session__people">${esc(s.people)}</p>
       ${s.summary ? html`<p class="session__summary">${esc(s.summary)}</p>` : ''}
       <p class="session__links">${(s.links || []).map((l) => {
         const h = c.href(l.href);
         const ext = c.isExternal(h);
-        return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden">: ${esc(s.title)}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
+        return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden"> from the session ${esc(s.title)}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
       })}</p>
     </li>`)}
   </ul>
