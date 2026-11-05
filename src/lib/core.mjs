@@ -124,10 +124,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     <a href="${link('speakers')}"${page === 'speakers' ? ' aria-current="page"' : ''}>Speakers</a>
     <a href="${link('team')}"${page === 'team' ? ' aria-current="page"' : ''}>Team</a>
     <a class="is-join" href="${link('join')}"${page === 'join' ? ' aria-current="page"' : ''}>Join the club</a>
-  </div>
-  <div class="site-menu__foot wrap">
     ${socials('site-menu__socials socials')}
-    <a href="mailto:${esc(site.contact.email)}">${email(site.contact.email)}</a>
   </div>
 </nav>`;
 

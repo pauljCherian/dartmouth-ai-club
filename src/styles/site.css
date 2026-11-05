@@ -278,7 +278,7 @@ html:not(.js) .menu-button { display: none; }
 }
 .site-menu[hidden] { display: none; }
 .site-menu__nav { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: 32px; }
-.site-menu__nav a {
+.site-menu__nav > a {
   display: block;
   padding-block: 4px;
   font-size: clamp(2rem, min(12.4vw, calc(10.5 * var(--vh))), 4.5rem);
@@ -287,10 +287,10 @@ html:not(.js) .menu-button { display: none; }
   line-height: 1.06;
   text-decoration: none;
 }
-.site-menu__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
-.site-menu__nav .is-join { color: var(--green); }
-.site-menu__foot { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: var(--t-5); }
-.site-menu__foot a { display: inline-block; padding-block: 3px; text-decoration: none; }
+.site-menu__nav > a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
+.site-menu__nav > .is-join { color: var(--green); }
+/* The club's channels sit right under the pages, as in the footer; the contact address is in the footer only. */
+.site-menu__socials { margin-top: clamp(20px, 4vw, 32px); }
 @media (prefers-reduced-motion: no-preference) {
   .site-menu:not([hidden]) { animation: menu-in 0.22s ease-out; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
