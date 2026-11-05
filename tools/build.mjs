@@ -53,7 +53,8 @@ const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(m
   const ids = new Set();
   speakers.forEach((ev, i) => {
     const where = `speakers.json[${i}] ${ev.name || ''}`;
-    need(ev, ['id', 'name', 'org', 'date_label', 'photo', 'photo_alt'], where);
+    need(ev, ['id', 'name', 'org', 'date_label', 'photo'], where);
+    if (typeof ev.photo_alt !== 'string') fail(`${where}: "photo_alt" must be text: "" for a plain portrait, a description for an event photo`);
     if (ids.has(ev.id)) fail(`${where}: duplicate id "${ev.id}"`);
     ids.add(ev.id);
     let datesOk = true;

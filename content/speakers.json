@@ -36,7 +36,7 @@
     "org": "Anthropic",
     "date_label": "2026",
     "photo": "christina-lu",
-    "photo_alt": "Portrait of Christina Lu.",
+    "photo_alt": "",
     "confirm": "Date, format and role are unknown. The previous site listed only “Anthropic”.",
     "source": "Previous site"
   },
@@ -50,14 +50,15 @@
     "start": "2026-05-05T20:00:00-04:00",
     "date_label": "May 5, 2026",
     "photo": "chetan-patel",
-    "photo_alt": "Portrait of Chetan Patel.",
+    "photo_alt": "",
     "links": [
       {
         "label": "Poster",
         "href": "asset:img/posters/chetan-patel-poster.png"
       }
     ],
-    "source": "Previous site + session archive"
+    "source": "Previous site + session archive",
+    "description": "Simile models human decision-making to help companies predict how people will respond to products, strategies and scenarios."
   },
   {
     "id": "andrew-milich",
@@ -70,7 +71,7 @@
     "start": "2026-03-04T20:00:00-05:00",
     "date_label": "Mar 4, 2026",
     "photo": "andrew-milich",
-    "photo_alt": "Portrait of Andrew Milich.",
+    "photo_alt": "",
     "links": [
       {
         "label": "Poster",
@@ -90,7 +91,7 @@
     "start": "2026-02-04T20:00:00-05:00",
     "date_label": "Feb 4, 2026",
     "photo": "ted-li",
-    "photo_alt": "Portrait of Ted Li.",
+    "photo_alt": "",
     "confirm": "Source photo is only 361 × 343 px: send a larger one. His poster on Google Drive asks visitors to sign in: share it (“Anyone with the link”) or send the file.",
     "source": "Previous site + session archive"
   }

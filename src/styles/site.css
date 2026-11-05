@@ -46,13 +46,14 @@
 
   /* Type */
   --font: "Club Sans", Helvetica, Arial, sans-serif;
-  --t-page: clamp(52px, 10vw, 152px);   /* page titles */
-  --t-1: clamp(40px, 6.2vw, 96px);      /* speaker names in features, big statements */
-  --t-2: clamp(28px, 3.3vw, 48px);      /* statements */
-  --t-3: clamp(20px, 1.85vw, 27px);     /* leads */
-  --t-4: 17px;                          /* body */
-  --t-5: 15px;                          /* labels, navigation, meta */
-  --t-6: 13px;                          /* captions */
+  /* In rem, so a larger default font size set in the browser takes effect. 1rem = 16px by default. */
+  --t-page: clamp(3.25rem, 10vw, 9.5rem);   /* page titles: 52-152px */
+  --t-1: clamp(2.5rem, 6.2vw, 6rem);        /* speaker names in features, big statements: 40-96px */
+  --t-2: clamp(1.75rem, 3.3vw, 3rem);       /* statements: 28-48px */
+  --t-3: clamp(1.25rem, 1.85vw, 1.6875rem); /* leads: 20-27px */
+  --t-4: 1.0625rem;                         /* body: 17px */
+  --t-5: 0.9375rem;                         /* labels, navigation, meta: 15px */
+  --t-6: 0.8125rem;                         /* captions: 13px */
 
   /* Space */
   --m: clamp(16px, 3.2vw, 48px);        /* outer margin */
@@ -72,7 +73,7 @@
   :root { --vh: 1svh; }
 }
 @media (min-width: 900px) {
-  :root { --header-h: 64px; --t-4: 18px; }
+  :root { --header-h: 64px; --t-4: 1.125rem; }
 }
 
 /* ---------- Base ---------- */
@@ -112,6 +113,7 @@ a {
   text-underline-offset: 0.2em;
 }
 a:hover { color: var(--green); }
+a[href^="mailto:"] { overflow-wrap: anywhere; }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 ::selection { background: var(--green); color: var(--paper); }
 
@@ -203,7 +205,7 @@ a:hover { color: var(--green); }
 @media (min-width: 900px) { .site-logo { width: 116px; } }
 
 .site-nav { display: none; }
-.site-nav a { display: inline-block; padding-block: 6px; font-size: 16px; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
+.site-nav a { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
 .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
 .site-nav__join { color: var(--green); }
 .site-nav__join:hover { color: var(--green-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
@@ -238,6 +240,10 @@ a:hover { color: var(--green); }
 .menu-open .menu-button__icon span:last-child { top: 5px; transform: rotate(-45deg); }
 @media (min-width: 900px) { .menu-button { display: none; } }
 html:not(.js) .menu-button { display: none; }
+.menu-link { display: none; }
+@media (max-width: 899px) {
+  html:not(.js) .menu-link { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; text-decoration: none; }
+}
 
 /* On the home page the giant title is the logo; the header logo appears when the title hands off. */
 .js-handoff.page-home .site-logo { opacity: 0; visibility: hidden; }
@@ -256,13 +262,14 @@ html:not(.js) .menu-button { display: none; }
   background: var(--paper);
   overflow-y: auto;
   overscroll-behavior: contain;
+  scroll-padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 8px);
 }
 .site-menu[hidden] { display: none; }
 .site-menu__nav { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: 32px; }
 .site-menu__nav a {
   display: block;
   padding-block: 4px;
-  font-size: clamp(40px, 12.4vw, 72px);
+  font-size: clamp(2.5rem, 12.4vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.06;
@@ -272,7 +279,7 @@ html:not(.js) .menu-button { display: none; }
 .site-menu__nav .is-join { color: var(--green); }
 .site-menu__nav .is-minor { margin-top: 28px; font-size: var(--t-3); letter-spacing: 0; }
 .site-menu__foot { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: var(--t-5); }
-.site-menu__foot a { text-decoration: none; }
+.site-menu__foot a { display: inline-block; padding-block: 3px; text-decoration: none; }
 @media (prefers-reduced-motion: no-preference) {
   .site-menu:not([hidden]) { animation: menu-in 0.22s ease-out; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
@@ -394,6 +401,13 @@ main { display: block; }
     max-width: 16em;
   }
 }
+/* Set by site.js when the tagline is too tall to sit beside "AI CLUB" (larger text, text-spacing settings). */
+.js-handoff .hero--tag-under .hero__tagline {
+  left: var(--gutter-l);
+  bottom: calc(var(--m) + env(safe-area-inset-bottom, 0px));
+  width: calc(100% - var(--gutter-l) - var(--gutter-r));
+  max-width: 22em;
+}
 /* Short landscape screens at any width (phones on their side, short laptop windows): title left of the
    thumbnail, tagline under it in one line. After the base rules so it wins. */
 @media (orientation: landscape) and (max-height: 560px) {
@@ -474,22 +488,25 @@ main { display: block; }
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 34px; height: 34px;
+  width: 2em; height: 2em;
   padding-top: 0.06em;
   border-radius: 50%;
   background: var(--green);
   color: var(--paper);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
-@media (forced-colors: active) { .bullet { border: 2px solid CanvasText; } }
+@media (forced-colors: active) {
+  .bullet { border: 2px solid CanvasText; }
+  .menu-button__icon span { background: ButtonText; }
+}
 
 /* ---------- What we do ---------- */
 .pillar {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-columns: 2.125rem minmax(0, 1fr);
   column-gap: 18px;
   row-gap: 8px;
   padding-block: 28px;
@@ -500,8 +517,9 @@ main { display: block; }
 .pillar__title { font-size: var(--t-3); line-height: 1.15; letter-spacing: -0.01em; align-self: center; }
 .pillar__text { grid-column: 2; max-width: 34em; }
 .pillar__more { grid-column: 2; font-size: var(--t-5); }
+.pillar__more a { padding-block: 3px; }
 @media (min-width: 1100px) {
-  .pillar { grid-template-columns: 34px minmax(0, 3fr) minmax(0, 5fr); column-gap: var(--gap); }
+  .pillar { grid-template-columns: 2.125rem minmax(0, 3fr) minmax(0, 5fr); column-gap: var(--gap); }
   .pillar__title { align-self: start; padding-top: 3px; }
   .pillar__text, .pillar__more { grid-column: 3; }
 }
@@ -509,7 +527,8 @@ main { display: block; }
 /* ---------- Speaker feature (poster logic: photo, label, name, affiliation, when) ---------- */
 .feature { display: grid; gap: 24px var(--gap); grid-template-columns: minmax(0, 1fr); }
 .feature__photo { max-width: 420px; }
-.feature__label { font-size: var(--t-5); font-weight: 700; color: var(--gray); }
+.feature__text { display: flex; flex-direction: column; }
+.feature__label { order: -1; font-size: var(--t-5); font-weight: 700; color: var(--gray); }
 .feature__name { margin-top: 6px; font-size: var(--t-1); letter-spacing: -0.035em; line-height: 0.98; }
 .feature__affil { margin-top: 12px; font-size: var(--t-3); line-height: 1.25; }
 .feature__title { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-3); line-height: 1.25; }
@@ -536,7 +555,7 @@ main { display: block; }
 .photo img { object-fit: cover; }
 .photo--placeholder { display: flex; align-items: flex-end; padding: 12px; color: var(--gray); font-size: var(--t-6); line-height: 1.3; }
 .photo--wide { aspect-ratio: 4 / 3; }
-.photo--initials { display: flex; align-items: center; justify-content: center; color: var(--gray); font-size: clamp(28px, 4vw, 56px); font-weight: 700; letter-spacing: -0.02em; }
+.photo--initials { display: flex; align-items: center; justify-content: center; color: var(--gray); font-size: clamp(1.75rem, 4vw, 3.5rem); font-weight: 700; letter-spacing: -0.02em; }
 
 /* ---------- Page heads ---------- */
 .page-head { padding-top: clamp(48px, 9vw, 136px); padding-bottom: clamp(40px, 6vw, 96px); }
@@ -554,9 +573,9 @@ main { display: block; }
   border-top: 1px solid var(--rule);
 }
 .talk__photo { grid-column: 1; grid-row: 1 / span 2; }
-.talk__date { grid-column: 2; font-size: var(--t-6); color: var(--gray); font-variant-numeric: tabular-nums; }
-.talk__body { grid-column: 2; min-width: 0; }
-.talk__name { font-size: clamp(22px, 2.3vw, 34px); line-height: 1.1; letter-spacing: -0.02em; }
+.talk__date { grid-column: 2; grid-row: 1; font-size: var(--t-6); color: var(--gray); font-variant-numeric: tabular-nums; }
+.talk__body { grid-column: 2; grid-row: 2; min-width: 0; }
+.talk__name { font-size: clamp(1.375rem, 2.3vw, 2.125rem); line-height: 1.1; letter-spacing: -0.02em; }
 .talk__affil { margin-top: 4px; font-size: var(--t-4); line-height: 1.3; }
 .talk__desc { margin-top: 10px; max-width: 38em; }
 .talk__extra { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: var(--t-5); color: var(--gray); }
@@ -601,7 +620,7 @@ main { display: block; }
 .steps { display: grid; gap: 0; }
 .step {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-columns: 2.125rem minmax(0, 1fr);
   column-gap: 18px;
   row-gap: 10px;
   padding-block: clamp(28px, 4vw, 44px);
@@ -630,7 +649,7 @@ main { display: block; }
   color: var(--paper);
 }
 .sign::before { content: ""; position: absolute; left: 0; right: 0; top: clamp(8px, 1vw, 12px); height: 2px; background: var(--paper); }
-.sign__text { font-size: clamp(44px, 9vw, 128px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.95; }
+.sign__text { font-size: clamp(2.75rem, 9vw, 8rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.95; }
 .notfound__text { margin-top: clamp(28px, 4vw, 48px); max-width: 28em; font-size: var(--t-3); line-height: 1.28; }
 .notfound__links { margin-top: 28px; display: grid; gap: 12px; font-size: var(--t-3); }
 
@@ -650,6 +669,7 @@ main { display: block; }
 .site-footer__nav a, .site-footer__socials a { display: inline-block; padding-block: 3px; }  /* 24px+ tap targets (WCAG 2.5.8) */
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
+.site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .site-footer__email { display: inline-block; padding-block: 4px; word-break: break-word; -webkit-user-select: all; user-select: all; }
 .site-footer__legal { color: var(--gray); }
 @media (min-width: 900px) {

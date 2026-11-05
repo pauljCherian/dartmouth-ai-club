@@ -32,7 +32,7 @@ Add an entry to `content/speakers.json` (anywhere; the top is easiest):
   "time_label": "8 pm",
   "place": "ECSC 116",
   "photo": "first-last",
-  "photo_alt": "Portrait of First Last."
+  "photo_alt": ""
 }
 ```
 
@@ -40,6 +40,7 @@ Add an entry to `content/speakers.json` (anywhere; the top is easiest):
 - A talk counts as upcoming until `end`, or two hours after `start` if there is no `end`. The page switches it to "past" in the visitor's browser the moment it ends, even before the next build.
 - The home page shows the next talk and the six most recent past ones. `/speakers` shows every talk.
 - `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**".
+- `photo_alt`: leave it `""` for a plain head-and-shoulders portrait (the name is printed right next to it, so screen readers would hear it twice). Describe the photo only when it shows more, such as the speaker at the event.
 
 ### Add or replace a photo
 

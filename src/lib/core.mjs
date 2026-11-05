@@ -85,7 +85,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     if (!items.length) return '';
     return html`<ul class="${cls}">${items.map((s) =>
       s.url
-        ? html`<li><a class="link-arrow" href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.name)} ${arrow('ne')}</a></li>`
+        ? html`<li><a class="link-arrow" href="${esc(s.url)}">${esc(s.name)} ${arrow('ne')}</a></li>`
         : html`<li><span class="is-placeholder" title="Link to come">${esc(s.name)}</span></li>`
     )}</ul>`;
   };
@@ -99,35 +99,33 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
       <a href="${link('team')}"${page === 'team' ? ' aria-current="page"' : ''}>Team</a>
       <a class="site-nav__join" href="${link('join')}"${page === 'join' ? ' aria-current="page"' : ''}>Join the club</a>
     </nav>
+    <a class="menu-link" href="#footer-nav">Menu</a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-button>
       <span class="menu-button__label visually-hidden">Menu</span>
       <span class="menu-button__icon" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
 </header>
-<div class="site-menu" id="site-menu" hidden>
-  <nav class="site-menu__nav wrap" aria-label="Menu">
+<nav class="site-menu" id="site-menu" aria-label="Menu" hidden>
+  <div class="site-menu__nav wrap">
     <a href="${link('speakers')}"${page === 'speakers' ? ' aria-current="page"' : ''}>Speakers</a>
     <a href="${link('team')}"${page === 'team' ? ' aria-current="page"' : ''}>Team</a>
     <a class="is-join" href="${link('join')}"${page === 'join' ? ' aria-current="page"' : ''}>Join the club</a>
     <a class="is-minor" href="${link('reading')}"${page === 'reading' ? ' aria-current="page"' : ''}>Reading list</a>
-  </nav>
+  </div>
   <div class="site-menu__foot wrap">
     ${socials('site-menu__socials socials')}
     <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>
   </div>
-</div>`;
+</nav>`;
 
-  const footer = () => html`
+  const footer = (page) => html`
 <footer class="site-footer" id="contact">
   <div class="site-footer__inner wrap">
     <div class="site-footer__brand"><a href="${link('home')}" aria-label="Dartmouth AI Club, home">${svg('logo-small')}</a></div>
-    <nav class="site-footer__nav" aria-label="Footer">
+    <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">
       <ul>
-        <li><a href="${link('speakers')}">Speakers</a></li>
-        <li><a href="${link('team')}">Team</a></li>
-        <li><a href="${link('join')}">Join the club</a></li>
-        <li><a href="${link('reading')}">Reading list</a></li>
+        ${[['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club'], ['reading', 'Reading list']].map(([id, label]) => html`<li><a href="${link(id)}"${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
       </ul>
     </nav>
     <div class="site-footer__contact">
@@ -147,7 +145,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     `(function(d){` +
     (preview && page === 'home' ? `d.lang='en';d.classList.add('page-home');` : '') +
     `d.classList.add('js');try{if(location.hash==='#logo')d.classList.add('logo-always');` +
-    `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('js-handoff');` +
+    `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&matchMedia('(min-height: 300px)').matches){d.classList.add('js-handoff');` +
     // site.js always runs before DOMContentLoaded (deferred or inline at the end), so this cannot race it:
     // if the hand-off did not start by then, fall back to the static layout.
     `document.addEventListener('DOMContentLoaded',function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')})}}catch(e){}})(document.documentElement);`;
@@ -212,7 +210,7 @@ ${header(page)}
 <main id="main"${page === 'home' ? '' : ' class="page-pad"'}>
 ${main}
 </main>
-${footer()}`;
+${footer(page)}`;
     // If site.js cannot load, drop the classes that promise it (dead menu button, pinned hero).
     const script = preview ? `<script>${inline.js}</script>` : `<script src="/js/site.js" defer onerror="document.documentElement.classList.remove('js','js-handoff')"></script>`;
 

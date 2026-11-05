@@ -6,8 +6,8 @@ const feature = (c, ev, { sizes, next = true, hidden = false }) => html`
 <article class="feature" data-ends="${c.endISO(ev)}"${hidden ? ' hidden' : ''}>
   <div class="feature__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes })}</div>
   <div class="feature__text">
-    <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
     <h3 class="feature__name">${esc(ev.name)}</h3>
+    <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
     <p class="feature__affil">${c.affil(ev)}</p>
     ${ev.title ? html`<p class="feature__title">${esc(ev.title)}</p>` : ''}
     <p class="feature__when">${esc(ev.date_label)}${ev.time_label ? ` · ${esc(ev.time_label)}` : ''}${ev.place ? ` · ${esc(ev.place)}` : ''}</p>

@@ -22,13 +22,13 @@ export function render(c) {
     const links = (ev.links || []).map((l) => {
       const h = c.href(l.href);
       const ext = c.isExternal(h);
-      return html`<a class="link-arrow" href="${esc(h)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(l.label)} ${c.arrow(ext ? 'ne' : 'e')}</a>`;
+      const image = /\.(png|jpe?g|webp|avif)$/i.test(h) ? ', image' : '';
+      return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden">: ${esc(ev.name)}${image}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
     });
     const extra = [ev.format, ev.host].filter(Boolean).map(esc).join(' · ');
     return html`
     <li class="talk"${upcoming ? ` hidden data-past-after="${c.endISO(ev)}"` : ''}>
       <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 128px, 84px' })}</div>
-      <p class="talk__date">${esc(ev.date_label)}</p>
       <div class="talk__body">
         <h4 class="talk__name">${esc(ev.name)}</h4>
         <p class="talk__affil">${c.affil(ev)}</p>
@@ -36,6 +36,7 @@ export function render(c) {
         ${ev.title ? html`<p class="talk__desc">${esc(ev.title)}</p>` : ''}
         ${extra || links.length ? html`<p class="talk__extra">${extra ? html`<span>${extra}</span>` : ''}${links}</p>` : ''}
       </div>
+      <p class="talk__date">${esc(ev.date_label)}</p>
     </li>`;
   };
 
@@ -77,7 +78,7 @@ ${c.upcoming.length ? html`
       <p class="session__links">${(s.links || []).map((l) => {
         const h = c.href(l.href);
         const ext = c.isExternal(h);
-        return html`<a class="link-arrow" href="${esc(h)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(l.label)} ${c.arrow(ext ? 'ne' : 'e')}</a>`;
+        return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden">: ${esc(s.title)}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
       })}</p>
     </li>`)}
   </ul>

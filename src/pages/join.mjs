@@ -9,7 +9,7 @@ export function render(c) {
 
   const step1 = form
     ? html`<p>Sign in with your Dartmouth account and the link appears. Keeping it behind Dartmouth login keeps the bots out.</p>
-       <p><a class="button" href="${esc(form)}" rel="noopener" target="_blank">Get the GroupMe link ${c.arrow('ne')}</a></p>`
+       <p><a class="button" href="${esc(form)}">Get the GroupMe link ${c.arrow('ne')}</a></p>`
     : c.preview
       ? html`<p>Sign in with your Dartmouth account and the link appears. Keeping it behind Dartmouth login keeps the bots out.</p>
        <p><a class="button" href="#get-link" aria-disabled="true">Get the GroupMe link ${c.arrow('ne')}</a></p>

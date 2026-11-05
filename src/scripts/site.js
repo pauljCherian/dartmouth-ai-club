@@ -94,6 +94,7 @@
       if (label) label.textContent = 'Close menu';
       setInert(true);
       document.addEventListener('keydown', onKey);
+      panel.scrollTop = 0;  // a short screen may have left it scrolled; the first link must not sit under the header
       var firstLink = panel.querySelector('a[href]');
       if (firstLink) firstLink.focus({ preventScroll: true });
     }
@@ -152,6 +153,8 @@
     var ASPECT = parseFloat(heroCS.getPropertyValue('--hero-aspect')) || 4 / 3;
     var MAX_ASPECT = parseFloat(heroCS.getPropertyValue('--hero-max-aspect')) || 1.6;
     var dead = false;
+    var MIN_H = 300;       // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
+    var taglineBeside = mq('(min-width: 900px) and (min-height: 561px)');  // matches the CSS that puts it beside "AI CLUB"
     var logoAlways = doc.classList.contains('logo-always');
     var monoMode = !!mono && (location.hash === '#mono' || hero.getAttribute('data-mono') === 'on');
     if (mono) mono.style.display = monoMode ? 'block' : 'none';
@@ -186,6 +189,27 @@
       var gutter = parseFloat(cs.left) || 16;
       var gridRow = document.querySelector('.row');  // the grid's own gutter (--gap), resolved by the browser
       var gap = (gridRow && parseFloat(getComputedStyle(gridRow).columnGap)) || Math.max(16, Math.min(28, vw * 0.02));
+
+      // Tagline. Wide screens put it beside "AI CLUB"; if it is too tall to clear "DARTMOUTH" there (larger
+      // text, text-spacing settings) it goes under the title like on phones. Under the title it gets room for
+      // its real height, not a guess, so it never runs into the title.
+      hero.style.removeProperty('--tag-h');
+      hero.classList.remove('hero--tag-under');
+      var under = !taglineBeside.matches;
+      if (tagline) {
+        tagline.style.transform = '';
+        if (!under) {
+          var lines = Array.prototype.map.call(title.querySelectorAll('svg path'), function (el) { return el.getBoundingClientRect(); })
+            .sort(function (a, b) { return a.top - b.top; });
+          if (lines.length > 1 && tagline.getBoundingClientRect().top < lines[0].bottom + gap * 0.5) under = true;
+          if (under) hero.classList.add('hero--tag-under');
+        }
+        if (under) {
+          var ts = getComputedStyle(tagline);
+          var tagNeed = tagline.getBoundingClientRect().height + (parseFloat(ts.marginTop) || 0) + (parseFloat(ts.marginBottom) || 0) + gap;
+          hero.style.setProperty('--tag-h', Math.ceil(tagNeed) + 'px');
+        }
+      }
 
       frame.style.transform = '';
       inner.style.transform = '';
@@ -301,9 +325,12 @@
     function relayout(force) {
       if (dead) return;
       var w = stage.clientWidth, h = probe.getBoundingClientRect().height;
+      if (h && h < MIN_H) { teardown(); return; }
       if (!force && w === lastW && Math.abs(h - lastH) < 1) return;
       lastW = w; lastH = h;
       measure();
+      // A title squeezed to a sliver (very short screens with large text) reads worse than the static layout.
+      if (L.Ti.w < 0.4 * (w - 2 * (parseFloat(getComputedStyle(title).left) || 16))) { teardown(); return; }
       current = target = clamp((window.scrollY - L.heroTop) / L.pin);
       apply(current);
       updateRule();
@@ -314,6 +341,8 @@
     }
 
     function onLoad() { relayout(true); }
+    // Text that changes size after load (fonts arriving, a text-spacing tool, a larger default size) re-measures.
+    var sizeWatch = window.ResizeObserver && tagline ? new ResizeObserver(function () { relayout(true); }) : null;
 
     function teardown() {
       if (dead) return;
@@ -321,6 +350,7 @@
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('load', onLoad);
+      if (sizeWatch) sizeWatch.disconnect();
       window.clearTimeout(resizeTimer);
       if (raf) window.cancelAnimationFrame(raf);
       raf = 0;
@@ -331,15 +361,20 @@
         if (el === frame || el === inner || el === caption) el.removeAttribute('style');
       });
       if (mono) mono.style.display = 'none';
+      hero.style.removeProperty('--tag-h');
+      hero.classList.remove('hero--tag-under');
+      if (probe.parentNode) probe.parentNode.removeChild(probe);
       ruleAfter = 4;
       updateRule();
     }
 
     relayout(true);
+    if (dead) return null;
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { relayout(true); });
     window.addEventListener('load', onLoad);
+    if (sizeWatch) sizeWatch.observe(tagline);
     listen(mq('(prefers-reduced-motion: reduce)'), function (e) { if (e.matches) teardown(); });
     return { relayout: relayout };
   })();

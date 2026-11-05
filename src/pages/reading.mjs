@@ -13,7 +13,7 @@ export function render(c) {
   <ul class="list-rows">
     ${c.content.reading.map((r) => html`
     <li>
-      <a class="list-rows__title link-arrow" href="${esc(r.href)}" rel="noopener" target="_blank"><span>${esc(r.title)}</span> ${c.arrow('ne')}</a>
+      <a class="list-rows__title link-arrow" href="${esc(r.href)}"><span>${esc(r.title)}</span> ${c.arrow('ne')}</a>
       <p class="list-rows__meta">${esc(r.authors)}</p>
     </li>`)}
   </ul>

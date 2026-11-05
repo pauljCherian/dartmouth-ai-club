@@ -15,10 +15,10 @@ export function render(c) {
   <ul class="people people--3" style="margin-top:12px">
     ${team.officers.map((o) => html`
     <li class="person">
-      ${c.photo(o.photo, { alt: `Portrait of ${o.name}.`, name: o.name, sizes: '(min-width: 700px) 30vw, 45vw' })}
+      ${c.photo(o.photo, { alt: '', name: o.name, sizes: '(min-width: 700px) 30vw, 45vw' })}
       <h3 class="person__name">${esc(o.name)}</h3>
       <p class="person__meta">${esc(o.role)}</p>
-      ${o.linkedin ? html`<a class="person__link link-arrow" href="${esc(o.linkedin)}" rel="noopener" target="_blank">LinkedIn ${c.arrow('ne')}<span class="visually-hidden"> profile of ${esc(o.name)}</span></a>` : ''}
+      ${o.linkedin ? html`<a class="person__link link-arrow" href="${esc(o.linkedin)}">LinkedIn ${c.arrow('ne')}<span class="visually-hidden"> profile of ${esc(o.name)}</span></a>` : ''}
     </li>`)}
   </ul>
 </section>

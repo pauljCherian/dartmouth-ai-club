@@ -84,6 +84,7 @@ export function render(c) {
       <tr><th scope="row">Tab icon</th><td>A: off-white arrow on an ink square.</td><td>B: green square. C: “DA/AI” crop of the logo.</td></tr>
       <tr><th scope="row">Speaker and team photos</th><td>Ink-and-paper monochrome, one crop for everyone.</td><td>Color, balanced for consistency.</td></tr>
       <tr><th scope="row">Nav label</th><td>“Speakers”: the page also shows the next talk.</td><td>“Past Speakers”.</td></tr>
+      <tr><th scope="row">Speakers on the home page</th><td>The next talk, then the six most recent in two rows of three. Today that is every past guest; from the seventh talk on, the oldest move to the Speakers page only.</td><td>Every past guest on the home page, so the section grows each term.</td></tr>
     </tbody>
   </table></div>
   <h3 class="subhead review-h">Tab icon candidates</h3>
