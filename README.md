@@ -56,7 +56,7 @@ That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, and the link-
 
 For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes. Crops marked `"frac": true` (the Yann LeCun tile is cut from the group photo) are fractions of the image, so they stay right when a larger copy of the same photo replaces it.
 
-`assets-src/brand/og-logo.png` is the logo for `og.jpg`, rendered from `src/svg/logo-display.svg` (ink on transparent, 544px wide). Render it again if the logo changes.
+`assets-src/brand/og-logo.png` is the logo for `og.jpg`, rendered from `src/svg/logo-display.svg` (ink on transparent, 544px wide); `public/logo-512.png`, the square logo search engines show, is the same lockup 400px wide on paper. Render both again if the logo changes.
 
 ## Build and look at it locally
 

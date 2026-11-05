@@ -671,10 +671,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .site-footer__legal { grid-column: 1 / -1; margin-top: clamp(16px, 4vw, 48px); color: var(--gray); }
 @media (min-width: 56.25em) {
   .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-  .site-footer__join { grid-column: 1 / span 4; grid-row: 1 / span 2; }
-  .site-footer__nav { grid-column: 5 / span 3; }
-  .site-footer__contact { grid-column: 8 / span 5; }
-  .site-footer__legal { grid-row: 3; }
+  .site-footer__join { grid-column: 1 / span 4; }
+  .site-footer__nav { grid-column: 5 / span 3; grid-row: 1; }  /* beside the invitation, or alone on /join */
+  .site-footer__contact { grid-column: 8 / span 5; grid-row: 1; }
 }
 
 /* ---------- Review notes (preview builds only) ---------- */
