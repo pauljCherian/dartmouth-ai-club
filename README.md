@@ -12,6 +12,8 @@ The talks, the people, the links and the contact live in `content/`: edit the JS
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
 | `content/team.json` | The officers (name, role, and `linkedin` / `x` profile links), their academic year (`officers_term`), and the faculty advisors (name, school or department). The team page is a list: no photos |
 
+When the officers change, update `officers_term` and `officers` in `content/team.json` and `contact` (email, name, role) in `content/site.json` in the same commit.
+
 What is not on the site, on purpose: the meeting night and room, a member count, and claims nobody can check. Facts still waiting for an officer's answer are listed on the review page of the preview. The night and room change every term, so /join says the GroupMe posts them; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
 
 ### Add a speaker
@@ -90,7 +92,7 @@ Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`
 - **Layout.** A page has one giant title. Below it, every section is the same: a gray hairline from margin to margin, one heading top left (large, regular weight) and the content on the right. The footer follows the same grid: the invitation to join (left, on every page but /join), the page links and the contact.
 - **Arrow.** `src/svg/arrow-e.svg` and `arrow-ne.svg`: → goes somewhere on this site; ↗ leaves it. The LinkedIn, X and YouTube marks need no arrow: the mark says where it goes.
 - **Navigation.** Laptops: the logo (home) and Speakers, Team, Join the club. Phones: the menu lists all four pages, Home first, with the club's X and YouTube marks under them once their links are in `content/site.json`. The contact email is in the footer only.
-- **Words.** Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don't (“Speakers”, “Team”). Curly quotes and apostrophes (“ ” ’), an en dash in ranges (2026–27), one space between sentences. The live build stops on a straight quote or apostrophe, or two spaces in a row, in any text a page shows.
+- **Words.** Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don't (“Speakers”, “Team”). One name per thing: a meeting is the club's own session, a talk is a guest's visit. Curly quotes and apostrophes (“ ” ’), an en dash in ranges (2026–27), one space between sentences. The live build stops on a straight quote or apostrophe, or two spaces in a row, in any text a page shows.
 - **Error page.** Any unknown address gets `404.html` with status 404: a “Not in service” sign (one ink panel, the site's type in paper, a thin rule along its top), one sentence, one link home; the header and footer carry the rest. It is the only black shape on the site, because it is the only page that isn't normal browsing.
 - **Motion.** One choreographed moment: the hand-off on the home page. Native scrolling, the browser's own cursor, nothing fading in on scroll. People who ask their device for reduced motion get the static layout.
 

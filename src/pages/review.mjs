@@ -89,7 +89,7 @@ export function render(c) {
 
   const confirmations = [
     ['Tagline', `“${site.tagline}”`, 'My draft, replacing “the best undergrad AI club”: a claim nobody can check.'],
-    ['About', '“meets every week … from how transformers work to adversarial attacks and LLMs for math”', 'From the club’s session archive (Jan–Apr 2026). Still weekly this term?'],
+    ['Every week', '“meets every week” (About), “weekly meetings” (search description), “Each week’s time and room” (/join)', 'The archive shows weekly Wednesdays from Jan 28 to Mar 4, 2026, then only Apr 7, Apr 14 and May 5; and the old site said “bi-weekly sessions” from Dec 30, 2025. Is it every week this term? If the rhythm changes by term, it comes out of all three places.'],
     ['Officers', `Officers, ${team.officers_term}`, 'Right year and names?'],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
     ['Research groups', 'Not on the new site', 'You have three VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
