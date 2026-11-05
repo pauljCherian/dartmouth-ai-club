@@ -56,6 +56,11 @@ const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(m
   speakers.forEach((ev, i) => {
     const where = `speakers.json[${i}] ${ev.name || ''}`;
     need(ev, ['id', 'name', 'org', 'description', 'photo'], where);
+    if (ev.photo_credit !== undefined) {
+      const pc = ev.photo_credit || {};
+      need(pc, ['by', 'source', 'license', 'license_url'], `${where} photo_credit`);
+      for (const k of ['source', 'license_url']) if (pc[k] && !/^https:\/\//.test(pc[k])) fail(`${where}: photo_credit.${k} must be an https:// link`);
+    }
     if (typeof ev.photo_alt !== 'string') fail(`${where}: "photo_alt" must be text: "" for a plain portrait, a description for an event photo`);
     if (ids.has(ev.id)) fail(`${where}: duplicate id "${ev.id}"`);
     ids.add(ev.id);

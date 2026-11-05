@@ -45,6 +45,7 @@ export function render(c) {
     <ul class="talks">${g.items.map(talk)}</ul>
   </div>`;
   })}
+  ${c.credits(c.ordered.map((ev) => (isUpcoming(ev) ? { ...ev, __show: c.show((k) => c.endedIn(ev, k)) } : ev)))}
 </section>`;
 
   return c.layout({

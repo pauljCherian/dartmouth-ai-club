@@ -7,23 +7,22 @@
  },
  "portraits": [
   {
+   "id": "yann-lecun",
+   "src": "assets-src/people/yann-lecun.jpg",
+   "crop": "90,30,800,1000",
+   "note": "Wikimedia Commons, “Laura Chaubard & Yann Le Cun - 2024 (53814052697) (cropped).jpg”, by Jérémy Barande / École polytechnique, 24 June 2024, CC BY-SA 2.0 (the 960 px version). Credited on /speakers (photo_credit in speakers.json). A club photo from his visit would need no credit."
+  },
+  {
    "id": "mazda-moayeri",
    "src": "assets-src/people/mazda-moayeri-poster.jpg",
    "crop": "224,140,400,500",
    "note": "cut from the event poster; ask for the original"
   },
   {
-   "id": "yann-lecun-visit",
-   "src": "assets-src/hero/hero.jpg",
-   "crop": "0.4033,0.1589,0.1641,0.2734",
-   "frac": true,
-   "note": "event tile: cropped around him at the head of the table in the group photo. Only 168 px wide from the 1024 px copy (soft on large screens); the full-resolution original gives about 940 px, enough for a tighter head-and-shoulders crop (his head is about 170 px wide there). Better still, a photo of him."
-  },
-  {
    "id": "christina-lu",
    "src": "assets-src/people/christina-lu.jpg",
-   "crop": "153,71,1494,1867",
-   "note": "eyes at about 39%; head about 68% of the frame (the source leaves no room for a looser crop)"
+   "crop": "258,0,1584,1980",
+   "note": "eyes at about 39%; head about 57% of the frame like the others, with the wall above her hair as headroom (the crop starts at the top of the source)"
   },
   {
    "id": "chetan-patel",

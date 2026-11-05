@@ -73,6 +73,17 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     return html`<div class="photo ${cls}">${picture(key, { alt, sizes })}</div>`;
   };
 
+  // Credits for speaker photos used under a licence that asks for one (photo_credit in speakers.json): who took
+  // it, where it comes from, the licence, and that it was changed. Shown on every page that shows the photo.
+  const credits = (evs, cls = 'credits') => {
+    const list = evs.filter((ev) => ev.photo_credit);
+    if (!list.length) return '';
+    return html`<p class="${cls}">${list.map((ev) => {
+      const pc = ev.photo_credit;
+      return html`<span${ev.__show || ''}>Photo of ${esc(ev.name)}: <a href="${esc(pc.source)}">${esc(pc.by)}</a>, <a href="${esc(pc.license_url)}">${esc(pc.license)}</a>, cropped and toned. </span>`;
+    })}</p>`;
+  };
+
   const affil = (ev) =>
     html`${ev.role ? html`<span class="muted">${esc(ev.role)}</span> ` : ''}<strong>${keepLast(ev.org)}</strong>`;
 
@@ -291,7 +302,7 @@ ${preview ? script : ''}
   return {
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
-    upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
+    upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html, credits,
     STATES, endedIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
   };
 }

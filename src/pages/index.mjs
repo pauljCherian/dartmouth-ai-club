@@ -114,6 +114,7 @@ export function render(c) {
       </li>`)}
     </ul>
     <p class="row__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>
+    ${c.credits(recent.map((ev) => ({ ...ev, __show: c.show((k) => recentIn(k).includes(ev)) })))}
   </div>
 </section>
 
