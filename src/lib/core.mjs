@@ -18,10 +18,6 @@ export const tieDates = (text) =>
   esc(text).replace(/\b((?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) )?(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}, \d{4})\b/g, (d) => d.replace(/ /g, '&nbsp;'));
 // Escaped email address that may break after the @ and nowhere else (not before its last letter).
 export const email = (addr) => esc(addr).replace('@', '@<wbr>');
-// Escaped text that never breaks (a time, a room).
-export const unbroken = (text) => esc(text).replace(/ /g, '&nbsp;');
-// A date label held together except before the year ("Fri Nov 6," / "2026" only if the column is that narrow).
-export const unbrokenDate = (text) => unbroken(text).replace(/,&nbsp;(\d{4})$/, ', $1');
 
 export const shortDate = (iso) => {
   const [y, m, d] = iso.slice(0, 10).split('-').map(Number);
@@ -40,8 +36,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     return page === 'home' ? `/${h}` : `/${PAGES[page]}${h}`;
   };
   const asset = (p) => (preview ? p.replace(/^\//, '') : `/${p.replace(/^\//, '')}`);
-  const href = (h) => (h.startsWith('asset:') ? asset(h.slice(6)) : h);
-  const isExternal = (h) => /^https?:\/\//.test(h);
 
   const svg = (name, { cls = '', label = '' } = {}) => {
     const s = svgs[name];
@@ -71,17 +65,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
       throw new Error(`Missing portrait ${key}`);
     }
     return html`<div class="photo ${cls}">${picture(key, { alt, sizes })}</div>`;
-  };
-
-  // Credits for speaker photos used under a licence that asks for one (photo_credit in speakers.json): who took
-  // it, where it comes from, the licence, and that it was changed. Shown on every page that shows the photo.
-  const credits = (evs, cls = 'credits') => {
-    const list = evs.filter((ev) => ev.photo_credit);
-    if (!list.length) return '';
-    return html`<p class="${cls}">${list.map((ev) => {
-      const pc = ev.photo_credit;
-      return html`<span${ev.__show || ''}>Photo of ${esc(ev.name)}: <a href="${esc(pc.source)}">${esc(pc.by)}</a>, <a href="${esc(pc.license_url)}">${esc(pc.license)}</a>, cropped and toned. </span>`;
-    })}</p>`;
   };
 
   // A speaker's role or one-line description: the text, or in the preview a visible gap where it is still missing
@@ -124,6 +107,19 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     const ks = STATES.filter(visibleIn);
     return ks.length === STATES.length ? '' : ` data-show="${ks.join(' ')}"`;
   };
+  // Credits for speaker photos used under a licence that asks for one (photo_credit in speakers.json): who took
+  // it, where it comes from, the licence, and that it was changed. Shown on every page that shows the photo.
+  // visibleIn(ev, k) says whether that talk is on the page in talk state k; the paragraph shows only when one of
+  // its credits does, so a hidden talk never leaves an empty gap.
+  const credits = (evs, visibleIn = () => true) => {
+    const list = evs.filter((ev) => ev.photo_credit);
+    if (!list.length) return '';
+    return html`<p class="credits"${show((k) => list.some((ev) => visibleIn(ev, k)))}>${list.map((ev) => {
+      const pc = ev.photo_credit;
+      return html`<span${show((k) => visibleIn(ev, k))}>Photo of ${esc(ev.name)}: <a href="${esc(pc.source)}">${esc(pc.by)}</a>, <a href="${esc(pc.license_url)}">${esc(pc.license)}</a>, cropped and toned. </span>`;
+    })}</p>`;
+  };
+
   const stateCss = byEnd.length
     ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}`).join('') +
       `html:not([class*="talks-"]) [data-show]:not([data-show~="0"]){display:none!important}`
@@ -184,7 +180,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     </section>` : ''}
     <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">
       <ul>
-        ${[['home', 'Home'], ['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club']].map(([id, label]) => html`<li><a href="${link(id)}"${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
+        ${[['home', 'Home'], ['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club']].map(([id, label]) => html`<li><a href="${link(id)}"${id === 'join' ? ' class="is-join"' : ''}${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
       </ul>
     </nav>
     <div class="site-footer__contact">
@@ -302,8 +298,8 @@ ${preview ? script : ''}
 
   return {
     mode, preview, now, site, content, brand, manifest,
-    link, asset, href, isExternal, svg, arrow, picture, photo,
+    link, asset, svg, arrow, picture, photo,
     upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits, fill,
-    STATES, endedIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
+    STATES, endedIn, show, keepLast, tieDates, email,
   };
 }

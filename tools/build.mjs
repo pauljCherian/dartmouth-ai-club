@@ -49,7 +49,7 @@ const content = {
     // Who they are and what they do, as of the talk. The preview shows a gap as "to confirm"; the live build stops.
     if (!PREVIEW) need(ev, ['role', 'description'], where);
     if (ev.description && ev.description.length > 100) fail(`${where}: "description" is ${ev.description.length} characters; keep it to one line of about 90`);
-    if (/^former/i.test(ev.role || '') || /^former/i.test(ev.description || '')) fail(`${where}: give the role they had at the time of the talk, not "Formerly…" (see README)`);
+    if (/\bformer(ly)?\b|\bex-/i.test(ev.role || '') || /^former/i.test(ev.description || '')) fail(`${where}: give the role they had at the time of the talk, not "Formerly…" (see README)`);
     if (ev.photo_credit !== undefined) {
       const pc = ev.photo_credit || {};
       need(pc, ['by', 'source', 'license', 'license_url'], `${where} photo_credit`);
@@ -59,9 +59,11 @@ const content = {
     if (ids.has(ev.id)) fail(`${where}: duplicate id "${ev.id}"`);
     ids.add(ev.id);
     // The day of the talk, as YYYY-MM-DD. It must exist (Date.parse would quietly roll Nov 31 over to Dec 1).
-    if (typeof ev.date !== 'string' || !/^\d{4}-\d\d-\d\d$/.test(ev.date) || new Date(`${ev.date}T00:00:00Z`).toISOString().slice(0, 10) !== ev.date) fail(`${where}: "date" must be the day of the talk, like 2027-01-19`);
+    const day = typeof ev.date === 'string' && /^\d{4}-\d\d-\d\d$/.test(ev.date) ? new Date(`${ev.date}T00:00:00Z`) : null;
+    if (!day || Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== ev.date) fail(`${where}: "date" must be the day of the talk, like 2027-01-19`);
     for (const k of ['org', 'start', 'end', 'date_label', 'format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is not used any more; delete it (a talk shows name, role, description and date: see README)`);
   });
+  need(team, ['officers_term'], 'team.json');
   team.officers.forEach((o, i) => need(o, ['name', 'role', 'photo'], `team.json officers[${i}]`));
   team.advisors.forEach((a, i) => {
     need(a, ['name', 'unit'], `team.json advisors[${i}]`);
@@ -86,7 +88,7 @@ const svgs = {};
 for (const f of (await readdir(rel('src/svg'))).filter((f) => f.endsWith('.svg'))) {
   let markup = (await readFile(rel('src/svg', f), 'utf8'))
     .replace(/<\?xml[^>]*>\s*/, '')
-    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<!--(?!!)[\s\S]*?-->/g, '')  // keeps <!--! … --> licence comments (Font Awesome's attribution)
     .replace(/>\s+</g, '><')
     .trim();
   markup = markup.replace(/<svg\b([^>]*)>/, (m, attrs) => `<svg${attrs.replace(/\s(width|height)="[^"]*"/g, '')}>`);

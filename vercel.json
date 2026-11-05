@@ -24,7 +24,7 @@
     },
     {
       "source": "/images/chetan-patel-poster.png",
-      "destination": "/img/posters/chetan-patel-poster.png",
+      "destination": "/speakers",
       "permanent": true
     },
     {

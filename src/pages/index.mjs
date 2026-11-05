@@ -19,7 +19,7 @@ export function render(c) {
   // before it happens appears once it has ended, decided in the visitor's browser (see core.mjs), so nothing on
   // the page waits for a rebuild or goes stale.
   const LIMIT = 6;
-  const candidates = [...[...c.upcoming].reverse(), ...c.past];
+  const candidates = c.ordered;  // newest first: talks still to come lead, same-day talks keep their file order
   const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
   const recent = candidates.filter((ev) => c.STATES.some((k) => recentIn(k).includes(ev)));
   // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
@@ -74,7 +74,7 @@ export function render(c) {
       </li>`)}
     </ul>
     <p class="row__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>
-    ${c.credits(recent.map((ev) => ({ ...ev, __show: c.show((k) => recentIn(k).includes(ev)) })))}
+    ${c.credits(recent, (ev, k) => recentIn(k).includes(ev))}
   </div>
 </section>`;
 

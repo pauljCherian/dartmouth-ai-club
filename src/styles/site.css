@@ -147,18 +147,15 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 /* On very wide screens the content stops at 1920px, flush left: photos stay a sensible size and every row
    stays readable. The header and footer stop at the same edge, and so do their rules. */
 main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
-.block { margin-bottom: clamp(56px, 7vw, 112px); }
-.subhead { margin-top: clamp(48px, 6vw, 88px); margin-bottom: 20px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: var(--t-5); font-weight: 700; }
 .muted { color: var(--gray); }
 .credits { margin-top: clamp(32px, 4vw, 56px); max-width: 48em; font-size: var(--t-6); line-height: 1.5; color: var(--gray); }
-.credits a { color: inherit; }
+.credits a:not(:hover) { color: inherit; }
 .nowrap { white-space: nowrap; }
 .tnum { font-variant-numeric: tabular-nums; }
 
 /* ---------- Arrow (our wayfinding glyph) ---------- */
 .arrow { display: inline-block; flex: none; height: 0.62em; width: auto; fill: currentColor; vertical-align: -0.02em; }
 .arrow--ne { height: 0.7em; vertical-align: -0.04em; }
-.arrow--w { transform: rotate(180deg); }
 .link-arrow {
   display: inline-flex;
   flex-wrap: wrap;  /* very large text in a narrow column: the arrow goes under the words rather than off-screen */
@@ -291,7 +288,6 @@ html:not(.js) .menu-button { display: none; }
 }
 .site-menu__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
 .site-menu__nav .is-join { color: var(--green); }
-.site-menu__nav .is-minor { margin-top: 28px; font-size: var(--t-3); letter-spacing: 0; }
 .site-menu__foot { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: var(--t-5); }
 .site-menu__foot a { display: inline-block; padding-block: 3px; text-decoration: none; }
 @media (prefers-reduced-motion: no-preference) {
@@ -300,7 +296,6 @@ html:not(.js) .menu-button { display: none; }
 }
 @media (max-height: 31.25em) {
   .site-menu__nav { padding-block: 12px; }
-  .site-menu__nav .is-minor { margin-top: 10px; }
 }
 @media (min-width: 56.25em) { .site-menu { display: none !important; } }
 .menu-open, .menu-open body { overflow: hidden; }
@@ -506,13 +501,12 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .row__body { grid-column: 5 / -1; }
 }
 /* Inner pages: the page title already opens the page, so its sections sit closer to it and to each other. */
-.page-head + .row, .page-head ~ .row { padding-block: clamp(32px, 4.5vw, 64px); }
+.page-pad .row { padding-block: clamp(32px, 4.5vw, 64px); }
 .row__more { margin-top: clamp(32px, 4vw, 56px); font-size: var(--t-4); }
 
 /* ---------- Who we are ---------- */
 .about__text { font-size: var(--t-3); line-height: 1.3; letter-spacing: -0.005em; max-width: 30em; }
 .about__photo { margin-top: clamp(40px, 5vw, 64px); }
-.about__photo figcaption { margin-top: 10px; font-size: var(--t-6); color: var(--gray); }
 
 /* ---------- Numbered markers (green: these are steps or lines) ---------- */
 .bullet {
@@ -538,12 +532,10 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 
 /* ---------- People grids (speakers on home, team) ---------- */
 .people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--gap); }
-@media (min-width: 56.25em) { .people--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 43.75em) { .people--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .person { min-width: 0; }
 .person__name { margin-top: 14px; font-size: var(--t-4); line-height: 1.2; }
 .person__meta { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
-.person__meta strong { color: var(--ink); font-weight: 700; }
 .person__date { margin-top: 6px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
 .person > .person__social { margin: 6px 0 -4px -4px; }  /* the mark 10px under the role, its left edge on the column */
 
@@ -561,39 +553,25 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .site-footer__text, .talk__desc, .step__body p, .about__text, .notfound__text,
 .talk__affil, .person__meta, .list-rows__meta { text-wrap: pretty; }
 
-/* ---------- Talks list (speakers page): the home tile's record (name, role, date last) plus one line ---------- */
+/* ---------- Talks list (speakers page): the home tile's record, laid sideways, plus one line ---------- */
+/* Same sizes, colours and order as the tiles (name, role, line, date last), at every width. */
 .talk {
   display: grid;
   grid-template-columns: 84px minmax(0, 1fr);
-  grid-template-rows: auto 1fr;  /* spare height goes under the date, not between the lines */
-  grid-template-areas: "photo body" "photo date";
   column-gap: 16px;
-  row-gap: 10px;
   padding-bottom: 24px;
   margin-bottom: 24px;
   border-bottom: 1px solid var(--rule);
 }
+@media (min-width: 56.25em) { .talk { grid-template-columns: max(128px, 6rem) minmax(0, 1fr); column-gap: var(--gap); padding-bottom: 32px; margin-bottom: 32px; } }
 /* Rules between talks only; the section's hairline is the first. A talk added before it happens is the first item
    and stays hidden until it has ended, so :first-child can't mark the top; the last, the oldest talk, always shows. */
 .talk:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: 0; }
-.talk__photo { grid-area: photo; }
-.talk__body { grid-area: body; min-width: 0; }
-.talk__name { font-size: var(--t-3); line-height: 1.15; letter-spacing: -0.01em; }
-.talk__affil { margin-top: 4px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
+.talk__body { min-width: 0; }
+.talk__name { font-size: var(--t-4); line-height: 1.2; }
+.talk__affil { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
 .talk__desc { margin-top: 10px; max-width: 34em; }
-.talk__date { grid-area: date; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
-@media (min-width: 56.25em) {
-  .talk {
-    grid-template-columns: max(128px, 6rem) minmax(0, 1fr) auto;
-    grid-template-rows: auto;
-    grid-template-areas: "photo body date";
-    column-gap: var(--gap);
-    padding-bottom: 32px;
-    margin-bottom: 32px;
-  }
-  .talk__body, .talk__date { align-self: baseline; }  /* the date on the name's baseline */
-  .talk__date { text-align: right; white-space: nowrap; }
-}
+.talk__date { margin-top: 10px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
 
 /* ---------- Faculty advisors ---------- */
 .list-rows > li { padding-block: 18px; border-top: 1px solid var(--rule); }
@@ -602,19 +580,10 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .list-rows__title { font-size: var(--t-4); font-weight: 700; line-height: 1.3; }
 .list-rows__meta { margin-top: 2px; font-size: var(--t-5); color: var(--gray); }
 
-/* ---------- Steps (join page) ---------- */
-.steps { display: grid; gap: 0; }
-.step {
-  display: grid;
-  grid-template-columns: 2.125rem minmax(0, 1fr);
-  column-gap: 18px;
-  row-gap: 10px;
-  padding-block: clamp(28px, 4vw, 44px);
-  border-top: 1px solid var(--rule);
-}
-.step__title { font-size: var(--t-2); letter-spacing: -0.025em; line-height: 1.05; align-self: start; }
-.step .bullet { align-self: start; margin-top: calc(var(--t-2) * 0.4365 - 1em); }  /* cap middle at 0.4365em with line-height 1.05 */
-.step__body { grid-column: 2; max-width: 34em; }
+/* ---------- Steps (join page): sections like any other, the heading led by its green number ---------- */
+.step__title { display: grid; grid-template-columns: 2.125rem minmax(0, 1fr); column-gap: 14px; align-items: start; }
+.step__title .bullet { margin-top: calc(var(--t-2) * 0.4615 - 1em); }  /* on the capitals' middle: line-height 1.1 puts it 0.4615em down */
+.step__body { max-width: 34em; }
 .step__body > * + * { margin-top: 16px; }
 .step__note { font-size: var(--t-5); color: var(--gray); }
 .socials { display: flex; flex-wrap: wrap; gap: 8px 20px; }
@@ -668,27 +637,14 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .site-footer a:not(.button) { text-decoration: none; }
 .site-footer a:not(.button):hover { text-decoration: underline; }
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+.site-footer__nav .is-join { color: var(--green); }
+.site-footer__nav .is-join:hover { color: var(--green-deep); }
 .site-footer__legal { grid-column: 1 / -1; margin-top: clamp(16px, 4vw, 48px); color: var(--gray); }
 @media (min-width: 56.25em) {
   .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); }
   .site-footer__join { grid-column: 1 / span 4; }
   .site-footer__nav { grid-column: 5 / span 3; grid-row: 1; }  /* beside the invitation, or alone on /join */
   .site-footer__contact { grid-column: 8 / span 5; grid-row: 1; }
-}
-
-/* ---------- Review notes (preview builds only) ---------- */
-.review-flag {
-  display: inline-block;
-  margin-left: 0.4em;
-  padding: 1px 6px 0;
-  border: 1px solid currentColor;
-  color: var(--gray);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.5;
-  text-transform: uppercase;
-  vertical-align: 0.3em;
 }
 
 /* ---------- Motion and print ---------- */
@@ -701,7 +657,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .page-head { padding-top: 12px; }  /* the paper margin is the space above the title; 12px clears its letters */
   .hero { margin-bottom: 0 !important; }  /* site.js spacing for the hand-off */
   .talk, .person, .step { break-inside: avoid; }
-  h1, h2, h3, h4, .subhead { break-after: avoid; }
+  h1, h2, h3, h4 { break-after: avoid; }
   /* The hand-off rules are screen-only, so print gets the static hero. Undo the script's inline styles. */
   .hero__title, .hero__tagline, .hero__frame, .hero__img, .hero__caption { transform: none !important; opacity: 1 !important; }
   .hero__img, .hero__caption { width: auto !important; height: auto !important; }

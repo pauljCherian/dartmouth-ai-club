@@ -107,9 +107,15 @@
         var hadFocus = active && (active === button || panel.contains(active));
         if (!panel.hidden) close(false);
         if (!hadFocus) return;
-        var nav = document.querySelectorAll('.site-nav a[href]'), target = nav[0];
+        // The matching control on a laptop: the same address; for Home that is the logo (outside .site-nav), used
+        // only while it can take focus (on the home page it is hidden until the hand-off has docked it).
+        var nav = document.querySelectorAll('.site-logo, .site-nav a[href]'), target = null;
         var href = active.getAttribute && active.getAttribute('href');
-        for (var i = 0; i < nav.length; i++) if (href && nav[i].getAttribute('href') === href) target = nav[i];
+        for (var i = 0; i < nav.length; i++) {
+          if (!href || nav[i].getAttribute('href') !== href) continue;
+          if (getComputedStyle(nav[i]).visibility !== 'hidden') target = nav[i];
+        }
+        target = target || document.querySelector('.site-nav a[href]');
         if (target) target.focus({ preventScroll: true });
       } else if (active && active.closest && active.closest('.site-nav')) {
         button.focus({ preventScroll: true });

@@ -22,20 +22,16 @@ export function render(c) {
   <p class="page-lead">Open to Dartmouth students, whatever you study. No&nbsp;experience required.</p>
 </header>
 
-<section class="wrap block" aria-label="How to join">
-  <ol class="steps">
-    <li class="step" id="get-link">
-      <span class="bullet" aria-hidden="true">1</span>
-      <h2 class="step__title">Get the GroupMe link.</h2>
-      <div class="step__body">${step1}</div>
-    </li>
-    <li class="step">
-      <span class="bullet" aria-hidden="true">2</span>
-      <h2 class="step__title">Come to a meeting.</h2>
-      <div class="step__body"><p>Each week’s time and room are posted in the GroupMe.</p></div>
-    </li>
-  </ol>
-</section>`;
+<ol class="steps" aria-label="How to join">
+  <li class="row wrap step" id="get-link">
+    <h2 class="row__title step__title"><span class="bullet" aria-hidden="true">1</span><span>Get the GroupMe link.</span></h2>
+    <div class="row__body step__body">${step1}</div>
+  </li>
+  <li class="row wrap step">
+    <h2 class="row__title step__title"><span class="bullet" aria-hidden="true">2</span><span>Come to a meeting.</span></h2>
+    <div class="row__body step__body"><p>Each week’s time and room are posted in the GroupMe.</p></div>
+  </li>
+</ol>`;
 
   return c.layout({
     page: 'join',

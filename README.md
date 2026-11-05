@@ -4,7 +4,7 @@ The site at [aiclub.dartmouth.edu](https://aiclub.dartmouth.edu). Plain HTML, CS
 
 ## Change the content
 
-Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel rebuilds the site.
+The talks, the people, the links and the contact live in `content/`: edit the JSON, commit, push, and Vercel rebuilds the site. The sentences on each page are in the page itself: `src/pages/index.mjs` (the four lines and About), `src/pages/join.mjs`, `src/pages/speakers.mjs` (its lead), `src/pages/404.mjs`, and the footer's invitation in `src/lib/core.mjs`.
 
 | File | What it holds |
 | --- | --- |
@@ -12,11 +12,11 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
 | `content/team.json` | The officers and their academic year (`officers_term`), and the faculty advisors |
 
-What is not on the site, on purpose: the meeting night and room, a member count, and anything an officer hasn't confirmed. The night and room change every term, so /join says the GroupMe posts them; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
+What is not on the site, on purpose: the meeting night and room, a member count, and claims nobody can check. Facts still waiting for an officer's answer are listed on the review page of the preview. The night and room change every term, so /join says the GroupMe posts them; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
 
 ### Add a speaker
 
-Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Every talk shows the same things: their photo, who they are, what they do, and when they came.
+Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Every talk shows the same things in the same order: their photo, who they are, what they do, and when they came (the home page leaves out the one line on their work).
 
 ```json
 {
@@ -54,7 +54,7 @@ python3 tools/images.py all
 
 That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, and the link-preview image `public/og.jpg` (the group photo beside the logo), never upscales, converts to sRGB, and strips all metadata including location. People without a usable photo are listed under `missing` and get a neutral initials tile on the site. Any other `photo` id without an image stops the build, so a typo can't slip through.
 
-For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes. Crops marked `"frac": true` (the Yann LeCun tile is cut from the group photo) are fractions of the image, so they stay right when a larger copy of the same photo replaces it.
+For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes. Crops marked `"frac": true` (none uses it now) are fractions of the image, so they stay right when a larger copy of the same photo replaces it.
 
 `assets-src/brand/og-logo.png` is the logo for `og.jpg`, rendered from `src/svg/logo-display.svg` (ink on transparent, 544px wide); `public/logo-512.png`, the square logo search engines show, is the same lockup 400px wide on paper. Render both again if the logo changes.
 
@@ -76,11 +76,11 @@ BUILD_NOW=2026-11-07T12:00:00-05:00 npm run build   # pretend it is another date
 ALLOW_MISSING=1 npm run build      # development only: placeholders for missing fonts and portraits instead of stopping
 ```
 
-The build stops with a list of problems if content is invalid (including a talk time with the wrong offset), a photo or font is missing, or any internal link, anchor, icon or redirect target is broken.
+The build stops with a list of problems if content is invalid (including a talk date that doesn't exist, or a field the site no longer uses), a photo or font is missing, or any internal link, anchor, icon or redirect target is broken.
 
 ## Deploy
 
-Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials` to `/speakers`; `/resources`, `/reading-lists` and `/reading` to the home page). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu. Fonts are published under names that include a hash of their contents, so browsers can keep them for a year and still get a replaced font at once.
+Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials` and the old poster address `/images/chetan-patel-poster.png` to `/speakers`; `/resources`, `/reading-lists` and `/reading` to the home page). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu. Fonts are published under names that include a hash of their contents, so browsers can keep them for a year and still get a replaced font at once.
 
 ### Optional: rebuild every morning
 
@@ -115,12 +115,12 @@ jobs:
 ## Folders
 
 ```
-content/        what the site says (edit these)
+content/        the talks, people, links and contact (edit these)
 src/pages/      one file per page
 src/lib/        shared header, footer, layout and helpers
 src/styles/     site.css
 src/scripts/    site.js (hand-off, mobile menu, talks that have just happened)
-src/svg/        logo lockups and arrows
+src/svg/        logo lockups, arrows, and the Instagram and LinkedIn marks
 public/         copied as-is: fonts, images, icons
 tools/          build.mjs, serve.mjs, images.py
 assets-src/     metadata-free originals of the photos, and the logo for og.jpg (not published)
