@@ -1,123 +1,211 @@
 import { html, esc } from '../lib/core.mjs';
 
-// Preview-only page for the board: decisions, facts to confirm, assets still needed, QA notes.
+// Preview-only page for the board: every element and why it is there, open choices, facts to confirm, what we
+// still need, and what was tested. Never built into the live site.
 export const page = { id: 'review', path: '/review', out: 'review.html' };
 
 export function render(c) {
-  const { site, speakers } = c.content;
-  const content = c.content;
+  const { site, speakers, team } = c.content;
   const files = c.reviewFiles || new Set();
   const qa = c.reviewQA || null;
   const img = (file, alt, cap) =>
     files.has(file)
       ? html`<figure class="review-fig"><a href="review/${file}" target="_blank" rel="noopener"><img src="review/${file}" alt="${esc(alt)}" loading="lazy"></a>${cap ? html`<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`
       : html`<p class="muted">(${esc(alt)}: not generated yet)</p>`;
+  const table = (label, head, rows) => html`<div class="review-scroll" tabindex="0" role="region" aria-label="${esc(label)}"><table class="review-table">
+    <thead><tr>${head.map((h) => html`<th scope="col">${esc(h)}</th>`)}</tr></thead>
+    <tbody>${rows.map(([a, ...rest]) => html`<tr><th scope="row">${esc(a)}</th>${rest.map((x) => html`<td>${esc(x)}</td>`)}</tr>`)}</tbody>
+  </table></div>`;
+
+  // Every element on the site: what it is, keep / cut / change, and the reason. The patterns it follows are the
+  // rules in the next section.
+  const log = [
+    ['Every page', [
+      ['Header logo', 'Changed', 'Opened slightly (the lines are about 20% of a letter apart, not 12%). At 104–116 px on an ordinary screen the tighter setting left under 2 px between the lines. The big home title stays tight; the two now have the same proportions, so the hand-off swaps one for the other without a jump.'],
+      ['Header links', 'Kept', 'Speakers, Team, Join the club. No “Home” on laptops: the logo is the home link and sits right beside them.'],
+      ['Phone menu', 'Changed', '“Home” added first. On a phone the menu is the full list of pages, so it lists all four and underlines the one you are on.'],
+      ['Section headings', 'Changed', 'One heading per section, top left, large and regular weight (Vitsœ’s pattern). The small bold labels are gone everywhere, not just “Join”.'],
+      ['Rules', 'Changed', 'One gray hairline above each section, from margin to margin. No ink rules.'],
+      ['Footer', 'Changed', 'Vitsœ’s layout: the invitation to join (on every page but /join), the page links, the contact. The second logo is gone: the header already shows it on the same screen.'],
+      ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says the GroupMe posts each week’s time and room.'],
+      ['© line', 'Kept', 'A convention (Vitsœ has one). It shows the year of the last build.'],
+    ]],
+    ['Home', [
+      ['Title, tagline, photo and hand-off', 'Kept', 'The one moment of motion. The photo is the strongest reason to join.'],
+      ['Photo caption', 'Changed', '“The club with Yann LeCun.” Hanover is obvious; the date is on /speakers, and on the home page it made the site look older every month.'],
+      ['“Who we are” label', 'Cut', 'The four lines are now that section’s heading.'],
+      ['Four lines', 'Kept', 'The most memorable copy on the site, now the heading.'],
+      ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is.'],
+      ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
+      ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link; the green discs mean “steps” everywhere else.'],
+      ['Speakers', 'Kept', 'The six most recent talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
+      ['Join section', 'Moved', 'Into the footer, so every page ends with it. The button says what happens next: “How to join →”.'],
+    ]],
+    ['Speakers', [
+      ['Lead', 'Changed', 'Adds “New talks are announced in the GroupMe.”: the job the Next block did, without anyone updating the site.'],
+      ['Next', 'Cut', 'Nobody would keep it current.'],
+      ['Each talk', 'Changed', 'The same five things for everyone: photo, name, role at the time of the talk, one line on their own work, date. No format, interviewer, room, poster or talk title.'],
+      ['Year', 'Changed', 'A section heading like any other.'],
+      ['Member sessions', 'Cut', 'A dated archive that stopped in April. Three of its topics now appear as examples in About.'],
+      ['Reading list page', 'Cut', 'Expert titles say “experts only” to a beginner, and nobody would keep it current. /reading goes to the home page.'],
+    ]],
+    ['Team', [
+      ['Lead', 'Cut', 'It repeated the two section headings.'],
+      ['Officers', 'Changed', `“Officers, ${team.officers_term}”: when nobody updates it, the list reads as old, not wrong.`],
+      ['LinkedIn', 'Changed', 'The LinkedIn mark instead of the word, as in the footer.'],
+      ['Faculty advisors', 'Changed', 'Name and school only: a rank changes with promotions.'],
+    ]],
+    ['Join', [
+      ['Step 2', 'Changed', '“Each week’s time and room are posted in the GroupMe.”'],
+      ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact and the social marks.'],
+    ]],
+    ['404', [
+      ['Sentence and links', 'Changed', '“This page doesn’t exist.” and one link home; the header and footer carry the rest.'],
+    ]],
+  ];
+
+  const considered = [
+    ['Phone links in the header instead of a menu', 'One reviewer’s idea. “Join the club” does not fit beside the logo on a 320 px phone, and very large text would wrap the header. Your reference, Vitsœ, uses a menu.'],
+    ['No speaker descriptions', 'Three reviewers argued for name, role and date only. Kept because you asked for a description on every talk; the rule keeps them honest: one line, under about 90 characters, about the person’s own work at the time of the talk. The live build refuses to run while one is missing.'],
+    ['Officers without photos', 'Faces make the club approachable. Needs head-and-shoulders photos of the two officers shown as initials.'],
+    ['Cutting the four lines', 'Two reviewers. Kept: they are now the section’s only heading.'],
+    ['Cutting the © line', 'Three reviewers. Kept: it is the convention, and Vitsœ keeps it.'],
+    ['“Join the club” in the phone header', 'The menu and the footer of every page carry it.'],
+    ['Tab icon from the wordmark', 'Two reviewers: inside the site ↗ means “leaves the site”. Your earlier choice is kept; easy to change.'],
+  ];
+
+  const open = [
+    ['Hero motion', 'Hand-off: the title shrinks into the header logo.', 'Logo visible from the start; the title fades as the photo grows.'],
+    ['Hero photo', 'Starts black-and-white and turns to color as it grows (the “#mono” link above).', 'Full color from the start, lightly corrected (built as the default until you decide).'],
+    ['Speaker and team photos', 'Ink-and-paper monochrome, one crop for everyone.', 'Color, balanced for consistency.'],
+  ];
 
   const confirmations = [
-    ['Tagline', `“${site.tagline}”`, 'Draft I wrote to replace “the best undergrad AI club”: a claim nobody can check.'],
-    ['Who we are', '“Read the paper. Build the thing. Meet the makers. Bring a friend.”', 'Shortened from “Meet the people who made it.”, which broke onto two lines on most laptops; now each sentence fits one line at every width.'],
-    ['Members', String(site.members.count), site.members.source],
-    ...(site.claims?.build_nights ? [['Build nights', `“…, ${site.claims.build_nights.about}.” in Who we are${site.claims.build_nights.fact ? `, and the fact “Build nights: ${site.claims.build_nights.fact}”` : ''}`, `${site.claims.build_nights.source}. A pitch script, not a confirmed fact: delete claims.build_nights in content/site.json to remove it everywhere.`]] : []),
-    ...(site.claims?.majors ? [['Majors', `“${site.claims.majors.about}” in Who we are`, `${site.claims.majors.source}. Delete claims.majors in content/site.json to remove it.`]] : []),
-    ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both programs. Are they still running? If so, they could replace the placeholder pillars below.'],
-    ['Hero caption', site.hero.caption, site.hero.caption_source],
-    ['Research groups, Nonprofits', 'Pillar descriptions', 'Placeholder copy. What do these programs actually do?'],
-    ['Who can join', '“Open to Dartmouth students, whatever you study.”', 'Undergraduates only, or graduate students too?'],
-    ['Contact email', site.contact.email, 'You chose a person over the long official address; one line in content/site.json to change.'],
-    ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role, s.confirm]),
-    ['Soroush Vosoughi', 'Associate Professor', 'Corrected from “Professor”: Dartmouth’s faculty directory lists him as Associate Professor of Computer Science.'],
+    ['Tagline', `“${site.tagline}”`, 'My draft, replacing “the best undergrad AI club”: a claim nobody can check.'],
+    ['About', '“meets every week … from how transformers work to adversarial attacks and LLMs for math”', 'From the club’s session archive (Jan–Apr 2026). Still weekly this term?'],
+    ['Who can join', '“Open to Dartmouth students, whatever you study.”', 'The constitution on the old site says “open to all members of the Dartmouth community”. Graduate students too?'],
+    ['Contact email', site.contact.email, 'A personal address stops reaching the club at the next handover. The old site used daic@dartmouth.edu until Dec 2025: is anyone reading it? One line in content/site.json.'],
+    ['Officers', `Officers, ${team.officers_term}`, 'Right year and names?'],
+    ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
+    ['Research groups', 'Not on the new site', 'You have three VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
+    ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role || '(no role yet)', s.confirm]),
   ];
 
   const needed = [
-    ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284. Export as JPEG (maximum quality, full size, location unchecked) and share a Google Drive link. Everything else is automatic.'],
-    ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. Goes in “Who we are”.'],
-    ['Yann LeCun', 'A photo of him from the visit. His tile is cut from the group photo around where he stands, so it is soft until the full-resolution original arrives (then it sharpens by itself); a portrait of him would be better still.'],
-    ['Ted Li', 'A larger photo (the only one we have is 361 × 343 px).'],
-    ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos. The current ones are full- and half-length, so the faces are only about 55 and 75 px tall.'],
-    ['Paul Cherian, Lisa Samoylov, Sean Noh', 'Larger originals, at least 1000 px wide. The current files are about 500 px, a little soft on large high-resolution screens (the Team page is now capped so they are never shown much larger than that).'],
-    ['Mazda Moayeri', 'The original photo. It is currently cut out of the event poster.'],
-    ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link (setup steps in my message).'],
-    ['Socials', 'Instagram and LinkedIn URLs. Empty links are hidden on the live site.'],
-    ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile (LinkedIn blocks automated checks).'],
+    ['Ted Li', 'Who he is: his LinkedIn, or his role on Feb 4, 2026 and one line on his work. The site shows nothing about him until then. Also a larger photo (the only one is 361 × 343 px).'],
+    ['Yann LeCun', 'A photo of him from the visit. The portrait on the site is from Wikimedia Commons, and its licence requires the credit line under the speakers; a club photo removes it.'],
+    ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos (shown as initials until then).'],
+    ['Paul Cherian, Lisa Samoylov, Sean Noh', 'Larger originals, at least 1000 px wide.'],
+    ['Mazda Moayeri', 'The original photo; it is currently cut out of the event poster.'],
+    ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284, exported as JPEG at full size with location unchecked.'],
+    ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. It would go under the About text.'],
+    ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link. Then step 1 on /join becomes one button.'],
+    ['Socials', 'Instagram and LinkedIn URLs. The marks are built and appear as soon as the links exist.'],
+    ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
   ];
 
   const main = html`
 <style>
   .review-table { width: 100%; border-collapse: collapse; font-size: var(--t-5); }
   .review-table th, .review-table td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-top: 1px solid var(--rule); }
+  .review-table tr:first-child > * { border-top: 0; }
   .review-table th { font-weight: 700; }
-  .review-table thead th { white-space: nowrap; }
-  .review-table tbody th { min-width: 7em; max-width: 14em; }
+  .review-table thead th { white-space: nowrap; color: var(--gray); font-weight: 400; }
+  .review-table tbody th { min-width: 8em; max-width: 14em; }
+  .review-table td:nth-child(2) { white-space: nowrap; }
   .review-scroll { overflow-x: auto; }
-  .review-grid { display: grid; gap: 28px var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
-  .review-fig img { width: 100%; height: auto; border: 1px solid var(--rule); background: #fff; }
+  .review-scroll + .review-scroll, .review-sub + .review-scroll { margin-top: 8px; }
+  .review-sub { margin-top: 40px; font-size: var(--t-4); font-weight: 700; }
+  .review-sub:first-child { margin-top: 0; }
+  .review-grid { display: grid; gap: 28px var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); }
+  .review-fig img { width: 100%; height: auto; border: 1px solid var(--rule); background: var(--paper); }
   .review-fig figcaption { margin-top: 8px; font-size: var(--t-6); color: var(--gray); }
   .review-list > li { padding-block: 14px; border-top: 1px solid var(--rule); }
+  .review-list > li:first-child { padding-top: 0; border-top: 0; }
   .review-list strong { display: block; }
-  .review-h { margin-top: clamp(48px, 6vw, 88px); }
-  .review-variants { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 16px; font-size: var(--t-4); }
+  .review-text { max-width: 34em; }
+  .review-text + * { margin-top: 16px; }
+  .review-variants { display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: var(--t-4); }
+  .review-rules { display: grid; gap: 10px; max-width: 40em; }
+  .review-rules li { padding-left: 1.1em; text-indent: -1.1em; }
+  .review-rules li::before { content: "–"; display: inline-block; width: 1.1em; text-indent: 0; }
 </style>
 <header class="page-head wrap">
   <h1 class="page-title">Design review</h1>
-  <p class="page-lead">For the board, not the public. What to look at, what needs a decision, and what we still need from you. This page is never built into the live site.</p>
+  <p class="page-lead">For the board, not the public. Every element and why it is there, what still needs a decision, and what we need from you. This page is never built into the live site.</p>
 </header>
 
-<section class="wrap block" aria-labelledby="look-h">
-  <h2 class="year" id="look-h">How to look at it</h2>
-  <p class="page-lead" style="margin-top:12px">Open the home page and scroll slowly. The title hands off to the header while the photo grows. Then do it on your phone. Two variants exist only for comparison:</p>
-  <p class="review-variants">
-    <a class="link-arrow" href="${c.link('home')}">Hand-off, as built ${c.arrow('e')}</a>
-    <a class="link-arrow" href="index.html#logo">Logo visible from the start ${c.arrow('e')}</a>
-    <a class="link-arrow" href="index.html#mono">Black-and-white photo turning to color ${c.arrow('e')}</a>
-    <a class="link-arrow" href="${c.link('404')}">404 page ${c.arrow('e')}</a>
-  </p>
-</section>
-
-<section class="wrap block" aria-labelledby="dec-h">
-  <h2 class="year" id="dec-h">Decisions</h2>
-  <div class="review-scroll" tabindex="0" role="region" aria-label="Decisions"><table class="review-table">
-    <thead><tr><th scope="col">Decision</th><th scope="col">Recommended</th><th scope="col">Alternative</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Hero motion</th><td>Hand-off: the title shrinks into the header logo.</td><td>Logo visible from the start; the title fades as the photo grows.</td></tr>
-      <tr><th scope="row">Hero photo</th><td>Leaning: starts black-and-white, turns to color as it grows (the “#mono” link above). The first screen becomes one monochrome poster with a single green action, like the portraits.</td><td>Full color from the start, lightly corrected (built as the default until you decide).</td></tr>
-      <tr><th scope="row">Tab icon</th><td>A: off-white arrow on an ink square.</td><td>B: green square. C: “DA/AI” crop of the logo.</td></tr>
-      <tr><th scope="row">Speaker and team photos</th><td>Ink-and-paper monochrome, one crop for everyone.</td><td>Color, balanced for consistency.</td></tr>
-      <tr><th scope="row">Speakers on the home page</th><td>The six most recent in two rows of three. Today that is every past guest; from the seventh talk on, the oldest move to the Speakers page only.</td><td>Every past guest on the home page, so the section grows each term.</td></tr>
-    </tbody>
-  </table></div>
-  <h3 class="subhead review-h">Tab icon candidates</h3>
-  ${img('favicon-comparison.png', 'Tab icon candidates at real size on light and dark browser tabs', 'D shows the full name squeezed into a tab icon: unreadable, which is why the icon cannot simply be the logo.')}
-  <h3 class="subhead review-h">Photo treatment</h3>
-  <div class="review-grid">
-    ${img('portraits-duo.png', 'All portraits in ink-and-paper monochrome', 'Monochrome: mismatched sources start to look like one set.')}
-    ${img('portraits-color.png', 'All portraits in balanced color', 'Color: better, but the sources still disagree.')}
+<section class="row wrap" aria-labelledby="look-h">
+  <h2 class="row__title" id="look-h">How to look at it</h2>
+  <div class="row__body">
+    <p class="review-text">Open the home page and scroll slowly: the title hands off to the header while the photo grows. Then do it on your phone. Two variants exist only for comparison.</p>
+    <p class="review-variants">
+      <a class="link-arrow" href="${c.link('home')}">Hand-off, as built ${c.arrow('e')}</a>
+      <a class="link-arrow" href="index.html#logo">Logo visible from the start ${c.arrow('e')}</a>
+      <a class="link-arrow" href="index.html#mono">Black-and-white photo turning to color ${c.arrow('e')}</a>
+      <a class="link-arrow" href="${c.link('404')}">404 page ${c.arrow('e')}</a>
+    </p>
   </div>
-  <h3 class="subhead review-h">Hero photo correction</h3>
-  ${img('hero-before-after.png', 'The group photo before and after correction', 'Left: as sent. Right: warm cast reduced, shadows opened slightly, no haze.')}
-  <h3 class="subhead review-h">Link preview</h3>
-  <figure class="review-fig" style="max-width:720px"><img src="${c.asset('og.jpg')}" alt="The link preview: the whole group photo beside the two-line logo" loading="lazy"><figcaption>What iMessage, Slack and LinkedIn show when someone shares the site. The whole photo, nothing cut; it is rebuilt with the hero photo.</figcaption></figure>
-  <h3 class="subhead review-h">Logo</h3>
-  ${img('logo-specimen.png', 'The lockup at display and small sizes', 'Display size: tighter letterspacing and leading. Small size: looser, so the two lines never touch.')}
 </section>
 
-<section class="wrap block" aria-labelledby="confirm-h">
-  <h2 class="year" id="confirm-h">Copy and facts to confirm</h2>
-  <div class="review-scroll" tabindex="0" role="region" aria-label="Copy and facts to confirm"><table class="review-table">
-    <thead><tr><th scope="col">Item</th><th scope="col">On the site now</th><th scope="col">Why it needs a look</th></tr></thead>
-    <tbody>${confirmations.map(([a, b, d]) => html`<tr><th scope="row">${esc(a)}</th><td>${esc(b)}</td><td>${esc(d)}</td></tr>`)}</tbody>
-  </table></div>
+<section class="row wrap" aria-labelledby="rules-h">
+  <h2 class="row__title" id="rules-h">The rules</h2>
+  <div class="row__body">
+    <ul class="review-rules">
+      <li>Everything on the site does a job, or is a convention people expect. If it would go wrong without anyone editing it, it isn’t on the site.</li>
+      <li>A page has one giant title. A section has one heading, top left, and its content on the right, under a gray hairline.</li>
+      <li>Green means you can act: the Join links and buttons, hover, focus. Numbered green discs mean steps, and only appear on /join.</li>
+      <li>→ goes somewhere on this site; ↗ leaves it. A network’s own mark (Instagram, LinkedIn) needs neither.</li>
+      <li>A speaker is shown the same way everywhere: photo, name, role at the time of the talk, date last. The Speakers page adds one line on their work.</li>
+      <li>Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don’t (“Speakers”, “Team”).</li>
+    </ul>
+  </div>
 </section>
 
-<section class="wrap block" aria-labelledby="need-h">
-  <h2 class="year" id="need-h">Still needed from you</h2>
-  <ul class="review-list">${needed.map(([a, b]) => html`<li><strong>${esc(a)}</strong>${esc(b)}</li>`)}</ul>
+<section class="row wrap" aria-labelledby="log-h">
+  <h2 class="row__title" id="log-h">Every element</h2>
+  <div class="row__body">
+    ${log.map(([pg, rows]) => html`<h3 class="review-sub">${esc(pg)}</h3>${table(pg, ['Element', 'Decision', 'Why'], rows)}`)}
+    <h3 class="review-sub">Considered, not done</h3>
+    ${table('Considered, not done', ['Idea', 'Why not'], considered)}
+  </div>
+</section>
+
+<section class="row wrap" aria-labelledby="dec-h">
+  <h2 class="row__title" id="dec-h">Open choices</h2>
+  <div class="row__body">
+    ${table('Open choices', ['Choice', 'Recommended', 'Alternative'], open)}
+    <h3 class="review-sub">Photo treatment</h3>
+    <div class="review-grid">
+      ${img('portraits-duo.png', 'All portraits in ink-and-paper monochrome', 'Monochrome: mismatched sources start to look like one set.')}
+      ${img('portraits-color.png', 'All portraits in balanced color', 'Color: better, but the sources still disagree.')}
+    </div>
+    <h3 class="review-sub">Hero photo correction</h3>
+    ${img('hero-before-after.png', 'The group photo before and after correction', 'Left: as sent. Right: warm cast reduced, shadows opened slightly, no haze.')}
+    <h3 class="review-sub">Link preview</h3>
+    <figure class="review-fig" style="max-width:720px"><img src="${c.asset('og.jpg')}" alt="The link preview: the whole group photo beside the two-line logo" loading="lazy"><figcaption>What iMessage, Slack and LinkedIn show when someone shares the site.</figcaption></figure>
+    <h3 class="review-sub">Logo</h3>
+    ${img('logo-specimen.png', 'The lockup at display and small sizes', 'Display size (the home title): tight. Small size (the header): a little more open, so the lines stay apart on ordinary screens.')}
+  </div>
+</section>
+
+<section class="row wrap" aria-labelledby="confirm-h">
+  <h2 class="row__title" id="confirm-h">Facts to confirm</h2>
+  <div class="row__body">${table('Facts to confirm', ['Item', 'On the site now', 'Question'], confirmations)}</div>
+</section>
+
+<section class="row wrap" aria-labelledby="need-h">
+  <h2 class="row__title" id="need-h">Still needed</h2>
+  <div class="row__body"><ul class="review-list">${needed.map(([a, b]) => html`<li><strong>${esc(a)}</strong>${esc(b)}</li>`)}</ul></div>
 </section>
 
 ${qa ? html`
-<section class="wrap block" aria-labelledby="qa-h">
-  <h2 class="year" id="qa-h">What was tested</h2>
-  <div class="page-lead" style="margin-top:12px">${qa}</div>
-  ${img('qa-devices.png', 'The home page and hand-off on every tested screen size', 'Each column is one screen size; rows are the hand-off at the start, halfway and settled.')}
+<section class="row wrap" aria-labelledby="qa-h">
+  <h2 class="row__title" id="qa-h">What was tested</h2>
+  <div class="row__body">
+    <div class="review-text">${qa}</div>
+    ${img('qa-devices.png', 'The home page and hand-off on every tested screen size', 'Each column is one screen size; rows are the hand-off at the start, halfway and settled.')}
+  </div>
 </section>` : ''}`;
 
   return c.layout({ page: 'review', title: 'Design review', path: '/review', main, noindex: true });

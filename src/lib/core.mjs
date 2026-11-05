@@ -84,6 +84,10 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     })}</p>`;
   };
 
+  // A speaker's role or one-line description: the text, or in the preview a visible gap where it is still missing
+  // (the live build refuses to run without it).
+  const fill = (text, gap) => (text ? keepLast(text) : preview ? html`<span class="is-placeholder">${esc(gap)}</span>` : '');
+
   // A talk counts as past from midnight after its date in New York (Hanover), wherever the visitor is.
   const nyOffsetMs = (t) => {
     const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' });
@@ -157,6 +161,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
 </header>
 <nav class="site-menu" id="site-menu" aria-label="Menu" hidden>
   <div class="site-menu__nav wrap">
+    <a href="${link('home')}"${page === 'home' ? ' aria-current="page"' : ''}>Home</a>
     <a href="${link('speakers')}"${page === 'speakers' ? ' aria-current="page"' : ''}>Speakers</a>
     <a href="${link('team')}"${page === 'team' ? ' aria-current="page"' : ''}>Team</a>
     <a class="is-join" href="${link('join')}"${page === 'join' ? ' aria-current="page"' : ''}>Join the club</a>
@@ -167,23 +172,25 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   </div>
 </nav>`;
 
+  // Footer (Vitsoe's pattern): the invitation to join on the left, on every page but /join itself; the links and
+  // the contact on the right; the copyright line under them.
   const footer = (page) => html`
 <footer class="site-footer" id="contact">
   <div class="site-footer__inner wrap">
-    <div class="site-footer__brand"><a href="${link('home')}" aria-label="Dartmouth AI Club, home">${svg('logo-small')}</a></div>
+    ${page !== 'join' ? html`<section class="site-footer__join" aria-labelledby="footer-join-h">
+      <h2 class="site-footer__title" id="footer-join-h">Join the club.</h2>
+      <p class="site-footer__text">Open to Dartmouth students, whatever you study. Get the GroupMe link, then come to a&nbsp;meeting.</p>
+      <p class="site-footer__action"><a class="button" href="${link('join')}">How to join ${arrow('e')}</a></p>
+    </section>` : ''}
     <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">
       <ul>
-        ${[['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club']].map(([id, label]) => html`<li><a href="${link(id)}"${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
+        ${[['home', 'Home'], ['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club']].map(([id, label]) => html`<li><a href="${link(id)}"${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
       </ul>
     </nav>
     <div class="site-footer__contact">
-      <span class="label">Contact</span>
       <a class="site-footer__email" href="mailto:${esc(site.contact.email)}">${email(site.contact.email)}</a>
-    </div>
-    ${socials() ? html`<div class="site-footer__social">
-      <span class="label">Follow</span>
       ${socials('socials site-footer__socials')}
-    </div>` : ''}
+    </div>
     <p class="site-footer__legal">© ${now.getFullYear()} Dartmouth AI Club</p>
   </div>
 </footer>`;
@@ -296,7 +303,7 @@ ${preview ? script : ''}
   return {
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo,
-    upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits,
+    upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits, fill,
     STATES, endedIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
   };
 }

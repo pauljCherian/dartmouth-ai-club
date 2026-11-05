@@ -2,18 +2,19 @@
   {
     "id": "mazda-moayeri",
     "name": "Mazda Moayeri",
-    "role": "Research, Meta Superintelligence Labs",
-    "description": "",
+    "role": "Researcher, Meta Superintelligence Labs",
+    "description": "Studies why AI models fail, and builds tools to find and fix those failures.",
     "date": "2026-11-06",
     "photo": "mazda-moayeri",
     "photo_alt": "Mazda Moayeri speaking into a microphone.",
-    "source": "Event poster"
+    "source": "Club poster (Fri Nov 6, 2026); Lacuna and OpenReview profiles (Meta since 2025); UMD dissertation (2025); his papers 2021–2025",
+    "confirm": "Exact title at Meta (Researcher or Research Scientist): his poster says “Research at Meta Superintelligence Labs”. The line describes his published research (PhD, University of Maryland, 2025); his work at MSL is not public."
   },
   {
     "id": "yann-lecun",
     "name": "Yann LeCun",
-    "role": "Executive Chair, AMI Labs",
-    "description": "Turing Award laureate and Professor of Computer Science at NYU.",
+    "role": "Executive Chairman, AMI Labs",
+    "description": "Builds AI that learns how the physical world works, not just from text.",
     "date": "2026-10-29",
     "photo": "yann-lecun",
     "photo_alt": "",
@@ -23,49 +24,49 @@
       "license": "CC BY-SA 2.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
     },
-    "confirm": "Title updated from “Chief AI Scientist, Meta”: he co-founded AMI Labs in Dec 2025 (Executive Chair) and remains an NYU professor. Confirm the wording and the exact event date.",
-    "source": "Previous site + photo metadata"
+    "source": "Dartmouth AI at 70 schedule (keynote Thu Oct 29, 2026, 1:45 pm, presented by Peter Chin); ai.dartmouth.edu/people/yann-lecun; TechCrunch 2025-12-19 and 2026-01-23 (his own title: Executive Chairman); NYU Tandon 2026-05-04; club photo metadata (Oct 29)"
   },
   {
     "id": "christina-lu",
     "name": "Christina Lu",
-    "role": "Anthropic",
-    "description": "",
+    "role": "Interpretability researcher, Anthropic; PhD student, Oxford",
+    "description": "Studies what goes on inside AI models like Claude, especially the characters they play.",
     "date": "2026-04-14",
     "photo": "christina-lu",
     "photo_alt": "",
-    "confirm": "Role and description to confirm (the club calendar lists her as “Anthropic, Oxford”).",
-    "source": "Previous site; date from the club calendar (Tue Apr 14, 2026, 8–8:45 pm)"
+    "confirm": "Her formal Anthropic title on Apr 14 (Anthropic Fellow or Member of Technical Staff) is not public, so the line says what she did. She is a Dartmouth alumna (BA in Computer Science and Studio Art).",
+    "source": "Club calendar (Tue Apr 14, 2026, “Anthropic, Oxford”); christina.lu; Oxford CS profile; The Assistant Axis (Jan 2026); Natural Language Autoencoders (May 2026)"
   },
   {
     "id": "chetan-patel",
     "name": "Chetan Patel",
     "role": "Head of Data, Simile",
-    "description": "Simile models human decision-making to help companies predict how people will respond to products, strategies and scenarios.",
+    "description": "Leads the data behind AI that simulates how real people make decisions.",
     "date": "2026-05-05",
     "photo": "chetan-patel",
     "photo_alt": "",
-    "source": "Previous site + session archive"
+    "source": "Club poster for the May 5, 2026 fireside chat (Head of Data, leads the data function); his LinkedIn headline as indexed Nov 2026"
   },
   {
     "id": "andrew-milich",
     "name": "Andrew Milich",
-    "role": "xAI",
-    "description": "Formerly Head of Engineering, Product at Cursor.",
+    "role": "Head of Product Engineering, Cursor",
+    "description": "Builds AI tools that help people write and fix code.",
     "date": "2026-03-04",
     "photo": "andrew-milich",
     "photo_alt": "",
-    "source": "Previous site + session archive"
+    "source": "FinTech Weekly and TechCrunch, Mar 13, 2026 (Head of Engineering, Product at Cursor until Mar 12); club session archive (Mar 4, 2026)",
+    "confirm": "The old site said “xAI”, but he announced the move from Cursor to xAI on Mar 12, eight days after the talk: the role is Cursor’s. Confirm how he was introduced."
   },
   {
     "id": "ted-li",
     "name": "Ted Li",
-    "role": "Formerly at Meta Superintelligence Labs",
+    "role": "",
     "description": "",
     "date": "2026-02-04",
     "photo": "ted-li",
     "photo_alt": "",
-    "confirm": "Source photo is only 361 × 343 px: send a larger one. His poster on Google Drive asks visitors to sign in: share it (“Anyone with the link”) or send the file.",
+    "confirm": "Who is he? The old site said only “Former Meta Superintelligence Labs”, and no public source ties a Ted Li to MSL (at least four people share the name). Send his LinkedIn, or the role he held on Feb 4, 2026 and one line on his work. His poster on Google Drive needs sign-in.",
     "source": "Previous site + session archive"
   }
 ]

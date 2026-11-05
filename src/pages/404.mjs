@@ -6,13 +6,9 @@ export function render(c) {
   const main = html`
 <section class="wrap page-head notfound">
   <h1 class="sign"><span class="visually-hidden">Page not found. </span><span class="sign__text">Not in service</span></h1>
-  <p class="notfound__text">This page doesn’t exist, or it moved when we rebuilt the site.</p>
-  <ul class="notfound__links">
-    <li><a class="link-arrow" href="${c.link('home')}">Home ${c.arrow('e')}</a></li>
-    <li><a class="link-arrow" href="${c.link('speakers')}">Speakers ${c.arrow('e')}</a></li>
-    <li><a class="link-arrow" href="${c.link('join')}">Join the club ${c.arrow('e')}</a></li>
-  </ul>
+  <p class="notfound__text">This page doesn’t exist.</p>
+  <p class="notfound__links"><a class="link-arrow" href="${c.link('home')}">Home ${c.arrow('e')}</a></p>
 </section>`;
 
-  return c.layout({ page: '404', title: 'Page not found', description: 'This page of the Dartmouth AI Club site does not exist or has moved.', path: '/404', main, noindex: true });
+  return c.layout({ page: '404', title: 'Page not found', description: 'This page of the Dartmouth AI Club site does not exist.', path: '/404', main, noindex: true });
 }

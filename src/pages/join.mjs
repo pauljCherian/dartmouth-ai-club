@@ -32,7 +32,7 @@ export function render(c) {
     <li class="step">
       <span class="bullet" aria-hidden="true">2</span>
       <h2 class="step__title">Come to a meeting.</h2>
-      <div class="step__body"><p>Each week’s time and room is posted in the GroupMe. Come to any meeting.</p></div>
+      <div class="step__body"><p>Each week’s time and room are posted in the GroupMe.</p></div>
     </li>
   </ol>
 </section>`;

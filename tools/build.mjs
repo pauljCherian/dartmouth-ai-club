@@ -38,7 +38,6 @@ const content = {
 (function validate({ site, speakers, team }) {
   const need = (obj, keys, where) => keys.forEach((k) => (obj[k] === undefined || obj[k] === '') && fail(`${where}: missing "${k}"`));
   need(site, ['name', 'origin', 'tagline', 'description'], 'site.json');
-  need(site.members || {}, ['count'], 'site.json members');
   if (site.meetings !== undefined) fail('site.json: "meetings" is not used any more (the night and room change every term, so the site sends people to the GroupMe for them); delete it');
   need(site.hero || {}, ['alt', 'caption'], 'site.json hero');
   need(site.contact || {}, ['email', 'name', 'role'], 'site.json contact');
@@ -46,7 +45,11 @@ const content = {
   const ids = new Set();
   speakers.forEach((ev, i) => {
     const where = `speakers.json[${i}] ${ev.name || ''}`;
-    need(ev, ['id', 'name', 'role', 'description', 'date', 'photo'], where);
+    need(ev, ['id', 'name', 'date', 'photo'], where);
+    // Who they are and what they do, as of the talk. The preview shows a gap as "to confirm"; the live build stops.
+    if (!PREVIEW) need(ev, ['role', 'description'], where);
+    if (ev.description && ev.description.length > 100) fail(`${where}: "description" is ${ev.description.length} characters; keep it to one line of about 90`);
+    if (/^former/i.test(ev.role || '') || /^former/i.test(ev.description || '')) fail(`${where}: give the role they had at the time of the talk, not "Formerly…" (see README)`);
     if (ev.photo_credit !== undefined) {
       const pc = ev.photo_credit || {};
       need(pc, ['by', 'source', 'license', 'license_url'], `${where} photo_credit`);
@@ -60,15 +63,21 @@ const content = {
     for (const k of ['org', 'start', 'end', 'date_label', 'format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is not used any more; delete it (a talk shows name, role, description and date: see README)`);
   });
   team.officers.forEach((o, i) => need(o, ['name', 'role', 'photo'], `team.json officers[${i}]`));
-  team.advisors.forEach((a, i) => need(a, ['name', 'title', 'unit'], `team.json advisors[${i}]`));
-  const CLAIMS = ['build_nights', 'majors'];  // the claims a page shows (index.mjs, review.mjs)
-  for (const [k, v] of Object.entries(site.claims || {})) {
-    if (k.startsWith('_')) continue;
-    if (!CLAIMS.includes(k)) { fail(`site.json claims.${k}: no page shows this claim (the site knows ${CLAIMS.join(' and ')}); put new wording in the page itself`); continue; }
-    if (!v || typeof v.about !== 'string' || !v.about) fail(`site.json claims.${k}: needs "about" (the words used in Who we are), or delete the entry`);
-    else if (v.about !== v.about.trim()) fail(`site.json claims.${k}: "about" starts or ends with a space ("${v.about}")`);
-    else if (/[.,;:!?…]$/.test(v.about)) fail(`site.json claims.${k}: "about" continues a sentence in Who we are, so it must not end with punctuation ("${v.about}")`);
-    if (v && (typeof v.source !== 'string' || !v.source)) fail(`site.json claims.${k}: needs "source" (where the statement comes from, shown on the review page)`);
+  team.advisors.forEach((a, i) => {
+    need(a, ['name', 'unit'], `team.json advisors[${i}]`);
+    if (a.title !== undefined) fail(`team.json advisors[${i}]: "title" is not shown any more (an academic rank changes with promotions); delete it`);
+  });
+  // Facts that change every term, or that nobody confirmed, are kept off the site on purpose (see README).
+  for (const k of ['members', 'claims']) if (site[k] !== undefined) fail(`site.json: "${k}" is not used any more (a number or claim nobody keeps up to date costs more trust than it earns); delete it`);
+  // Nothing unfinished ships: the live build refuses placeholder words in any text a page shows.
+  if (!PREVIEW) {
+    const PLACEHOLDER = /\b(TEMP|TBD|TODO|FIXME|lorem|ipsum|placeholder)\b|\bto (come|confirm)\b/i;
+    const walk = (v, where) => {
+      if (typeof v === 'string') { if (PLACEHOLDER.test(v)) fail(`${where}: placeholder text "${v.slice(0, 60)}"`); }
+      else if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${where}[${i}]`));
+      else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) if (!/^(_|confirm$|note$|source$|caption_source$)/.test(k)) walk(x, `${where}.${k}`);
+    };
+    walk(site, 'site.json'); walk(speakers, 'speakers.json'); walk(team, 'team.json');
   }
 })(content);
 

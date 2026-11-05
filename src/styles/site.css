@@ -59,6 +59,7 @@
   --gap: clamp(16px, 2vw, 28px);        /* grid gutter */
   --header-h: 56px;
   --row-y: clamp(56px, 8vw, 128px);     /* section rhythm */
+  --hairline: linear-gradient(var(--rule), var(--rule)) var(--gutter-l) 0 / calc(100% - var(--gutter-l) - var(--gutter-r)) 1px no-repeat;  /* a section's top rule, margin to margin */
   --gutter-l: max(var(--m), env(safe-area-inset-left, 0px));
   --gutter-r: max(var(--m), env(safe-area-inset-right, 0px));
 
@@ -147,7 +148,6 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
 .block { margin-bottom: clamp(56px, 7vw, 112px); }
 .subhead { margin-top: clamp(48px, 6vw, 88px); margin-bottom: 20px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: var(--t-5); font-weight: 700; }
-.row__body > .subhead:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .muted { color: var(--gray); }
 .credits { margin-top: clamp(32px, 4vw, 56px); max-width: 48em; font-size: var(--t-6); line-height: 1.5; color: var(--gray); }
 .credits a { color: inherit; }
@@ -479,35 +479,36 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .js-handoff .hero__caption { position: absolute; padding: 0; opacity: 0; }
 /* The first section may come up into the empty bottom of the stage (site.js sets a negative margin on the hero
    on tall screens): painted above the stage, so it is never under it for clicks. */
-.js-handoff .hero + .row { position: relative; z-index: 1; background: var(--paper); }
+.js-handoff .hero + .row { position: relative; z-index: 1; background-color: var(--paper); }
 }
 
-/* ---------- Rows (Vitsoe pattern: label left, content right) ---------- */
+/* ---------- Sections (Vitsoe's pattern): a hairline, one heading top left, the content on the right ---------- */
 .row {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gap);
-  row-gap: 28px;
+  row-gap: clamp(24px, 3vw, 32px);
   padding-block: var(--row-y);
-  border-top: 1px solid var(--rule);
+  background: var(--hairline);
 }
-.row__label { grid-column: 1 / -1; font-size: var(--t-5); font-weight: 700; letter-spacing: 0.01em; line-height: 1.3; }
-.row__body { grid-column: 1 / -1; min-width: 0; }
-@media (min-width: 56.25em) {
-  .row__label { grid-column: 1 / span 4; }
-  .row__body { grid-column: 5 / -1; }
-}
-.row__more { margin-top: clamp(32px, 4vw, 56px); font-size: var(--t-4); }
-
-/* ---------- Who we are ---------- */
-.about__lines {
-  margin-top: 20px;
+.row__title {
+  grid-column: 1 / -1;
   font-size: var(--t-2);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
-.about__lines li { display: block; }
+.row__title--lines span { display: block; }  /* one sentence a line: each fits its line at every width */
+.row__body { grid-column: 1 / -1; min-width: 0; }
+@media (min-width: 56.25em) {
+  .row__title { grid-column: 1 / span 4; }
+  .row__body { grid-column: 5 / -1; }
+}
+/* Inner pages: the page title already opens the page, so its sections sit closer to it and to each other. */
+.page-head + .row, .page-head ~ .row { padding-block: clamp(32px, 4.5vw, 64px); }
+.row__more { margin-top: clamp(32px, 4vw, 56px); font-size: var(--t-4); }
+
+/* ---------- Who we are ---------- */
 .about__text { font-size: var(--t-3); line-height: 1.3; letter-spacing: -0.005em; max-width: 30em; }
 .about__photo { margin-top: clamp(40px, 5vw, 64px); }
 .about__photo figcaption { margin-top: 10px; font-size: var(--t-6); color: var(--gray); }
@@ -534,48 +535,16 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .site-header.is-ruled .site-header__inner { border-bottom: 1px solid CanvasText; }
 }
 
-/* ---------- What we do ---------- */
-.pillar {
-  display: grid;
-  grid-template-columns: 2.125rem minmax(0, 1fr);
-  column-gap: 18px;
-  row-gap: 8px;
-  padding-block: 28px;
-  border-top: 1px solid var(--rule);
-}
-.pillar:first-child { padding-top: 0; border-top: 0; }
-.pillar:last-child { padding-bottom: 0; }
-.pillar__title { font-size: var(--t-3); line-height: 1.15; letter-spacing: -0.01em; align-self: start; }
-/* Disc centred on the title's capitals at every size: with line-height 1.15 the cap middle sits 0.4865em below
-   the top of the line (half-leading 0.075 + ascent 0.77 - half the 0.717 cap height). 1em = half the disc. */
-.pillar .bullet { align-self: start; margin-top: calc(var(--t-3) * 0.4865 - 1em); }
-.pillar__text { grid-column: 2; max-width: 34em; }
-.pillar__more { grid-column: 2; font-size: var(--t-5); }
-.pillar__more a { padding-block: 3px; }
-@media (min-width: 68.75em) {
-  /* Disc and title in the first third of the row body, text from the second third: the columns of the facts
-     and the speaker tiles. Column 2 is the disc's 18px gap (as on /join), column 4 the grid gutter. */
-  .pillar {
-    grid-template-columns: 2.125rem 18px minmax(0, calc((100% - 2 * var(--gap)) / 3 - 2.125rem - 18px)) var(--gap) minmax(0, 1fr);
-    column-gap: 0;
-  }
-  .pillar__title { grid-column: 3; }
-  .pillar__text, .pillar__more { grid-column: 5; }
-}
-
 /* ---------- People grids (speakers on home, team) ---------- */
 .people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--gap); }
 @media (min-width: 56.25em) { .people--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 43.75em) { .people--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-/* Team: 8 of the 12 columns on wide screens (the width of a row body), so the officer photos, most of them
-   about 500px wide, are not shown larger than the files. */
-@media (min-width: 56.25em) { .people--team { max-width: calc((100% - 11 * var(--gap)) * 8 / 12 + 7 * var(--gap)); } }
 .person { min-width: 0; }
 .person__name { margin-top: 14px; font-size: var(--t-4); line-height: 1.2; }
 .person__meta { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
 .person__meta strong { color: var(--ink); font-weight: 700; }
-.person__date { margin-top: 8px; font-size: var(--t-6); color: var(--gray); font-variant-numeric: tabular-nums; }
-.person__link { display: inline-flex; margin-top: 6px; padding-block: 3px; font-size: var(--t-5); }
+.person__date { margin-top: 6px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
+.person > .person__social { margin: 6px 0 -4px -4px; }  /* the mark 10px under the role, its left edge on the column */
 
 .photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--placeholder); }
 .photo picture, .photo img { width: 100%; height: 100%; }
@@ -588,36 +557,47 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .page-head { padding-top: clamp(48px, 9vw, 136px); padding-bottom: clamp(40px, 6vw, 96px); }
 .page-title { font-size: var(--t-page); letter-spacing: -0.045em; line-height: 0.92; }
 .page-lead { margin-top: clamp(20px, 3vw, 36px); max-width: 26em; font-size: var(--t-3); line-height: 1.28; letter-spacing: -0.005em; text-wrap: balance; }
-.pillar__text, .join-band__text, .talk__desc, .step__body p, .about__text, .notfound__text,
+.site-footer__text, .talk__desc, .step__body p, .about__text, .notfound__text,
 .talk__affil, .person__meta, .list-rows__meta { text-wrap: pretty; }
 
-/* ---------- Talks list (speakers page) ---------- */
-.year { padding-block: 14px; border-top: 1px solid var(--ink); font-size: var(--t-5); font-weight: 700; font-variant-numeric: tabular-nums; }
-.talks { margin-bottom: clamp(56px, 7vw, 112px); }
+/* ---------- Talks list (speakers page): the home tile's record (name, role, date last) plus one line ---------- */
 .talk {
   display: grid;
   grid-template-columns: 84px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;  /* spare height goes under the date, not between the lines */
+  grid-template-areas: "photo body" "photo date";
   column-gap: 16px;
-  padding-block: 22px;
-  border-top: 1px solid var(--rule);
+  row-gap: 10px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
 }
-.talk__photo { grid-column: 1; grid-row: 1 / span 2; }
-.talk__date { grid-column: 2; grid-row: 1; font-size: var(--t-6); color: var(--gray); font-variant-numeric: tabular-nums; }
-@media not all and (min-width: 56.25em) { .talk { grid-template-rows: auto 1fr; } }  /* spare height under the text, not between date and name */
-.talk__body { grid-column: 2; grid-row: 2; min-width: 0; }
-.talk__name { font-size: clamp(1.375rem, 2.3vw, 2.125rem); line-height: 1.1; letter-spacing: -0.02em; }
-.talk__affil { margin-top: 4px; font-size: var(--t-4); line-height: 1.3; }
-.talk__desc { margin-top: 10px; max-width: 38em; }
+/* Rules between talks only; the section's hairline is the first. A talk added before it happens is the first item
+   and stays hidden until it has ended, so :first-child can't mark the top; the last, the oldest talk, always shows. */
+.talk:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: 0; }
+.talk__photo { grid-area: photo; }
+.talk__body { grid-area: body; min-width: 0; }
+.talk__name { font-size: var(--t-3); line-height: 1.15; letter-spacing: -0.01em; }
+.talk__affil { margin-top: 4px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
+.talk__desc { margin-top: 10px; max-width: 34em; }
+.talk__date { grid-area: date; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
 @media (min-width: 56.25em) {
-  .talk { grid-template-columns: max(128px, 6rem) minmax(0, 1fr) auto; column-gap: var(--gap); padding-block: 32px; }
-  .talk__photo { grid-row: 1; }
-  .talk__body { grid-row: 1; align-self: baseline; }
-  .talk__date { grid-column: 3; grid-row: 1; align-self: baseline; font-size: var(--t-5); text-align: right; white-space: nowrap; }
+  .talk {
+    grid-template-columns: max(128px, 6rem) minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    grid-template-areas: "photo body date";
+    column-gap: var(--gap);
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+  }
+  .talk__body, .talk__date { align-self: baseline; }  /* the date on the name's baseline */
+  .talk__date { text-align: right; white-space: nowrap; }
 }
 
 /* ---------- Faculty advisors ---------- */
 .list-rows > li { padding-block: 18px; border-top: 1px solid var(--rule); }
-.list-rows > li:last-child { border-bottom: 1px solid var(--rule); }
+.list-rows > li:first-child { padding-top: 0; border-top: 0; }
+.list-rows > li:last-child { padding-bottom: 0; }
 .list-rows__title { font-size: var(--t-4); font-weight: 700; line-height: 1.3; }
 .list-rows__meta { margin-top: 2px; font-size: var(--t-5); color: var(--gray); }
 
@@ -631,7 +611,6 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   padding-block: clamp(28px, 4vw, 44px);
   border-top: 1px solid var(--rule);
 }
-.step:last-child { border-bottom: 1px solid var(--rule); }
 .step__title { font-size: var(--t-2); letter-spacing: -0.025em; line-height: 1.05; align-self: start; }
 .step .bullet { align-self: start; margin-top: calc(var(--t-2) * 0.4365 - 1em); }  /* cap middle at 0.4365em with line-height 1.05 */
 .step__body { grid-column: 2; max-width: 34em; }
@@ -644,11 +623,6 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .social.is-placeholder { color: var(--gray); opacity: 0.6; }
 .is-placeholder { color: var(--gray); text-decoration-style: dotted; }
 
-/* ---------- Join band (home) ---------- */
-.join-band__title { font-size: var(--t-page); letter-spacing: -0.045em; line-height: 0.92; }
-.join-band__text { margin-top: clamp(20px, 3vw, 32px); max-width: 28em; font-size: var(--t-3); line-height: 1.28; }
-.join-band__actions { margin-top: clamp(28px, 4vw, 44px); display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; }
-
 /* ---------- 404: a sign that is out of service ---------- */
 .sign {
   position: relative;
@@ -659,6 +633,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 }
 .sign::before { content: ""; position: absolute; left: 0; right: 0; top: clamp(8px, 1vw, 12px); height: 2px; background: var(--paper); }
 .sign__text { display: block; margin-bottom: -0.2em; font-size: clamp(2.75rem, 9vw, 8rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.95; }
+@media (forced-colors: active) { .row, .site-footer__inner { border-top: 1px solid CanvasText; } }
 @media (forced-colors: active) {  /* after the .sign rules, so the system colours win */
   .sign { border: 2px solid CanvasText; }
   .sign::before { forced-color-adjust: none; background: CanvasText; }
@@ -666,32 +641,39 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .notfound__text { margin-top: clamp(28px, 4vw, 48px); max-width: 28em; font-size: var(--t-3); line-height: 1.28; }
 .notfound__links { margin-top: 28px; display: grid; gap: 12px; font-size: var(--t-3); }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer: the invitation, the links, the contact (the grid of the sections above) ---------- */
 .site-footer {
-  padding-bottom: max(36px, env(safe-area-inset-bottom, 0px));
+  padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
   font-size: var(--t-5);
   line-height: 1.5;
 }
-.site-footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 40px; border-top: 1px solid var(--rule); }
-.site-footer__brand a { display: block; width: 104px; color: var(--ink); }
-@media (min-width: 56.25em) { .site-footer__brand a { width: 116px; } }
-.site-footer__brand svg { width: 100%; height: auto; }
-.site-footer .label { display: block; margin-bottom: 4px; font-weight: 700; }
-.site-footer__nav ul { display: grid; gap: 0; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: 40px;
+  padding-top: var(--row-y);
+  background: var(--hairline);
+}
+.site-footer__join { grid-column: 1 / -1; }
+.site-footer__title { font-size: var(--t-2); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
+.site-footer__text { margin-top: 16px; max-width: 24em; font-size: var(--t-4); line-height: 1.4; }
+.site-footer__action { margin-top: 28px; }
+.site-footer__nav ul { display: grid; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
 .site-footer__nav a { display: inline-block; padding-block: 3px; }  /* 24px+ tap targets (WCAG 2.5.8) */
-.site-footer__socials { margin-top: 8px; }
-.site-footer a { text-decoration: none; }
-.site-footer a:hover { text-decoration: underline; }
+.site-footer__contact { min-width: 0; }
+.site-footer__email { display: inline-block; margin-top: -3px; padding-block: 3px; -webkit-user-select: all; user-select: all; }
+.site-footer__socials { margin-top: 16px; }
+.site-footer a:not(.button) { text-decoration: none; }
+.site-footer a:not(.button):hover { text-decoration: underline; }
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
-.site-footer__email { display: inline-block; padding-block: 4px; -webkit-user-select: all; user-select: all; }
-.site-footer__legal { color: var(--gray); }
+.site-footer__legal { grid-column: 1 / -1; margin-top: clamp(16px, 4vw, 48px); color: var(--gray); }
 @media (min-width: 56.25em) {
-  .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; }
-  .site-footer__brand { grid-column: 1 / span 4; }
-  .site-footer__nav { grid-column: 5 / span 2; }
-  .site-footer__contact { grid-column: 7 / span 4; }
-  .site-footer__social { grid-column: 11 / span 2; }
-  .site-footer__legal { grid-column: 1 / -1; }
+  .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .site-footer__join { grid-column: 1 / span 4; grid-row: 1 / span 2; }
+  .site-footer__nav { grid-column: 5 / span 3; }
+  .site-footer__contact { grid-column: 8 / span 5; }
+  .site-footer__legal { grid-row: 3; }
 }
 
 /* ---------- Review notes (preview builds only) ---------- */
@@ -718,14 +700,15 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .page-pad, .hero { padding-top: 0; }
   .page-head { padding-top: 12px; }  /* the paper margin is the space above the title; 12px clears its letters */
   .hero { margin-bottom: 0 !important; }  /* site.js spacing for the hand-off */
-  .talk, .person, .pillar, .step { break-inside: avoid; }
-  h1, h2, h3, h4, .row__label, .subhead { break-after: avoid; }
+  .talk, .person, .step { break-inside: avoid; }
+  h1, h2, h3, h4, .subhead { break-after: avoid; }
   /* The hand-off rules are screen-only, so print gets the static hero. Undo the script's inline styles. */
   .hero__title, .hero__tagline, .hero__frame, .hero__img, .hero__caption { transform: none !important; opacity: 1 !important; }
   .hero__img, .hero__caption { width: auto !important; height: auto !important; }
   .hero__figure { break-inside: avoid; }  /* landscape paper: the photo moves to page 2 whole, not cut */
-  /* Footer on paper: who to contact and when we meet, kept together; links can't be clicked there. */
-  .site-footer__nav, .site-footer__social { display: none; }
+  /* Footer on paper: who to contact, kept together; buttons and links can't be clicked there. */
+  .site-footer__join, .site-footer__nav, .site-footer__socials { display: none; }
   .site-footer { break-inside: avoid; }
+  .row, .site-footer__inner { background: none; border-top: 1px solid var(--rule); }
   a { text-decoration: none; }
 }

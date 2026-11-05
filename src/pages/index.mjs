@@ -22,8 +22,6 @@ export function render(c) {
   const candidates = [...[...c.upcoming].reverse(), ...c.past];
   const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
   const recent = candidates.filter((ev) => c.STATES.some((k) => recentIn(k).includes(ev)));
-  // Claims from the club's own material, pending an officer's confirmation (content/site.json "claims").
-  const build = site.claims?.build_nights, majors = site.claims?.majors;
   // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
   // with that strip removed from the top. Shared with site.js through the custom properties.
   const heroV = c.manifest['hero/hero'].variants.at(-1);
@@ -56,69 +54,27 @@ export function render(c) {
 </section>
 
 <section class="row wrap" id="about" aria-labelledby="about-h">
-  <div class="row__label">
-    <h2 id="about-h">Who we are</h2>
-    <ul class="about__lines">
-      <li>Read the paper.</li>
-      <li>Build the thing.</li>
-      <li>Meet the makers.</li>
-      <li>Bring a friend.</li>
-    </ul>
-  </div>
+  <h2 class="row__title row__title--lines" id="about-h"><span>Read the paper.</span> <span>Build the thing.</span> <span>Meet the makers.</span> <span>Bring a friend.</span></h2>
   <div class="row__body">
-    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates${majors ? `, ${esc(majors.about)},` : ''} who want to understand AI by working on it. Every week an officer or member presents a paper or a topic${build ? `, ${esc(build.about)}` : ''}. Through the year we sit down with the researchers and founders shaping the field. No&nbsp;experience required. Curiosity is&nbsp;enough.</p>
+    <p class="about__text">The Dartmouth AI Club meets every week: an officer or member presents a paper or a topic, from how transformers work to adversarial attacks and LLMs for math. Through the year we sit down with the researchers and founders shaping the field. No&nbsp;experience required. Curiosity is&nbsp;enough.</p>
     ${c.preview ? html`<figure class="about__photo"><div class="photo photo--wide photo--placeholder" role="img" aria-label="Placeholder for the second photo">Second photo: an ordinary weekly meeting. To come.</div></figure>` : ''}
   </div>
 </section>
 
-<section class="row wrap" id="what-we-do" aria-labelledby="what-h">
-  <h2 class="row__label" id="what-h">What we do</h2>
-  <div class="row__body">
-    <ul class="pillars">
-      <li class="pillar">
-        <span class="bullet" aria-hidden="true">1</span>
-        <h3 class="pillar__title">Research groups</h3>
-        <p class="pillar__text">Small groups take on one research question for a term. They&nbsp;read the literature, run the experiments and present what they&nbsp;find.</p>
-      </li>
-      <li class="pillar">
-        <span class="bullet" aria-hidden="true">2</span>
-        <h3 class="pillar__title">Nonprofits</h3>
-        <p class="pillar__text">Members build AI tools with nonprofit organizations, scoped to a term and handed over when they work.</p>
-      </li>
-      <li class="pillar">
-        <span class="bullet" aria-hidden="true">3</span>
-        <h3 class="pillar__title">Speaker series</h3>
-        <p class="pillar__text">Fireside chats and talks with the people building AI, from frontier labs to startups.</p>
-        <p class="pillar__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>
-      </li>
-    </ul>
-  </div>
-</section>
-
 <section class="row wrap" id="speakers" aria-labelledby="speakers-h">
-  <h2 class="row__label" id="speakers-h">Speakers</h2>
+  <h2 class="row__title" id="speakers-h">Speakers</h2>
   <div class="row__body">
     <ul class="people people--3">
       ${recent.map((ev) => html`
       <li class="person"${c.show((k) => recentIn(k).includes(ev))}>
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
-        <h4 class="person__name">${esc(ev.name)}</h4>
-        <p class="person__meta">${c.keepLast(ev.role)}</p>
+        <h3 class="person__name">${esc(ev.name)}</h3>
+        <p class="person__meta">${c.fill(ev.role, 'Role to confirm')}</p>
         <p class="person__date">${esc(c.shortDate(ev.date))}</p>
       </li>`)}
     </ul>
     <p class="row__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>
     ${c.credits(recent.map((ev) => ({ ...ev, __show: c.show((k) => recentIn(k).includes(ev)) })))}
-  </div>
-</section>
-
-<section class="row wrap join-band" id="join" aria-labelledby="join-h">
-  <div class="row__body">
-    <h2 class="join-band__title" id="join-h">Join the club.</h2>
-    <p class="join-band__text">Open to Dartmouth students, whatever you study. Get the GroupMe link, then come to a meeting.</p>
-    <div class="join-band__actions">
-      <a class="button" href="${c.link('join')}">Join the club ${c.arrow('e')}</a>
-    </div>
   </div>
 </section>`;
 

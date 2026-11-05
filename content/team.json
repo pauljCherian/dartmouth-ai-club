@@ -1,4 +1,5 @@
 {
+  "officers_term": "2026–27",
   "officers": [
     {
       "name": "Paul Cherian",
@@ -40,12 +41,10 @@
   "advisors": [
     {
       "name": "Peter Chin",
-      "title": "Professor",
       "unit": "Thayer School of Engineering"
     },
     {
       "name": "Soroush Vosoughi",
-      "title": "Associate Professor",
       "unit": "Department of Computer Science"
     }
   ]
