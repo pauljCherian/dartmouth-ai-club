@@ -12,7 +12,9 @@ export function render(c) {
     files.has(file)
       ? html`<figure class="review-fig"><a href="review/${file}" target="_blank" rel="noopener"><img src="review/${file}" alt="${esc(alt)}" loading="lazy"></a>${cap ? html`<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`
       : html`<p class="muted">(${esc(alt)}: not generated yet)</p>`;
-  const table = (label, head, rows) => html`<div class="review-scroll" tabindex="0" role="region" aria-label="${esc(label)}"><table class="review-table">
+  // widths: one per column in ems, the last takes the rest, so every table of a kind lines up with the others
+  const table = (label, head, rows, widths = []) => html`<div class="review-scroll" tabindex="0" role="region" aria-label="${esc(label)}"><table class="review-table">
+    ${widths.length ? html`<colgroup>${widths.map((w) => html`<col style="width:${w}em">`)}<col></colgroup>` : ''}
     <thead><tr>${head.map((h) => html`<th scope="col">${esc(h)}</th>`)}</tr></thead>
     <tbody>${rows.map(([a, ...rest]) => html`<tr><th scope="row">${esc(a)}</th>${rest.map((x) => html`<td>${esc(x)}</td>`)}</tr>`)}</tbody>
   </table></div>`;
@@ -106,13 +108,11 @@ export function render(c) {
 
   const main = html`
 <style>
-  .review-table { width: 100%; border-collapse: collapse; font-size: var(--t-5); }
+  .review-table { width: 100%; min-width: 34em; border-collapse: collapse; font-size: var(--t-5); table-layout: fixed; }
   .review-table th, .review-table td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-top: 1px solid var(--rule); }
   .review-table tr:first-child > * { border-top: 0; }
   .review-table th { font-weight: 700; }
   .review-table thead th { white-space: nowrap; color: var(--gray); font-weight: 400; }
-  .review-table tbody th { min-width: 8em; max-width: 14em; }
-  .review-table td:nth-child(2) { white-space: nowrap; }
   .review-scroll { overflow-x: auto; }
   .review-scroll + .review-scroll, .review-sub + .review-scroll { margin-top: 8px; }
   .review-sub { margin-top: 40px; font-size: var(--t-4); font-weight: 700; }
@@ -165,16 +165,16 @@ export function render(c) {
 <section class="row wrap" aria-labelledby="log-h">
   <h2 class="row__title" id="log-h">Every element</h2>
   <div class="row__body">
-    ${log.map(([pg, rows]) => html`<h3 class="review-sub">${esc(pg)}</h3>${table(pg, ['Element', 'Decision', 'Why'], rows)}`)}
+    ${log.map(([pg, rows]) => html`<h3 class="review-sub">${esc(pg)}</h3>${table(pg, ['Element', 'Decision', 'Why'], rows, [10, 6.5])}`)}
     <h3 class="review-sub">Considered, not done</h3>
-    ${table('Considered, not done', ['Idea', 'Why not'], considered)}
+    ${table('Considered, not done', ['Idea', 'Why not'], considered, [16.5])}
   </div>
 </section>
 
 <section class="row wrap" aria-labelledby="dec-h">
   <h2 class="row__title" id="dec-h">Open choices</h2>
   <div class="row__body">
-    ${table('Open choices', ['Choice', 'Recommended', 'Alternative'], open)}
+    ${table('Open choices', ['Choice', 'Recommended', 'Alternative'], open, [10, 15])}
     <h3 class="review-sub">Photo treatment</h3>
     <div class="review-grid">
       ${img('portraits-duo.png', 'All portraits in ink-and-paper monochrome', 'Monochrome: mismatched sources start to look like one set.')}
@@ -191,7 +191,7 @@ export function render(c) {
 
 <section class="row wrap" aria-labelledby="confirm-h">
   <h2 class="row__title" id="confirm-h">Facts to confirm</h2>
-  <div class="row__body">${table('Facts to confirm', ['Item', 'On the site now', 'Question'], confirmations)}</div>
+  <div class="row__body">${table('Facts to confirm', ['Item', 'On the site now', 'Question'], confirmations, [10, 15])}</div>
 </section>
 
 <section class="row wrap" aria-labelledby="need-h">
