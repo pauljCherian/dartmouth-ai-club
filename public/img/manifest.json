@@ -274,11 +274,11 @@
     "webp": "img/people/yann-lecun-color-480.webp"
    },
    {
-    "w": 800,
-    "h": 1000,
-    "avif": "img/people/yann-lecun-color-800.avif",
-    "jpg": "img/people/yann-lecun-color-800.jpg",
-    "webp": "img/people/yann-lecun-color-800.webp"
+    "w": 960,
+    "h": 1200,
+    "avif": "img/people/yann-lecun-color-960.avif",
+    "jpg": "img/people/yann-lecun-color-960.jpg",
+    "webp": "img/people/yann-lecun-color-960.webp"
    }
   ]
  },
@@ -299,11 +299,11 @@
     "webp": "img/people/yann-lecun-duo-480.webp"
    },
    {
-    "w": 800,
-    "h": 1000,
-    "avif": "img/people/yann-lecun-duo-800.avif",
-    "jpg": "img/people/yann-lecun-duo-800.jpg",
-    "webp": "img/people/yann-lecun-duo-800.webp"
+    "w": 960,
+    "h": 1200,
+    "avif": "img/people/yann-lecun-duo-960.avif",
+    "jpg": "img/people/yann-lecun-duo-960.jpg",
+    "webp": "img/people/yann-lecun-duo-960.webp"
    }
   ]
  }

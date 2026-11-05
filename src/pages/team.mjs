@@ -7,6 +7,11 @@ export const page = { id: 'team', path: '/team', out: 'team.html' };
 // went out of date every year and two were always missing; the club's faces are the group photo on the home page.
 export function render(c) {
   const { team } = c.content;
+  // The order is a rule, not the order of the file: the president first (the one role that leads), then everyone
+  // else by last name, so no vice president ranks above another and nobody has to decide it.
+  const lastName = (o) => o.name.trim().split(/\s+/).pop();
+  const officers = [...team.officers].sort((a, b) =>
+    (/^(co-)?president$/i.test(b.role) - /^(co-)?president$/i.test(a.role)) || lastName(a).localeCompare(lastName(b)) || a.name.localeCompare(b.name));
   // An officer's profiles as the networks' own marks, always visible (a hover-only reveal hides them on phones).
   const links = (o) => {
     const list = [['linkedin', 'LinkedIn', o.linkedin], ['x', 'X', o.x]].filter(([, , url]) => url);
@@ -23,7 +28,7 @@ export function render(c) {
   <h2 class="row__title" id="officers-h">Officers, <span class="tnum nowrap">${esc(team.officers_term)}</span></h2>
   <div class="row__body">
     <ul class="roster">
-      ${team.officers.map((o) => html`
+      ${officers.map((o) => html`
       <li class="roster__row">
         <div class="roster__who"><h3 class="roster__name">${esc(o.name)}</h3>${links(o)}</div>
         <span class="roster__what">${esc(o.role)}</span>

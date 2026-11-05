@@ -38,9 +38,14 @@ const content = {
 (function validate({ site, speakers, team }) {
   const need = (obj, keys, where) => keys.forEach((k) => (obj[k] === undefined || obj[k] === '') && fail(`${where}: missing "${k}"`));
   need(site, ['name', 'origin', 'tagline', 'description'], 'site.json');
-  if (site.meetings !== undefined) fail('site.json: "meetings" is not used any more (the night and room change every term, so the site sends people to the GroupMe for them); delete it');
+  if (site.meetings !== undefined) fail('site.json: "meetings" is not used any more (the night and room change every term, so the site sends people to Dartmouth Groups for them); delete it');
   need(site.hero || {}, ['alt', 'caption'], 'site.json hero');
   need(site.contact || {}, ['email', 'name', 'role'], 'site.json contact');
+  // Joining goes through the club's page on Dartmouth Groups (a Dartmouth login), never a chat link on the site.
+  if ((site.join || {}).form_url !== undefined) fail('site.json: join.form_url is not used any more; people join on Dartmouth Groups (join.groups_url)');
+  need(site.join || {}, ['groups_url'], 'site.json join');
+  if (site.join && site.join.groups_url && !/^https:\/\/dartmouthgroups\.dartmouth\.edu\//.test(site.join.groups_url)) fail('site.json: join.groups_url must be the club\'s page on https://dartmouthgroups.dartmouth.edu/');
+  if (JSON.stringify(site).match(/groupme\.com/i)) fail('site.json: a GroupMe link must never be on the site (members get it on Dartmouth Groups)');
   if (site.contact && !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(site.contact.email)) fail('site.json: contact.email is not an email address');
   const ids = new Set();
   speakers.forEach((ev, i) => {

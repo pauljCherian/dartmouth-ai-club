@@ -9,9 +9,8 @@
     "role": "President"
   },
   "join": {
-    "form_url": "",
-    "confirmed": false,
-    "note": "Dartmouth-only form whose confirmation screen shows the GroupMe link. Empty until the officers create it."
+    "groups_url": "https://dartmouthgroups.dartmouth.edu/feeds?type=club&type_id=67574&tab=about",
+    "note": "The club's page on Dartmouth Groups, which takes a Dartmouth login: people join there, members get the GroupMe link there, and each meeting's time and room are posted there."
   },
   "socials": [
     {

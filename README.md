@@ -8,9 +8,9 @@ The talks, the people, the links and the contact live in `content/`: edit the JS
 
 | File | What it holds |
 | --- | --- |
-| `content/site.json` | Tagline, description for search results, contact email, join form link, the club's X and YouTube links, hero photo and caption |
+| `content/site.json` | Tagline, description for search results, contact email, the club's Dartmouth Groups page (where people join), the club's X and YouTube links, hero photo and caption |
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
-| `content/team.json` | The officers (name, role, and `linkedin` / `x` profile links), their academic year (`officers_term`), and the faculty advisors (name, school or department). The team page is a list: no photos |
+| `content/team.json` | The officers (name, role, and `linkedin` / `x` profile links), their academic year (`officers_term`), and the faculty advisors (name, school or department). The team page is a list: no photos. It shows the president first, then everyone else by last name, whatever the order in the file |
 
 When the officers change, update `officers_term` and `officers` in `content/team.json` and `contact` (email, name, role) in `content/site.json` in the same commit.
 
@@ -42,7 +42,7 @@ Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Ever
 
 ### Add or replace a photo
 
-Photos go through one script, so every portrait gets the same crop and the same ink-and-paper tone. It needs Python 3 with Pillow and numpy (`pip install pillow numpy`). iPhone originals (`.heic`) also need `pip install pillow-heif`; without it, export the photo as a JPEG at full size.
+The best speaker photo is one the club takes at the talk: the speaker facing the camera, in front of the Dartmouth backdrop (like Yann LeCun's). Replace a borrowed photo when the club has its own, and never flip one (it changes the person's face). Photos go through one script, so every portrait gets the same crop and the same ink-and-paper tone. It needs Python 3 with Pillow and numpy (`pip install pillow numpy`). iPhone originals (`.heic`) also need `pip install pillow-heif`; without it, export the photo as a JPEG at full size.
 
 1. Put the original in `assets-src/people/` (or `assets-src/hero/hero.jpg` for the group photo). Phone photos carry the location where they were taken, and `assets-src/` is committed, so copy them in with the script, which writes an upright JPEG with no metadata at all:
    - a portrait: `python3 tools/images.py original ~/Downloads/IMG_1234.HEIC assets-src/people/first-last.jpg`
@@ -114,4 +114,4 @@ assets-src/     metadata-free originals of the photos, and the logo for og.jpg (
 ## Licences
 
 TeX Gyre Heros is distributed under the GUST Font License (`public/fonts/GUST-FONT-LICENSE.txt`).
-The LinkedIn, X and YouTube marks (`src/svg/linkedin.svg`, `x.svg`, `youtube.svg`: Font Awesome's `linkedin`, `square-x-twitter` and `square-youtube`) are from Font Awesome Free 6.5.2 by Fonticons, Inc., licensed CC BY 4.0 (https://fontawesome.com/license/free); the build keeps their licence comment in the page. The marks themselves are the networks' trademarks.
+The LinkedIn, X and YouTube marks (`src/svg/linkedin.svg`, `x.svg`, `youtube.svg`: Font Awesome's `linkedin`, `x-twitter` and `youtube`, each viewBox trimmed to the logo's own outline) are from Font Awesome Free 6.5.2 by Fonticons, Inc., licensed CC BY 4.0 (https://fontawesome.com/license/free); the build keeps their licence comment in the page. The marks themselves are the networks' trademarks.

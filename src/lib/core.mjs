@@ -136,7 +136,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   <div class="site-footer__inner wrap">
     ${page !== 'join' ? html`<section class="site-footer__join" aria-labelledby="footer-join-h">
       <h2 class="site-footer__title" id="footer-join-h">Join the club.</h2>
-      <p class="site-footer__text">Open to Dartmouth undergraduates, whatever you study. Get the GroupMe link, then come to a&nbsp;meeting.</p>
+      <p class="site-footer__text">Open to Dartmouth undergraduates, whatever you study. Join on Dartmouth Groups, then come to a&nbsp;meeting.</p>
       <p class="site-footer__action"><a class="button" href="${link('join')}">How to join ${arrow('e')}</a></p>
     </section>` : ''}
     <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">

@@ -595,9 +595,9 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .step__body > * + * { margin-top: 16px; }
 .step__note { font-size: var(--t-5); color: var(--gray); }
 .socials { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-.social { display: inline-flex; padding: 6px; margin: -6px; color: var(--ink); }  /* a 32px tap target around the 20px mark */
+.social { display: inline-flex; padding: 8px; margin: -8px; color: var(--ink); }  /* a tap target of 33px or more around the mark */
 .social:hover { color: var(--green); }
-.social__icon { width: 1.25rem; height: 1.25rem; fill: currentColor; }  /* one size everywhere (footer, menu, /team): a name's line tall */
+.social__icon { width: auto; height: var(--t-4); fill: currentColor; }  /* each network's own logo, trimmed to its shape, as tall as body text is set (a name beside it): one visible height everywhere, each in its own proportions */
 .social.is-placeholder { color: var(--gray); opacity: 0.6; }
 .is-placeholder { color: var(--gray); text-decoration-style: dotted; }
 

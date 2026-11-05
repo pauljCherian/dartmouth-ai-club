@@ -29,7 +29,7 @@ export function render(c) {
       ['Section headings', 'Changed', 'One heading per section, top left, in the heading size and regular weight: the size shows where a section starts, and regular weight keeps it a step below the page’s one bold title. A small bold label above it gave a section two headings, so the labels are gone everywhere, not just “Join”.'],
       ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, officers, advisors) run across the content column. All gray; no ink rules.'],
       ['Footer', 'Changed', 'The last section of every page, laid out like the others: “Join the club.” top left, its sentence and button on the right (on every page but /join), so every other page ends with the one thing the club asks of a visitor; then the page links and the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, in bold like every list of pages, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
-      ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says the GroupMe posts each week’s time and room.'],
+      ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says Dartmouth Groups posts each week’s time and room.'],
       ['Contact email', 'Changed', 'Paul Cherian’s Dartmouth address, as president (the officers’ decision): in the footer of every page, and on /join until the form exists. It changes at each handover, in content/site.json.'],
       ['© line', 'Kept', 'A convention visitors expect at the foot of a page (the club’s old site had one too). On a printed inner page, where the header is hidden, it is the only line that names the club. It shows the year of the last build.'],
       ['Header rule', 'Changed', 'Appears as soon as the page scrolls under the header, without fading in: nothing on the site fades in as you scroll.'],
@@ -47,7 +47,7 @@ export function render(c) {
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
     ['Speakers', [
-      ['Lead', 'Changed', 'Adds “New talks are announced in the GroupMe.”: the job the Next block did, without anyone updating the site. Not a link: the footer’s “How to join →” is on the same page.'],
+      ['Lead', 'Changed', 'Adds “New talks are announced on Dartmouth Groups.”: the job the Next block did, without anyone updating the site. Not a link: the footer’s “How to join →” is on the same page.'],
       ['Next', 'Cut', 'Nobody would keep it current. A talk is added on its day or after, so the list is a record that never shows a talk as coming up (the site launches the day of Mazda Moayeri’s talk).'],
       ['Each talk', 'Changed', 'The same five things for everyone, in the same order and type sizes as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. The photo is the same crop and tone, smaller. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],
@@ -56,14 +56,14 @@ export function render(c) {
     ]],
     ['Team', [
       ['Lead', 'Cut', 'It repeated the two section headings.'],
-      ['Officers', 'Changed', `A list: name, profile links, then the role, flush left like every name and role on the site (on laptops the role starts on column 8, the footer’s contact column), under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
+      ['Officers', 'Changed', `A list: name, profile links, then the role, flush left like every name and role on the site (on laptops the role starts on column 8, the footer’s contact column), under “Officers, ${team.officers_term}”: the president first, then everyone else by last name, so no vice president ranks above another (the page sorts them; the file’s order doesn’t matter). No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
       ['Profile links', 'Changed', 'Each officer’s LinkedIn (and X, if they give one) as the network’s own mark beside the name, always visible: most visitors are on phones, which have no hover, and a speaker or sponsor looking for an officer gets there in one tap. The same mark, in ink at one size, as the club’s own X and YouTube.'],
       ['Faculty advisors', 'Changed', 'The same list: name, and school or department (a rank changes with promotions).'],
     ]],
     ['Join', [
       ['Steps', 'Changed', 'Sections like every other page’s: the heading top left, starting with its number in the heading’s own type. The green discs are gone: green means you can press it, and a number can’t be pressed.'],
-      ['Step 1', 'Changed', 'With the form: “Sign in with your Dartmouth account and the link appears.” and one button; the sentence about bots is gone. Until the form exists: the contact address as text, to copy, and a green “Email for the link ↗” button, the same component as the form’s, because it is the page’s one action.'],
-      ['Step 2', 'Changed', '“Each week’s time and room are posted in the GroupMe.”'],
+      ['Step 1', 'Changed', '“Join on Dartmouth Groups.”: sign in with a Dartmouth account and join, with one green button. Dartmouth Groups is the gate: only Dartmouth accounts get in, members get the GroupMe link there, and the link is never on the site.'],
+      ['Step 2', 'Changed', '“Each week’s time and room are posted on Dartmouth Groups.”'],
       ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact (and the social marks once their links exist).'],
     ]],
     ['404', [
@@ -86,30 +86,31 @@ export function render(c) {
     ['Hero motion', 'Hand-off: the title shrinks into the header logo.', 'Logo visible from the start; the title fades as the photo grows.'],
     ['Hero photo', 'Starts black-and-white and turns to color as it grows (the “Black-and-white photo turning to color” link above).', 'Full color from the start, lightly corrected (built as the default until you decide).'],
     ['Speaker photos', 'Ink-and-paper monochrome, one crop for everyone.', 'Color, balanced for consistency.'],
+    ['Speaker photos at all', 'Keep them, and from now on take each speaker’s photo at the talk: facing the camera, in front of the Dartmouth backdrop, like Yann LeCun’s. Replace a borrowed photo when the club has its own; never flip one.', 'No photos: name, role, line and date only, like the Team page.'],
     ['404 page', 'Its title is its name, “Page not found”, as in the browser tab, in the page-title size; on the ink panel if you want it to look unlike every other page, with no rule along the top.', 'As built: “Not in service” on an ink panel with a thin rule along its top, after New York subway signs.'],
   ];
 
   const confirmations = [
     ['Tagline', `“${site.tagline}”`, 'My draft, replacing “the best undergrad AI club”: a claim nobody can check.'],
     ['Every week', '“meets every week” (About), “weekly meetings” (search description), “Each week’s time and room” (/join)', 'The archive shows weekly Wednesdays from Jan 28 to Mar 4, 2026, then only Apr 7, Apr 14 and May 5; and the old site said “bi-weekly sessions” from Dec 30, 2025. Is it every week this term? If the rhythm changes by term, it comes out of all three places.'],
-    ['Officers', `Officers, ${team.officers_term}`, 'Right year and names?'],
+    ['Officers', `Officers, ${team.officers_term}`, 'Right year and names? (Lisa Samoylov is off: she is an alumna.)'],
+    ['Club name', '“Dartmouth AI Club” (logo, titles, footer)', 'Dartmouth Groups lists the club as “Dartmouth Undergraduate AI Club”. Which is the name the site should use?'],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
     ['Research groups', 'Not on the new site', 'You have three VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role || '(no role yet)', s.confirm]),
   ];
 
   const needed = [
-    ['Yann LeCun', 'The original file of the photo from his visit (the one with the Dartmouth backdrop), sent as a file or Drive link rather than in the chat, so it can be cropped at full size. It replaces the Wikimedia portrait and its credit line.'],
     ['Mazda Moayeri', 'The original photo; it is currently cut out of the event poster (400 px wide).'],
     ['Andrew Milich, Chetan Patel', 'Larger photos, at least 1000 px wide (now 400 and 554 px): on phones and high-resolution laptops their tiles need about 600 px.'],
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284, exported as JPEG at full size with location unchecked.'],
     ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. It would go under the About text.'],
-    ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link. Then step 1 on /join becomes one sentence and one button.'],
     ['X and YouTube', 'The club’s two URLs. The marks are built and appear in the footer and menu as soon as the links exist.'],
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
-    ['Club email (optional)', 'Every recognized club gets its own Dartmouth account, whose login goes to the officers listed in Dartmouth Groups; the old site listed daic@dartmouth.edu until December 2025. If it still works, it outlives a handover; a personal address doesn’t.'],
+    ['Club email (optional)', 'The club’s own Dartmouth account, Dartmouth.Machine.Learning.Student.Group@dartmouth.edu, is the address on its Dartmouth Groups page. In the footer instead of Paul’s, it would outlive a handover; a personal address doesn’t. Your call.'],
+    ['GroupMe link on Dartmouth Groups', 'Post it where members see it once they have joined (for example a members-only post), and keep GroupMe set to approve new members, in case the link travels.'],
   ];
 
   // The system, measured from the production build (public/review/system.json, written by the QA sheet script):
@@ -237,7 +238,7 @@ ${sys ? html`
       ['Ink', '#161616', 'Text, the logo, the 404 sign.'],
       ['Gray', '#666662', 'Secondary text: roles, dates, captions, credits, the © line.'],
       ['Rule', '#D9D9D4', 'Hairlines only.'],
-      ['Green', '#00693E', 'Things you can act on: Join links and buttons, links on hover, keyboard focus; the step numbers on /join.'],
+      ['Green', '#00693E', 'Things you can press: Join links and buttons, links on hover, keyboard focus, selected text.'],
     ], [6, 6])}
     <h3 class="review-sub">Grid</h3>
     <p class="review-text">${gridText()}</p>
