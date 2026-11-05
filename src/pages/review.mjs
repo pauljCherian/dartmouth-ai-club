@@ -110,6 +110,49 @@ export function render(c) {
     ['Club email (optional)', 'Every recognized club gets its own Dartmouth account, whose login goes to the officers listed in Dartmouth Groups; the old site listed daic@dartmouth.edu until December 2025. If it still works, it outlives a handover; a personal address doesn’t.'],
   ];
 
+  // The system, measured from the production build (public/review/system.json, written by the QA sheet script):
+  // every text style on the site, by size token, and what it is used for.
+  const sys = c.reviewSystem || null;
+  const SIZES = [['t-page', 'Page title'], ['t-2', 'Heading'], ['t-3', 'Lead'], ['t-4', 'Body'], ['t-5', 'Small'], ['t-6', 'Caption']];
+  const ROLES = [
+    [/page-title/, 'page titles'], [/site-footer__title/, 'the footer’s “Join the club.”'], [/step__title/, 'step headings'], [/row__title/, 'section headings'],
+    [/page-lead/, 'page leads'], [/about__text/, 'the About text'], [/hero__tagline/, 'the tagline'], [/notfound__text/, 'the 404 sentence'],
+    [/link-arrow/, 'arrow links'], [/person__name|talk__name|roster__name/, 'names'], [/person__meta|talk__affil|roster__what/, 'roles and schools'],
+    [/person__date|talk__date/, 'dates'], [/talk__desc/, 'speaker lines'], [/step__body|step__note/, 'step text'], [/button/, 'buttons'],
+    [/site-footer__text/, 'the footer sentence'], [/site-nav/, 'header links'], [/site-menu__nav/, 'menu links'], [/site-footer__email/, 'the contact email'],
+    [/site-footer__legal/, 'the © line'], [/hero__caption/, 'the photo caption'], [/credits/, 'photo credits'], [/bullet/, 'step numbers'],
+    [/sign__text/, 'the 404 sign'], [/site-footer__nav/, 'footer links'], [/skip-link/, 'the skip link'],
+  ];
+  const roleOf = (sel) => (ROLES.find(([re]) => re.test(sel)) || [null, sel])[1];
+  const typeRows = () => {
+    if (!sys) return [];
+    const [ph, lp] = [sys.widths['390'], sys.widths['1440']];
+    const px = (wd, t) => `${Math.round(wd.tokens[`--${t}`])} px`;
+    const rows = SIZES.map(([t, name]) => {
+      const styles = [...ph.styles, ...lp.styles].filter((s) => s.token === t);
+      const weights = [...new Set(styles.map((s) => (s.weight >= 700 ? 'Bold' : 'Regular')))].sort().reverse().join(', ');
+      const lhs = [...new Set(styles.map((s) => s.lh))].sort().join(', ');
+      const uses = [...new Set(styles.flatMap((s) => Object.keys(s.uses).map((u) => roleOf(u.split(': ')[1]))))].join(', ');
+      return [`${name} (${t.replace('t-', 'T')})`, px(ph, t), px(lp, t), weights || '–', lhs || '–', uses || 'not used'];
+    });
+    const off = new Map();  // one row per role off the scale, with its size on each screen
+    for (const [where, wd] of [['phone', ph], ['laptop', lp]]) for (const s of wd.styles.filter((x) => !x.token)) {
+      for (const role of new Set(Object.keys(s.uses).map((u) => roleOf(u.split(': ')[1])))) {
+        const r = off.get(role) || { phone: '', laptop: '', weight: s.weight >= 700 ? 'Bold' : 'Regular', lh: String(s.lh) };
+        r[where] = `${Math.round(s.px)} px`; off.set(role, r);
+      }
+    }
+    for (const [role, r] of off) rows.push(['Off the scale', r.phone || 'on scale', r.laptop || 'on scale', r.weight, r.lh, role]);
+    return rows;
+  };
+  const gridText = () => {
+    if (!sys) return '';
+    const g = (w) => { const cols = sys.widths[w].cols; return { m: Math.round(cols[0][0]), gap: Math.round(cols[1][0] - cols[0][0] - cols[0][1]), col: Math.round(cols[0][1]) }; };
+    const [a, b] = [g('390'), g('1440')];
+    return `Twelve columns at every size. On a 390 px phone: ${a.m} px margins, ${a.gap} px gutters, columns ${a.col} px wide, and every section heading sits above its content. On a 1440 px laptop: ${b.m} px margins, ${b.gap} px gutters, columns ${b.col} px wide; from 900 px wide, a section heading takes columns 1 to 4 and its content columns 5 to 12. Beyond 1920 px of content, everything stops flush left.`;
+  };
+  const PAGES = [['home', 'Home'], ['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join'], ['404', '404'], ['menu', 'Phone menu']];
+
   const main = html`
 <style>
   .review-table { width: 100%; min-width: 34em; border-collapse: collapse; font-size: var(--t-5); table-layout: fixed; }
@@ -133,6 +176,10 @@ export function render(c) {
   .review-rules { display: grid; gap: 10px; max-width: 40em; }
   .review-rules li { padding-left: 1.1em; text-indent: -1.1em; }
   .review-rules li::before { content: "–"; display: inline-block; width: 1.1em; text-indent: 0; }
+  .review-pages { display: grid; gap: 40px; }
+  .review-page__name { margin-bottom: 10px; font-size: var(--t-4); font-weight: 700; }
+  .review-page__shots { display: grid; gap: 16px var(--gap); align-items: start; }
+  @media (min-width: 37.5em) { .review-page__shots { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); } }
 </style>
 <header class="page-head wrap">
   <h1 class="page-title">Design review</h1>
@@ -166,6 +213,36 @@ export function render(c) {
     </ul>
   </div>
 </section>
+
+${sys ? html`
+<section class="row wrap" aria-labelledby="system-h">
+  <h2 class="row__title" id="system-h">The system</h2>
+  <div class="row__body">
+    <p class="review-text">Every page is built from these parts, measured from the live build. For the page-by-page review: each page below has the twelve-column grid drawn over it in pink, and each kind of text labelled with its size (T2, T4…). An orange label would mark a size that is off the scale.</p>
+    <h3 class="review-sub">Type</h3>
+    ${table('Type sizes', ['Size', 'Phone', 'Laptop', 'Weight', 'Line height', 'Used for'], typeRows(), [9.5, 4.5, 4.5, 6, 5.5])}
+    <h3 class="review-sub">Colour</h3>
+    ${table('Colours', ['Colour', 'Value', 'Used for'], [
+      ['Paper', '#F4F4F1', 'Every background; the type on the 404 sign and on buttons.'],
+      ['Ink', '#161616', 'Text, the logo, the 404 sign.'],
+      ['Gray', '#666662', 'Secondary text: roles, dates, captions, credits, the © line; the network marks on /team.'],
+      ['Rule', '#D9D9D4', 'Hairlines only.'],
+      ['Green', '#00693E', 'Things you can act on: Join links and buttons, links on hover, keyboard focus; the step numbers on /join.'],
+    ], [6, 6])}
+    <h3 class="review-sub">Grid</h3>
+    <p class="review-text">${gridText()}</p>
+    <h3 class="review-sub">Pages</h3>
+    <div class="review-pages">
+      ${PAGES.map(([id, name]) => html`<div class="review-page">
+        <p class="review-page__name">${esc(name)}</p>
+        <div class="review-page__shots">
+          ${img(`system-${id}-390.jpg`, `${name} on a 390 px phone, with the grid and type sizes marked`, 'Phone, 390 px')}
+          ${id === 'menu' ? '' : img(`system-${id}-1440.jpg`, `${name} on a 1440 px laptop, with the grid and type sizes marked`, 'Laptop, 1440 px')}
+        </div>
+      </div>`)}
+    </div>
+  </div>
+</section>` : ''}
 
 <section class="row wrap" aria-labelledby="log-h">
   <h2 class="row__title" id="log-h">Every element</h2>

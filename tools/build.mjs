@@ -64,15 +64,36 @@ const content = {
     for (const k of ['org', 'start', 'end', 'date_label', 'format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is not used any more; delete it (a talk shows name, role, description and date: see README)`);
   });
   need(team, ['officers_term'], 'team.json');
-  team.officers.forEach((o, i) => {
+  // Only the fields the page shows (plus notes for reviewers), so a misspelt key fails here instead of quietly
+  // dropping a link; and each profile link must go to its own network.
+  const NOTE = /^(_|confirm$|note$|source$)/;
+  const HOSTS = { linkedin: /^([a-z0-9-]+\.)?linkedin\.com$/, x: /^((www|mobile)\.)?(x|twitter)\.com$/ };
+  const RENAMED = { twitter: 'x', LinkedIn: 'linkedin', linkedIn: 'linkedin', X: 'x' };
+  const checkKeys = (obj, allowed, where) => {
+    for (const k of Object.keys(obj)) {
+      if (allowed.includes(k) || NOTE.test(k) || k === 'photo' || k === 'title') continue;
+      fail(`${where}: "${k}" is not a field the page uses${RENAMED[k] ? ` (did you mean "${RENAMED[k]}"?)` : ''}; the fields are ${allowed.join(', ')}`);
+    }
+  };
+  for (const list of ['officers', 'advisors']) if (!Array.isArray(team[list])) fail(`team.json: "${list}" must be a list, like [ { "name": … } ]`);
+  (Array.isArray(team.officers) ? team.officers : []).forEach((o, i) => {
     const where = `team.json officers[${i}] ${o.name || ''}`;
     need(o, ['name', 'role'], where);
     if (o.photo !== undefined) fail(`${where}: "photo" is not used any more (the team page is a list of names); delete it`);
-    for (const k of ['linkedin', 'x']) if (o[k] && !/^https:\/\//.test(o[k])) fail(`${where}: "${k}" must be an https:// link`);
+    checkKeys(o, ['name', 'role', 'linkedin', 'x'], where);
+    for (const k of ['linkedin', 'x']) {
+      if (o[k] === undefined) continue;
+      let u = null;
+      try { u = new URL(o[k]); } catch { /* reported below */ }
+      if (!u || u.protocol !== 'https:' || !u.hostname) fail(`${where}: "${k}" must be an https:// link`);
+      else if (!HOSTS[k].test(u.hostname)) fail(`${where}: "${k}" must be ${k === 'x' ? 'an x.com' : 'a linkedin.com'} link, not ${u.hostname}`);
+    }
   });
-  team.advisors.forEach((a, i) => {
-    need(a, ['name', 'unit'], `team.json advisors[${i}]`);
-    if (a.title !== undefined) fail(`team.json advisors[${i}]: "title" is not shown any more (an academic rank changes with promotions); delete it`);
+  (Array.isArray(team.advisors) ? team.advisors : []).forEach((a, i) => {
+    const where = `team.json advisors[${i}] ${a.name || ''}`;
+    need(a, ['name', 'unit'], where);
+    if (a.title !== undefined) fail(`${where}: "title" is not shown any more (an academic rank changes with promotions); delete it`);
+    checkKeys(a, ['name', 'unit'], where);
   });
   // Facts that change every term, or that nobody confirmed, are kept off the site on purpose (see README).
   for (const k of ['members', 'claims']) if (site[k] !== undefined) fail(`site.json: "${k}" is not used any more (a number or claim nobody keeps up to date costs more trust than it earns); delete it`);
@@ -161,6 +182,7 @@ const ctx = createContext({ mode: MODE, now: NOW, content, svgs, manifest, brand
 if (PREVIEW && existsSync(rel('public/review'))) {
   ctx.reviewFiles = new Set(await readdir(rel('public/review')));
   if (ctx.reviewFiles.has('qa.html')) ctx.reviewQA = await readFile(rel('public/review/qa.html'), 'utf8');
+  if (ctx.reviewFiles.has('system.json')) ctx.reviewSystem = JSON.parse(await readFile(rel('public/review/system.json'), 'utf8'));
 }
 const pageNames = ['index', 'speakers', 'team', 'join', '404', ...(PREVIEW ? ['review'] : [])];
 await rm(OUT, { recursive: true, force: true });
@@ -181,6 +203,7 @@ if (PREVIEW) {
   for (const f of ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'og.jpg']) await copyIf(`public/${f}`, f);
   await rm(path.join(OUT, 'img/manifest.json'), { force: true });
   await rm(path.join(OUT, 'review/qa.html'), { force: true });
+  await rm(path.join(OUT, 'review/system.json'), { force: true });
 } else {
   await cp(rel('public'), OUT, { recursive: true });
   for (const f of fonts) {
@@ -250,3 +273,8 @@ if (problems.length) {
   }
 }
 console.log(`Built ${written.length} pages to ${path.relative(ROOT, OUT)}/ (${MODE}, now = ${NOW.toISOString()}). Talks: ${ctx.ordered.length}.`);
+// A talk is added on its day or after (README): every listed talk reads as held. Not a failure (a build the day
+// before a launch is fine), just a note for whoever is deploying.
+const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(NOW);
+const ahead = ctx.ordered.filter((ev) => ev.date > today);
+if (ahead.length) console.log(`Note: dated after today in Hanover, but listed like every other talk: ${ahead.map((ev) => `${ev.name} (${ev.date})`).join(', ')}.`);

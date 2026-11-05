@@ -204,6 +204,18 @@
       frame.style.transform = '';
       inner.style.transform = '';
       var T = rect(frame, base);
+      // Both ends of the hand-off start on a whole pixel. A box whose top falls between pixels is drawn snapped to
+      // the pixel grid, and the shrinking title and the header logo snap differently, so the swap would show as a
+      // drop of about one device pixel. Each is nudged by its own fraction: the title as placed in the pinned stage
+      // (whose top is 0), the logo in the fixed header. Measured: the pixels that visibly change at the swap fall
+      // from about 3,600 to 23 on a 3x phone, and to 0-2 on most laptops.
+      var frac = function (v) { return v - Math.round(v); };
+      title.style.bottom = '';
+      logo.style.position = ''; logo.style.top = '';
+      var ty0 = frac(rect(title, base).y);
+      if (Math.abs(ty0) > 0.001) title.style.bottom = 'calc(var(--title-bottom) + ' + ty0 + 'px)';
+      var ly0 = frac(logo.getBoundingClientRect().top);
+      if (Math.abs(ly0) > 0.001) { logo.style.position = 'relative'; logo.style.top = -ly0 + 'px'; }
       var Ti = rect(title, base);
       var lr = logo.getBoundingClientRect();
       var Lg = { x: lr.left, y: lr.top, w: lr.width, h: lr.height }; // fixed header: viewport coordinates equal stage coordinates while pinned
@@ -421,6 +433,8 @@
         if (el === frame || el === inner || el === caption) el.removeAttribute('style');
       });
       if (mono) mono.style.display = 'none';
+      title.style.bottom = '';
+      logo.style.position = ''; logo.style.top = '';
       hero.style.removeProperty('--tag-h');
       hero.style.marginBottom = '';
       hero.classList.remove('hero--tag-under');
