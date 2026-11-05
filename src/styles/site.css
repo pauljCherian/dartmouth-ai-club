@@ -62,7 +62,14 @@
   --gutter-l: max(var(--m), env(safe-area-inset-left, 0px));
   --gutter-r: max(var(--m), env(safe-area-inset-right, 0px));
 
+  /* Small-viewport height unit with a fallback: browsers without svh (Chrome < 108) use vh.
+     Done with a variable because a var() declaration that fails does not fall back in the cascade. */
+  --vh: 1vh;
+
   color-scheme: light;
+}
+@supports (height: 1svh) {
+  :root { --vh: 1svh; }
 }
 @media (min-width: 900px) {
   :root { --header-h: 64px; --t-4: 18px; }
@@ -193,7 +200,7 @@ a:hover { color: var(--green); }
 @media (min-width: 900px) { .site-logo { width: 116px; } }
 
 .site-nav { display: none; }
-.site-nav a { font-size: 16px; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
+.site-nav a { display: inline-block; padding-block: 6px; font-size: 16px; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
 .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
 .site-nav__join { color: var(--green); }
 .site-nav__join:hover { color: var(--green-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
@@ -304,7 +311,7 @@ main { display: block; }
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  max-height: calc(100svh - var(--header-h));
+  max-height: calc(calc(100 * var(--vh)) - var(--header-h));
   overflow: hidden;
   background: var(--placeholder);
 }
@@ -321,25 +328,36 @@ main { display: block; }
 
 /* ---------- Hero: the hand-off (script on, motion allowed) ---------- */
 .js-handoff .hero {
-  --pin: 90svh;
-  --thumb-w: min(62vw, 42svh);
+  --pin: calc(90 * var(--vh));
+  --thumb-w: min(62vw, calc(42 * var(--vh)));
   --tag-h: calc(var(--t-3) * 2.5 + var(--gap));
   --title-bottom: calc(var(--m) + var(--tag-h) + env(safe-area-inset-bottom, 0px));
   --title-w: min(
     calc(100% - var(--gutter-l) - var(--gutter-r)),
-    calc((100svh - var(--header-h) - env(safe-area-inset-top, 0px) - var(--thumb-w) * 0.75 - var(--tag-h) - var(--m) - var(--gap) * 3) / var(--title-ratio))
+    calc((calc(100 * var(--vh)) - var(--header-h) - env(safe-area-inset-top, 0px) - var(--thumb-w) * 0.75 - var(--tag-h) - var(--m) - var(--gap) * 3) / var(--title-ratio))
   );
-  height: calc(100svh + var(--pin));
+  height: calc(calc(100 * var(--vh)) + var(--pin));
   padding-top: 0;
 }
 @media (min-width: 900px) {
-  .js-handoff .hero { --pin: 115svh; --thumb-w: min(33vw, 46svh); --tag-h: 0px; }
+  .js-handoff .hero { --pin: calc(115 * var(--vh)); --thumb-w: min(33vw, calc(46 * var(--vh))); --tag-h: 0px; }
+}
+@media (max-width: 899px) and (orientation: landscape) and (max-height: 560px) {
+  .js-handoff .hero {
+    --thumb-w: min(34vw, calc(52 * var(--vh)));
+    --tag-h: calc(var(--t-3) * 1.3 + var(--gap));
+    --title-w: min(
+      calc(100% - var(--gutter-l) - var(--gutter-r) - var(--thumb-w) - var(--gap) * 2),
+      calc((100 * var(--vh) - var(--header-h) - env(safe-area-inset-top, 0px) - var(--tag-h) - var(--m) - var(--gap) * 2) / var(--title-ratio))
+    );
+  }
+  .js-handoff .hero__tagline { max-width: calc(100% - var(--gutter-l) - var(--gutter-r) - var(--thumb-w) - var(--gap) * 2); }
 }
 .js-handoff .hero__stage {
   position: sticky;
   top: 0;
   display: block;
-  height: 100svh;
+  height: calc(100 * var(--vh));
   overflow: hidden;
 }
 .js-handoff .hero__title {
@@ -610,7 +628,7 @@ main { display: block; }
 .site-footer__nav a, .site-footer__socials a { display: inline-block; padding-block: 3px; }  /* 24px+ tap targets (WCAG 2.5.8) */
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
-.site-footer__email { word-break: break-word; -webkit-user-select: all; user-select: all; }
+.site-footer__email { display: inline-block; padding-block: 4px; word-break: break-word; -webkit-user-select: all; user-select: all; }
 .site-footer__legal { color: var(--gray); }
 @media (min-width: 900px) {
   .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; }

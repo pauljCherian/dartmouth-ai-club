@@ -125,7 +125,7 @@
     // Measures the small viewport height (100svh) in pixels without depending on toolbars.
     var probe = document.createElement('div');
     probe.setAttribute('aria-hidden', 'true');
-    probe.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:100svh;visibility:hidden;pointer-events:none;';
+    probe.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:calc(100 * var(--vh, 1vh));visibility:hidden;pointer-events:none;';
     document.body.appendChild(probe);
 
     var L = null;
