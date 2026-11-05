@@ -26,6 +26,8 @@ export function render(c) {
   const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
   const recent = candidates.filter((ev) => c.STATES.some((k) => recentIn(k).includes(ev)));
   const plain = (ev) => [ev.role, ev.org].filter(Boolean).join(' ');
+  // Claims from the club's own material, pending an officer's confirmation (content/site.json "claims").
+  const build = site.claims?.build_nights, majors = site.claims?.majors;
   // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
   // with that strip removed from the top. Shared with site.js through the custom properties.
   const heroV = c.manifest['hero/hero'].variants.at(-1);
@@ -67,13 +69,13 @@ export function render(c) {
     </ul>
   </div>
   <div class="row__body">
-    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates, most of them in computer science and engineering, who want to understand AI by working on it. Every week an officer or member presents a paper or a topic, and there is a build night. Through the year we sit down with the researchers and founders shaping the field. No experience required. Curiosity is enough.</p>
+    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates${majors ? `, ${esc(majors.about)},` : ''} who want to understand AI by working on it. Every week an officer or member presents a paper or a topic${build ? `, ${esc(build.about)}` : ''}. Through the year we sit down with the researchers and founders shaping the field. No experience required. Curiosity is enough.</p>
     <dl class="facts">
       <div><dt>Members</dt><dd class="tnum">${esc(site.members.count)}</dd></div>
       <div><dt>Meetings</dt><dd>${esc(site.meetings.when)}<br>${esc(site.meetings.where)}</dd></div>
-      <div><dt>Build nights</dt><dd>Every week</dd></div>
+      ${build && build.fact ? html`<div><dt>Build nights</dt><dd>${esc(build.fact)}</dd></div>` : ''}
     </dl>
-    ${c.preview ? html`<figure class="about__photo"><div class="photo photo--wide photo--placeholder" role="img" aria-label="Placeholder for the second photo">Second photo: an ordinary Tuesday meeting. To come.</div></figure>` : ''}
+    ${c.preview ? html`<figure class="about__photo"><div class="photo photo--wide photo--placeholder" role="img" aria-label="Placeholder for the second photo">Second photo: an ordinary weekly meeting. To come.</div></figure>` : ''}
   </div>
 </section>
 

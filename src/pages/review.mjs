@@ -17,8 +17,8 @@ export function render(c) {
     ['Tagline', `“${site.tagline}”`, 'Draft I wrote to replace “the best undergrad AI club”: a claim nobody can check.'],
     ['Who we are', '“Read the paper. Build the thing. Meet the makers. Bring a friend.”', 'Shortened from “Meet the people who made it.”, which broke onto two lines on most laptops; now each sentence fits one line at every width.'],
     ['Members', String(site.members.count), site.members.source],
-    ['Build nights', '“Every week … there is a build night.”', site.claims.build_nights.source],
-    ['Majors', '“most of them in computer science and engineering”', site.claims.majors.source],
+    ...(site.claims?.build_nights ? [['Build nights', `“…, ${site.claims.build_nights.about}.” in Who we are${site.claims.build_nights.fact ? `, and the fact “Build nights: ${site.claims.build_nights.fact}”` : ''}`, `${site.claims.build_nights.source}. A pitch script, not a confirmed fact: delete claims.build_nights in content/site.json to remove it everywhere.`]] : []),
+    ...(site.claims?.majors ? [['Majors', `“${site.claims.majors.about}” in Who we are`, `${site.claims.majors.source}. Delete claims.majors in content/site.json to remove it.`]] : []),
     ['Meetings', `${site.meetings.when}, ${site.meetings.where}`, `${site.meetings.source}. The winter-term sessions in the archive were on Wednesdays (Jan 28 to Mar 4); spring was Tuesdays. Which night this term?`],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both programs. Are they still running? If so, they could replace the placeholder pillars below.'],
     ['Hero caption', site.hero.caption, site.hero.caption_source],
@@ -26,7 +26,7 @@ export function render(c) {
     ['Who can join', '“Open to Dartmouth students, whatever you study.”', 'Undergraduates only, or graduate students too?'],
     ['Contact email', site.contact.email, 'You chose a person over the long official address; one line in content/site.json to change.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, `${[s.role, s.org].filter(Boolean).join(' ')}`, s.confirm]),
-    ...content.sessions.filter((s) => s.confirm).map((s) => [s.title, 'Session archive', s.confirm]),
+    ...content.sessions.filter((s) => s.confirm).map((s) => [`Session, ${c.shortDate(s.date)}`, s.title, s.confirm]),
     ['Session archive', '“Jeffery Xie” → “Jeffrey Xie”', 'The old archive and team page spelled the name differently; I used the team page spelling.'],
     ['Reading list', 'Maganur and Kejriwal', 'Corrected from “Magnur” on the old site, with the full paper title from arXiv.'],
     ['Soroush Vosoughi', 'Associate Professor', 'Corrected from “Professor”: Dartmouth’s faculty directory lists him as Associate Professor of Computer Science.'],
@@ -34,7 +34,7 @@ export function render(c) {
 
   const needed = [
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284. Export as JPEG (maximum quality, full size, location unchecked) and share a Google Drive link. Everything else is automatic.'],
-    ['Second photo', 'An ordinary Tuesday meeting: what a newcomer walks into. Goes in “Who we are”.'],
+    ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. Goes in “Who we are”.'],
     ['Yann LeCun', 'A photo of him from the visit. His entry currently uses a crop of the group photo.'],
     ['Ted Li', 'A larger photo (the only one we have is 361 × 343 px), and his poster shared publicly or sent as a file.'],
     ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos. The current ones are full- and half-length, so the faces are only about 55 and 75 px tall.'],
@@ -49,7 +49,9 @@ export function render(c) {
 <style>
   .review-table { width: 100%; border-collapse: collapse; font-size: var(--t-5); }
   .review-table th, .review-table td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-top: 1px solid var(--rule); }
-  .review-table th { font-weight: 700; white-space: nowrap; }
+  .review-table th { font-weight: 700; }
+  .review-table thead th { white-space: nowrap; }
+  .review-table tbody th { min-width: 7em; max-width: 14em; }
   .review-scroll { overflow-x: auto; }
   .review-grid { display: grid; gap: 28px var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
   .review-fig img { width: 100%; height: auto; border: 1px solid var(--rule); background: #fff; }

@@ -102,6 +102,10 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
     if (!/^\d{4}-\d\d-\d\d$/.test(s.date)) fail(`sessions.json[${i}]: date must be YYYY-MM-DD`);
   });
   reading.forEach((r, i) => need(r, ['title', 'authors', 'href'], `reading.json[${i}]`));
+  for (const [k, v] of Object.entries(site.claims || {})) {
+    if (k.startsWith('_')) continue;
+    if (!v || typeof v.about !== 'string' || !v.about) fail(`site.json claims.${k}: needs "about" (the words used in Who we are), or delete the entry`);
+  }
 })(content);
 
 // ---------- 2. Brand: SVG assets and lockup metrics ----------

@@ -2,7 +2,7 @@
   "name": "Dartmouth AI Club",
   "origin": "https://aiclub.dartmouth.edu",
   "tagline": "Undergraduates who study and build AI.",
-  "description": "Dartmouth undergraduates studying and building AI: paper talks, build nights, research groups and conversations with the people shaping the field.",
+  "description": "Dartmouth undergraduates studying and building AI: paper talks, research groups and conversations with the people shaping the field.",
   "contact": {
     "email": "paul.cherian.27@dartmouth.edu",
     "name": "Paul Cherian",
@@ -44,13 +44,15 @@
     "caption_source": "Photo metadata (date, Hanover area) and the previous site's 'Featured Visit: Yann LeCun'"
   },
   "claims": {
+    "_about": "Statements from the club's own material that an officer should confirm. Each appears only where its fields say; delete an entry to remove it from every page.",
     "build_nights": {
-      "text": "weekly build nights",
+      "about": "and there is a build night",
+      "fact": "Every week",
       "confirmed": false,
       "source": "Stripe call prep doc, Oct 29, 2026: \"We run weekly build nights where members ship small AI projects.\""
     },
     "majors": {
-      "text": "most of them in computer science and engineering",
+      "about": "most of them in computer science and engineering",
       "confirmed": false,
       "source": "Stripe call prep doc, Oct 29, 2026: \"mostly CS and engineering students who actually build\""
     }
