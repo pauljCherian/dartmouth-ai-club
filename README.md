@@ -91,6 +91,7 @@ Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`
 - **Arrow.** `src/svg/arrow-e.svg` and `arrow-ne.svg`: → goes somewhere on this site; ↗ leaves it. The LinkedIn, X and YouTube marks need no arrow: the mark says where it goes.
 - **Navigation.** Laptops: the logo (home) and Speakers, Team, Join the club. Phones: the menu lists all four pages, Home first, with the club's X and YouTube marks under them once their links are in `content/site.json`. The contact email is in the footer only.
 - **Words.** Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don't (“Speakers”, “Team”).
+- **Error page.** Any unknown address gets `404.html` with status 404: a “Not in service” sign (one ink panel, the site's type in paper, a thin rule along its top), one sentence, one link home; the header and footer carry the rest. It is the only black shape on the site, because it is the only page that isn't normal browsing.
 - **Motion.** One choreographed moment: the hand-off on the home page. Native scrolling, the browser's own cursor, nothing fading in on scroll. People who ask their device for reduced motion get the static layout.
 
 ## Folders

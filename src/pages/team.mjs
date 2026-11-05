@@ -2,7 +2,7 @@ import { html, esc } from '../lib/core.mjs';
 
 export const page = { id: 'team', path: '/team', out: 'team.html' };
 
-// A roster, not a photo grid: name and links on the left, role on the right, one line each. Officer photos
+// A roster, not a photo grid: name and links on the left, role on the right, one line each where it fits. Officer photos
 // went out of date every year and two were always missing; the club's faces are the group photo on the home page.
 export function render(c) {
   const { team } = c.content;

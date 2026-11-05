@@ -59,6 +59,7 @@
   --m: clamp(16px, 3.2vw, 48px);        /* outer margin */
   --gap: clamp(16px, 2vw, 28px);        /* grid gutter */
   --header-h: 56px;
+  --logo-w: 108px;                       /* the header logo (124px from 56.25em) */
   --row-y: clamp(56px, 8vw, 128px);     /* section rhythm */
   --hairline: linear-gradient(var(--rule), var(--rule)) var(--gutter-l) 0 / calc(100% - var(--gutter-l) - var(--gutter-r)) 1px no-repeat;  /* a section's top rule, margin to margin */
   --gutter-l: max(var(--m), env(safe-area-inset-left, 0px));
@@ -76,12 +77,12 @@
   :root { --vh: 1svh; }
 }
 @media (min-width: 56.25em) {
-  :root { --header-h: 64px; --t-4: 1.125rem; }
+  :root { --header-h: 64px; --t-4: 1.125rem; --logo-w: 124px; }
 }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-/* The hidden attribute must win over any display set by a class (e.g. a talk that hasn't happened yet). */
+/* The hidden attribute must win over any display set by a class (the closed phone menu, for one). */
 [hidden] { display: none !important; }
 html {
   background: var(--paper);
@@ -205,10 +206,9 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
   gap: var(--gap);
 }
 /* The header logo is the title's own drawing at a smaller size, so the hand-off ends on exactly what it started as. */
-.site-logo { display: block; flex: none; width: 108px; color: var(--ink); text-decoration: none; }
+.site-logo { display: block; flex: none; width: var(--logo-w); color: var(--ink); text-decoration: none; }
 .site-logo:hover { color: var(--ink); }
 .site-logo svg { width: 100%; height: auto; overflow: visible; }  /* as the title's: round letters may overshoot the box by a hair */
-@media (min-width: 56.25em) { .site-logo { width: 124px; } }
 
 .site-nav { display: none; }
 .site-nav a { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
@@ -370,9 +370,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 @media screen {
 .js-handoff .hero {
   --pin: calc(90 * var(--vh));
-  /* On narrow phones the thumbnail stays clear of the strip the docked logo (104px) needs, so the title can
+  /* On narrow phones the thumbnail stays clear of the strip the docked logo needs, so the title can
      rise past it without touching. */
-  --thumb-w: min(62vw, calc(42 * var(--vh)), calc(100% - var(--gutter-l) - var(--gutter-r) - 104px - var(--gap) * 1.5));
+  --thumb-w: min(62vw, calc(42 * var(--vh)), calc(100% - var(--gutter-l) - var(--gutter-r) - var(--logo-w) - var(--gap) * 1.5));
   --tag-h: calc(var(--t-3) * 2.5 + var(--gap));
   --title-bottom: calc(var(--m) + var(--tag-h) + env(safe-area-inset-bottom, 0px));
   --title-w: min(
@@ -531,7 +531,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .site-header.is-ruled .site-header__inner { border-bottom: 1px solid CanvasText; }
 }
 
-/* ---------- People grids (speakers on home, team) ---------- */
+/* ---------- People grid (the speakers on the home page) ---------- */
 .people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--gap); }
 @media (min-width: 43.75em) { .people--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .person { min-width: 0; }
@@ -572,7 +572,8 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .talk__desc { margin-top: 10px; max-width: 34em; }
 .talk__date { margin-top: 10px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
 
-/* ---------- Roster (team page): name and links left, role right, one line each ---------- */
+/* ---------- Roster (team page): name and links left, role right; one line each where it fits, and a role that
+   wraps stays flush right ---------- */
 .roster__row {
   display: flex;
   flex-wrap: wrap;
@@ -590,7 +591,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .roster__links .social { color: var(--gray); }  /* quieter than the name; green on hover like any link */
 .roster__links .social:hover { color: var(--green); }
 .roster__link .social__icon { width: 18px; height: 18px; }
-.roster__what { font-size: var(--t-5); line-height: 1.35; color: var(--gray); text-align: right; }
+.roster__what { margin-left: auto; font-size: var(--t-5); line-height: 1.35; color: var(--gray); text-align: right; }
 
 /* ---------- Steps (join page): sections like any other, the heading led by its green number ---------- */
 .step__title { display: grid; grid-template-columns: 2.125rem minmax(0, 1fr); column-gap: 14px; align-items: start; }

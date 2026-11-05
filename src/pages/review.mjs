@@ -26,11 +26,11 @@ export function render(c) {
       ['Header logo', 'Changed', 'One drawing: the header logo is the home title’s own drawing, 124 px wide (108 on phones). In v2 the header had a looser drawing of its own, and the letters jumped apart at the end of the hand-off; with one drawing the title lands as exactly the logo it becomes.'],
       ['Header links', 'Kept', 'Speakers, Team, Join the club. No “Home” on laptops: the logo, top left, is the home link.'],
       ['Phone menu', 'Changed', 'The four pages, Home first, the current one underlined, and the club’s X and YouTube right under them (once their links exist), as in the footer. No email: the contact address lives in the footer only.'],
-      ['404 page', 'Kept', 'A “Not in service” sign, after the New York subway’s: one black panel, the site’s own type in paper, and the thin rule those signs carry along the top. The one page that isn’t normal browsing gets the one black shape; one sentence, one link home, and the full header and footer.'],
       ['Section headings', 'Changed', 'One heading per section, top left, large and regular weight (Vitsœ’s pattern). The small bold labels are gone everywhere, not just “Join”.'],
-      ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, advisors) run across the content column. All gray; no ink rules.'],
+      ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, officers, advisors) run across the content column. All gray; no ink rules.'],
       ['Footer', 'Changed', 'Vitsœ’s layout: the invitation to join (on every page but /join), the page links, the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
       ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says the GroupMe posts each week’s time and room.'],
+      ['Contact email', 'Changed', 'Paul Cherian’s Dartmouth address, as president (the officers’ decision): in the footer of every page, and on /join until the form exists. It changes at each handover, in content/site.json.'],
       ['© line', 'Kept', 'A convention (Vitsœ has one). It shows the year of the last build.'],
     ]],
     ['Home', [
@@ -41,7 +41,7 @@ export function render(c) {
       ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is.'],
       ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
       ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link; the green discs mean “steps” everywhere else.'],
-      ['Speakers', 'Changed', 'The six newest talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
+      ['Speakers', 'Kept', 'The six newest talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
       ['Join section', 'Moved', 'Into the footer, so every page ends with it. The button says what happens next: “How to join →”.'],
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
@@ -55,7 +55,7 @@ export function render(c) {
     ]],
     ['Team', [
       ['Lead', 'Cut', 'It repeated the two section headings.'],
-      ['Officers', 'Changed', `A list, as Stanford’s: name, links, role, one line each, under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
+      ['Officers', 'Changed', `A list, as Stanford’s: name, links, role, one line each where it fits, under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
       ['LinkedIn and X', 'Changed', 'The networks’ marks beside each name, always visible: Stanford shows them on hover, which phones don’t have.'],
       ['Faculty advisors', 'Changed', 'The same list: name, and school or department (a rank changes with promotions).'],
     ]],
@@ -66,7 +66,8 @@ export function render(c) {
       ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact (and the social marks once their links exist).'],
     ]],
     ['404', [
-      ['Sentence and links', 'Changed', '“This page doesn’t exist.” and one link home; the header and footer carry the rest.'],
+      ['Sign', 'Kept', 'One ink panel with “Not in service” in the site’s own type, in paper, and a thin rule along its top. The one page that isn’t normal browsing gets the site’s only black shape, so it can’t be mistaken for a page that worked.'],
+      ['Sentence and link', 'Changed', '“This page doesn’t exist.” and one link home; the header and footer carry the rest.'],
     ]],
   ];
 
@@ -96,7 +97,6 @@ export function render(c) {
   ];
 
   const needed = [
-
     ['Yann LeCun', 'The original file of the photo from his visit (the one with the Dartmouth backdrop), sent as a file or Drive link rather than in the chat, so it can be cropped at full size. It replaces the Wikimedia portrait and its credit line.'],
     ['Mazda Moayeri', 'The original photo; it is currently cut out of the event poster (400 px wide).'],
     ['Andrew Milich, Chetan Patel', 'Larger photos, at least 1000 px wide (now 400 and 554 px): on phones and high-resolution laptops their tiles need about 600 px.'],
@@ -107,6 +107,7 @@ export function render(c) {
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
+    ['Club email (optional)', 'Every recognized club gets its own Dartmouth account, whose login goes to the officers listed in Dartmouth Groups; the old site listed daic@dartmouth.edu until December 2025. If it still works, it outlives a handover; a personal address doesn’t.'],
   ];
 
   const main = html`

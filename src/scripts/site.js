@@ -323,7 +323,7 @@
 
     function apply(p) {
       if (!L || dead || parked) return;
-      // Title: shrinks into the header logo, then cross-fades into the real small lockup.
+      // Title: shrinks onto the header logo (the same drawing), then swaps for it in one step.
       if (logoAlways) {
         var fadeOnly = seg(p, 0.06, 0.4);
         title.style.transform = 'translate3d(0,' + (-24 * fadeOnly) + 'px,0)';

@@ -60,10 +60,11 @@
     "id": "ted-li",
     "name": "Ted Li",
     "role": "Founder, Steadyworks",
-    "description": "Builds training data for frontier AI labs, after three years on Llama at Meta.",
+    "description": "Builds training data and tests for AI models, after nearly three years at Meta.",
     "date": "2026-02-04",
     "photo": "ted-li",
     "photo_alt": "",
-    "source": "His LinkedIn (linkedin.com/in/tedwxli, sent by the club): Founder @ Steadyworks; Research Engineer at Meta, Aug 2022 to Jun 2025 (Meta Superintelligence Labs and Llama). steadyworks.ai: \"data research to benchmark and advance AI\", RL environments for frontier labs. The club knew him as ex-MSL at the Feb 4, 2026 talk; Steadyworks was in stealth then."
+    "source": "His LinkedIn (linkedin.com/in/tedwxli, sent by the club): Founder @ Steadyworks; Research Engineer at Meta, Aug 2022 to Jun 2025. steadyworks.ai (Nov 2026): an applied research lab building datasets, RL environments and evaluations for AI; co-founder Xide Xia (xidexia.github.io); arXiv 2610.22155 lists him under Steadyworks. Dated traces: domain registered 2026-02-05 06:03 UTC (10:03 pm Pacific on the night of the talk), site certificates Feb 9, first public mentions Mar 25-31, 2026. Not \"three years on Llama\": LLaMA was announced in Feb 2023, six months after he joined Meta.",
+    "confirm": "Was Steadyworks already his work on Feb 4? Its domain was registered that night and its site went up five days later. Paul, who interviewed him, will know; otherwise the start month on his LinkedIn. His own headline says “Founder”; the company has more than one founder, so “Co-founder” is also accurate."
   }
 ]
