@@ -1,0 +1,14 @@
+{
+  "display": {
+    "ratio": 0.2713,
+    "line2": 0.6236,
+    "line1_bottom": 0.4668
+  },
+  "small": {
+    "ratio": 0.2714
+  },
+  "line": {
+    "ratio": 0.0696
+  },
+  "_note": "Generated from src/svg/*.svg. ratio = height/width; line2 = ink width of AI CLUB / DARTMOUTH."
+}

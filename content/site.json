@@ -1,0 +1,38 @@
+{
+  "name": "Dartmouth AI Club",
+  "origin": "https://aiclub.dartmouth.edu",
+  "tagline": "Undergraduates who study and build AI.",
+  "description": "Dartmouth undergraduates studying and building artificial intelligence: paper talks, build nights, research groups and conversations with the people shaping the field.",
+  "contact": {
+    "email": "paul.cherian.27@dartmouth.edu",
+    "name": "Paul Cherian",
+    "role": "President"
+  },
+  "meetings": {
+    "when": "Tuesdays, 8 pm",
+    "where": "ECSC 116",
+    "confirmed": false,
+    "source": "Previous site footer"
+  },
+  "members": {
+    "count": 204,
+    "confirmed": false,
+    "source": "Stripe call prep doc, Oct 29, 2026"
+  },
+  "join": {
+    "form_url": "",
+    "confirmed": false,
+    "note": "Dartmouth-only form whose confirmation screen shows the GroupMe link. Empty until the officers create it."
+  },
+  "socials": [
+    { "name": "Instagram", "url": "", "confirmed": false },
+    { "name": "LinkedIn", "url": "", "confirmed": false }
+  ],
+  "hero": {
+    "photo": "hero",
+    "alt": "Dozens of Dartmouth AI Club members crowded around a long conference table with Yann LeCun, smiling into a wide-angle selfie.",
+    "caption": "The club with Yann LeCun. Hanover, October 29, 2026.",
+    "caption_confirmed": false,
+    "caption_source": "Photo metadata (date, Hanover area) and the previous site's 'Featured Visit: Yann LeCun'"
+  }
+}

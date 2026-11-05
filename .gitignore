@@ -1,0 +1,7 @@
+# build output
+dist/
+preview/
+node_modules/
+# OS and editor files
+.DS_Store
+*.swp

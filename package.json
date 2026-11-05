@@ -1,13 +1,14 @@
 {
   "name": "dartmouth-ai-club",
-  "version": "1.0.0",
-  "description": "Dartmouth AI Club Website",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Website of the Dartmouth AI Club",
+  "type": "module",
+  "engines": { "node": ">=18" },
   "scripts": {
-    "dev": "npx serve .",
-    "build": "echo 'Static site - no build needed'"
-  },
-  "keywords": ["dartmouth", "ai", "student", "club"],
-  "author": "Dartmouth AI Club",
-  "license": "MIT"
+    "build": "node tools/build.mjs",
+    "preview": "node tools/build.mjs --preview",
+    "serve": "node tools/serve.mjs dist",
+    "dev": "node tools/build.mjs && node tools/serve.mjs dist"
+  }
 }
-

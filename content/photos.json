@@ -1,0 +1,66 @@
+{
+ "_about": "Crop boxes for tools/images.py all. crop = x,y,w,h in source pixels (4:5). frac crops are fractions of the image and survive a higher-resolution source.",
+ "hero": {
+  "src": "assets-src/hero/hero.jpg"
+ },
+ "portraits": [
+  {
+   "id": "mazda-moayeri",
+   "src": "assets-src/people/mazda-moayeri-poster.jpg",
+   "crop": "224,140,400,500",
+   "note": "cut from the event poster; ask for the original"
+  },
+  {
+   "id": "yann-lecun-visit",
+   "src": "assets-src/hero/hero.jpg",
+   "crop": "0.33,0.19,0.34,0.56667",
+   "frac": true,
+   "note": "event tile from the group photo; replace with a photo of him"
+  },
+  {
+   "id": "christina-lu",
+   "src": "assets-src/people/christina-lu.jpg",
+   "crop": "19,1,1832,2290"
+  },
+  {
+   "id": "chetan-patel",
+   "src": "assets-src/people/chetan-patel.jpg",
+   "crop": "156,36,488,610"
+  },
+  {
+   "id": "andrew-milich",
+   "src": "assets-src/people/andrew-milich.jpg",
+   "crop": "43,1,400,500"
+  },
+  {
+   "id": "ted-li",
+   "src": "assets-src/people/ted-li.jpg",
+   "crop": "42,1,272,340",
+   "note": "source is 361x343; ask for a larger photo"
+  },
+  {
+   "id": "paul-cherian",
+   "src": "assets-src/people/paul-cherian.jpg",
+   "crop": "55,165,640,800"
+  },
+  {
+   "id": "lisa-samoylov",
+   "src": "assets-src/people/lisa-samoylov.jpg",
+   "crop": "64,2,480,600"
+  },
+  {
+   "id": "sean-noh",
+   "src": "assets-src/people/sean-noh.jpg",
+   "crop": "148,84,680,850"
+  },
+  {
+   "id": "sol-song",
+   "src": "assets-src/people/sol-song.jpg",
+   "crop": "244,277,1632,2040"
+  }
+ ],
+ "missing": {
+  "charlie-peers": "full-length photo; face is about 55 px tall. Needs a head-and-shoulders photo.",
+  "jeffrey-xie": "half-length photo; face is about 75 px tall. Needs a head-and-shoulders photo."
+ }
+}

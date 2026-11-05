@@ -1,0 +1,8 @@
+[
+  { "title": "The Assistant Axis: Situating and Stabilizing the Character of Large Language Models", "authors": "Lu et al.", "href": "https://www.anthropic.com/research/assistant-axis" },
+  { "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery", "authors": "Lu et al.", "href": "https://arxiv.org/abs/2408.06292" },
+  { "title": "Structural Shifts in Institutional Participation in AI Research", "authors": "Magnur and Kejriwal", "href": "https://arxiv.org/abs/2602.03969" },
+  { "title": "Recursive Language Models", "authors": "Zhang et al.", "href": "https://arxiv.org/pdf/2512.24601" },
+  { "title": "Communication-Efficient Learning of Deep Networks from Decentralized Data", "authors": "McMahan et al.", "href": "https://arxiv.org/abs/1602.05629" },
+  { "title": "Explaining and Harnessing Adversarial Examples", "authors": "Goodfellow et al.", "href": "https://arxiv.org/abs/1412.6572" }
+]

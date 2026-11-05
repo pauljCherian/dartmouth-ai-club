@@ -1,0 +1,342 @@
+{
+ "hero/hero": {
+  "variants": [
+   {
+    "w": 640,
+    "h": 480,
+    "avif": "img/hero/hero-640.avif",
+    "jpg": "img/hero/hero-640.jpg",
+    "webp": "img/hero/hero-640.webp"
+   },
+   {
+    "w": 960,
+    "h": 720,
+    "avif": "img/hero/hero-960.avif",
+    "jpg": "img/hero/hero-960.jpg",
+    "webp": "img/hero/hero-960.webp"
+   },
+   {
+    "w": 1024,
+    "h": 768,
+    "avif": "img/hero/hero-1024.avif",
+    "jpg": "img/hero/hero-1024.jpg",
+    "webp": "img/hero/hero-1024.webp"
+   }
+  ]
+ },
+ "hero/hero-mono": {
+  "variants": [
+   {
+    "w": 640,
+    "h": 480,
+    "avif": "img/hero/hero-mono-640.avif",
+    "jpg": "img/hero/hero-mono-640.jpg",
+    "webp": "img/hero/hero-mono-640.webp"
+   },
+   {
+    "w": 960,
+    "h": 720,
+    "avif": "img/hero/hero-mono-960.avif",
+    "jpg": "img/hero/hero-mono-960.jpg",
+    "webp": "img/hero/hero-mono-960.webp"
+   },
+   {
+    "w": 1024,
+    "h": 768,
+    "avif": "img/hero/hero-mono-1024.avif",
+    "jpg": "img/hero/hero-mono-1024.jpg",
+    "webp": "img/hero/hero-mono-1024.webp"
+   }
+  ]
+ },
+ "people/andrew-milich-color": {
+  "variants": [
+   {
+    "w": 400,
+    "h": 500,
+    "avif": "img/people/andrew-milich-color-400.avif",
+    "jpg": "img/people/andrew-milich-color-400.jpg",
+    "webp": "img/people/andrew-milich-color-400.webp"
+   }
+  ]
+ },
+ "people/andrew-milich-duo": {
+  "variants": [
+   {
+    "w": 400,
+    "h": 500,
+    "avif": "img/people/andrew-milich-duo-400.avif",
+    "jpg": "img/people/andrew-milich-duo-400.jpg",
+    "webp": "img/people/andrew-milich-duo-400.webp"
+   }
+  ]
+ },
+ "people/chetan-patel-color": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/chetan-patel-color-480.avif",
+    "jpg": "img/people/chetan-patel-color-480.jpg",
+    "webp": "img/people/chetan-patel-color-480.webp"
+   },
+   {
+    "w": 488,
+    "h": 610,
+    "avif": "img/people/chetan-patel-color-488.avif",
+    "jpg": "img/people/chetan-patel-color-488.jpg",
+    "webp": "img/people/chetan-patel-color-488.webp"
+   }
+  ]
+ },
+ "people/chetan-patel-duo": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/chetan-patel-duo-480.avif",
+    "jpg": "img/people/chetan-patel-duo-480.jpg",
+    "webp": "img/people/chetan-patel-duo-480.webp"
+   },
+   {
+    "w": 488,
+    "h": 610,
+    "avif": "img/people/chetan-patel-duo-488.avif",
+    "jpg": "img/people/chetan-patel-duo-488.jpg",
+    "webp": "img/people/chetan-patel-duo-488.webp"
+   }
+  ]
+ },
+ "people/christina-lu-color": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/christina-lu-color-480.avif",
+    "jpg": "img/people/christina-lu-color-480.jpg",
+    "webp": "img/people/christina-lu-color-480.webp"
+   },
+   {
+    "w": 960,
+    "h": 1200,
+    "avif": "img/people/christina-lu-color-960.avif",
+    "jpg": "img/people/christina-lu-color-960.jpg",
+    "webp": "img/people/christina-lu-color-960.webp"
+   }
+  ]
+ },
+ "people/christina-lu-duo": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/christina-lu-duo-480.avif",
+    "jpg": "img/people/christina-lu-duo-480.jpg",
+    "webp": "img/people/christina-lu-duo-480.webp"
+   },
+   {
+    "w": 960,
+    "h": 1200,
+    "avif": "img/people/christina-lu-duo-960.avif",
+    "jpg": "img/people/christina-lu-duo-960.jpg",
+    "webp": "img/people/christina-lu-duo-960.webp"
+   }
+  ]
+ },
+ "people/lisa-samoylov-color": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/lisa-samoylov-color-480.avif",
+    "jpg": "img/people/lisa-samoylov-color-480.jpg",
+    "webp": "img/people/lisa-samoylov-color-480.webp"
+   }
+  ]
+ },
+ "people/lisa-samoylov-duo": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/lisa-samoylov-duo-480.avif",
+    "jpg": "img/people/lisa-samoylov-duo-480.jpg",
+    "webp": "img/people/lisa-samoylov-duo-480.webp"
+   }
+  ]
+ },
+ "people/mazda-moayeri-color": {
+  "variants": [
+   {
+    "w": 400,
+    "h": 500,
+    "avif": "img/people/mazda-moayeri-color-400.avif",
+    "jpg": "img/people/mazda-moayeri-color-400.jpg",
+    "webp": "img/people/mazda-moayeri-color-400.webp"
+   }
+  ]
+ },
+ "people/mazda-moayeri-duo": {
+  "variants": [
+   {
+    "w": 400,
+    "h": 500,
+    "avif": "img/people/mazda-moayeri-duo-400.avif",
+    "jpg": "img/people/mazda-moayeri-duo-400.jpg",
+    "webp": "img/people/mazda-moayeri-duo-400.webp"
+   }
+  ]
+ },
+ "people/paul-cherian-color": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/paul-cherian-color-480.avif",
+    "jpg": "img/people/paul-cherian-color-480.jpg",
+    "webp": "img/people/paul-cherian-color-480.webp"
+   },
+   {
+    "w": 640,
+    "h": 800,
+    "avif": "img/people/paul-cherian-color-640.avif",
+    "jpg": "img/people/paul-cherian-color-640.jpg",
+    "webp": "img/people/paul-cherian-color-640.webp"
+   }
+  ]
+ },
+ "people/paul-cherian-duo": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/paul-cherian-duo-480.avif",
+    "jpg": "img/people/paul-cherian-duo-480.jpg",
+    "webp": "img/people/paul-cherian-duo-480.webp"
+   },
+   {
+    "w": 640,
+    "h": 800,
+    "avif": "img/people/paul-cherian-duo-640.avif",
+    "jpg": "img/people/paul-cherian-duo-640.jpg",
+    "webp": "img/people/paul-cherian-duo-640.webp"
+   }
+  ]
+ },
+ "people/sean-noh-color": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/sean-noh-color-480.avif",
+    "jpg": "img/people/sean-noh-color-480.jpg",
+    "webp": "img/people/sean-noh-color-480.webp"
+   },
+   {
+    "w": 680,
+    "h": 850,
+    "avif": "img/people/sean-noh-color-680.avif",
+    "jpg": "img/people/sean-noh-color-680.jpg",
+    "webp": "img/people/sean-noh-color-680.webp"
+   }
+  ]
+ },
+ "people/sean-noh-duo": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/sean-noh-duo-480.avif",
+    "jpg": "img/people/sean-noh-duo-480.jpg",
+    "webp": "img/people/sean-noh-duo-480.webp"
+   },
+   {
+    "w": 680,
+    "h": 850,
+    "avif": "img/people/sean-noh-duo-680.avif",
+    "jpg": "img/people/sean-noh-duo-680.jpg",
+    "webp": "img/people/sean-noh-duo-680.webp"
+   }
+  ]
+ },
+ "people/sol-song-color": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/sol-song-color-480.avif",
+    "jpg": "img/people/sol-song-color-480.jpg",
+    "webp": "img/people/sol-song-color-480.webp"
+   },
+   {
+    "w": 960,
+    "h": 1200,
+    "avif": "img/people/sol-song-color-960.avif",
+    "jpg": "img/people/sol-song-color-960.jpg",
+    "webp": "img/people/sol-song-color-960.webp"
+   }
+  ]
+ },
+ "people/sol-song-duo": {
+  "variants": [
+   {
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/sol-song-duo-480.avif",
+    "jpg": "img/people/sol-song-duo-480.jpg",
+    "webp": "img/people/sol-song-duo-480.webp"
+   },
+   {
+    "w": 960,
+    "h": 1200,
+    "avif": "img/people/sol-song-duo-960.avif",
+    "jpg": "img/people/sol-song-duo-960.jpg",
+    "webp": "img/people/sol-song-duo-960.webp"
+   }
+  ]
+ },
+ "people/ted-li-color": {
+  "variants": [
+   {
+    "w": 272,
+    "h": 340,
+    "avif": "img/people/ted-li-color-272.avif",
+    "jpg": "img/people/ted-li-color-272.jpg",
+    "webp": "img/people/ted-li-color-272.webp"
+   }
+  ]
+ },
+ "people/ted-li-duo": {
+  "variants": [
+   {
+    "w": 272,
+    "h": 340,
+    "avif": "img/people/ted-li-duo-272.avif",
+    "jpg": "img/people/ted-li-duo-272.jpg",
+    "webp": "img/people/ted-li-duo-272.webp"
+   }
+  ]
+ },
+ "people/yann-lecun-visit-color": {
+  "variants": [
+   {
+    "w": 348,
+    "h": 435,
+    "avif": "img/people/yann-lecun-visit-color-348.avif",
+    "jpg": "img/people/yann-lecun-visit-color-348.jpg",
+    "webp": "img/people/yann-lecun-visit-color-348.webp"
+   }
+  ]
+ },
+ "people/yann-lecun-visit-duo": {
+  "variants": [
+   {
+    "w": 348,
+    "h": 435,
+    "avif": "img/people/yann-lecun-visit-duo-348.avif",
+    "jpg": "img/people/yann-lecun-visit-duo-348.jpg",
+    "webp": "img/people/yann-lecun-visit-duo-348.webp"
+   }
+  ]
+ }
+}
