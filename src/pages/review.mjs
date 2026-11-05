@@ -24,7 +24,7 @@ export function render(c) {
   const log = [
     ['Every page', [
       ['Header logo', 'Changed', 'Opened slightly (the lines are about 20% of a letter apart, not 12%). At 104–116 px on an ordinary screen the tighter setting left under 2 px between the lines. The big home title stays tight; the two now have the same proportions, so the hand-off swaps one for the other without a jump.'],
-      ['Header links', 'Kept', 'Speakers, Team, Join the club. No “Home” on laptops: the logo, top left, is the home link and is always in the header.'],
+      ['Header links', 'Kept', 'Speakers, Team, Join the club. No “Home” on laptops: the logo, top left, is the home link.'],
       ['Phone menu', 'Changed', '“Home” added first. On a phone the menu is the full list of pages, so it lists all four and underlines the one you are on.'],
       ['Section headings', 'Changed', 'One heading per section, top left, large and regular weight (Vitsœ’s pattern). The small bold labels are gone everywhere, not just “Join”.'],
       ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, advisors) run across the content column. All gray; no ink rules.'],
@@ -97,7 +97,7 @@ export function render(c) {
 
   const needed = [
     ['Before launch: Ted Li', 'Who he is: his LinkedIn, or his role on Feb 4, 2026 and one line on his work. Until then the live site cannot be published: the build stops while his role and line are missing (the preview shows the gaps in gray). Also a larger photo (the only one is 361 × 343 px).'],
-    ['Before launch: a club email address', 'Every way to reach or join the club goes to one officer’s personal address, which stops working at the next handover. A role address (daic@dartmouth.edu, if someone reads it) or the Dartmouth-only form fixes it; one line in content/site.json.'],
+    ['Before launch: a club email address', 'Every way to reach or join the club goes to one officer’s personal address, which stops reaching the club at the next handover: it reaches a former officer. A role address (daic@dartmouth.edu, if someone reads it) fixes the contact; the Dartmouth-only form fixes joining. One line each in content/site.json.'],
 
     ['Yann LeCun', 'A photo of him from the visit. The portrait on the site is from Wikimedia Commons, and its licence requires the credit line under the speakers; a club photo removes it.'],
     ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos (shown as initials until then).'],
