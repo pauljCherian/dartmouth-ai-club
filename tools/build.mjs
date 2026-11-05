@@ -265,6 +265,23 @@ if (!PREVIEW) {
     check(`vercel.json redirect ${r.source}`, r.destination);
   }
 }
+// Typography (README, Words): no straight quote or apostrophe and no two spaces in a row in any text a page shows,
+// typed in content/*.json (esc() turns ' and " into &#39; and &quot;) or in a page file. Text between tags and
+// the alt, aria-label, title and description values; the line breaks and indents of the HTML itself don't count.
+if (!PREVIEW) {
+  const shown = (v) => v.replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, '\u00a0');
+  for (const w of written) {
+    const s = w.html.replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/g, '').replace(/<!--[\s\S]*?-->/g, '');
+    const texts = [...s.matchAll(/>([^<]+)</g)].map((m) => m[1]);
+    const attrs = [...s.matchAll(/\s(?:alt|aria-label|title|content)="([^"]*)"/g)].map((m) => m[1]).filter((v) => !/^(https?:|#|\d)/.test(v));
+    for (const raw of [...texts, ...attrs]) {
+      const v = shown(raw).replace(/\s*\n\s*/g, ' ');
+      const at = (re) => { const i = v.search(re); return `“${v.slice(Math.max(0, i - 30), i + 30).trim()}”`; };
+      if (/['"]/.test(v)) fail(`${w.file}: straight quote or apostrophe in ${at(/['"]/)} (use “ ” ’)`);
+      if (/\S[ \u00a0]{2,}\S/.test(v)) fail(`${w.file}: two spaces in a row in ${at(/[ \u00a0]{2,}/)}`);
+    }
+  }
+}
 if (problems.length) {
   if (ALLOW_MISSING) console.warn(`Development build with missing pieces:\n- ${problems.join('\n- ')}`);
   else {

@@ -30,7 +30,7 @@ Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Ever
 }
 ```
 
-- `role`: their title and organisation **at the time of the talk**, as "Title, Organisation" ("Head of Data, Simile"), with a second affiliation after a semicolon if it matters ("…, Anthropic; PhD student, Oxford"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
+- `role`: their title and organisation **at the time of the talk**, as "Title, Organisation" ("Head of Data, Simile"), the title in Title Case, with a second affiliation after a semicolon if it matters ("…, Anthropic; PhD Student, Oxford"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
 - `description`: one plain line about the person's own work at the time, under about 90 characters, starting with a verb ("Studies why AI models fail…"). Not their company's slogan, and not the title again. Write it for someone who doesn't study computer science.
 - The live build stops while a talk has no `role` or `description`. The preview shows the gap in gray instead, so you can see what is missing.
 - `date`: the day of the talk. Add a talk on the day it happens or after: the list is a record of who came, so it never shows a talk as coming up and never needs updating afterwards.
@@ -90,7 +90,7 @@ Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`
 - **Layout.** A page has one giant title. Below it, every section is the same: a gray hairline from margin to margin, one heading top left (large, regular weight) and the content on the right. The footer follows the same grid: the invitation to join (left, on every page but /join), the page links and the contact.
 - **Arrow.** `src/svg/arrow-e.svg` and `arrow-ne.svg`: → goes somewhere on this site; ↗ leaves it. The LinkedIn, X and YouTube marks need no arrow: the mark says where it goes.
 - **Navigation.** Laptops: the logo (home) and Speakers, Team, Join the club. Phones: the menu lists all four pages, Home first, with the club's X and YouTube marks under them once their links are in `content/site.json`. The contact email is in the footer only.
-- **Words.** Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don't (“Speakers”, “Team”).
+- **Words.** Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don't (“Speakers”, “Team”). Curly quotes and apostrophes (“ ” ’), an en dash in ranges (2026–27), one space between sentences. The live build stops on a straight quote or apostrophe, or two spaces in a row, in any text a page shows.
 - **Error page.** Any unknown address gets `404.html` with status 404: a “Not in service” sign (one ink panel, the site's type in paper, a thin rule along its top), one sentence, one link home; the header and footer carry the rest. It is the only black shape on the site, because it is the only page that isn't normal browsing.
 - **Motion.** One choreographed moment: the hand-off on the home page. Native scrolling, the browser's own cursor, nothing fading in on scroll. People who ask their device for reduced motion get the static layout.
 
