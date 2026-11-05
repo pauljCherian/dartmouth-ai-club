@@ -4,13 +4,8 @@
     "name": "Mazda Moayeri",
     "role": "Research at",
     "org": "Meta Superintelligence Labs",
-    "format": "Fireside chat",
-    "title": "Inside Frontier AI Research",
     "start": "2026-11-06T16:00:00-05:00",
     "end": "2026-11-06T17:30:00-05:00",
-    "date_label": "Fri Nov 6, 2026",
-    "time_label": "4 pm",
-    "place": "ECSC B01",
     "photo": "mazda-moayeri",
     "photo_alt": "Mazda Moayeri speaking into a microphone.",
     "source": "Event poster"
@@ -21,9 +16,7 @@
     "role": "Executive Chair at",
     "org": "AMI Labs",
     "description": "Turing Award laureate and Professor of Computer Science at NYU.",
-    "format": "Conversation",
     "start": "2026-10-29T15:00:00-04:00",
-    "date_label": "Oct 29, 2026",
     "photo": "yann-lecun-visit",
     "photo_alt": "Yann LeCun standing with club members at the head of the conference table.",
     "confirm": "Title updated from “Chief AI Scientist, Meta”: he co-founded AMI Labs in Dec 2025 (Executive Chair) and remains an NYU professor. Confirm the wording and the exact event date.",
@@ -34,32 +27,23 @@
     "name": "Christina Lu",
     "role": "",
     "org": "Anthropic",
-    "date_label": "2026",
+    "start": "2026-04-14T20:00:00-04:00",
+    "end": "2026-04-14T20:45:00-04:00",
     "photo": "christina-lu",
     "photo_alt": "",
-    "confirm": "Date, format and role are unknown. The previous site listed only “Anthropic”.",
-    "source": "Previous site"
+    "confirm": "Role and description to confirm (the club calendar lists her as “Anthropic, Oxford”).",
+    "source": "Previous site; date from the club calendar (Tue Apr 14, 2026, 8–8:45 pm)"
   },
   {
     "id": "chetan-patel",
     "name": "Chetan Patel",
     "role": "Head of Data at",
     "org": "Simile",
-    "format": "Fireside chat",
-    "host": "Interviewed by Paul Cherian",
+    "description": "Simile models human decision-making to help companies predict how people will respond to products, strategies and scenarios.",
     "start": "2026-05-05T20:00:00-04:00",
-    "date_label": "May 5, 2026",
     "photo": "chetan-patel",
     "photo_alt": "",
-    "links": [
-      {
-        "label": "Poster",
-        "href": "asset:img/posters/chetan-patel-poster.png"
-      }
-    ],
-    "source": "Previous site + session archive",
-    "description": "Simile models human decision-making to help companies predict how people will respond to products, strategies and scenarios.",
-    "place": "ECSC 009"
+    "source": "Previous site + session archive"
   },
   {
     "id": "andrew-milich",
@@ -67,30 +51,17 @@
     "role": "",
     "org": "xAI",
     "description": "Formerly Head of Engineering, Product at Cursor.",
-    "format": "Fireside chat",
-    "host": "Interviewed by Paul Cherian",
     "start": "2026-03-04T20:00:00-05:00",
-    "date_label": "Mar 4, 2026",
     "photo": "andrew-milich",
     "photo_alt": "",
-    "links": [
-      {
-        "label": "Poster",
-        "href": "asset:img/posters/andrew-milich-poster.png"
-      }
-    ],
-    "source": "Previous site + session archive",
-    "place": "ECSC 009"
+    "source": "Previous site + session archive"
   },
   {
     "id": "ted-li",
     "name": "Ted Li",
     "role": "Formerly at",
     "org": "Meta Superintelligence Labs",
-    "format": "Fireside chat",
-    "host": "Interviewed by Paul Cherian",
     "start": "2026-02-04T20:00:00-05:00",
-    "date_label": "Feb 4, 2026",
     "photo": "ted-li",
     "photo_alt": "",
     "confirm": "Source photo is only 361 × 343 px: send a larger one. His poster on Google Drive asks visitors to sign in: share it (“Anyone with the link”) or send the file.",

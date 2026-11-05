@@ -9,22 +9,27 @@
   "redirects": [
     {
       "source": "/meeting-materials",
-      "destination": "/speakers#sessions",
+      "destination": "/speakers",
       "permanent": true
     },
     {
       "source": "/resources",
-      "destination": "/reading",
+      "destination": "/",
       "permanent": true
     },
     {
       "source": "/reading-lists",
-      "destination": "/reading",
+      "destination": "/",
       "permanent": true
     },
     {
       "source": "/images/chetan-patel-poster.png",
       "destination": "/img/posters/chetan-patel-poster.png",
+      "permanent": true
+    },
+    {
+      "source": "/reading",
+      "destination": "/",
       "permanent": true
     }
   ],

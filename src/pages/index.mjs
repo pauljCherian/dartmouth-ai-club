@@ -2,20 +2,6 @@ import { html, esc } from '../lib/core.mjs';
 
 export const page = { id: 'home', path: '/', out: 'index.html' };
 
-const feature = (c, ev, { sizes, next = true, show = '' }) => html`
-<article class="feature"${show}>
-  <div class="feature__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes })}</div>
-  <div class="feature__text">
-    <h3 class="feature__name">${esc(ev.name)}</h3>
-    <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
-    <p class="feature__affil">${c.affil(ev)}</p>
-    ${ev.title ? html`<p class="feature__title">${c.keepLast(ev.title)}</p>` : ''}
-    <p class="feature__when"><span class="feature__date">${c.unbrokenDate(ev.date_label)}</span>${[ev.time_label, ev.place].filter(Boolean).length ? html`<span class="feature__sep"> · </span>${[ev.time_label, ev.place].filter(Boolean).map(c.unbroken).join(' · ')}` : ''}</p>
-  </div>
-</article>`;
-
-export { feature };
-
 // Runs right after the tagline is parsed: reserve its real height under the title, so the title doesn't jump
 // when site.js measures the same thing (same rule as measure() in site.js). The title stays transparent until
 // this has run (.is-measured), so a page that arrives in pieces on a slow network never paints it in the
@@ -29,9 +15,9 @@ const TAG_ROOM = `(function(){var d=document.documentElement,h=document.querySel
 
 export function render(c) {
   const { site, brand } = c;
-  // "Next": the earliest talk that hasn't ended. "Recently": the six most recent past talks, newest first (two
-  // rows of three); older ones stay on /speakers. Both are rendered for every talk state (see core.mjs), so the
-  // page is right before the first paint even when a talk ends between builds.
+  // The six most recent talks, newest first (two rows of three); older ones are on /speakers. A talk added
+  // before it happens appears once it has ended, decided in the visitor's browser (see core.mjs), so nothing on
+  // the page waits for a rebuild or goes stale.
   const LIMIT = 6;
   const candidates = [...[...c.upcoming].reverse(), ...c.past];
   const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
@@ -118,8 +104,6 @@ export function render(c) {
 <section class="row wrap" id="speakers" aria-labelledby="speakers-h">
   <h2 class="row__label" id="speakers-h">Speakers</h2>
   <div class="row__body">
-    ${c.upcoming.length ? html`<div data-upcoming-section${c.show((k) => c.nextIn(k))}>${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 20vw, (min-width: 28.5em) 420px, 92vw', show: c.show((k) => c.nextIn(k) === ev) }))}</div>` : ''}
-    <h3 class="subhead">Recently</h3>
     <ul class="people people--3">
       ${recent.map((ev) => html`
       <li class="person"${c.show((k) => recentIn(k).includes(ev))}>

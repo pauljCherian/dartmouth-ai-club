@@ -48,7 +48,6 @@
   --font: "Club Sans", Helvetica, Arial, sans-serif;
   /* In rem, so a larger default font size set in the browser takes effect. 1rem = 16px by default. */
   --t-page: clamp(min(3.25rem, 16.25vw), 10vw, 9.5rem);   /* page titles: 52-152px (less on very narrow screens with large text) */
-  --t-1: clamp(2.5rem, 6.2vw, 6rem);        /* speaker names in features, big statements: 40-96px */
   --t-2: clamp(1.75rem, 3.3vw, 3rem);       /* statements: 28-48px */
   --t-3: clamp(1.25rem, 1.85vw, 1.6875rem); /* leads: 20-27px */
   --t-4: 1.0625rem;                         /* body: 17px */
@@ -148,7 +147,6 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
 .block { margin-bottom: clamp(56px, 7vw, 112px); }
 .subhead { margin-top: clamp(48px, 6vw, 88px); margin-bottom: 20px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: var(--t-5); font-weight: 700; }
-[data-upcoming-section] + .subhead { margin-top: clamp(56px, 7vw, 104px); }
 .row__body > .subhead:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .muted { color: var(--gray); }
 .nowrap { white-space: nowrap; }
@@ -575,58 +573,6 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .pillar__text, .pillar__more { grid-column: 5; }
 }
 
-/* ---------- Speaker feature (poster logic: photo, label, name, affiliation, when) ---------- */
-.feature { display: grid; gap: 24px var(--gap); grid-template-columns: minmax(0, 1fr); }
-.feature__photo { max-width: 420px; }
-.feature__text { display: flex; flex-direction: column; }
-.feature__label { order: -1; font-size: var(--t-5); font-weight: 700; color: var(--gray); }
-.feature__name { margin-top: 6px; font-size: var(--t-1); letter-spacing: -0.035em; line-height: 0.98; }
-.feature__affil { margin-top: 12px; font-size: var(--t-3); line-height: 1.25; }
-.feature__title { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-3); line-height: 1.25; }
-.feature__when { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-4); font-weight: 700; font-variant-numeric: tabular-nums; }
-/* Home: in thirds of the row body, so the photo is exactly as wide as a "Recently" tile under it and the text
-   starts where the second tile does. */
-@media (min-width: 56.25em) {
-  .feature { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
-  .feature__photo { grid-column: 1; max-width: none; }
-  .feature__text { grid-column: 2 / -1; }
-}
-/* /speakers ("Next", across the page), text from the top so the name and the date are on the first screen.
-   Tablets: photo beside the text. Wide screens: the photo is 3 of the 12 columns. Phones: the name across the
-   full width (a long surname never breaks), then the photo with the details beside it, the date on its own
-   line. Very narrow (zoomed in, very large text): one column. */
-.features { display: grid; row-gap: clamp(56px, 7vw, 104px); }  /* two talks booked: the gap skips hidden ones */
-.features .feature { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; }
-.features .feature__photo { grid-column: 1; max-width: none; }
-.features .feature__text { grid-column: 2; }
-@media not all and (min-width: 43.75em) {
-  /* The text box steps aside (display: contents) so its lines can be placed on the feature's own grid. The
-     last row is flexible: the photo spans into it, so its height never spreads the details apart. */
-  .features .feature { grid-template-rows: auto auto auto auto auto 1fr; row-gap: 0; }
-  .features .feature__text { display: contents; }
-  .features .feature__label { grid-column: 1 / -1; grid-row: 1; }
-  .features .feature__name { grid-column: 1 / -1; grid-row: 2; margin-bottom: 20px; }
-  .features .feature__photo { grid-column: 1; grid-row: 3 / -1; }
-  .features .feature__affil { grid-column: 2; grid-row: 3; margin-top: 0; font-size: var(--t-4); }
-  .features .feature__title { grid-column: 2; grid-row: 4; margin-top: 16px; font-size: var(--t-4); }
-  .features .feature__when { grid-column: 2; grid-row: 5; margin-top: 16px; }
-  .features .feature__date { display: block; }
-  .features .feature__sep { display: none; }
-}
-@media not all and (min-width: 18em) {  /* the details column would be narrower than "Superintelligence" */
-  .features .feature { grid-template-columns: minmax(0, 1fr); }
-  .features .feature__photo { grid-row: 3; max-width: min(260px, 60%); margin-bottom: 20px; }
-  .features .feature__affil, .features .feature__title, .features .feature__when { grid-column: 1; }
-  .features .feature__affil { grid-row: 4; }
-  .features .feature__title { grid-row: 5; }
-  .features .feature__when { grid-row: 6; }
-}
-@media (min-width: 56.25em) {
-  .features .feature { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-  .features .feature__photo { grid-column: 1 / span 3; }
-  .features .feature__text { grid-column: 4 / -1; }
-}
-
 /* ---------- People grids (speakers on home, team) ---------- */
 .people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--gap); }
 @media (min-width: 56.25em) { .people--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -653,7 +599,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .page-title { font-size: var(--t-page); letter-spacing: -0.045em; line-height: 0.92; }
 .page-lead { margin-top: clamp(20px, 3vw, 36px); max-width: 26em; font-size: var(--t-3); line-height: 1.28; letter-spacing: -0.005em; text-wrap: balance; }
 .pillar__text, .join-band__text, .talk__desc, .step__body p, .about__text, .notfound__text,
-.talk__extra, .talk__affil, .feature__affil, .feature__title, .person__meta, .list-rows__meta, .session__summary { text-wrap: pretty; }
+.talk__affil, .person__meta, .list-rows__meta { text-wrap: pretty; }
 
 /* ---------- Talks list (speakers page) ---------- */
 .year { padding-block: 14px; border-top: 1px solid var(--ink); font-size: var(--t-5); font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -672,9 +618,6 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .talk__name { font-size: clamp(1.375rem, 2.3vw, 2.125rem); line-height: 1.1; letter-spacing: -0.02em; }
 .talk__affil { margin-top: 4px; font-size: var(--t-4); line-height: 1.3; }
 .talk__desc { margin-top: 10px; max-width: 38em; }
-.talk__extra { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: var(--t-5); color: var(--gray); }
-.talk__extra a { color: var(--ink); }
-.talk__extra a:hover { color: var(--green); }
 @media (min-width: 56.25em) {
   .talk { grid-template-columns: max(128px, 6rem) minmax(0, 1fr) auto; column-gap: var(--gap); padding-block: 32px; }
   .talk__photo { grid-row: 1; }
@@ -682,37 +625,11 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .talk__date { grid-column: 3; grid-row: 1; align-self: baseline; font-size: var(--t-5); text-align: right; white-space: nowrap; }
 }
 
-/* ---------- Sessions (member talks) ---------- */
-.session {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 4px;
-  padding-block: 18px;
-  border-top: 1px solid var(--rule);
-}
-.session__date { order: -1; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }  /* after the title in the HTML */
-.session__title { font-size: var(--t-4); line-height: 1.3; }
-.session__people { font-size: var(--t-5); color: var(--gray); }
-.session__summary { font-size: var(--t-5); max-width: 40em; }
-.session__links { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: var(--t-5); }
-.session__links a, .talk__extra a { padding-block: 2px; }
-@media (min-width: 56.25em) {
-  .session { grid-template-columns: max(128px, 6rem) minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }  /* the talk photo column, so titles line up with talk names at every text size */
-  .session__date { grid-column: 1; grid-row: 1 / span 3; }
-  .session__title, .session__people, .session__summary { grid-column: 2; }
-  .session__links { grid-column: 3; grid-row: 1; justify-content: flex-end; }
-}
-
-/* ---------- Advisors, reading list ---------- */
+/* ---------- Faculty advisors ---------- */
 .list-rows > li { padding-block: 18px; border-top: 1px solid var(--rule); }
 .list-rows > li:last-child { border-bottom: 1px solid var(--rule); }
 .list-rows__title { font-size: var(--t-4); font-weight: 700; line-height: 1.3; }
 .list-rows__meta { margin-top: 2px; font-size: var(--t-5); color: var(--gray); }
-.list-rows a.list-rows__title { padding-block: 2px; text-decoration: none; }
-.list-rows a.link-arrow--inline { padding-block: 4px; }
-.link-arrow--inline { display: inline; padding-block: 4px; }  /* inline: 4px keeps each line of the link 24px+ tall to tap */
-.link-arrow--inline .arrow { display: inline-block; margin-left: 0.12em; vertical-align: -0.04em; }  /* the space + 0.12em = the 0.4em gap of .link-arrow */
-.list-rows a.list-rows__title:hover { text-decoration: underline; }
 
 /* ---------- Steps (join page) ---------- */
 .steps { display: grid; gap: 0; }
@@ -730,7 +647,11 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .step__body { grid-column: 2; max-width: 34em; }
 .step__body > * + * { margin-top: 16px; }
 .step__note { font-size: var(--t-5); color: var(--gray); }
-.socials { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: var(--t-4); }
+.socials { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.social { display: inline-flex; padding: 4px; margin: -4px; color: var(--ink); }  /* 32px tap target around a 24px mark */
+.social:hover { color: var(--green); }
+.social__icon { width: 24px; height: 24px; fill: currentColor; }
+.social.is-placeholder { color: var(--gray); opacity: 0.6; }
 .is-placeholder { color: var(--gray); text-decoration-style: dotted; }
 
 /* ---------- Join band (home) ---------- */
@@ -768,7 +689,8 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .site-footer__brand svg { width: 100%; height: auto; }
 .site-footer .label { display: block; margin-bottom: 4px; font-weight: 700; }
 .site-footer__nav ul { display: grid; gap: 0; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
-.site-footer__nav a, .site-footer__socials a { display: inline-block; padding-block: 3px; }  /* 24px+ tap targets (WCAG 2.5.8) */
+.site-footer__nav a { display: inline-block; padding-block: 3px; }  /* 24px+ tap targets (WCAG 2.5.8) */
+.site-footer__socials { margin-top: 8px; }
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
@@ -807,9 +729,8 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .page-pad, .hero { padding-top: 0; }
   .page-head { padding-top: 12px; }  /* the paper margin is the space above the title; 12px clears its letters */
   .hero { margin-bottom: 0 !important; }  /* site.js spacing for the hand-off */
-  .talk, .person, .feature, .session, .pillar, .facts, .step { break-inside: avoid; }
+  .talk, .person, .pillar, .facts, .step { break-inside: avoid; }
   h1, h2, h3, h4, .row__label, .subhead { break-after: avoid; }
-  .feature__photo { max-width: 260px; }
   /* The hand-off rules are screen-only, so print gets the static hero. Undo the script's inline styles. */
   .hero__title, .hero__tagline, .hero__frame, .hero__img, .hero__caption { transform: none !important; opacity: 1 !important; }
   .hero__img, .hero__caption { width: auto !important; height: auto !important; }

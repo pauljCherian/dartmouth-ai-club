@@ -32,8 +32,6 @@ const content = {
   site: await readJSON('content/site.json'),
   speakers: await readJSON('content/speakers.json'),
   team: await readJSON('content/team.json'),
-  sessions: await readJSON('content/sessions.json'),
-  reading: await readJSON('content/reading.json'),
   photos: await readJSON('content/photos.json'),
 };
 
@@ -45,9 +43,8 @@ const nyOffsetMinutes = (date) => {
 };
 const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(min) / 60)).padStart(2, '0')}:${String(Math.abs(min) % 60).padStart(2, '0')}`;
 // New York calendar date and clock time of an instant, for checking the printed labels.
-const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).formatToParts(date).map((x) => [x.type, x.value]));
 
-(function validate({ site, speakers, team, sessions, reading }) {
+(function validate({ site, speakers, team }) {
   const need = (obj, keys, where) => keys.forEach((k) => (obj[k] === undefined || obj[k] === '') && fail(`${where}: missing "${k}"`));
   need(site, ['name', 'origin', 'tagline', 'description'], 'site.json');
   need(site.members || {}, ['count'], 'site.json members');
@@ -58,7 +55,7 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
   const ids = new Set();
   speakers.forEach((ev, i) => {
     const where = `speakers.json[${i}] ${ev.name || ''}`;
-    need(ev, ['id', 'name', 'org', 'date_label', 'photo'], where);
+    need(ev, ['id', 'name', 'org', 'description', 'photo'], where);
     if (typeof ev.photo_alt !== 'string') fail(`${where}: "photo_alt" must be text: "" for a plain portrait, a description for an event photo`);
     if (ids.has(ev.id)) fail(`${where}: duplicate id "${ev.id}"`);
     ids.add(ev.id);
@@ -84,46 +81,13 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
     if (ev.end && !ev.start) fail(`${where}: "end" is set but "start" is not`);
     if (datesOk && ev.start && ev.end && !(Date.parse(ev.end) > Date.parse(ev.start))) fail(`${where}: "end" must be after "start"`);
     if (datesOk && ev.start && ev.end && Date.parse(ev.end) - Date.parse(ev.start) > 72 * 3600e3) fail(`${where}: "end" is more than 3 days after "start" (typo?)`);
-    // The printed date and time must match "start" (a rescheduled talk must not keep its old label).
-    if (datesOk && ev.start) {
-      const ny = nyParts(new Date(ev.start));
-      const want = `${ny.month} ${ny.day}, ${ny.year}`;
-      const label = String(ev.date_label || '');
-      // "Fri Nov 6, 2026", "Friday, November 6, 2026", "Nov 6, 2026", "Sept 9, 2026": compare as month, day, year.
-      const DAYS = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
-      const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-      const m = label.toLowerCase().match(/^(?:([a-z]+)\.?,?\s+)?([a-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})$/);
-      const month = m && MONTHS.indexOf(m[2].slice(0, 3));
-      const nyDate = new Date(Date.UTC(Number(ny.year), MONTHS.indexOf(ny.month.toLowerCase().slice(0, 3)), Number(ny.day)));
-      if (!m || month < 0 || Number(m[3]) !== nyDate.getUTCDate() || month !== nyDate.getUTCMonth() || Number(m[4]) !== nyDate.getUTCFullYear()) {
-        fail(`${where}: "date_label" should read like "${want}" (optionally with the weekday first): "start" is ${ny.weekday} ${want} in New York`);
-      } else if (m[1] && DAYS[m[1].slice(0, 3)] !== nyDate.getUTCDay()) {
-        fail(`${where}: "date_label" weekday is wrong: ${ny.weekday} ${want}`);
-      }
-      if (ev.time_label) {
-        // "4 pm", "4:00 pm", "4 p.m.", "4pm", or a range like "4–5:30 pm" (the start is checked).
-        const t = String(ev.time_label).toLowerCase().replace(/\./g, '').replace(/\s+/g, '');
-        const tm = t.match(/^(\d{1,2})(?::(\d\d))?(am|pm)?(?:[-–—](\d{1,2})(?::(\d\d))?)?(am|pm)?$/);
-        const period = tm && (tm[3] || tm[6]);
-        const ok = tm && period && Number(tm[1]) === Number(ny.hour) && (tm[2] || '00') === ny.minute && period === ny.dayPeriod.toLowerCase();
-        if (!ok) fail(`${where}: "time_label" says "${ev.time_label}" but "start" is ${ny.hour}${ny.minute === '00' ? '' : ':' + ny.minute} ${ny.dayPeriod.toLowerCase()} in New York`);
-      }
-    }
+    // The date shown is taken from "start". "date_label" is only for a talk whose exact date is unknown.
+    if (!ev.start && !ev.date_label) fail(`${where}: needs "start" (the date and time of the talk), or "date_label" if the exact date is unknown`);
+    if (ev.start && ev.date_label) fail(`${where}: has both "start" and "date_label": the date is shown from "start", delete "date_label"`);
+    for (const k of ['format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is no longer shown on the site; delete it (a talk shows who, what and when)`);
   });
   team.officers.forEach((o, i) => need(o, ['name', 'role', 'photo'], `team.json officers[${i}]`));
   team.advisors.forEach((a, i) => need(a, ['name', 'title', 'unit'], `team.json advisors[${i}]`));
-  sessions.forEach((s, i) => {
-    need(s, ['date', 'title', 'people'], `sessions.json[${i}]`);
-    if (!/^\d{4}-\d\d-\d\d$/.test(s.date)) fail(`sessions.json[${i}]: date must be YYYY-MM-DD`);
-    else {
-      const day = new Date(`${s.date}T00:00:00Z`);
-      if (Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== s.date) fail(`sessions.json[${i}]: ${s.date} is not a real date`);
-    }
-  });
-  reading.forEach((r, i) => {
-    need(r, ['title', 'authors', 'href'], `reading.json[${i}]`);
-    if (typeof r.title !== 'string' || !r.title.trim()) fail(`reading.json[${i}]: "title" is empty`);
-  });
   const CLAIMS = ['build_nights', 'majors'];  // the claims a page shows (index.mjs, review.mjs)
   for (const [k, v] of Object.entries(site.claims || {})) {
     if (k.startsWith('_')) continue;
@@ -210,7 +174,7 @@ if (PREVIEW && existsSync(rel('public/review'))) {
   ctx.reviewFiles = new Set(await readdir(rel('public/review')));
   if (ctx.reviewFiles.has('qa.html')) ctx.reviewQA = await readFile(rel('public/review/qa.html'), 'utf8');
 }
-const pageNames = ['index', 'speakers', 'team', 'join', 'reading', '404', ...(PREVIEW ? ['review'] : [])];
+const pageNames = ['index', 'speakers', 'team', 'join', '404', ...(PREVIEW ? ['review'] : [])];
 await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 const written = [];

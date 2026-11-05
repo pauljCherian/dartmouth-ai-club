@@ -9,14 +9,12 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 | File | What it holds |
 | --- | --- |
 | `content/site.json` | Tagline, contact email, meeting time and place, member count, join form link, social links, hero caption, and claims to confirm (`build_nights` and `majors`, each with its `source`; delete one under `claims` to remove it from every page) |
-| `content/speakers.json` | Every guest talk. The site sorts them by date; the earliest talk that hasn't ended is shown as "Next" |
-| `content/sessions.json` | Member sessions (weekly talks) with slides and paper links |
+| `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
 | `content/team.json` | Officers and faculty advisors |
-| `content/reading.json` | The reading list |
 
 ### Add a speaker
 
-Add an entry to `content/speakers.json` (anywhere; the top is easiest):
+Add an entry to `content/speakers.json` (anywhere; the top is easiest). Every talk shows the same four things: who they are, what they do, and when they came, with their photo.
 
 ```json
 {
@@ -24,23 +22,18 @@ Add an entry to `content/speakers.json` (anywhere; the top is easiest):
   "name": "First Last",
   "role": "Research at",
   "org": "Company",
-  "format": "Fireside chat",
-  "title": "Talk title (optional)",
-  "start": "2027-01-19T20:00:00-05:00",
-  "end": "2027-01-19T21:30:00-05:00",
-  "date_label": "Tue Jan 19, 2027",
-  "time_label": "8 pm",
-  "place": "ECSC 116",
+  "description": "One line on what they work on, under about 90 characters.",
+  "start": "2027-01-19T19:00:00-05:00",
   "photo": "first-last",
   "photo_alt": ""
 }
 ```
 
-- `start` and `end` need New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks it, that the date exists, that `end` is after `start`, and that the event lasts at most 3 days.
-- `date_label` must match `start`: "Nov 6, 2026", with an optional weekday first ("Fri Nov 6, 2026", "Friday, November 6, 2026"). `time_label`, if set, must match the start time: "4 pm", "4:30 pm", "4 p.m." or a range like "4–5:30 pm". The build stops if either disagrees, so a rescheduled talk can't keep its old label.
-- A talk counts as upcoming until `end`, or two hours after `start` if there is no `end`. The page switches it to "past" in the visitor's browser when it ends (on load, or live if the page is open), even before the next build.
-- The home page shows the next talk and the six most recent past ones. `/speakers` shows every talk.
-- `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**".
+- `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**". Use their current role.
+- `description` is required: one plain line about the person's own work (not their company's slogan).
+- `start` is when the talk began, with New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks the offset and that the date exists. The date shown ("Jan 19, 2027") comes from it. If the exact date is unknown, use `"date_label": "2027"` instead of `start`.
+- You can add a talk before it happens: it stays hidden until two hours after `start` (or until `end`, if you add one), decided in the visitor's browser, so nobody has to remember to update the site afterwards.
+- The home page shows the six most recent talks. `/speakers` shows every talk, grouped by year.
 - `photo_alt`: leave it `""` for a plain head-and-shoulders portrait (the name is printed right next to it, so screen readers would hear it twice). Describe the photo only when it shows more, such as the speaker at the event.
 
 ### Add or replace a photo
@@ -85,11 +78,11 @@ The build stops with a list of problems if content is invalid (including a talk 
 
 ## Deploy
 
-Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials`, `/resources`, `/reading-lists`). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu. Fonts are published under names that include a hash of their contents, so browsers can keep them for a year and still get a replaced font at once.
+Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials` to `/speakers`; `/resources`, `/reading-lists` and `/reading` to the home page). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu. Fonts are published under names that include a hash of their contents, so browsers can keep them for a year and still get a replaced font at once.
 
 ### Optional: rebuild every morning
 
-Visitors' browsers already move a talk from "Next" to past when it ends. A daily rebuild also updates what doesn't run JavaScript: the event data search engines read, and visitors with JavaScript off. To set it up, create a deploy hook for `main` in Vercel (Project, Settings, Git, Deploy Hooks), save its URL in GitHub as the Actions secret `VERCEL_DEPLOY_HOOK`, and add `.github/workflows/rebuild.yml`:
+A talk added before it happens appears in visitors' browsers once it has ended. Visitors with JavaScript off see it after the next build. To rebuild every morning anyway, create a deploy hook for `main` in Vercel (Project, Settings, Git, Deploy Hooks), save its URL in GitHub as the Actions secret `VERCEL_DEPLOY_HOOK`, and add `.github/workflows/rebuild.yml`:
 
 ```yaml
 name: Daily rebuild
@@ -121,7 +114,7 @@ content/        what the site says (edit these)
 src/pages/      one file per page
 src/lib/        shared header, footer, layout and helpers
 src/styles/     site.css
-src/scripts/    site.js (hand-off, mobile menu, upcoming talks)
+src/scripts/    site.js (hand-off, mobile menu, talks that have just happened)
 src/svg/        logo lockups and arrows
 public/         copied as-is: fonts, images, icons
 tools/          build.mjs, serve.mjs, images.py
@@ -131,3 +124,4 @@ assets-src/     metadata-free originals of the photos, and the logo for og.jpg (
 ## Licences
 
 TeX Gyre Heros is distributed under the GUST Font License (`public/fonts/GUST-FONT-LICENSE.txt`).
+The Instagram and LinkedIn marks (`src/svg/instagram.svg`, `src/svg/linkedin.svg`) are from Font Awesome Free 6.5.2 by Fonticons, Inc., licensed CC BY 4.0 (https://fontawesome.com/license/free); the marks themselves are the networks' trademarks.

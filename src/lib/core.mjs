@@ -32,7 +32,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const { site } = content;
   const preview = mode === 'preview';
 
-  const PAGES = { home: '', speakers: 'speakers', team: 'team', join: 'join', reading: 'reading', '404': '404', review: 'review' };
+  const PAGES = { home: '', speakers: 'speakers', team: 'team', join: 'join', '404': '404', review: 'review' };
   const link = (page, hash = '') => {
     if (!(page in PAGES)) throw new Error(`Unknown page in link(): ${page}`);
     const h = hash ? `#${hash}` : '';
@@ -109,26 +109,27 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const byEnd = [...upcoming].sort((a, b) => ends(a) - ends(b));
   const STATES = Array.from({ length: byEnd.length + 1 }, (_, k) => k);
   const endedIn = (ev, k) => { const i = byEnd.indexOf(ev); return i > -1 && i < k; };
-  const nextIn = (k) => upcoming.find((ev) => !endedIn(ev, k)) || null;
   // data-show attribute for an element visible only in some states ('' when it is visible in all of them).
   const show = (visibleIn) => {
     const ks = STATES.filter(visibleIn);
     return ks.length === STATES.length ? '' : ` data-show="${ks.join(' ')}"`;
   };
   const stateCss = byEnd.length
-    ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}` +
-        `html.talks-${k} [data-upcoming-section]:not([data-show~="${k}"])+.subhead{margin-top:0;padding-top:0;border-top:0}`).join('') +
+    ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}`).join('') +
       `html:not([class*="talks-"]) [data-show]:not([data-show~="0"]){display:none!important}`
     : '';
   const talkEnds = byEnd.map(ends);
 
+  // Social links as the networks' own marks (Instagram, LinkedIn: src/svg/<name>.svg), in ink, one size, each
+  // with its name for screen readers. People find these marks faster than words.
   const socials = (cls = 'socials') => {
     const items = site.socials.filter((s) => s.url || preview);
     if (!items.length) return '';
+    const mark = (s) => (svgs[String(s.name).toLowerCase()] ? svg(String(s.name).toLowerCase(), { cls: 'social__icon' }) : esc(s.name));
     return html`<ul class="${cls}">${items.map((s) =>
       s.url
-        ? html`<li><a class="link-arrow" href="${esc(s.url)}">${esc(s.name)} ${arrow('ne')}</a></li>`
-        : html`<li><span class="is-placeholder" title="Link to come">${esc(s.name)}</span></li>`
+        ? html`<li><a class="social" href="${esc(s.url)}">${mark(s)}<span class="visually-hidden">${esc(s.name)}</span></a></li>`
+        : html`<li><span class="social is-placeholder" title="${esc(s.name)}: link to come">${mark(s)}<span class="visually-hidden">${esc(s.name)} (link to come)</span></span></li>`
     )}</ul>`;
   };
 
@@ -153,7 +154,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     <a href="${link('speakers')}"${page === 'speakers' ? ' aria-current="page"' : ''}>Speakers</a>
     <a href="${link('team')}"${page === 'team' ? ' aria-current="page"' : ''}>Team</a>
     <a class="is-join" href="${link('join')}"${page === 'join' ? ' aria-current="page"' : ''}>Join the club</a>
-    <a class="is-minor" href="${link('reading')}"${page === 'reading' ? ' aria-current="page"' : ''}>Reading list</a>
   </div>
   <div class="site-menu__foot wrap">
     ${socials('site-menu__socials socials')}
@@ -167,7 +167,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     <div class="site-footer__brand"><a href="${link('home')}" aria-label="Dartmouth AI Club, home">${svg('logo-small')}</a></div>
     <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">
       <ul>
-        ${[['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club'], ['reading', 'Reading list']].map(([id, label]) => html`<li><a href="${link(id)}"${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
+        ${[['speakers', 'Speakers'], ['team', 'Team'], ['join', 'Join the club']].map(([id, label]) => html`<li><a href="${link(id)}"${page === id ? ' aria-current="page"' : ''}>${label}</a></li>`)}
       </ul>
     </nav>
     <div class="site-footer__contact">
@@ -175,9 +175,9 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
       <a class="site-footer__email" href="mailto:${esc(site.contact.email)}">${email(site.contact.email)}</a>
       <p class="muted">${esc(site.meetings.when)} · ${esc(site.meetings.where)}</p>
     </div>
-    ${socials('site-footer__socials') ? html`<div class="site-footer__social">
+    ${socials() ? html`<div class="site-footer__social">
       <span class="label">Follow</span>
-      ${socials('site-footer__socials')}
+      ${socials('socials site-footer__socials')}
     </div>` : ''}
     <p class="site-footer__legal">© ${now.getFullYear()} Dartmouth AI Club</p>
   </div>
@@ -206,22 +206,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     `})(document.documentElement);`;
 
   const same = site.socials.filter((s) => s.url).map((s) => s.url);
-  const portraitUrl = (ev) => { const m = manifest[`people/${ev.photo}-${treatment}`]; return m ? `${site.origin}/${m.variants.at(-1).jpg}` : null; };
-  const eventLd = (ev) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Event',
-    name: [ev.format, ev.name].filter(Boolean).join(' with ') + (ev.title ? `: ${ev.title}` : ''),
-    description: `${ev.format || 'Talk'} with ${ev.name}${ev.role || ev.org ? `, ${[ev.role, ev.org].filter(Boolean).join(' ')}` : ''}${ev.title ? `: ${ev.title}` : ''}. Hosted by the ${site.name}; open to Dartmouth students.`,
-    startDate: ev.start,
-    ...(ev.end ? { endDate: ev.end } : {}),
-    eventStatus: 'https://schema.org/EventScheduled',
-    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    location: { '@type': 'Place', name: ev.place || 'Dartmouth College', address: { '@type': 'PostalAddress', addressLocality: 'Hanover', addressRegion: 'NH', postalCode: '03755', addressCountry: 'US' } },
-    ...(portraitUrl(ev) ? { image: [portraitUrl(ev)] } : {}),
-    performer: { '@type': 'Person', name: ev.name },
-    organizer: { '@type': 'Organization', name: site.name, url: site.origin },
-  });
-  // Home: the club and its upcoming talks. /speakers: the upcoming talks it also shows.
+  // Home: the club itself (no talk is announced on the site, so no events).
   const jsonLd = (page) =>
     JSON.stringify([
       ...(page === 'home' ? [{
@@ -233,7 +218,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
         email: site.contact.email,
         ...(same.length ? { sameAs: same } : {}),
       }] : []),
-      ...upcoming.map(eventLd),
     ]).replace(/</g, '\\u003c');
 
   // Link previews of Vercel preview deployments must point at that deployment's own og.jpg.
@@ -263,7 +247,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <link rel="icon" href="${icon('favicon.svg')}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${icon('apple-touch-icon.png')}">
 ${preview ? '' : '<link rel="manifest" href="/site.webmanifest">'}
-${page === 'home' || (page === 'speakers' && upcoming.length) ? `<script type="application/ld+json">${jsonLd(page)}</script>` : ''}`;
+${page === 'home' ? `<script type="application/ld+json">${jsonLd(page)}</script>` : ''}`;
     const body = html`
 <a class="skip-link" href="#main">Skip to content</a>
 ${header(page)}
@@ -308,6 +292,6 @@ ${preview ? script : ''}
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
     upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
-    STATES, endedIn, nextIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
+    STATES, endedIn, show, keepLast, tieDates, email, unbroken, unbrokenDate,
   };
 }

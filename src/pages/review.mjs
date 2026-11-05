@@ -26,10 +26,6 @@ export function render(c) {
     ['Who can join', '“Open to Dartmouth students, whatever you study.”', 'Undergraduates only, or graduate students too?'],
     ['Contact email', site.contact.email, 'You chose a person over the long official address; one line in content/site.json to change.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, `${[s.role, s.org].filter(Boolean).join(' ')}`, s.confirm]),
-    ...content.sessions.filter((s) => s.confirm).map((s) => [`Session, ${c.shortDate(s.date)}`, s.title, s.confirm]),
-    ['Member sessions', '“Jeffery Xie” → “Jeffrey Xie”', 'The old archive and team page spelled the name differently; I used the team page spelling.'],
-    ['Past talks', 'Date and room (from the posters), no time', 'Times are left off past talks on purpose; the posters stay linked as images.'],
-    ['Reading list', 'Maganur and Kejriwal', 'Corrected from “Magnur” on the old site, with the full paper title from arXiv.'],
     ['Soroush Vosoughi', 'Associate Professor', 'Corrected from “Professor”: Dartmouth’s faculty directory lists him as Associate Professor of Computer Science.'],
   ];
 
@@ -37,15 +33,13 @@ export function render(c) {
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284. Export as JPEG (maximum quality, full size, location unchecked) and share a Google Drive link. Everything else is automatic.'],
     ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. Goes in “Who we are”.'],
     ['Yann LeCun', 'A photo of him from the visit. His tile is cut from the group photo around where he stands, so it is soft until the full-resolution original arrives (then it sharpens by itself); a portrait of him would be better still.'],
-    ['Ted Li', 'A larger photo (the only one we have is 361 × 343 px), and his poster shared publicly or sent as a file.'],
+    ['Ted Li', 'A larger photo (the only one we have is 361 × 343 px).'],
     ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos. The current ones are full- and half-length, so the faces are only about 55 and 75 px tall.'],
     ['Paul Cherian, Lisa Samoylov, Sean Noh', 'Larger originals, at least 1000 px wide. The current files are about 500 px, a little soft on large high-resolution screens (the Team page is now capped so they are never shown much larger than that).'],
-    ['Lisa Samoylov', 'A working link to the “LLMs for math” slides.'],
     ['Mazda Moayeri', 'The original photo. It is currently cut out of the event poster.'],
     ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link (setup steps in my message).'],
     ['Socials', 'Instagram and LinkedIn URLs. Empty links are hidden on the live site.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile (LinkedIn blocks automated checks).'],
-    ['Talk descriptions', 'One line per past talk. Optional; rows look fine without.'],
   ];
 
   const main = html`
@@ -89,8 +83,7 @@ export function render(c) {
       <tr><th scope="row">Hero photo</th><td>Leaning: starts black-and-white, turns to color as it grows (the “#mono” link above). The first screen becomes one monochrome poster with a single green action, like the portraits.</td><td>Full color from the start, lightly corrected (built as the default until you decide).</td></tr>
       <tr><th scope="row">Tab icon</th><td>A: off-white arrow on an ink square.</td><td>B: green square. C: “DA/AI” crop of the logo.</td></tr>
       <tr><th scope="row">Speaker and team photos</th><td>Ink-and-paper monochrome, one crop for everyone.</td><td>Color, balanced for consistency.</td></tr>
-      <tr><th scope="row">Nav label</th><td>“Speakers”: the page also shows the next talk.</td><td>“Past Speakers”.</td></tr>
-      <tr><th scope="row">Speakers on the home page</th><td>The next talk, then the six most recent in two rows of three. Today that is every past guest; from the seventh talk on, the oldest move to the Speakers page only.</td><td>Every past guest on the home page, so the section grows each term.</td></tr>
+      <tr><th scope="row">Speakers on the home page</th><td>The six most recent in two rows of three. Today that is every past guest; from the seventh talk on, the oldest move to the Speakers page only.</td><td>Every past guest on the home page, so the section grows each term.</td></tr>
     </tbody>
   </table></div>
   <h3 class="subhead review-h">Tab icon candidates</h3>
