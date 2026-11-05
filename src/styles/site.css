@@ -556,7 +556,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .page-head { padding-top: clamp(48px, 9vw, 136px); padding-bottom: clamp(40px, 6vw, 96px); }
 .page-title { font-size: var(--t-page); letter-spacing: -0.045em; line-height: 0.92; }
 .page-lead { margin-top: clamp(20px, 3vw, 36px); max-width: 26em; font-size: var(--t-3); line-height: 1.28; letter-spacing: -0.005em; text-wrap: balance; }
-.site-footer__text, .talk__desc, .step__body p, .about__text, .notfound__text,
+.site-footer__text, .talk__desc, .step__body p, .about__text,
 .talk__affil, .person__meta, .roster__what { text-wrap: pretty; }
 
 /* ---------- Talks list (speakers page): the home tile's record, laid sideways, plus one line ---------- */
@@ -619,11 +619,11 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 /* ---------- 404: a sign that is out of service ---------- */
 .sign {
   position: relative;
-  max-width: 1000px;
   padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px) clamp(20px, 3vw, 36px);
   background: var(--ink);
   color: var(--paper);
 }
+@media (min-width: 56.25em) { .sign { width: calc((100% - 11 * var(--gap)) * 3 / 4 + 8 * var(--gap)); } }  /* columns 1-9: the title fits on one line */
 .sign::before { content: ""; position: absolute; left: 0; right: 0; top: clamp(8px, 1vw, 12px); height: 2px; background: var(--paper); }
 .sign__text { display: block; margin-bottom: -0.2em; font-size: var(--t-page); font-weight: 700; letter-spacing: -0.045em; line-height: 0.92; }  /* as .page-title */
 @media (forced-colors: active) { .row, .site-footer__inner { border-top: 1px solid CanvasText; } }
@@ -631,8 +631,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
   .sign { border: 2px solid CanvasText; }
   .sign::before { forced-color-adjust: none; background: CanvasText; }
 }
-.notfound__text { margin-top: clamp(28px, 4vw, 48px); }
-.notfound__links { margin-top: 28px; display: grid; gap: 12px; }
+.notfound__links { margin-top: 28px; display: grid; gap: 12px; justify-items: start; }
 
 /* ---------- Footer: the invitation, the links, the contact (the grid of the sections above) ---------- */
 .site-footer {
