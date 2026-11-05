@@ -77,6 +77,8 @@
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
+/* The hidden attribute must win over any display set by a class (e.g. a talk that hasn't happened yet). */
+[hidden] { display: none !important; }
 html {
   background: var(--paper);
   -webkit-text-size-adjust: 100%;
