@@ -4,7 +4,7 @@
 //   node tools/build.mjs            -> dist/     production: clean URLs, absolute asset paths (Vercel serves this)
 //   node tools/build.mjs --preview  -> preview/  self-contained preview: .html links, inlined CSS, JS and fonts
 //
-// BUILD_NOW=2026-11-07T12:00:00-05:00 node tools/build.mjs   pretend it is another date (decides upcoming vs past talks)
+// BUILD_NOW=2027-01-15T12:00:00-05:00 node tools/build.mjs   pretend it is another date (the year in the footer)
 //
 // The build fails loudly on: invalid content, a missing image, font or SVG, or any broken internal link or anchor.
 
@@ -249,4 +249,4 @@ if (problems.length) {
     process.exit(1);
   }
 }
-console.log(`Built ${written.length} pages to ${path.relative(ROOT, OUT)}/ (${MODE}, now = ${NOW.toISOString()}). Upcoming talks: ${ctx.upcoming.map((e) => e.name).join(', ') || 'none'}.`);
+console.log(`Built ${written.length} pages to ${path.relative(ROOT, OUT)}/ (${MODE}, now = ${NOW.toISOString()}). Talks: ${ctx.ordered.length}.`);

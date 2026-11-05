@@ -538,7 +538,6 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .person__name { margin-top: 14px; font-size: var(--t-4); line-height: 1.2; }
 .person__meta { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
 .person__date { margin-top: 6px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
-.upcoming { color: var(--ink); font-weight: 700; }  /* a talk still to come: the mark goes the day after */
 
 .photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--placeholder); }
 .photo picture, .photo img { width: 100%; height: 100%; }
@@ -565,8 +564,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   border-bottom: 1px solid var(--rule);
 }
 @media (min-width: 56.25em) { .talk { grid-template-columns: max(128px, 6rem) minmax(0, 1fr); column-gap: var(--gap); padding-bottom: 32px; margin-bottom: 32px; } }
-/* Rules between talks only; the section's hairline is the first. A talk added before it happens is the first item
-   and stays hidden until it has ended, so :first-child can't mark the top; the last, the oldest talk, always shows. */
+/* Rules between talks only; the section's hairline is the first. */
 .talk:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: 0; }
 .talk__body { min-width: 0; }
 .talk__name { font-size: var(--t-4); line-height: 1.2; }

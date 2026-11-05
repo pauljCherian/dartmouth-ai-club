@@ -1,8 +1,7 @@
 /* Dartmouth AI Club - site.js
-   1. Upcoming vs past talks (keeps the state the <head> script set right while the page stays open)
-   2. Header hairline once content scrolls under it
-   3. Mobile menu (logo + close, focus kept inside, Escape closes)
-   4. The hand-off: scroll-scrubbed hero on the home page.
+   1. Header hairline once content scrolls under it
+   2. Mobile menu (logo + close, focus kept inside, Escape closes)
+   3. The hand-off: scroll-scrubbed hero on the home page.
       The giant title shrinks into the header logo while the photo grows from the
       thumbnail to fill the frame. Only transform and opacity change, so the
       browser can run it on the compositor. Native scrolling is never touched.
@@ -20,24 +19,7 @@
   var mq = function (q) { return window.matchMedia ? window.matchMedia(q) : { matches: false, addEventListener: function () {} }; };
   var listen = function (m, fn) { if (m.addEventListener) m.addEventListener('change', fn); else if (m.addListener) m.addListener(fn); };
 
-  /* ---------- 1. Upcoming vs past ----------
-     The early script in <head> already tagged <html> with talks-k (how many upcoming talks have ended) before
-     the first paint, and CSS shows the right blocks for that state. Here: keep the tag right while the page
-     stays open, by moving it when the next talk ends (timers cap at about 24 days). */
-  var talkTimer = 0;
-  function talks() {
-    var E = window.__daicEnds || [], now = Date.now(), k = 0, next = Infinity;
-    for (var i = 0; i < E.length; i++) { if (E[i] < now) k++; else if (E[i] < next) next = E[i]; }
-    for (var j = 0; j <= E.length; j++) doc.classList.toggle('talks-' + j, j === k);
-    window.clearTimeout(talkTimer);
-    if (next < Infinity && next - now < 2147483000) talkTimer = window.setTimeout(talks, next - now + 1000);
-  }
-  talks();
-  // Timers stall while a phone sleeps or a tab is in the background: check again when the page comes back.
-  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') talks(); });
-  window.addEventListener('pageshow', talks);
-
-  /* ---------- 2. Header hairline ---------- */
+  /* ---------- 1. Header hairline ---------- */
   var header = document.querySelector('[data-header]');
   var ruleAfter = 4; // px of scroll before the hairline shows; the hand-off raises it on the home page
   function updateRule() {
@@ -47,7 +29,7 @@
     header.classList.toggle('is-solid', past);
   }
 
-  /* ---------- 3. Mobile menu ---------- */
+  /* ---------- 2. Mobile menu ---------- */
   (function menu() {
     var button = document.querySelector('[data-menu-button]');
     var panel = document.getElementById('site-menu');
@@ -123,7 +105,7 @@
     });
   })();
 
-  /* ---------- 4. The hand-off ---------- */
+  /* ---------- 3. The hand-off ---------- */
   var handoff = (function () {
     var hero = document.querySelector('[data-handoff]');
     var startParked = doc.classList.contains('handoff-parked');  // loaded in a window too short for it

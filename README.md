@@ -33,7 +33,7 @@ Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Ever
 - `role`: their title and organisation **at the time of the talk**, as "Title, Organisation" ("Head of Data, Simile"), with a second affiliation after a semicolon if it matters ("…, Anthropic; PhD student, Oxford"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
 - `description`: one plain line about the person's own work at the time, under about 90 characters, starting with a verb ("Studies why AI models fail…"). Not their company's slogan, and not the title again. Write it for someone who doesn't study computer science.
 - The live build stops while a talk has no `role` or `description`. The preview shows the gap in gray instead, so you can see what is missing.
-- `date`: the day of the talk. You can add a talk before it happens: it is listed right away, with "Upcoming" before its date until that day is over in New York. The visitor's browser drops the mark, so nobody has to remember to update the site afterwards.
+- `date`: the day of the talk. Add a talk on the day it happens or after: the list is a record of who came, so it never shows a talk as coming up and never needs updating afterwards.
 - The home page shows the six most recent talks (photo, name, role, date); `/speakers` shows every talk, grouped by year, with its one line.
 - `photo_alt`: leave it `""` for a plain head-and-shoulders portrait (the name is printed right next to it, so screen readers would hear it twice). Describe the photo only when it shows more, such as the speaker at the event.
 - `photo_credit` (only for a photo whose licence asks for a credit, e.g. from Wikimedia Commons): `{"by": "Photographer", "source": "https://…", "license": "CC BY-SA 2.0", "license_url": "https://…"}`. The credit line is shown wherever the photo appears; a photo the club took itself needs none.
@@ -72,7 +72,7 @@ That builds `dist/` and serves it at http://localhost:4321, on this computer onl
 npm run build      # production build into dist/
 npm run preview    # preview into preview/ (inlined CSS, JS and fonts; links end in .html). preview/index.html is a
                    # fragment for the Claude artifact viewer, which supplies the page frame; open the other pages directly.
-BUILD_NOW=2026-11-07T12:00:00-05:00 npm run build   # pretend it is another date
+BUILD_NOW=2027-01-15T12:00:00-05:00 npm run build   # pretend it is another date (the footer's year)
 ALLOW_MISSING=1 npm run build      # development only: placeholders for missing fonts and portraits instead of stopping
 ```
 
@@ -81,25 +81,6 @@ The build stops with a list of problems if content is invalid (including a talk 
 ## Deploy
 
 Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials` and the old poster address `/images/chetan-patel-poster.png` to `/speakers`; `/resources`, `/reading-lists` and `/reading` to the home page). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu. Fonts are published under names that include a hash of their contents, so browsers can keep them for a year and still get a replaced font at once.
-
-### Optional: rebuild every morning
-
-A talk added before it happens appears in visitors' browsers once it has ended. Visitors with JavaScript off see it after the next build. To rebuild every morning anyway, create a deploy hook for `main` in Vercel (Project, Settings, Git, Deploy Hooks), save its URL in GitHub as the Actions secret `VERCEL_DEPLOY_HOOK`, and add `.github/workflows/rebuild.yml`:
-
-```yaml
-name: Daily rebuild
-on:
-  schedule:
-    - cron: '17 10 * * *'   # 10:17 UTC, early morning in Hanover
-  workflow_dispatch:
-jobs:
-  rebuild:
-    runs-on: ubuntu-latest
-    steps:
-      - run: curl -fsS -X POST "$HOOK"
-        env:
-          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-```
 
 ## Design rules
 
@@ -119,7 +100,7 @@ content/        the talks, people, links and contact (edit these)
 src/pages/      one file per page
 src/lib/        shared header, footer, layout and helpers
 src/styles/     site.css
-src/scripts/    site.js (hand-off, mobile menu, talks that have just happened)
+src/scripts/    site.js (hand-off, mobile menu, header rule)
 src/svg/        the logo, arrows, and the LinkedIn, X and YouTube marks
 public/         copied as-is: fonts, images, icons
 tools/          build.mjs, serve.mjs, images.py

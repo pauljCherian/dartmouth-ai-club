@@ -71,66 +71,23 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   // (the live build refuses to run without it).
   const fill = (text, gap) => (text ? keepLast(text) : preview ? html`<span class="is-placeholder">${esc(gap)}</span>` : '');
 
-  // A talk counts as past from midnight after its date in New York (Hanover), wherever the visitor is.
-  const nyOffsetMs = (t) => {
-    const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' });
-    const v = Object.fromEntries(f.formatToParts(new Date(t)).map((x) => [x.type, Number(x.value)]));
-    return Date.UTC(v.year, v.month - 1, v.day, v.hour, v.minute) - t;
-  };
-  const dayEnds = (date) => {
-    const [y, m, d] = date.split('-').map(Number);
-    const wall = Date.UTC(y, m - 1, d + 1, 0, 0);  // 00:00 the next day, on New York's clock
-    return wall - nyOffsetMs(wall - 5 * 3600e3);    // the offset just before that midnight
-  };
-
-  // Upcoming vs past at build time.
-  const ends = (ev) => dayEnds(ev.date);
-  const upcoming = content.speakers
-    .filter((ev) => ends(ev) > now.getTime())
-    .sort((a, b) => a.date.localeCompare(b.date));
   // Every talk, newest first (talks on the same day keep their order in the file).
   const ordered = content.speakers
     .map((ev, i) => ({ ev, i }))
     .sort((a, b) => b.ev.date.localeCompare(a.ev.date) || a.i - b.i)
     .map((x) => x.ev);
-  const past = ordered.filter((ev) => !upcoming.includes(ev));
 
-  // Talk states, decided before the first paint. The upcoming talks sorted by end time end in that order, so
-  // "state k" means the first k of them have ended (state 0 is the build). The early script in <head> picks
-  // the state from the clock and tags <html> with talks-k; CSS generated here shows exactly the elements
-  // that belong to that state. No script: state 0. A page left open: site.js moves the tag when a talk ends.
-  const byEnd = [...upcoming].sort((a, b) => ends(a) - ends(b));
-  const STATES = Array.from({ length: byEnd.length + 1 }, (_, k) => k);
-  const endedIn = (ev, k) => { const i = byEnd.indexOf(ev); return i > -1 && i < k; };
-  // data-show attribute for an element visible only in some states ('' when it is visible in all of them).
-  const show = (visibleIn) => {
-    const ks = STATES.filter(visibleIn);
-    return ks.length === STATES.length ? '' : ` data-show="${ks.join(' ')}"`;
-  };
   // Credits for speaker photos used under a licence that asks for one (photo_credit in speakers.json): who took
   // it, where it comes from, the licence, and that it was changed. Shown on every page that shows the photo.
-  // visibleIn(ev, k) says whether that talk is on the page in talk state k; the paragraph shows only when one of
-  // its credits does, so a hidden talk never leaves an empty gap.
-  const credits = (evs, visibleIn = () => true) => {
+  const credits = (evs) => {
     const list = evs.filter((ev) => ev.photo_credit);
     if (!list.length) return '';
-    return html`<p class="credits"${show((k) => list.some((ev) => visibleIn(ev, k)))}>${list.map((ev) => {
+    return html`<p class="credits">${list.map((ev) => {
       const pc = ev.photo_credit;
-      return html`<span${show((k) => visibleIn(ev, k))}>Photo of ${esc(ev.name)}: <a href="${esc(pc.source)}">${esc(pc.by)}</a>, <a href="${esc(pc.license_url)}">${esc(pc.license)}</a>, cropped and toned. </span>`;
+      return html`<span>Photo of ${esc(ev.name)}: <a href="${esc(pc.source)}">${esc(pc.by)}</a>, <a href="${esc(pc.license_url)}">${esc(pc.license)}</a>, cropped and toned. </span>`;
     })}</p>`;
   };
 
-  // A talk's date. A talk still to come is listed as soon as it is added, marked "Upcoming" until its day is over
-  // in New York; the visitor's browser drops the mark, so nobody has to remember to update the site.
-  const when = (ev) => (upcoming.includes(ev)
-    ? html`<span class="upcoming"${show((k) => !endedIn(ev, k))}>Upcoming · </span>${esc(shortDate(ev.date))}`
-    : esc(shortDate(ev.date)));
-
-  const stateCss = byEnd.length
-    ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}`).join('') +
-      `html:not([class*="talks-"]) [data-show]:not([data-show~="0"]){display:none!important}`
-    : '';
-  const talkEnds = byEnd.map(ends);
 
   // Social links as the networks' own marks (X, YouTube: src/svg/<name>.svg), in ink, one size, each
   // with its name for screen readers. People find these marks faster than words.
@@ -200,8 +157,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const early = (page) =>
     `(function(d){` +
     (preview && page === 'home' ? `d.lang='en';d.classList.add('page-home');` : '') +
-    // Talk state before the first paint: how many of the upcoming talks (sorted by end) have ended.
-    `var k=0;try{var E=window.__daicEnds=[${talkEnds.join(',')}],n=Date.now();for(var i=0;i<E.length;i++)if(E[i]<n)k++}catch(e){}d.classList.add('talks-'+k);` +
     `d.classList.add('js');try{if(location.hash==='#logo')d.classList.add('logo-always');` +
     `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){if(!matchMedia('(min-height: 300px)').matches)d.classList.add('handoff-parked');else{d.classList.add('js-handoff');` +
     // site.js always runs before DOMContentLoaded (deferred or inline at the end), so this cannot race it:
@@ -240,7 +195,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     const fullTitle = page === 'home' ? site.name : `${title} – ${site.name}`;
     const desc = description || site.description;
     const url = `${site.origin}${path}`;
-    const css = inline.css + stateCss;
+    const css = inline.css;
     const icon = (p) => (preview ? p : `/${p}`);
     const meta = html`
 <meta name="description" content="${esc(desc)}">
@@ -305,7 +260,6 @@ ${preview ? script : ''}
   return {
     mode, preview, now, site, content, brand, manifest,
     link, asset, svg, arrow, picture, photo,
-    upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits, fill, when,
-    STATES, endedIn, show, keepLast, tieDates, email,
+    ordered, shortDate, socials, layout, esc, html, credits, fill, keepLast, tieDates, email,
   };
 }

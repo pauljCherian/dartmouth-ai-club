@@ -40,13 +40,13 @@ export function render(c) {
       ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is.'],
       ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
       ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link; the green discs mean “steps” everywhere else.'],
-      ['Speakers', 'Changed', 'The six newest talks: photo, name, role at the time of the talk, date. A talk still to come is listed as soon as it is added, marked “Upcoming” until its day is over. One “All speakers →”, not two.'],
+      ['Speakers', 'Changed', 'The six newest talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
       ['Join section', 'Moved', 'Into the footer, so every page ends with it. The button says what happens next: “How to join →”.'],
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
     ['Speakers', [
       ['Lead', 'Changed', 'Adds “New talks are announced in the GroupMe.”: the job the Next block did, without anyone updating the site. Not a link: the footer’s “How to join →” is on the same page.'],
-      ['Next', 'Cut', 'No separate block to keep current: a talk still to come sits in the list with “Upcoming” before its date, and the visitor’s browser drops the mark the day after.'],
+      ['Next', 'Cut', 'Nobody would keep it current. A talk is added on its day or after, so the list is a record that never shows a talk as coming up (the site launches the day of Mazda Moayeri’s talk).'],
       ['Each talk', 'Changed', 'The same five things for everyone, in the same sizes and order as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],
       ['Member sessions', 'Cut', 'A dated archive that stopped in April. Three of its topics now appear as examples in About.'],
@@ -158,7 +158,7 @@ export function render(c) {
       <li>A page has one giant title. A section has one heading, top left, and its content on the right, under a gray hairline from margin to margin. Rules between items in a section run across the content column; the header’s runs edge to edge.</li>
       <li>Green means you can act: every Join link and button, hover, focus. Numbered green discs mean steps, and only appear on /join.</li>
       <li>→ goes somewhere on this site; ↗ leaves it. A network’s own mark (LinkedIn, X, YouTube) needs neither. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
-      <li>A speaker is shown the same way everywhere, in the same sizes: photo, name, role at the time of the talk, date last. The Speakers page adds one line on their work, before the date. A talk still to come says “Upcoming” before its date until the day is over.</li>
+      <li>A speaker is shown the same way everywhere, in the same sizes: photo, name, role at the time of the talk, date last. The Speakers page adds one line on their work, before the date.</li>
       <li>The logo is one drawing. The home title and the header logo are the same SVG at two sizes.</li>
       <li>Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don’t (“Speakers”, “Team”).</li>
     </ul>
