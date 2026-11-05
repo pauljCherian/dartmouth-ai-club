@@ -47,7 +47,7 @@
   /* Type */
   --font: "Club Sans", Helvetica, Arial, sans-serif;
   /* In rem, so a larger default font size set in the browser takes effect. 1rem = 16px by default. */
-  --t-page: clamp(3.25rem, 10vw, 9.5rem);   /* page titles: 52-152px */
+  --t-page: clamp(min(3.25rem, 16vw), 10vw, 9.5rem);   /* page titles: 52-152px (less on very narrow screens with large text) */
   --t-1: clamp(2.5rem, 6.2vw, 6rem);        /* speaker names in features, big statements: 40-96px */
   --t-2: clamp(1.75rem, 3.3vw, 3rem);       /* statements: 28-48px */
   --t-3: clamp(1.25rem, 1.85vw, 1.6875rem); /* leads: 20-27px */
@@ -63,7 +63,9 @@
   --gutter-l: max(var(--m), env(safe-area-inset-left, 0px));
   --gutter-r: max(var(--m), env(safe-area-inset-right, 0px));
 
-  /* Small-viewport height unit with a fallback: browsers without svh (Chrome < 108) use vh.
+  /* Breakpoints are in em (56.25em = 900px at the default 16px), so a larger default text size in the browser
+     also moves the layout to its roomier arrangement instead of squeezing bigger text into the same columns.
+     Small-viewport height unit with a fallback: browsers without svh (Chrome < 108) use vh.
      Done with a variable because a var() declaration that fails does not fall back in the cascade. */
   --vh: 1vh;
 
@@ -72,7 +74,7 @@
 @supports (height: 1svh) {
   :root { --vh: 1svh; }
 }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   :root { --header-h: 64px; --t-4: 1.125rem; }
 }
 
@@ -204,14 +206,14 @@ main .wrap, .site-footer .wrap { max-width: calc(1920px + var(--gutter-l) + var(
 .site-logo { display: block; flex: none; width: 104px; color: var(--ink); text-decoration: none; }
 .site-logo:hover { color: var(--ink); }
 .site-logo svg { width: 100%; height: auto; }
-@media (min-width: 900px) { .site-logo { width: 116px; } }
+@media (min-width: 56.25em) { .site-logo { width: 116px; } }
 
 .site-nav { display: none; }
 .site-nav a { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
 .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
 .site-nav__join { color: var(--green); }
 .site-nav__join:hover { color: var(--green-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); }
 }
 
@@ -240,10 +242,10 @@ main .wrap, .site-footer .wrap { max-width: calc(1920px + var(--gutter-l) + var(
 .menu-button__icon span:last-child { top: 10px; }
 .menu-open .menu-button__icon span:first-child { top: 5px; transform: rotate(45deg); }
 .menu-open .menu-button__icon span:last-child { top: 5px; transform: rotate(-45deg); }
-@media (min-width: 900px) { .menu-button { display: none; } }
+@media (min-width: 56.25em) { .menu-button { display: none; } }
 html:not(.js) .menu-button { display: none; }
 .menu-link { display: none; }
-@media (max-width: 899px) {
+@media not all and (min-width: 56.25em) {
   html:not(.js) .menu-link { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; text-decoration: none; }
 }
 
@@ -286,15 +288,16 @@ html:not(.js) .menu-button { display: none; }
   .site-menu:not([hidden]) { animation: menu-in 0.22s ease-out; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } }
 }
-@media (max-height: 500px) {
+@media (max-height: 31.25em) {
   .site-menu__nav { padding-block: 12px; }
   .site-menu__nav .is-minor { margin-top: 10px; }
 }
-@media (min-width: 900px) { .site-menu { display: none !important; } }
+@media (min-width: 56.25em) { .site-menu { display: none !important; } }
 .menu-open, .menu-open body { overflow: hidden; }
 
 /* ---------- Main ---------- */
 main { display: block; }
+main, .site-footer { overflow-wrap: break-word; }  /* a single word wider than the screen (large text) may break */
 .page-pad { padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px)); }
 
 /* ---------- Hero: static layout (no script, or reduced motion) ---------- */
@@ -305,6 +308,7 @@ main { display: block; }
   padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
 }
 .hero__stage { position: relative; display: flex; flex-direction: column; }
+.hero__title, .hero__caption { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
 .hero__title {
   margin-top: clamp(32px, 9vw, 120px);
   padding-left: var(--gutter-l);
@@ -336,7 +340,7 @@ main { display: block; }
    so it stops growing sideways there and sits on the grid margins. */
 @media (min-aspect-ratio: 4/3) {
   .hero__frame {
-    width: min(calc(100% - var(--gutter-l) - var(--gutter-r)), calc((100 * var(--vh) - var(--header-h)) * var(--hero-max-aspect, 1.6)));
+    width: min(calc(100% - var(--gutter-l) - var(--gutter-r)), calc((100 * var(--vh) - var(--header-h)) * var(--hero-max-aspect, 1.6)), 1920px);
     margin-left: var(--gutter-l);
   }
 }
@@ -362,6 +366,7 @@ main { display: block; }
   --title-bottom: calc(var(--m) + var(--tag-h) + env(safe-area-inset-bottom, 0px));
   --title-w: min(
     calc(100% - var(--gutter-l) - var(--gutter-r)),
+    1920px,
     calc((calc(100 * var(--vh)) - var(--header-h) - env(safe-area-inset-top, 0px) - var(--thumb-w) / var(--hero-aspect, 1.3333) - var(--tag-h) - var(--m) - var(--gap) * 3) / var(--title-ratio))
   );
   height: calc(calc(100 * var(--vh)) + var(--pin));
@@ -369,7 +374,7 @@ main { display: block; }
 }
 /* Wide screens: the tagline sits beside "AI CLUB" (two lines), so no room is reserved under the title.
    Short screens (under 620px tall) switch to the layout further down, which overrides this. */
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .js-handoff .hero { --pin: calc(115 * var(--vh)); --thumb-w: min(33vw, calc(46 * var(--vh))); --tag-h: 0px; }
 }
 .js-handoff .hero__stage {
@@ -399,7 +404,7 @@ main { display: block; }
   padding: 0;
   will-change: transform, opacity;
 }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .js-handoff .hero__tagline {
     left: calc(var(--gutter-l) + var(--title-w) * var(--line2-ratio) + var(--gap) * 1.5);
     bottom: calc(var(--title-bottom) - 0.24em);
@@ -416,12 +421,13 @@ main { display: block; }
 }
 /* Short landscape screens at any width (phones on their side, laptop windows under 620px tall): title left
    of the thumbnail, tagline under it in one line. After the rules above, so it wins. */
-@media (orientation: landscape) and (max-height: 619px) {
+@media (orientation: landscape) and (max-height: 38.6875em) {
   .js-handoff .hero {
     --thumb-w: min(34vw, calc(52 * var(--vh)));
     --tag-h: calc(var(--t-3) * 1.3 + var(--gap));
     --title-w: min(
       calc(100% - var(--gutter-l) - var(--gutter-r) - var(--thumb-w) - var(--gap) * 2),
+      1920px,
       calc((100 * var(--vh) - var(--header-h) - env(safe-area-inset-top, 0px) - var(--tag-h) - var(--m) - var(--gap) * 2) / var(--title-ratio))
     );
   }
@@ -444,7 +450,7 @@ main { display: block; }
   aspect-ratio: var(--hero-aspect, 4 / 3);
 }
 .js-handoff .hero__thumb { display: block; visibility: hidden; pointer-events: none; }
-@media (orientation: landscape) and (max-height: 619px) {
+@media (orientation: landscape) and (max-height: 38.6875em) {
   .js-handoff .hero__thumb, .js-handoff .hero__frame { right: var(--gutter-r); }  /* beside the title here, not above it */
 }
 .js-handoff .hero__figure { position: absolute; inset: 0; margin: 0; pointer-events: none; }
@@ -468,7 +474,7 @@ main { display: block; }
 }
 .row__label { grid-column: 1 / -1; font-size: var(--t-5); font-weight: 700; letter-spacing: 0.01em; line-height: 1.3; }
 .row__body { grid-column: 1 / -1; min-width: 0; }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .row__label { grid-column: 1 / span 4; }
   .row__body { grid-column: 5 / -1; }
 }
@@ -537,7 +543,7 @@ main { display: block; }
 .pillar__text { grid-column: 2; max-width: 34em; }
 .pillar__more { grid-column: 2; font-size: var(--t-5); }
 .pillar__more a { padding-block: 3px; }
-@media (min-width: 1100px) {
+@media (min-width: 68.75em) {
   .pillar { grid-template-columns: 2.125rem minmax(0, 3fr) minmax(0, 5fr); column-gap: var(--gap); }
   .pillar__title { align-self: start; }
   .pillar__text, .pillar__more { grid-column: 3; }
@@ -547,13 +553,14 @@ main { display: block; }
 .feature { display: grid; gap: 24px var(--gap); grid-template-columns: minmax(0, 1fr); }
 .feature__photo { max-width: 420px; }
 .features { display: grid; row-gap: clamp(56px, 7vw, 104px); }  /* two talks booked: the gap skips hidden ones */
+@media (min-width: 56.25em) { .features .feature { align-items: start; } }  /* name and date on the first screen of /speakers */
 .feature__text { display: flex; flex-direction: column; }
 .feature__label { order: -1; font-size: var(--t-5); font-weight: 700; color: var(--gray); }
 .feature__name { margin-top: 6px; font-size: var(--t-1); letter-spacing: -0.035em; line-height: 0.98; }
 .feature__affil { margin-top: 12px; font-size: var(--t-3); line-height: 1.25; }
 .feature__title { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-3); line-height: 1.25; }
 .feature__when { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-4); font-weight: 700; font-variant-numeric: tabular-nums; }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .feature { grid-template-columns: repeat(8, minmax(0, 1fr)); align-items: end; }
   .feature__photo { grid-column: 1 / span 3; max-width: none; }
   .feature__text { grid-column: 4 / -1; }
@@ -561,8 +568,8 @@ main { display: block; }
 
 /* ---------- People grids (speakers on home, team) ---------- */
 .people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--gap); }
-@media (min-width: 900px) { .people--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (min-width: 700px) { .people--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 56.25em) { .people--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 43.75em) { .people--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .person { min-width: 0; }
 .person__name { margin-top: 14px; font-size: var(--t-4); line-height: 1.2; }
 .person__meta { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
@@ -595,7 +602,7 @@ main { display: block; }
 }
 .talk__photo { grid-column: 1; grid-row: 1 / span 2; }
 .talk__date { grid-column: 2; grid-row: 1; font-size: var(--t-6); color: var(--gray); font-variant-numeric: tabular-nums; }
-@media (max-width: 899px) { .talk { grid-template-rows: auto 1fr; } }  /* spare height under the text, not between date and name */
+@media not all and (min-width: 56.25em) { .talk { grid-template-rows: auto 1fr; } }  /* spare height under the text, not between date and name */
 .talk__body { grid-column: 2; grid-row: 2; min-width: 0; }
 .talk__name { font-size: clamp(1.375rem, 2.3vw, 2.125rem); line-height: 1.1; letter-spacing: -0.02em; }
 .talk__affil { margin-top: 4px; font-size: var(--t-4); line-height: 1.3; }
@@ -603,7 +610,7 @@ main { display: block; }
 .talk__extra { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: var(--t-5); color: var(--gray); }
 .talk__extra a { color: var(--ink); }
 .talk__extra a:hover { color: var(--green); }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .talk { grid-template-columns: 128px minmax(0, 1fr) auto; column-gap: var(--gap); padding-block: 32px; }
   .talk__photo { grid-row: 1; }
   .talk__body { grid-row: 1; align-self: baseline; }
@@ -624,7 +631,7 @@ main { display: block; }
 .session__summary { font-size: var(--t-5); max-width: 40em; }
 .session__links { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: var(--t-5); }
 .session__links a, .talk__extra a { padding-block: 2px; }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .session { grid-template-columns: 9.5em minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }
   .session__date { grid-column: 1; grid-row: 1 / span 3; }
   .session__title, .session__people, .session__summary { grid-column: 2; }
@@ -673,7 +680,7 @@ main { display: block; }
   color: var(--paper);
 }
 .sign::before { content: ""; position: absolute; left: 0; right: 0; top: clamp(8px, 1vw, 12px); height: 2px; background: var(--paper); }
-.sign__text { display: block; margin-bottom: -0.26em; font-size: clamp(2.75rem, 9vw, 8rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.95; }
+.sign__text { display: block; margin-bottom: -0.2em; font-size: clamp(2.75rem, 9vw, 8rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.95; }
 .notfound__text { margin-top: clamp(28px, 4vw, 48px); max-width: 28em; font-size: var(--t-3); line-height: 1.28; }
 .notfound__links { margin-top: 28px; display: grid; gap: 12px; font-size: var(--t-3); }
 
@@ -696,7 +703,7 @@ main { display: block; }
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .site-footer__email { display: inline-block; padding-block: 4px; word-break: break-word; -webkit-user-select: all; user-select: all; }
 .site-footer__legal { color: var(--gray); }
-@media (min-width: 900px) {
+@media (min-width: 56.25em) {
   .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; }
   .site-footer__brand { grid-column: 1 / span 4; }
   .site-footer__nav { grid-column: 5 / span 2; }

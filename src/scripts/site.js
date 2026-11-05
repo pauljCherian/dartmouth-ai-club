@@ -97,7 +97,7 @@
     var lastFocus = null;
     document.addEventListener('focusin', function (e) { lastFocus = e.target; });
     document.addEventListener('pointerdown', function () { lastFocus = null; }, true);
-    listen(mq('(min-width: 900px)'), function (e) {
+    listen(mq('(min-width: 56.25em)'), function (e) {
       var active = document.activeElement && document.activeElement !== document.body ? document.activeElement : lastFocus;
       if (e.matches) {
         var hadFocus = active && (active === button || panel.contains(active));
@@ -143,8 +143,9 @@
     var CONTENT_MAX = 1920;  // the page's content width cap (.wrap in main), so the photo shares the grid
     // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34).
     var CURVES = [{ s: 0.34, t: 0 }, { s: 0.22, t: 0.08 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];       // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
-    // Matches the CSS: beside "AI CLUB" from 900px wide, unless the short-screen layout (under 620px tall) applies.
-    var wideQ = mq('(min-width: 900px)'), shortQ = mq('(orientation: landscape) and (max-height: 619px)');
+    // Matches the CSS: beside "AI CLUB" from 56.25em (900px) wide, unless the short-screen layout (under 38.6875em,
+    // 619px, tall) applies. In em, like the CSS, so larger default text moves both together.
+    var wideQ = mq('(min-width: 56.25em)'), shortQ = mq('(orientation: landscape) and (max-height: 38.6875em)');
     var taglineBeside = { get matches() { return wideQ.matches && !shortQ.matches; } };
     var logoAlways = doc.classList.contains('logo-always');
     var monoMode = !!mono && (location.hash === '#mono' || hero.getAttribute('data-mono') === 'on');
@@ -220,7 +221,7 @@
         var wMax = availH * MAX_ASPECT;
         if (wMax >= vw && vw - gutter * 2 <= CONTENT_MAX) return { x: 0, y: top, w: vw, h: availH };
         var limit = Math.min(content, wMax), w = limit;
-        if (vh >= 620) { var n = 12; while (n > 1 && columns(content, gap, n) > limit + 0.5) n--; w = Math.min(columns(content, gap, n), limit); }
+        if (!shortQ.matches) { var n = 12; while (n > 1 && columns(content, gap, n) > limit + 0.5) n--; w = Math.min(columns(content, gap, n), limit); }
         // Never narrower than the photo itself at this height: then the frame gets shorter, not cropped at the sides.
         return { x: gutter, y: top, w: w, h: Math.min(availH, w / ASPECT) };
       };

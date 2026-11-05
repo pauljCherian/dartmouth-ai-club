@@ -9,6 +9,9 @@ const flat = (v) => (Array.isArray(v) ? v.map(flat).join('') : v === null || v =
 export const html = (strings, ...values) => strings.reduce((out, s, i) => out + s + (i < values.length ? flat(values[i]) : ''), '');
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// Escaped text whose last two words never split across lines (no single word left alone on the last line).
+export const keepLast = (text) => esc(text).replace(/ (\S+)$/, '&nbsp;$1');
+
 export const shortDate = (iso) => {
   const [y, m, d] = iso.slice(0, 10).split('-').map(Number);
   return `${MONTHS[m - 1]} ${d}, ${y}`;
@@ -287,6 +290,6 @@ ${preview ? script : ''}
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
     upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
-    STATES, endedIn, nextIn, show,
+    STATES, endedIn, nextIn, show, keepLast,
   };
 }

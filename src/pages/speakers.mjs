@@ -32,8 +32,8 @@ export function render(c) {
       <div class="talk__body">
         <h4 class="talk__name">${esc(ev.name)}</h4>
         <p class="talk__affil">${c.affil(ev)}</p>
-        ${ev.description ? html`<p class="talk__desc">${esc(ev.description)}</p>` : ''}
-        ${ev.title ? html`<p class="talk__desc">${esc(ev.title)}</p>` : ''}
+        ${ev.description ? html`<p class="talk__desc">${c.keepLast(ev.description)}</p>` : ''}
+        ${ev.title ? html`<p class="talk__desc">${c.keepLast(ev.title)}</p>` : ''}
         ${extra || links.length ? html`<p class="talk__extra">${extra ? html`<span>${extra}</span>` : ''}${links}</p>` : ''}
       </div>
       <p class="talk__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>
@@ -43,7 +43,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Speakers</h1>
-  <p class="page-lead">The people building AI, in conversation with Dartmouth&nbsp;students.</p>
+  <p class="page-lead">The people building AI, in&nbsp;conversation with Dartmouth&nbsp;students.</p>
 </header>
 
 ${c.upcoming.length ? html`

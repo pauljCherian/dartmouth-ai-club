@@ -69,7 +69,7 @@ export function render(c) {
     </ul>
   </div>
   <div class="row__body">
-    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates${majors ? `, ${esc(majors.about)},` : ''} who want to understand AI by working on it. Every week an officer or member presents a paper or a topic${build ? `, ${esc(build.about)}` : ''}. Through the year we sit down with the researchers and founders shaping the field. No experience required. Curiosity is enough.</p>
+    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates${majors ? `, ${esc(majors.about)},` : ''} who want to understand AI by working on it. Every week an officer or member presents a paper or a topic${build ? `, ${esc(build.about)}` : ''}. Through the year we sit down with the researchers and founders shaping the field. No&nbsp;experience required. Curiosity is&nbsp;enough.</p>
     <dl class="facts">
       <div><dt>Members</dt><dd class="tnum">${esc(site.members.count)}</dd></div>
       <div><dt>Meetings</dt><dd>${esc(site.meetings.when)}<br>${esc(site.meetings.where)}</dd></div>
@@ -86,7 +86,7 @@ export function render(c) {
       <li class="pillar">
         <span class="bullet" aria-hidden="true">1</span>
         <h3 class="pillar__title">Research groups</h3>
-        <p class="pillar__text">Small groups take on one research question for a term. They read the literature, run the experiments and present what they find.</p>
+        <p class="pillar__text">Small groups take on one research question for a term. They&nbsp;read the literature, run the experiments and present what they&nbsp;find.</p>
       </li>
       <li class="pillar">
         <span class="bullet" aria-hidden="true">2</span>

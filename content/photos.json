@@ -23,13 +23,13 @@
    "id": "christina-lu",
    "src": "assets-src/people/christina-lu.jpg",
    "crop": "153,71,1494,1867",
-   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
+   "note": "eyes at about 39%; head about 68% of the frame (the source leaves no room for a looser crop)"
   },
   {
    "id": "chetan-patel",
    "src": "assets-src/people/chetan-patel.jpg",
    "crop": "133,18,554,693",
-   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
+   "note": "eyes at about 39%, head about 59%"
   },
   {
    "id": "andrew-milich",
@@ -45,8 +45,8 @@
   {
    "id": "paul-cherian",
    "src": "assets-src/people/paul-cherian.jpg",
-   "crop": "126,192,491,614",
-   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
+   "crop": "108,234,526,658",
+   "note": "eyes at about 40%, head about 57%"
   },
   {
    "id": "lisa-samoylov",
@@ -56,13 +56,14 @@
   {
    "id": "sean-noh",
    "src": "assets-src/people/sean-noh.jpg",
-   "crop": "148,84,680,850"
+   "crop": "243,135,543,679",
+   "note": "eyes at about 40%, head about 57%"
   },
   {
    "id": "sol-song",
    "src": "assets-src/people/sol-song.jpg",
    "crop": "250,313,1511,1889",
-   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
+   "note": "eyes at about 41%, head about 58%"
   }
  ],
  "missing": {
