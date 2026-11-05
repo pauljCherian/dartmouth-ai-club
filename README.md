@@ -8,7 +8,7 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 
 | File | What it holds |
 | --- | --- |
-| `content/site.json` | Tagline, contact email, meeting time and place, member count, join form link, social links, hero caption, and claims to confirm (delete one under `claims` to remove it from every page) |
+| `content/site.json` | Tagline, contact email, meeting time and place, member count, join form link, social links, hero caption, and claims to confirm (`build_nights` and `majors`, each with its `source`; delete one under `claims` to remove it from every page) |
 | `content/speakers.json` | Every guest talk. The site sorts them by date; the earliest talk that hasn't ended is shown as "Next" |
 | `content/sessions.json` | Member sessions (weekly talks) with slides and paper links |
 | `content/team.json` | Officers and faculty advisors |
