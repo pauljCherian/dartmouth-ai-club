@@ -114,12 +114,12 @@ export function render(c) {
 <section class="row wrap" id="speakers" aria-labelledby="speakers-h">
   <h2 class="row__label" id="speakers-h">Speakers</h2>
   <div class="row__body">
-    ${c.upcoming.length ? html`<div data-upcoming-section${c.show((k) => c.nextIn(k))}>${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 24vw, 92vw', show: c.show((k) => c.nextIn(k) === ev) }))}</div>` : ''}
+    ${c.upcoming.length ? html`<div data-upcoming-section${c.show((k) => c.nextIn(k))}>${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 24vw, 92vw', show: c.show((k) => c.nextIn(k) === ev) }))}</div>` : ''}
     <h3 class="subhead">Recently</h3>
     <ul class="people people--3">
       ${recent.map((ev) => html`
       <li class="person"${c.show((k) => recentIn(k).includes(ev))}>
-        ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 20vw, (min-width: 700px) 30vw, 45vw' })}
+        ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
         <p class="person__meta">${esc(plain(ev))}</p>
         <p class="person__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>

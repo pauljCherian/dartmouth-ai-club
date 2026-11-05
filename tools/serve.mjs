@@ -5,7 +5,7 @@
 // It listens on this computer only (127.0.0.1) and never serves a file from outside the output folder.
 //
 //   node tools/serve.mjs            serves dist/ on http://localhost:4321
-//   node tools/serve.mjs preview 4322
+//   node tools/serve.mjs preview 4322   (preview/index.html is a fragment for the artifact viewer; the other pages are complete)
 
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';

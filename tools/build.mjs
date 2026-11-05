@@ -50,6 +50,9 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
 (function validate({ site, speakers, team, sessions, reading }) {
   const need = (obj, keys, where) => keys.forEach((k) => (obj[k] === undefined || obj[k] === '') && fail(`${where}: missing "${k}"`));
   need(site, ['name', 'origin', 'tagline', 'description'], 'site.json');
+  need(site.members || {}, ['count'], 'site.json members');
+  need(site.meetings || {}, ['when', 'where'], 'site.json meetings');
+  need(site.hero || {}, ['alt', 'caption'], 'site.json hero');
   need(site.contact || {}, ['email', 'name', 'role'], 'site.json contact');
   if (site.contact && !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(site.contact.email)) fail('site.json: contact.email is not an email address');
   const ids = new Set();
@@ -80,18 +83,30 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
     }
     if (ev.end && !ev.start) fail(`${where}: "end" is set but "start" is not`);
     if (datesOk && ev.start && ev.end && !(Date.parse(ev.end) > Date.parse(ev.start))) fail(`${where}: "end" must be after "start"`);
-    if (datesOk && ev.start && ev.end && Date.parse(ev.end) - Date.parse(ev.start) > 12 * 3600e3) fail(`${where}: "end" is more than 12 hours after "start" (typo?)`);
+    if (datesOk && ev.start && ev.end && Date.parse(ev.end) - Date.parse(ev.start) > 72 * 3600e3) fail(`${where}: "end" is more than 3 days after "start" (typo?)`);
     // The printed date and time must match "start" (a rescheduled talk must not keep its old label).
     if (datesOk && ev.start) {
       const ny = nyParts(new Date(ev.start));
       const want = `${ny.month} ${ny.day}, ${ny.year}`;
       const label = String(ev.date_label || '');
-      if (!label.includes(want)) fail(`${where}: "date_label" says "${label}" but "start" is ${ny.weekday} ${want} in New York`);
-      else if (/^[A-Z][a-z]{2}\b/.test(label) && !label.startsWith(want) && !label.startsWith(ny.weekday)) fail(`${where}: "date_label" weekday is wrong: ${ny.weekday} ${want}`);
+      // "Fri Nov 6, 2026", "Friday, November 6, 2026", "Nov 6, 2026", "Sept 9, 2026": compare as month, day, year.
+      const DAYS = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+      const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      const m = label.toLowerCase().match(/^(?:([a-z]+)\.?,?\s+)?([a-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})$/);
+      const month = m && MONTHS.indexOf(m[2].slice(0, 3));
+      const nyDate = new Date(Date.UTC(Number(ny.year), MONTHS.indexOf(ny.month.toLowerCase().slice(0, 3)), Number(ny.day)));
+      if (!m || month < 0 || Number(m[3]) !== nyDate.getUTCDate() || month !== nyDate.getUTCMonth() || Number(m[4]) !== nyDate.getUTCFullYear()) {
+        fail(`${where}: "date_label" should read like "${want}" (optionally with the weekday first): "start" is ${ny.weekday} ${want} in New York`);
+      } else if (m[1] && DAYS[m[1].slice(0, 3)] !== nyDate.getUTCDay()) {
+        fail(`${where}: "date_label" weekday is wrong: ${ny.weekday} ${want}`);
+      }
       if (ev.time_label) {
-        const t = String(ev.time_label).toLowerCase().replace(/\s+/g, '');
-        const hm = `${ny.hour}${ny.minute === '00' ? '' : ':' + ny.minute}${ny.dayPeriod.toLowerCase()}`;
-        if (t !== hm) fail(`${where}: "time_label" says "${ev.time_label}" but "start" is ${hm.replace(/(am|pm)$/, ' $1')} in New York`);
+        // "4 pm", "4:00 pm", "4 p.m.", "4pm", or a range like "4–5:30 pm" (the start is checked).
+        const t = String(ev.time_label).toLowerCase().replace(/\./g, '').replace(/\s+/g, '');
+        const tm = t.match(/^(\d{1,2})(?::(\d\d))?(am|pm)?(?:[-–—](\d{1,2})(?::(\d\d))?)?(am|pm)?$/);
+        const period = tm && (tm[3] || tm[6]);
+        const ok = tm && period && Number(tm[1]) === Number(ny.hour) && (tm[2] || '00') === ny.minute && period === ny.dayPeriod.toLowerCase();
+        if (!ok) fail(`${where}: "time_label" says "${ev.time_label}" but "start" is ${ny.hour}${ny.minute === '00' ? '' : ':' + ny.minute} ${ny.dayPeriod.toLowerCase()} in New York`);
       }
     }
   });
@@ -100,6 +115,10 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
   sessions.forEach((s, i) => {
     need(s, ['date', 'title', 'people'], `sessions.json[${i}]`);
     if (!/^\d{4}-\d\d-\d\d$/.test(s.date)) fail(`sessions.json[${i}]: date must be YYYY-MM-DD`);
+    else {
+      const day = new Date(`${s.date}T00:00:00Z`);
+      if (Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== s.date) fail(`sessions.json[${i}]: ${s.date} is not a real date`);
+    }
   });
   reading.forEach((r, i) => need(r, ['title', 'authors', 'href'], `reading.json[${i}]`));
   for (const [k, v] of Object.entries(site.claims || {})) {
@@ -121,6 +140,11 @@ for (const f of (await readdir(rel('src/svg'))).filter((f) => f.endsWith('.svg')
 }
 for (const name of ['logo-display', 'logo-small', 'arrow-e', 'arrow-ne']) if (!svgs[name]) fail(`src/svg/${name}.svg is missing`);
 const brand = await readJSON('content/brand.json');
+{
+  const ratio = (name) => { const v = svgs[name]?.markup.match(/viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/); return v ? Number(v[2]) / Number(v[1]) : null; };
+  const d = ratio('logo-display');
+  if (d && Math.abs(d - brand.display.ratio) / d > 0.005) fail(`content/brand.json: display.ratio is ${brand.display.ratio} but src/svg/logo-display.svg is ${d.toFixed(4)} (height/width); re-measure brand.json (line2 too) after changing the logo`);
+}
 
 // ---------- 3. Images ----------
 const manifestPath = rel('public/img/manifest.json');
@@ -135,6 +159,7 @@ if (!manifest['hero/hero']) fail('public/img/manifest.json has no hero image (ru
     ...content.team.officers.map((o, i) => [o.photo, `team.json officers[${i}] ${o.name}`]),
   ];
   for (const [id, where] of used) {
+    if (process.env.ALLOW_MISSING) break;  // development builds: placeholders instead
     if (id && !manifest[`people/${id}-${treatment}`] && !known.has(id)) fail(`${where}: no portrait "${id}" in public/img (check the id, or list it under "missing" in content/photos.json)`);
   }
   const c = content.photos.hero?.ceiling;
@@ -144,7 +169,7 @@ if (!manifest['hero/hero']) fail('public/img/manifest.json has no hero image (ru
 // ---------- 4. CSS and JS ----------
 let css = await readFile(rel('src/styles/site.css'), 'utf8');
 const js = await readFile(rel('src/scripts/site.js'), 'utf8');
-const ALLOW_MISSING = Boolean(process.env.ALLOW_MISSING); // development only: placeholders instead of errors
+const ALLOW_MISSING = Boolean(process.env.ALLOW_MISSING); // development only: placeholders for missing fonts and portraits
 // Fonts: inlined in the preview; in production served under a content-hashed name, so they can be cached
 // for a year as immutable and a replaced font still reaches every visitor.
 const fonts = [];

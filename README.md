@@ -36,7 +36,8 @@ Add an entry to `content/speakers.json` (anywhere; the top is easiest):
 }
 ```
 
-- `start` and `end` need New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks it, and checks that `end` is after `start`.
+- `start` and `end` need New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks it, that the date exists, that `end` is after `start`, and that the event lasts at most 3 days.
+- `date_label` must match `start`: "Nov 6, 2026", with an optional weekday first ("Fri Nov 6, 2026", "Friday, November 6, 2026"). `time_label`, if set, must match the start time: "4 pm", "4:30 pm", "4 p.m." or a range like "4–5:30 pm". The build stops if either disagrees, so a rescheduled talk can't keep its old label.
 - A talk counts as upcoming until `end`, or two hours after `start` if there is no `end`. The page switches it to "past" in the visitor's browser when it ends (on load, or live if the page is open), even before the next build.
 - The home page shows the next talk and the six most recent past ones. `/speakers` shows every talk.
 - `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**".
@@ -70,8 +71,10 @@ That builds `dist/` and serves it at http://localhost:4321, on this computer onl
 
 ```bash
 npm run build      # production build into dist/
-npm run preview    # self-contained preview into preview/ (inlined CSS, JS and fonts; links end in .html)
+npm run preview    # preview into preview/ (inlined CSS, JS and fonts; links end in .html). preview/index.html is a
+                   # fragment for the Claude artifact viewer, which supplies the page frame; open the other pages directly.
 BUILD_NOW=2026-11-07T12:00:00-05:00 npm run build   # pretend it is another date
+ALLOW_MISSING=1 npm run build      # development only: placeholders for missing fonts and portraits instead of stopping
 ```
 
 The build stops with a list of problems if content is invalid (including a talk time with the wrong offset), a photo or font is missing, or any internal link, anchor, icon or redirect target is broken.

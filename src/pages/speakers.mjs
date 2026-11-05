@@ -16,6 +16,7 @@ export function render(c) {
     if (!g) groups.push((g = { year: y, items: [] }));
     g.items.push(ev);
   }
+  groups.sort((a, b) => (a.year === 'Earlier') - (b.year === 'Earlier'));  // stable: years keep their order
 
   const talk = (ev) => {
     const upcoming = isUpcoming(ev);
@@ -28,7 +29,7 @@ export function render(c) {
     const extra = [ev.format, ev.host, ev.place].filter(Boolean).map(esc).join(' · ');
     return html`
     <li class="talk"${upcoming ? c.show((k) => c.endedIn(ev, k)) : ''}>
-      <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 128px, 84px' })}</div>
+      <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 128px, 84px' })}</div>
       <div class="talk__body">
         <h4 class="talk__name">${esc(ev.name)}</h4>
         <p class="talk__affil">${c.affil(ev)}</p>
@@ -49,7 +50,7 @@ export function render(c) {
 ${c.upcoming.length ? html`
 <section class="wrap block" data-upcoming-section${c.show((k) => c.nextIn(k))} aria-labelledby="next-h">
   <h2 class="year" id="next-h">Next</h2>
-  <div class="features">${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 30vw, 92vw', next: false, show: c.show((k) => !c.endedIn(ev, k)) }))}</div>
+  <div class="features">${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 30vw, 92vw', next: false, show: c.show((k) => !c.endedIn(ev, k)) }))}</div>
 </section>` : ''}
 
 <section class="wrap" aria-labelledby="past-h">

@@ -302,7 +302,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 
 /* ---------- Hero: static layout (no script, or reduced motion) ---------- */
 .hero {
-  --title-ratio: 0.26;     /* lockup height / width; set from the SVG at build */
+  --title-ratio: 0.26;     /* lockup height / width, from content/brand.json (checked against the SVG at build) */
   --line2-ratio: 0.62;     /* "AI CLUB" ink width / "DARTMOUTH" ink width */
   position: relative;
   padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px));

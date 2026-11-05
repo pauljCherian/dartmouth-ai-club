@@ -107,7 +107,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const stateCss = byEnd.length
     ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}` +
         `html.talks-${k} [data-upcoming-section]:not([data-show~="${k}"])+.subhead{margin-top:0;padding-top:0;border-top:0}`).join('') +
-      `html:not(.js) [data-show]:not([data-show~="0"]){display:none!important}`
+      `html:not([class*="talks-"]) [data-show]:not([data-show~="0"]){display:none!important}`
     : '';
   const talkEnds = byEnd.map(ends);
 
@@ -178,10 +178,10 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     // Talk state before the first paint: how many of the upcoming talks (sorted by end) have ended.
     `var k=0;try{var E=window.__daicEnds=[${talkEnds.join(',')}],n=Date.now();for(var i=0;i<E.length;i++)if(E[i]<n)k++}catch(e){}d.classList.add('talks-'+k);` +
     `d.classList.add('js');try{if(location.hash==='#logo')d.classList.add('logo-always');` +
-    `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&matchMedia('(min-height: 300px)').matches){d.classList.add('js-handoff');` +
+    `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){if(!matchMedia('(min-height: 300px)').matches)d.classList.add('handoff-parked');else{d.classList.add('js-handoff');` +
     // site.js always runs before DOMContentLoaded (deferred or inline at the end), so this cannot race it:
     // if the hand-off did not start by then, fall back to the static layout.
-    `document.addEventListener('DOMContentLoaded',function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')})}` +
+    `document.addEventListener('DOMContentLoaded',function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')})}}` +
     // Last resort for a site.js request that never answers (DOMContentLoaded then never fires): 12 s after the
     // HTML is parsed, fall back to the no-script layout. site.js restores the js class if it arrives later.
     `document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){if(!window.__daicSite)d.classList.remove('js','js-handoff')},12000)})` +

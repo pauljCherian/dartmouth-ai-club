@@ -24,12 +24,18 @@
      The early script in <head> already tagged <html> with talks-k (how many upcoming talks have ended) before
      the first paint, and CSS shows the right blocks for that state. Here: keep the tag right while the page
      stays open, by moving it when the next talk ends (timers cap at about 24 days). */
-  (function talks() {
+  var talkTimer = 0;
+  function talks() {
     var E = window.__daicEnds || [], now = Date.now(), k = 0, next = Infinity;
     for (var i = 0; i < E.length; i++) { if (E[i] < now) k++; else if (E[i] < next) next = E[i]; }
     for (var j = 0; j <= E.length; j++) doc.classList.toggle('talks-' + j, j === k);
-    if (next < Infinity && next - now < 2147483000) window.setTimeout(talks, next - now + 1000);
-  })();
+    window.clearTimeout(talkTimer);
+    if (next < Infinity && next - now < 2147483000) talkTimer = window.setTimeout(talks, next - now + 1000);
+  }
+  talks();
+  // Timers stall while a phone sleeps or a tab is in the background: check again when the page comes back.
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') talks(); });
+  window.addEventListener('pageshow', talks);
 
   /* ---------- 2. Header hairline ---------- */
   var header = document.querySelector('[data-header]');
@@ -114,7 +120,9 @@
   /* ---------- 4. The hand-off ---------- */
   var handoff = (function () {
     var hero = document.querySelector('[data-handoff]');
-    if (!hero || !doc.classList.contains('js-handoff')) return null;
+    var startParked = doc.classList.contains('handoff-parked');  // loaded in a window too short for it
+    doc.classList.remove('handoff-parked');
+    if (!hero || !(doc.classList.contains('js-handoff') || startParked)) return null;
     if (mq('(prefers-reduced-motion: reduce)').matches) return null;  // turned on while this file was loading
     window.__daicHandoff = true;
 
@@ -137,11 +145,11 @@
     var ASPECT = parseFloat(heroCS.getPropertyValue('--hero-aspect')) || 4 / 3;
     var MAX_ASPECT = parseFloat(heroCS.getPropertyValue('--hero-max-aspect')) || 1.6;
     var dead = false;    // reduced motion: off for good
-    var parked = false;  // too short, or the title would be too small: static layout until the window changes
-    var MIN_H = 300;
+    var parked = startParked;  // too short, or the title would be too small: static layout until the window changes
+    var MIN_H = 300;     // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
     var CONTENT_MAX = 1920;  // the page's content width cap (.wrap in main), so the photo shares the grid
     // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34).
-    var CURVES = [{ s: 0.34, t: 0 }, { s: 0.22, t: 0.08 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];       // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
+    var CURVES = [{ s: 0.34, t: 0 }, { s: 0.22, t: 0.08 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];
     // Matches the CSS: beside "AI CLUB" from 56.25em (900px) wide, unless the short-screen layout (under 38.6875em,
     // 619px, tall) applies. In em, like the CSS, so larger default text moves both together.
     var wideQ = mq('(min-width: 56.25em)'), shortQ = mq('(orientation: landscape) and (max-height: 38.6875em)');

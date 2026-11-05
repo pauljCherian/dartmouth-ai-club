@@ -10,5 +10,5 @@
   "line": {
     "ratio": 0.0696
   },
-  "_note": "Generated from src/svg/*.svg. ratio = height/width; line2 = ink width of AI CLUB / DARTMOUTH."
+  "_note": "Measured from src/svg/logo-display.svg (and logo-small, logo-line): ratio = height/width of the viewBox; line2 = ink width of AI CLUB / DARTMOUTH; line1_bottom = bottom of the DARTMOUTH ink / height. The build checks display.ratio against the SVG; measure line2 again by hand if the logo changes."
 }
