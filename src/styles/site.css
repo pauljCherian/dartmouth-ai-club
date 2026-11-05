@@ -160,6 +160,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 .arrow--w { transform: rotate(180deg); }
 .link-arrow {
   display: inline-flex;
+  flex-wrap: wrap;  /* very large text in a narrow column: the arrow goes under the words rather than off-screen */
   align-items: baseline;
   gap: 0.4em;
   font-weight: 700;
