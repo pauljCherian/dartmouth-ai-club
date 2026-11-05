@@ -367,12 +367,10 @@ main { display: block; }
   height: calc(calc(100 * var(--vh)) + var(--pin));
   padding-top: 0;
 }
+/* Wide screens: the tagline sits beside "AI CLUB" (two lines), so no room is reserved under the title.
+   Short screens (under 620px tall) switch to the layout further down, which overrides this. */
 @media (min-width: 900px) {
-  .js-handoff .hero { --pin: calc(115 * var(--vh)); --thumb-w: min(33vw, calc(46 * var(--vh))); }
-}
-/* Tall enough for the tagline to sit beside "AI CLUB" in two lines; shorter screens put it under the title. */
-@media (min-width: 900px) and (min-height: 561px) {
-  .js-handoff .hero { --tag-h: 0px; }
+  .js-handoff .hero { --pin: calc(115 * var(--vh)); --thumb-w: min(33vw, calc(46 * var(--vh))); --tag-h: 0px; }
 }
 .js-handoff .hero__stage {
   position: sticky;
@@ -401,7 +399,7 @@ main { display: block; }
   padding: 0;
   will-change: transform, opacity;
 }
-@media (min-width: 900px) and (min-height: 561px) {
+@media (min-width: 900px) {
   .js-handoff .hero__tagline {
     left: calc(var(--gutter-l) + var(--title-w) * var(--line2-ratio) + var(--gap) * 1.5);
     bottom: calc(var(--title-bottom) - 0.24em);
@@ -416,9 +414,9 @@ main { display: block; }
   width: calc(100% - var(--gutter-l) - var(--gutter-r));
   max-width: 22em;
 }
-/* Short landscape screens at any width (phones on their side, short laptop windows): title left of the
-   thumbnail, tagline under it in one line. After the base rules so it wins. */
-@media (orientation: landscape) and (max-height: 560px) {
+/* Short landscape screens at any width (phones on their side, laptop windows under 620px tall): title left
+   of the thumbnail, tagline under it in one line. After the rules above, so it wins. */
+@media (orientation: landscape) and (max-height: 619px) {
   .js-handoff .hero {
     --thumb-w: min(34vw, calc(52 * var(--vh)));
     --tag-h: calc(var(--t-3) * 1.3 + var(--gap));
@@ -427,7 +425,14 @@ main { display: block; }
       calc((100 * var(--vh) - var(--header-h) - env(safe-area-inset-top, 0px) - var(--tag-h) - var(--m) - var(--gap) * 2) / var(--title-ratio))
     );
   }
-  .js-handoff .hero__tagline { max-width: calc(100% - var(--gutter-l) - var(--gutter-r) - var(--thumb-w) - var(--gap) * 2); }
+  /* Under the title, not beside "AI CLUB". At least one line wide: the thumbnail is at the top, so the
+     tagline may run under it. */
+  .js-handoff .hero__tagline {
+    left: var(--gutter-l);
+    bottom: calc(var(--m) + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - var(--gutter-l) - var(--gutter-r));
+    max-width: min(100% - var(--gutter-l) - var(--gutter-r), max(18em, 100% - var(--gutter-l) - var(--gutter-r) - var(--thumb-w) - var(--gap) * 2));
+  }
 }
 .js-handoff .hero__thumb,
 .js-handoff .hero__frame {
@@ -439,7 +444,7 @@ main { display: block; }
   aspect-ratio: var(--hero-aspect, 4 / 3);
 }
 .js-handoff .hero__thumb { display: block; visibility: hidden; pointer-events: none; }
-@media (orientation: landscape) and (max-height: 560px) {
+@media (orientation: landscape) and (max-height: 619px) {
   .js-handoff .hero__thumb, .js-handoff .hero__frame { right: var(--gutter-r); }  /* beside the title here, not above it */
 }
 .js-handoff .hero__figure { position: absolute; inset: 0; margin: 0; pointer-events: none; }

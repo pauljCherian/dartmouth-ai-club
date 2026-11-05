@@ -133,7 +133,9 @@
     var CONTENT_MAX = 1920;  // the page's content width cap (.wrap in main), so the photo shares the grid
     // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34).
     var CURVES = [{ s: 0.34, t: 0 }, { s: 0.22, t: 0.08 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];       // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
-    var taglineBeside = mq('(min-width: 900px) and (min-height: 561px)');  // matches the CSS that puts it beside "AI CLUB"
+    // Matches the CSS: beside "AI CLUB" from 900px wide, unless the short-screen layout (under 620px tall) applies.
+    var wideQ = mq('(min-width: 900px)'), shortQ = mq('(orientation: landscape) and (max-height: 619px)');
+    var taglineBeside = { get matches() { return wideQ.matches && !shortQ.matches; } };
     var logoAlways = doc.classList.contains('logo-always');
     var monoMode = !!mono && (location.hash === '#mono' || hero.getAttribute('data-mono') === 'on');
     if (mono) mono.style.display = monoMode ? 'block' : 'none';
@@ -208,8 +210,9 @@
         var wMax = availH * MAX_ASPECT;
         if (wMax >= vw && vw - gutter * 2 <= CONTENT_MAX) return { x: 0, y: top, w: vw, h: availH };
         var limit = Math.min(content, wMax), w = limit;
-        if (vh >= 561) { var n = 12; while (n > 1 && columns(content, gap, n) > limit + 0.5) n--; w = columns(content, gap, n); }
-        return { x: gutter, y: top, w: w, h: availH };
+        if (vh >= 620) { var n = 12; while (n > 1 && columns(content, gap, n) > limit + 0.5) n--; w = Math.min(columns(content, gap, n), limit); }
+        // Never narrower than the photo itself at this height: then the frame gets shorter, not cropped at the sides.
+        return { x: gutter, y: top, w: w, h: Math.min(availH, w / ASPECT) };
       };
       var F, cap;
       var capUnder = capHeight(content);
@@ -223,10 +226,16 @@
           var hB = capHeight(band);
           cap = { x: F.x + F.w + gap, y: F.y + F.h - hB, w: band };
         } else {
-          F = wideRect(vh - top - capUnder - gap * 1.4);
-          var capW = F.x > 0 ? F.w : content;
-          var hU = capHeight(capW);
-          if (hU > capUnder) F = wideRect(vh - top - hU - gap * 1.4);  // narrower caption, more lines
+          // Caption under the photo, as wide as the photo: its height depends on that width, which depends on
+          // the room left for the photo. Settle it in a few passes.
+          var hU = capUnder;
+          for (var pass = 0; pass < 3; pass++) {
+            F = wideRect(vh - top - hU - gap * 1.4);
+            var hNext = capHeight(F.x > 0 ? F.w : content);
+            if (hNext <= hU + 0.5) break;
+            hU = hNext;
+          }
+          capHeight(F.x > 0 ? F.w : content);
           cap = { x: F.x > 0 ? F.x : gutter, y: F.y + F.h + gap * 0.6, w: F.x > 0 ? F.w : content };
         }
       } else {
