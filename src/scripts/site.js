@@ -353,8 +353,11 @@
         var tx = (L.Lg.x - L.Ti.x) * b;
         var ty = (L.Lg.y - L.Ti.y) * b;
         title.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + s + ')';
-        // ...then swap in one step once docked. A cross-fade would show both lockups at once, and they
-        // differ slightly in letter-spacing and leading, so the logo would look doubled.
+        // ...then swap in one step once docked: the title and the header logo are the same drawing in the same
+        // place. Near the end the title stops being a pre-drawn layer (will-change), so the browser draws it at its
+        // real size, as crisp as the logo; otherwise it is a shrunken picture of the big title, a little soft, and
+        // the swap would show as a sharpening on phones.
+        title.style.willChange = p >= 0.3 ? 'auto' : '';
         var docked = p >= 0.34 ? 1 : 0;
         title.style.opacity = String(1 - docked);
         setLogo(docked);

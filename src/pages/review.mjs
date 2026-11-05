@@ -23,12 +23,12 @@ export function render(c) {
   // rules in the next section.
   const log = [
     ['Every page', [
-      ['Header logo', 'Changed', 'Opened slightly (the lines are about 20% of a letter apart, not 12%). At 104–116 px on an ordinary screen the tighter setting left under 2 px between the lines. The big home title stays tight; the two now have the same proportions, so the hand-off swaps one for the other without a jump.'],
+      ['Header logo', 'Changed', 'One drawing: the header logo is the home title’s own drawing, 124 px wide (108 on phones). In v2 the header had a looser drawing of its own, and the letters jumped apart at the end of the hand-off; with one drawing the title lands as exactly the logo it becomes.'],
       ['Header links', 'Kept', 'Speakers, Team, Join the club. No “Home” on laptops: the logo, top left, is the home link.'],
       ['Phone menu', 'Changed', '“Home” added first. On a phone the menu is the full list of pages, so it lists all four and underlines the one you are on.'],
       ['Section headings', 'Changed', 'One heading per section, top left, large and regular weight (Vitsœ’s pattern). The small bold labels are gone everywhere, not just “Join”.'],
       ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, advisors) run across the content column. All gray; no ink rules.'],
-      ['Footer', 'Changed', 'Vitsœ’s layout: the invitation to join (on every page but /join), the page links, the contact. The links list every page, Join included, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
+      ['Footer', 'Changed', 'Vitsœ’s layout: the invitation to join (on every page but /join), the page links, the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
       ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says the GroupMe posts each week’s time and room.'],
       ['© line', 'Kept', 'A convention (Vitsœ has one). It shows the year of the last build.'],
     ]],
@@ -40,13 +40,13 @@ export function render(c) {
       ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is.'],
       ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
       ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link; the green discs mean “steps” everywhere else.'],
-      ['Speakers', 'Kept', 'The six most recent talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
+      ['Speakers', 'Changed', 'The six newest talks: photo, name, role at the time of the talk, date. A talk still to come is listed as soon as it is added, marked “Upcoming” until its day is over. One “All speakers →”, not two.'],
       ['Join section', 'Moved', 'Into the footer, so every page ends with it. The button says what happens next: “How to join →”.'],
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
     ['Speakers', [
       ['Lead', 'Changed', 'Adds “New talks are announced in the GroupMe.”: the job the Next block did, without anyone updating the site. Not a link: the footer’s “How to join →” is on the same page.'],
-      ['Next', 'Cut', 'Nobody would keep it current.'],
+      ['Next', 'Cut', 'No separate block to keep current: a talk still to come sits in the list with “Upcoming” before its date, and the visitor’s browser drops the mark the day after.'],
       ['Each talk', 'Changed', 'The same five things for everyone, in the same sizes and order as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],
       ['Member sessions', 'Cut', 'A dated archive that stopped in April. Three of its topics now appear as examples in About.'],
@@ -54,9 +54,9 @@ export function render(c) {
     ]],
     ['Team', [
       ['Lead', 'Cut', 'It repeated the two section headings.'],
-      ['Officers', 'Changed', `“Officers, ${team.officers_term}”: when nobody updates it, the list reads as old, not wrong.`],
-      ['LinkedIn', 'Changed', 'The LinkedIn mark instead of the word, as the footer will show the club’s accounts once their links exist.'],
-      ['Faculty advisors', 'Changed', 'Name and school or department only: a rank changes with promotions.'],
+      ['Officers', 'Changed', `A list, as Stanford’s: name, links, role, one line each, under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
+      ['LinkedIn and X', 'Changed', 'The networks’ marks beside each name, always visible: Stanford shows them on hover, which phones don’t have.'],
+      ['Faculty advisors', 'Changed', 'The same list: name, and school or department (a rank changes with promotions).'],
     ]],
     ['Join', [
       ['Steps', 'Changed', 'Sections like every other page’s: the heading top left, led by its green number (green numbers mean steps, here only).'],
@@ -72,7 +72,7 @@ export function render(c) {
   const considered = [
     ['Phone links in the header instead of a menu', 'One reviewer’s idea. “Join the club” does not fit beside the logo on a 320 px phone, and very large text would wrap the header. Your reference, Vitsœ, uses a menu.'],
     ['No speaker descriptions', 'Three reviewers argued for name, role and date only. Kept because you asked for a description on every talk; the rule keeps them honest: one line, under about 90 characters, about the person’s own work at the time of the talk. The live build refuses to run while one is missing.'],
-    ['Officers without photos', 'Faces make the club approachable. Needs head-and-shoulders photos of the two officers shown as initials.'],
+    ['Links that appear on hover', 'Stanford’s team list shows LinkedIn and X when you hover over a name. Phones have no hover, and most visitors are on phones, so the marks are always shown, quietly gray.'],
     ['Cutting the four lines', 'Two reviewers. Kept: they are now the section’s only heading.'],
     ['Cutting the © line', 'Three reviewers. Kept: it is the convention, and Vitsœ keeps it.'],
     ['“Join the club” in the phone header', 'The menu and the footer of every page carry it.'],
@@ -82,13 +82,12 @@ export function render(c) {
   const open = [
     ['Hero motion', 'Hand-off: the title shrinks into the header logo.', 'Logo visible from the start; the title fades as the photo grows.'],
     ['Hero photo', 'Starts black-and-white and turns to color as it grows (the “Black-and-white photo turning to color” link above).', 'Full color from the start, lightly corrected (built as the default until you decide).'],
-    ['Speaker and team photos', 'Ink-and-paper monochrome, one crop for everyone.', 'Color, balanced for consistency.'],
+    ['Speaker photos', 'Ink-and-paper monochrome, one crop for everyone.', 'Color, balanced for consistency.'],
   ];
 
   const confirmations = [
     ['Tagline', `“${site.tagline}”`, 'My draft, replacing “the best undergrad AI club”: a claim nobody can check.'],
     ['About', '“meets every week … from how transformers work to adversarial attacks and LLMs for math”', 'From the club’s session archive (Jan–Apr 2026). Still weekly this term?'],
-    ['Who can join', '“Open to Dartmouth students, whatever you study.”', 'The constitution on the old site says “open to all members of the Dartmouth community”. Graduate students too?'],
     ['Officers', `Officers, ${team.officers_term}`, 'Right year and names?'],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
     ['Research groups', 'Not on the new site', 'You have three VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
@@ -96,18 +95,16 @@ export function render(c) {
   ];
 
   const needed = [
-    ['Before launch: Ted Li', 'Who he is: his LinkedIn, or his role on Feb 4, 2026 and one line on his work. Until then the live site cannot be published: the build stops while his role and line are missing (the preview shows the gaps in gray). Also a larger photo (the only one is 361 × 343 px).'],
-    ['Before launch: a club email address', 'Every way to reach or join the club goes to one officer’s personal address, which stops reaching the club at the next handover: it reaches a former officer. A role address (daic@dartmouth.edu, if someone reads it) fixes the contact; the Dartmouth-only form fixes joining. One line each in content/site.json.'],
 
-    ['Yann LeCun', 'A photo of him from the visit. The portrait on the site is from Wikimedia Commons, and its licence requires the credit line under the speakers; a club photo removes it.'],
-    ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos (shown as initials until then).'],
-    ['Paul Cherian, Lisa Samoylov, Sean Noh', 'Larger originals, at least 1000 px wide.'],
+    ['Yann LeCun', 'The original file of the photo from his visit (the one with the Dartmouth backdrop), sent as a file or Drive link rather than in the chat, so it can be cropped at full size. It replaces the Wikimedia portrait and its credit line.'],
     ['Mazda Moayeri', 'The original photo; it is currently cut out of the event poster (400 px wide).'],
     ['Andrew Milich, Chetan Patel', 'Larger photos, at least 1000 px wide (now 400 and 554 px): on phones and high-resolution laptops their tiles need about 600 px.'],
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284, exported as JPEG at full size with location unchecked.'],
     ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. It would go under the About text.'],
     ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link. Then step 1 on /join becomes one sentence and one button.'],
-    ['Socials', 'Instagram and LinkedIn URLs. The marks are built and appear as soon as the links exist.'],
+    ['X and YouTube', 'The club’s two URLs. The marks are built and appear in the footer and menu as soon as the links exist.'],
+    ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
+    ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
   ];
 
@@ -160,8 +157,9 @@ export function render(c) {
       <li>Everything on the site does a job, or is a convention people expect. If it would go wrong without anyone editing it, it isn’t on the site.</li>
       <li>A page has one giant title. A section has one heading, top left, and its content on the right, under a gray hairline from margin to margin. Rules between items in a section run across the content column; the header’s runs edge to edge.</li>
       <li>Green means you can act: every Join link and button, hover, focus. Numbered green discs mean steps, and only appear on /join.</li>
-      <li>→ goes somewhere on this site; ↗ leaves it. A network’s own mark (Instagram, LinkedIn) needs neither. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
-      <li>A speaker is shown the same way everywhere, in the same sizes: photo, name, role at the time of the talk, date last. The Speakers page adds one line on their work, before the date.</li>
+      <li>→ goes somewhere on this site; ↗ leaves it. A network’s own mark (LinkedIn, X, YouTube) needs neither. (The tab icon is the ↗ on its own: your choice, and not a link.)</li>
+      <li>A speaker is shown the same way everywhere, in the same sizes: photo, name, role at the time of the talk, date last. The Speakers page adds one line on their work, before the date. A talk still to come says “Upcoming” before its date until the day is over.</li>
+      <li>The logo is one drawing. The home title and the header logo are the same SVG at two sizes.</li>
       <li>Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don’t (“Speakers”, “Team”).</li>
     </ul>
   </div>

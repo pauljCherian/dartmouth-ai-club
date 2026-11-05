@@ -64,7 +64,12 @@ const content = {
     for (const k of ['org', 'start', 'end', 'date_label', 'format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is not used any more; delete it (a talk shows name, role, description and date: see README)`);
   });
   need(team, ['officers_term'], 'team.json');
-  team.officers.forEach((o, i) => need(o, ['name', 'role', 'photo'], `team.json officers[${i}]`));
+  team.officers.forEach((o, i) => {
+    const where = `team.json officers[${i}] ${o.name || ''}`;
+    need(o, ['name', 'role'], where);
+    if (o.photo !== undefined) fail(`${where}: "photo" is not used any more (the team page is a list of names); delete it`);
+    for (const k of ['linkedin', 'x']) if (o[k] && !/^https:\/\//.test(o[k])) fail(`${where}: "${k}" must be an https:// link`);
+  });
   team.advisors.forEach((a, i) => {
     need(a, ['name', 'unit'], `team.json advisors[${i}]`);
     if (a.title !== undefined) fail(`team.json advisors[${i}]: "title" is not shown any more (an academic rank changes with promotions); delete it`);
@@ -94,7 +99,7 @@ for (const f of (await readdir(rel('src/svg'))).filter((f) => f.endsWith('.svg')
   markup = markup.replace(/<svg\b([^>]*)>/, (m, attrs) => `<svg${attrs.replace(/\s(width|height)="[^"]*"/g, '')}>`);
   svgs[f.replace(/\.svg$/, '')] = { markup };
 }
-for (const name of ['logo-display', 'logo-small', 'arrow-e', 'arrow-ne']) if (!svgs[name]) fail(`src/svg/${name}.svg is missing`);
+for (const name of ['logo-display', 'arrow-e', 'arrow-ne']) if (!svgs[name]) fail(`src/svg/${name}.svg is missing`);
 const brand = await readJSON('content/brand.json');
 {
   const ratio = (name) => { const v = svgs[name]?.markup.match(/viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/); return v ? Number(v[2]) / Number(v[1]) : null; };
@@ -112,7 +117,6 @@ if (!manifest['hero/hero']) fail('public/img/manifest.json has no hero image (ru
   const known = new Set(Object.keys(content.photos.missing || {}));
   const used = [
     ...content.speakers.map((ev, i) => [ev.photo, `speakers.json[${i}] ${ev.name}`]),
-    ...content.team.officers.map((o, i) => [o.photo, `team.json officers[${i}] ${o.name}`]),
   ];
   for (const [id, where] of used) {
     if (process.env.ALLOW_MISSING) break;  // development builds: placeholders instead

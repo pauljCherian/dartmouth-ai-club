@@ -15,13 +15,8 @@ const TAG_ROOM = `(function(){var d=document.documentElement,h=document.querySel
 
 export function render(c) {
   const { site, brand } = c;
-  // The six most recent talks, newest first (two rows of three); older ones are on /speakers. A talk added
-  // before it happens appears once it has ended, decided in the visitor's browser (see core.mjs), so nothing on
-  // the page waits for a rebuild or goes stale.
-  const LIMIT = 6;
-  const candidates = c.ordered;  // newest first: talks still to come lead, same-day talks keep their file order
-  const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
-  const recent = candidates.filter((ev) => c.STATES.some((k) => recentIn(k).includes(ev)));
+  // The six newest talks (two rows of three), a talk still to come first; older ones are on /speakers.
+  const recent = c.ordered.slice(0, 6);
   // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
   // with that strip removed from the top. Shared with site.js through the custom properties.
   const heroV = c.manifest['hero/hero'].variants.at(-1);
@@ -66,15 +61,15 @@ export function render(c) {
   <div class="row__body">
     <ul class="people people--3">
       ${recent.map((ev) => html`
-      <li class="person"${c.show((k) => recentIn(k).includes(ev))}>
+      <li class="person">
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
         <h3 class="person__name">${esc(ev.name)}</h3>
         <p class="person__meta">${c.fill(ev.role, 'Role to confirm')}</p>
-        <p class="person__date">${esc(c.shortDate(ev.date))}</p>
+        <p class="person__date">${c.when(ev)}</p>
       </li>`)}
     </ul>
     <p class="row__more"><a class="link-arrow" href="${c.link('speakers')}">All speakers ${c.arrow('e')}</a></p>
-    ${c.credits(recent, (ev, k) => recentIn(k).includes(ev))}
+    ${c.credits(recent)}
   </div>
 </section>`;
 

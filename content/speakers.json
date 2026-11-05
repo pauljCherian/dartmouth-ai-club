@@ -59,12 +59,11 @@
   {
     "id": "ted-li",
     "name": "Ted Li",
-    "role": "",
-    "description": "",
+    "role": "Founder, Steadyworks",
+    "description": "Builds training data for frontier AI labs, after three years on Llama at Meta.",
     "date": "2026-02-04",
     "photo": "ted-li",
     "photo_alt": "",
-    "confirm": "Who is he? The old site said only “Former Meta Superintelligence Labs”, and no public source ties a Ted Li to MSL (at least four people share the name). Send his LinkedIn, or the role he held on Feb 4, 2026 and one line on his work. His poster on Google Drive needs sign-in.",
-    "source": "Previous site + session archive"
+    "source": "His LinkedIn (linkedin.com/in/tedwxli, sent by the club): Founder @ Steadyworks; Research Engineer at Meta, Aug 2022 to Jun 2025 (Meta Superintelligence Labs and Llama). steadyworks.ai: \"data research to benchmark and advance AI\", RL environments for frontier labs. The club knew him as ex-MSL at the Feb 4, 2026 talk; Steadyworks was in stealth then."
   }
 ]

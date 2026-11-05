@@ -40,33 +40,7 @@
    "src": "assets-src/people/ted-li.jpg",
    "crop": "42,1,272,340",
    "note": "source is 361 × 343; ask for a larger photo"
-  },
-  {
-   "id": "paul-cherian",
-   "src": "assets-src/people/paul-cherian.jpg",
-   "crop": "108,234,526,658",
-   "note": "eyes at about 40%, head about 57%"
-  },
-  {
-   "id": "lisa-samoylov",
-   "src": "assets-src/people/lisa-samoylov.jpg",
-   "crop": "64,2,480,600"
-  },
-  {
-   "id": "sean-noh",
-   "src": "assets-src/people/sean-noh.jpg",
-   "crop": "243,135,543,679",
-   "note": "eyes at about 40%, head about 57%"
-  },
-  {
-   "id": "sol-song",
-   "src": "assets-src/people/sol-song.jpg",
-   "crop": "250,313,1511,1889",
-   "note": "eyes at about 41%, head about 58%"
   }
  ],
- "missing": {
-  "charlie-peers": "full-length photo; face is about 55 px tall. Needs a head-and-shoulders photo.",
-  "jeffrey-xie": "half-length photo; face is about 75 px tall. Needs a head-and-shoulders photo."
- }
+ "missing": {}
 }

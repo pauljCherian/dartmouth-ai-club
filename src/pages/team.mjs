@@ -2,8 +2,17 @@ import { html, esc } from '../lib/core.mjs';
 
 export const page = { id: 'team', path: '/team', out: 'team.html' };
 
+// A roster, not a photo grid: name and links on the left, role on the right, one line each. Officer photos
+// went out of date every year and two were always missing; the club's faces are the group photo on the home page.
 export function render(c) {
   const { team } = c.content;
+  // An officer's profiles as the networks' own marks, always visible (a hover-only reveal hides them on phones).
+  const links = (o) => {
+    const list = [['linkedin', 'LinkedIn', o.linkedin], ['x', 'X', o.x]].filter(([, , url]) => url);
+    return list.length
+      ? html`<span class="roster__links">${list.map(([icon, label, url]) => html`<a class="social roster__link" href="${esc(url)}">${c.svg(icon, { cls: 'social__icon' })}<span class="visually-hidden">${esc(label)} profile of ${esc(o.name)}</span></a>`)}</span>`
+      : '';
+  };
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Team</h1>
@@ -12,13 +21,11 @@ export function render(c) {
 <section class="row wrap" aria-labelledby="officers-h">
   <h2 class="row__title" id="officers-h">Officers, <span class="tnum nowrap">${esc(team.officers_term)}</span></h2>
   <div class="row__body">
-    <ul class="people people--3">
+    <ul class="roster">
       ${team.officers.map((o) => html`
-      <li class="person">
-        ${c.photo(o.photo, { alt: '', name: o.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
-        <h3 class="person__name">${esc(o.name)}</h3>
-        <p class="person__meta">${esc(o.role)}</p>
-        ${o.linkedin ? html`<a class="social person__social" href="${esc(o.linkedin)}">${c.svg('linkedin', { cls: 'social__icon' })}<span class="visually-hidden">LinkedIn profile of ${esc(o.name)}</span></a>` : ''}
+      <li class="roster__row">
+        <span class="roster__who"><span class="roster__name">${esc(o.name)}</span>${links(o)}</span>
+        <span class="roster__what">${esc(o.role)}</span>
       </li>`)}
     </ul>
   </div>
@@ -27,11 +34,11 @@ export function render(c) {
 <section class="row wrap" aria-labelledby="advisors-h">
   <h2 class="row__title" id="advisors-h">Faculty advisors</h2>
   <div class="row__body">
-    <ul class="list-rows">
+    <ul class="roster">
       ${team.advisors.map((a) => html`
-      <li>
-        <h3 class="list-rows__title">${esc(a.name)}</h3>
-        <p class="list-rows__meta">${c.keepLast(a.unit)}</p>
+      <li class="roster__row">
+        <span class="roster__who"><span class="roster__name">${esc(a.name)}</span></span>
+        <span class="roster__what">${c.keepLast(a.unit)}</span>
       </li>`)}
     </ul>
   </div>

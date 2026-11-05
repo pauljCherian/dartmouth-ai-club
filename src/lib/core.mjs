@@ -120,13 +120,19 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     })}</p>`;
   };
 
+  // A talk's date. A talk still to come is listed as soon as it is added, marked "Upcoming" until its day is over
+  // in New York; the visitor's browser drops the mark, so nobody has to remember to update the site.
+  const when = (ev) => (upcoming.includes(ev)
+    ? html`<span class="upcoming"${show((k) => !endedIn(ev, k))}>Upcoming · </span>${esc(shortDate(ev.date))}`
+    : esc(shortDate(ev.date)));
+
   const stateCss = byEnd.length
     ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}`).join('') +
       `html:not([class*="talks-"]) [data-show]:not([data-show~="0"]){display:none!important}`
     : '';
   const talkEnds = byEnd.map(ends);
 
-  // Social links as the networks' own marks (Instagram, LinkedIn: src/svg/<name>.svg), in ink, one size, each
+  // Social links as the networks' own marks (X, YouTube: src/svg/<name>.svg), in ink, one size, each
   // with its name for screen readers. People find these marks faster than words.
   const socials = (cls = 'socials') => {
     const items = site.socials.filter((s) => s.url || preview);
@@ -142,7 +148,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const header = (page) => html`
 <header class="site-header" data-header>
   <div class="site-header__inner wrap">
-    <a class="site-logo" href="${link('home')}" aria-label="Dartmouth AI Club, home">${svg('logo-small')}</a>
+    <a class="site-logo" href="${link('home')}" aria-label="Dartmouth AI Club, home">${svg('logo-display')}</a>
     <nav class="site-nav" aria-label="Main">
       <a href="${link('speakers')}"${page === 'speakers' ? ' aria-current="page"' : ''}>Speakers</a>
       <a href="${link('team')}"${page === 'team' ? ' aria-current="page"' : ''}>Team</a>
@@ -175,7 +181,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   <div class="site-footer__inner wrap">
     ${page !== 'join' ? html`<section class="site-footer__join" aria-labelledby="footer-join-h">
       <h2 class="site-footer__title" id="footer-join-h">Join the club.</h2>
-      <p class="site-footer__text">Open to Dartmouth students, whatever you study. Get the GroupMe link, then come to a&nbsp;meeting.</p>
+      <p class="site-footer__text">Open to Dartmouth undergraduates, whatever you study. Get the GroupMe link, then come to a&nbsp;meeting.</p>
       <p class="site-footer__action"><a class="button" href="${link('join')}">How to join ${arrow('e')}</a></p>
     </section>` : ''}
     <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">
@@ -299,7 +305,7 @@ ${preview ? script : ''}
   return {
     mode, preview, now, site, content, brand, manifest,
     link, asset, svg, arrow, picture, photo,
-    upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits, fill,
+    upcoming, past, ordered, ends, shortDate, socials, layout, esc, html, credits, fill, when,
     STATES, endedIn, show, keepLast, tieDates, email,
   };
 }

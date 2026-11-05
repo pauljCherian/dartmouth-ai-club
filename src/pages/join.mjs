@@ -19,7 +19,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Join the club.</h1>
-  <p class="page-lead">Open to Dartmouth students, whatever you study. No&nbsp;experience required.</p>
+  <p class="page-lead">Open to Dartmouth undergraduates, whatever you study. No&nbsp;experience required.</p>
 </header>
 
 <ol class="steps" aria-label="How to join">
@@ -36,7 +36,7 @@ export function render(c) {
   return c.layout({
     page: 'join',
     title: 'Join the club',
-    description: 'How to join the Dartmouth AI Club: get the GroupMe link, then come to a meeting. Open to Dartmouth students, whatever you study.',
+    description: 'How to join the Dartmouth AI Club: get the GroupMe link, then come to a meeting. Open to Dartmouth undergraduates, whatever you study.',
     path: '/join',
     main,
   });

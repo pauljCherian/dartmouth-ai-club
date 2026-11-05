@@ -4,8 +4,5 @@
     "line2": 0.6228,
     "line1_bottom": 0.4818
   },
-  "small": {
-    "ratio": 0.2638
-  },
-  "_note": "Measured from src/svg/logo-display.svg (and logo-small): ratio = height/width of the viewBox; line2 = ink width of AI CLUB / DARTMOUTH; line1_bottom = bottom of the DARTMOUTH ink / height. The build checks display.ratio against the SVG; measure line2 again by hand if the logo changes. Lockups: TeX Gyre Heros Bold, kerned. Display (the giant home title): tracking -0.045 em, baseline to baseline 0.81 em, so the gap between the lines is about 8% of the letter height. Small (header): tracking 0, baseline to baseline 0.90 em (about 20%): more open, because at 104-116 px on a standard screen the display setting leaves under 2 px between the lines. Its proportions match the display lockup's, so the hand-off swaps one for the other without a jump."
+  "_note": "Measured from src/svg/logo-display.svg: ratio = height/width of the viewBox; line2 = ink width of AI CLUB / DARTMOUTH; line1_bottom = bottom of the DARTMOUTH ink / height. The build checks ratio against the SVG; measure line2 again by hand if the logo changes. The lockup: TeX Gyre Heros Bold, kerned, tracking -0.045 em, baseline to baseline 0.81 em (the gap between the lines is about 8% of the letter height). It is the one drawing of the logo: the giant home title and the header logo are the same SVG at different sizes, so the hand-off ends on exactly what it started as."
 }
