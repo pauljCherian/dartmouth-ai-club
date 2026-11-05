@@ -149,7 +149,9 @@
       var gutter = parseFloat(cs.left) || 16;
       var gap = Math.max(16, Math.min(28, vw * 0.02));
 
-      var T = rect(thumb, base);
+      frame.style.transform = '';
+      inner.style.transform = '';
+      var T = rect(frame, base);
       var Ti = rect(title, base);
       var lr = logo.getBoundingClientRect();
       var Lg = { x: lr.left, y: lr.top, w: lr.width, h: lr.height }; // fixed header: viewport coordinates equal stage coordinates while pinned
@@ -175,12 +177,9 @@
       var coverW = Math.max(F.w, F.h * 4 / 3);
       var coverH = coverW * 0.75;
 
-      frame.style.left = F.x + 'px';
-      frame.style.top = F.y + 'px';
-      frame.style.right = 'auto';
-      frame.style.width = F.w + 'px';
-      frame.style.height = F.h + 'px';
-      frame.style.aspectRatio = 'auto';
+      // The frame keeps its CSS box (the thumbnail) for good and is only ever transformed, so the
+      // layout never moves (no layout shift). The image inside is laid out at its largest size and
+      // only scaled down, so it stays sharp.
       inner.style.width = coverW + 'px';
       inner.style.height = coverH + 'px';
 
@@ -209,12 +208,12 @@
         title.style.transform = 'translate3d(0,' + (-24 * fadeOnly) + 'px,0)';
         title.style.opacity = String(1 - fadeOnly);
       } else {
-        var tq = ease(seg(p, 0, 0.36));
+        var tq = ease(seg(p, 0, 0.34));   // arrive first...
         var s = Math.pow(L.Lg.w / L.Ti.w, tq);          // geometric: shrinking looks even
         var tx = (L.Lg.x - L.Ti.x) * tq;
         var ty = (L.Lg.y - L.Ti.y) * tq;
         title.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + s + ')';
-        var swap = seg(p, 0.3, 0.38);
+        var swap = seg(p, 0.34, 0.37);    // ...then swap quickly: the two lockups differ in letter-spacing
         title.style.opacity = String(1 - swap);
         setLogo(swap);
       }
@@ -229,8 +228,8 @@
       // Photo: from the thumbnail rectangle T to the final rectangle F.
       var e = ease(seg(p, 0.08, 0.86));
       var R = { x: mix(L.T.x, L.F.x, e), y: mix(L.T.y, L.F.y, e), w: mix(L.T.w, L.F.w, e), h: mix(L.T.h, L.F.h, e) };
-      var sx = R.w / L.F.w, sy = R.h / L.F.h;
-      frame.style.transform = 'translate3d(' + (R.x - L.F.x) + 'px,' + (R.y - L.F.y) + 'px,0) scale(' + sx + ',' + sy + ')';
+      var sx = R.w / L.T.w, sy = R.h / L.T.h;
+      frame.style.transform = 'translate3d(' + (R.x - L.T.x) + 'px,' + (R.y - L.T.y) + 'px,0) scale(' + sx + ',' + sy + ')';
       var si = Math.max(R.w / L.coverW, R.h / L.coverH);  // the image always covers R, never stretched
       var ix = (R.w - L.coverW * si) / 2;
       var iy = (R.h - L.coverH * si) * ANCHOR_Y;
