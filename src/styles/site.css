@@ -48,12 +48,15 @@
   /* Type */
   --font: "Club Sans", Helvetica, Arial, sans-serif;
   /* In rem, so a larger default font size set in the browser takes effect. 1rem = 16px by default. */
-  --t-page: clamp(min(3.25rem, 16.25vw), 10vw, 9.5rem);   /* page titles: 52-152px (less on very narrow screens with large text) */
+  --t-page: clamp(min(3.25rem, 21vw), 10vw, 9.5rem);      /* page titles: 52-152px (on very narrow screens with large text, up to
+                                                            a fifth of the width, so a title stays above its headings) */
   --t-2: clamp(1.75rem, 3.3vw, 3rem);       /* statements: 28-48px */
   --t-3: clamp(1.25rem, 1.85vw, 1.6875rem); /* leads: 20-27px */
   --t-4: 1.0625rem;                         /* body: 17px */
   --t-5: 0.9375rem;                         /* labels, navigation, meta: 15px */
   --t-6: 0.8125rem;                         /* captions: 13px */
+  --t-menu: clamp(2rem, min(12.4vw, calc(10.5 * var(--vh))), 4.5rem);  /* phone menu links: the largest that keeps
+                                               "Join the club" on one line and all four links on screen */
 
   /* Space */
   --m: clamp(16px, 3.2vw, 48px);        /* outer margin */
@@ -77,7 +80,7 @@
   :root { --vh: 1svh; }
 }
 @media (min-width: 56.25em) {
-  :root { --header-h: 64px; --t-4: 1.125rem; --logo-w: 124px; }
+  :root { --header-h: 64px; --t-4: 1.125rem; --t-3: clamp(1.375rem, 1.85vw, 1.6875rem); --logo-w: 124px; }  /* body grows, so leads keep their step */
 }
 
 /* ---------- Base ---------- */
@@ -211,7 +214,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 .site-logo svg { width: 100%; height: auto; overflow: visible; }  /* as the title's: round letters may overshoot the box by a hair */
 
 .site-nav { display: none; }
-.site-nav a { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; letter-spacing: 0.005em; text-decoration: none; }
+.site-nav a { display: inline-block; padding-block: 6px; font-size: var(--t-5); font-weight: 700; text-decoration: none; }
 .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
 .site-nav__join { color: var(--green); }
 .site-nav__join:hover { color: var(--green-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
@@ -221,7 +224,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
      links' baseline (0.455em: half-leading 0.225 + descent 0.23), so the line is exactly as tall as the logo and
      align-content centres the logo in the header as before. */
   .site-header__inner { flex-wrap: wrap; align-content: center; align-items: baseline; }
-  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); margin-bottom: -0.455rem; }
+  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); margin-bottom: calc(var(--t-5) * -0.455); }
   .site-nav a { padding-block: 6px 0; }  /* nothing below the text: the focus ring stays inside the header */
 }
 
@@ -254,7 +257,7 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 html:not(.js) .menu-button { display: none; }
 .menu-link { display: none; }
 @media not all and (min-width: 56.25em) {
-  html:not(.js) .menu-link { display: inline-block; padding-block: 6px; font-size: 1rem; font-weight: 700; text-decoration: none; }
+  html:not(.js) .menu-link { display: inline-block; padding-block: 6px; font-size: var(--t-5); font-weight: 700; text-decoration: none; }
 }
 
 /* On the home page the giant title is the logo; the header logo appears when the title hands off. */
@@ -281,7 +284,7 @@ html:not(.js) .menu-button { display: none; }
 .site-menu__nav > a {
   display: block;
   padding-block: 4px;
-  font-size: clamp(2rem, min(12.4vw, calc(10.5 * var(--vh))), 4.5rem);
+  font-size: var(--t-menu);
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.06;
@@ -520,8 +523,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   border-radius: 50%;
   background: var(--green);
   color: var(--paper);
-  font-size: 1.0625rem;
+  font-size: var(--t-4);
   font-weight: 700;
+  letter-spacing: normal;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -594,7 +598,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .roster__what { margin-left: auto; font-size: var(--t-5); line-height: 1.35; color: var(--gray); text-align: right; }
 
 /* ---------- Steps (join page): sections like any other, the heading led by its green number ---------- */
-.step__title { display: grid; grid-template-columns: 2.125rem minmax(0, 1fr); column-gap: 14px; align-items: start; }
+.step__title { display: grid; grid-template-columns: calc(2 * var(--t-4)) minmax(0, 1fr); column-gap: 14px; align-items: start; }
 .step__title .bullet { margin-top: calc(var(--t-2) * 0.4615 - 1em); }  /* on the capitals' middle: line-height 1.1 puts it 0.4615em down */
 .step__body { max-width: 34em; }
 .step__body > * + * { margin-top: 16px; }
@@ -609,20 +613,20 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 /* ---------- 404: a sign that is out of service ---------- */
 .sign {
   position: relative;
-  max-width: 980px;
+  max-width: 1000px;
   padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px) clamp(20px, 3vw, 36px);
   background: var(--ink);
   color: var(--paper);
 }
 .sign::before { content: ""; position: absolute; left: 0; right: 0; top: clamp(8px, 1vw, 12px); height: 2px; background: var(--paper); }
-.sign__text { display: block; margin-bottom: -0.2em; font-size: clamp(2.75rem, 9vw, 8rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.95; }
+.sign__text { display: block; margin-bottom: -0.2em; font-size: var(--t-page); font-weight: 700; letter-spacing: -0.045em; line-height: 0.92; }  /* as .page-title */
 @media (forced-colors: active) { .row, .site-footer__inner { border-top: 1px solid CanvasText; } }
 @media (forced-colors: active) {  /* after the .sign rules, so the system colours win */
   .sign { border: 2px solid CanvasText; }
   .sign::before { forced-color-adjust: none; background: CanvasText; }
 }
-.notfound__text { margin-top: clamp(28px, 4vw, 48px); max-width: 28em; font-size: var(--t-3); line-height: 1.28; }
-.notfound__links { margin-top: 28px; display: grid; gap: 12px; font-size: var(--t-3); }
+.notfound__text { margin-top: clamp(28px, 4vw, 48px); }
+.notfound__links { margin-top: 28px; display: grid; gap: 12px; }
 
 /* ---------- Footer: the invitation, the links, the contact (the grid of the sections above) ---------- */
 .site-footer {

@@ -6,7 +6,7 @@ export function render(c) {
   const main = html`
 <section class="wrap page-head notfound">
   <h1 class="sign"><span class="visually-hidden">Page not found. </span><span class="sign__text">Not in service</span></h1>
-  <p class="notfound__text">This page doesn’t exist.</p>
+  <p class="page-lead notfound__text">This page doesn’t exist.</p>
   <p class="notfound__links"><a class="link-arrow" href="${c.link('home')}">Home ${c.arrow('e')}</a></p>
 </section>`;
 

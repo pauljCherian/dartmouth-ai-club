@@ -24,7 +24,7 @@ export function render(c) {
     <ul class="roster">
       ${team.officers.map((o) => html`
       <li class="roster__row">
-        <span class="roster__who"><span class="roster__name">${esc(o.name)}</span>${links(o)}</span>
+        <div class="roster__who"><h3 class="roster__name">${esc(o.name)}</h3>${links(o)}</div>
         <span class="roster__what">${esc(o.role)}</span>
       </li>`)}
     </ul>
@@ -37,7 +37,7 @@ export function render(c) {
     <ul class="roster">
       ${team.advisors.map((a) => html`
       <li class="roster__row">
-        <span class="roster__who"><span class="roster__name">${esc(a.name)}</span></span>
+        <div class="roster__who"><h3 class="roster__name">${esc(a.name)}</h3></div>
         <span class="roster__what">${c.keepLast(a.unit)}</span>
       </li>`)}
     </ul>

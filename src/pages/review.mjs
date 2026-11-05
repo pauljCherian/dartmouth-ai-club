@@ -113,7 +113,7 @@ export function render(c) {
   // The system, measured from the production build (public/review/system.json, written by the QA sheet script):
   // every text style on the site, by size token, and what it is used for.
   const sys = c.reviewSystem || null;
-  const SIZES = [['t-page', 'Page title'], ['t-2', 'Heading'], ['t-3', 'Lead'], ['t-4', 'Body'], ['t-5', 'Small'], ['t-6', 'Caption']];
+  const SIZES = [['t-page', 'Page title'], ['t-2', 'Heading'], ['t-3', 'Lead'], ['t-4', 'Body'], ['t-5', 'Small'], ['t-6', 'Caption'], ['t-menu', 'Menu']];
   const ROLES = [
     [/page-title/, 'page titles'], [/site-footer__title/, 'the footer’s “Join the club.”'], [/step__title/, 'step headings'], [/row__title/, 'section headings'],
     [/page-lead/, 'page leads'], [/about__text/, 'the About text'], [/hero__tagline/, 'the tagline'], [/notfound__text/, 'the 404 sentence'],
