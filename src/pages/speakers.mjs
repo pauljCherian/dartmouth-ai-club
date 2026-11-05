@@ -25,7 +25,7 @@ export function render(c) {
       const image = /\.(png|jpe?g|webp|avif)$/i.test(h) ? ', image' : '';
       return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden">: ${esc(ev.name)}${image}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
     });
-    const extra = [ev.format, ev.host].filter(Boolean).map(esc).join(' · ');
+    const extra = [ev.format, ev.host, ev.place].filter(Boolean).map(esc).join(' · ');
     return html`
     <li class="talk"${upcoming ? c.show((k) => c.endedIn(ev, k)) : ''}>
       <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 128px, 84px' })}</div>

@@ -28,6 +28,7 @@ export function render(c) {
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, `${[s.role, s.org].filter(Boolean).join(' ')}`, s.confirm]),
     ...content.sessions.filter((s) => s.confirm).map((s) => [`Session, ${c.shortDate(s.date)}`, s.title, s.confirm]),
     ['Member sessions', '“Jeffery Xie” → “Jeffrey Xie”', 'The old archive and team page spelled the name differently; I used the team page spelling.'],
+    ['Past talks', 'Date and room (from the posters), no time', 'Times are left off past talks on purpose; the posters stay linked as images.'],
     ['Reading list', 'Maganur and Kejriwal', 'Corrected from “Magnur” on the old site, with the full paper title from arXiv.'],
     ['Soroush Vosoughi', 'Associate Professor', 'Corrected from “Professor”: Dartmouth’s faculty directory lists him as Associate Professor of Computer Science.'],
   ];

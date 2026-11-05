@@ -47,7 +47,7 @@
   /* Type */
   --font: "Club Sans", Helvetica, Arial, sans-serif;
   /* In rem, so a larger default font size set in the browser takes effect. 1rem = 16px by default. */
-  --t-page: clamp(min(3.25rem, 16vw), 10vw, 9.5rem);   /* page titles: 52-152px (less on very narrow screens with large text) */
+  --t-page: clamp(min(3.25rem, 16.25vw), 10vw, 9.5rem);   /* page titles: 52-152px (less on very narrow screens with large text) */
   --t-1: clamp(2.5rem, 6.2vw, 6rem);        /* speaker names in features, big statements: 40-96px */
   --t-2: clamp(1.75rem, 3.3vw, 3rem);       /* statements: 28-48px */
   --t-3: clamp(1.25rem, 1.85vw, 1.6875rem); /* leads: 20-27px */
@@ -297,7 +297,7 @@ html:not(.js) .menu-button { display: none; }
 
 /* ---------- Main ---------- */
 main { display: block; }
-main, .site-footer { overflow-wrap: break-word; }  /* a single word wider than the screen (large text) may break */
+body { overflow-wrap: break-word; }  /* a single word wider than the screen (very large text) may break */
 .page-pad { padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px)); }
 
 /* ---------- Hero: static layout (no script, or reduced motion) ---------- */
