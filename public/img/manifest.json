@@ -320,22 +320,36 @@
  "people/yann-lecun-visit-color": {
   "variants": [
    {
-    "w": 348,
-    "h": 435,
-    "avif": "img/people/yann-lecun-visit-color-348.avif",
-    "jpg": "img/people/yann-lecun-visit-color-348.jpg",
-    "webp": "img/people/yann-lecun-visit-color-348.webp"
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/yann-lecun-visit-color-480.avif",
+    "jpg": "img/people/yann-lecun-visit-color-480.jpg",
+    "webp": "img/people/yann-lecun-visit-color-480.webp"
+   },
+   {
+    "w": 614,
+    "h": 768,
+    "avif": "img/people/yann-lecun-visit-color-614.avif",
+    "jpg": "img/people/yann-lecun-visit-color-614.jpg",
+    "webp": "img/people/yann-lecun-visit-color-614.webp"
    }
   ]
  },
  "people/yann-lecun-visit-duo": {
   "variants": [
    {
-    "w": 348,
-    "h": 435,
-    "avif": "img/people/yann-lecun-visit-duo-348.avif",
-    "jpg": "img/people/yann-lecun-visit-duo-348.jpg",
-    "webp": "img/people/yann-lecun-visit-duo-348.webp"
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/yann-lecun-visit-duo-480.avif",
+    "jpg": "img/people/yann-lecun-visit-duo-480.jpg",
+    "webp": "img/people/yann-lecun-visit-duo-480.webp"
+   },
+   {
+    "w": 614,
+    "h": 768,
+    "avif": "img/people/yann-lecun-visit-duo-614.avif",
+    "jpg": "img/people/yann-lecun-visit-duo-614.jpg",
+    "webp": "img/people/yann-lecun-visit-duo-614.webp"
    }
   ]
  }
