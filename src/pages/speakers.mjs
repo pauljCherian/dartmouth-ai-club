@@ -26,7 +26,7 @@ export function render(c) {
       const image = /\.(png|jpe?g|webp|avif)$/i.test(h) ? ' (image)' : '';
       return html`<a class="link-arrow" href="${esc(h)}">${esc(l.label)}<span class="visually-hidden"> for ${esc(ev.name)}${image}</span> ${c.arrow(ext ? 'ne' : 'e')}</a>`;
     });
-    const extra = [ev.format, ev.host, ev.place].filter(Boolean).map(esc).join(' · ');
+    const extra = [ev.format, ev.host, ev.place].filter(Boolean).map(c.keepLast).join(' · ');
     return html`
     <li class="talk"${upcoming ? c.show((k) => c.endedIn(ev, k)) : ''}>
       <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 128px, 84px' })}</div>
@@ -50,7 +50,7 @@ export function render(c) {
 ${c.upcoming.length ? html`
 <section class="wrap block" data-upcoming-section${c.show((k) => c.nextIn(k))} aria-labelledby="next-h">
   <h2 class="year" id="next-h">Next</h2>
-  <div class="features">${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 30vw, 92vw', next: false, show: c.show((k) => !c.endedIn(ev, k)) }))}</div>
+  <div class="features">${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 23vw, 38vw', next: false, show: c.show((k) => !c.endedIn(ev, k)) }))}</div>
 </section>` : ''}
 
 <section class="wrap" aria-labelledby="past-h">

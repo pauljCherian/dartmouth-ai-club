@@ -115,7 +115,7 @@ a {
   text-underline-offset: 0.2em;
 }
 a:hover { color: var(--green); }
-a[href^="mailto:"] { overflow-wrap: anywhere; }
+a[href^="mailto:"] { overflow-wrap: break-word; }  /* addresses break after the @ (<wbr> in the markup) */
 :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 ::selection { background: var(--green); color: var(--paper); }
 
@@ -142,8 +142,8 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 
 .wrap { padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
 /* On very wide screens the content stops at 1920px, flush left: photos stay a sensible size and every row
-   stays readable. The header still spans the window. */
-main .wrap, .site-footer .wrap { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
+   stays readable. The header and footer stop at the same edge, and so do their rules. */
+main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
 .block { margin-bottom: clamp(56px, 7vw, 112px); }
 .subhead { margin-top: clamp(48px, 6vw, 88px); margin-bottom: 20px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: var(--t-5); font-weight: 700; }
 [data-upcoming-section] + .subhead { margin-top: clamp(56px, 7vw, 104px); }
@@ -191,9 +191,9 @@ main .wrap, .site-footer .wrap { max-width: calc(1920px + var(--gutter-l) + var(
   z-index: 60;
   padding-top: env(safe-area-inset-top, 0px);
   background: var(--paper);
-  transition: box-shadow 0.2s linear;
 }
-.site-header.is-ruled { box-shadow: 0 1px 0 var(--rule); }
+.site-header__inner { transition: box-shadow 0.2s linear; }
+.site-header.is-ruled .site-header__inner { box-shadow: 0 1px 0 var(--rule); }
 /* During the hand-off the title docks into the header, so the header must not paint over it. */
 .js-handoff.page-home .site-header:not(.is-solid) { background: transparent; }
 .site-header__inner {
@@ -214,7 +214,12 @@ main .wrap, .site-footer .wrap { max-width: calc(1920px + var(--gutter-l) + var(
 .site-nav__join { color: var(--green); }
 .site-nav__join:hover { color: var(--green-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.32em; }
 @media (min-width: 56.25em) {
-  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); }
+  /* The nav sits on the baseline of "AI CLUB". The logo has no text, so its baseline is its bottom edge, which is
+     that baseline (the viewBox is tight to the letters). The negative margin takes out what hangs below the
+     links' baseline (6px padding + 0.455em: half-leading 0.225 + descent 0.23), so the line is exactly as tall
+     as the logo and align-content centres the logo in the header as before. */
+  .site-header__inner { flex-wrap: wrap; align-content: center; align-items: baseline; }
+  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); margin-bottom: calc(-6px - 0.455rem); }
 }
 
 .menu-button {
@@ -385,6 +390,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   height: calc(100 * var(--vh));
   overflow: hidden;
 }
+/* Transparent until the tagline's height is known (the inline script after it, or site.js), so a page that
+   arrives in pieces never shows the title in a provisional place. */
+.js-handoff .hero:not(.is-measured) .hero__title { opacity: 0; }
 .js-handoff .hero__title {
   position: absolute;
   left: var(--gutter-l);
@@ -445,15 +453,12 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .js-handoff .hero__frame {
   position: absolute;
   top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + var(--gap));
-  right: calc(100% - var(--gutter-l) - var(--title-w));  /* ends where the title ends */
+  right: max(var(--gutter-r), calc(100% - var(--gutter-l) - 1920px));  /* on the right margin, under the end of the nav */
   width: var(--thumb-w);
   margin: 0;
   aspect-ratio: var(--hero-aspect, 4 / 3);
 }
 .js-handoff .hero__thumb { display: block; visibility: hidden; pointer-events: none; }
-@media (orientation: landscape) and (max-height: 38.6875em) {
-  .js-handoff .hero__thumb, .js-handoff .hero__frame { right: var(--gutter-r); }  /* beside the title here, not above it */
-}
 .js-handoff .hero__figure { position: absolute; inset: 0; margin: 0; pointer-events: none; }
 .js-handoff .hero__frame {
   max-height: none;
@@ -462,6 +467,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 }
 .js-handoff .hero__img { inset: auto; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; }
 .js-handoff .hero__caption { position: absolute; padding: 0; opacity: 0; }
+/* The first section may come up into the empty bottom of the stage (site.js sets a negative margin on the hero
+   on tall screens): painted above the stage, so it is never under it for clicks. */
+.js-handoff .hero + .row { position: relative; z-index: 1; background: var(--paper); }
 }
 
 /* ---------- Rows (Vitsoe pattern: label left, content right) ---------- */
@@ -501,6 +509,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   font-size: var(--t-5);
 }
 .facts dt { font-weight: 700; }
+@media (min-width: 43.75em) { .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }  /* thirds: the columns of the speaker tiles */
 .facts dd { color: var(--ink); }
 .about__photo { margin-top: clamp(40px, 5vw, 64px); }
 .about__photo figcaption { margin-top: 10px; font-size: var(--t-6); color: var(--gray); }
@@ -524,7 +533,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 @media (forced-colors: active) {
   .bullet { border: 2px solid CanvasText; }
   .menu-button__icon span { background: ButtonText; }
-  .site-header.is-ruled { border-bottom: 1px solid CanvasText; }
+  .site-header.is-ruled .site-header__inner { border-bottom: 1px solid CanvasText; }
 }
 
 /* ---------- What we do ---------- */
@@ -546,32 +555,55 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .pillar__more { grid-column: 2; font-size: var(--t-5); }
 .pillar__more a { padding-block: 3px; }
 @media (min-width: 68.75em) {
-  .pillar { grid-template-columns: 2.125rem minmax(0, 3fr) minmax(0, 5fr); column-gap: var(--gap); }
-  .pillar__title { align-self: start; }
-  .pillar__text, .pillar__more { grid-column: 3; }
+  /* Disc and title in the first third of the row body, text from the second third: the columns of the facts
+     and the speaker tiles. Column 2 is the disc's 18px gap (as on /join), column 4 the grid gutter. */
+  .pillar {
+    grid-template-columns: 2.125rem 18px minmax(0, calc((100% - 2 * var(--gap)) / 3 - 2.125rem - 18px)) var(--gap) minmax(0, 1fr);
+    column-gap: 0;
+  }
+  .pillar__title { grid-column: 3; }
+  .pillar__text, .pillar__more { grid-column: 5; }
 }
 
 /* ---------- Speaker feature (poster logic: photo, label, name, affiliation, when) ---------- */
 .feature { display: grid; gap: 24px var(--gap); grid-template-columns: minmax(0, 1fr); }
 .feature__photo { max-width: 420px; }
-.features { display: grid; row-gap: clamp(56px, 7vw, 104px); }  /* two talks booked: the gap skips hidden ones */
-@media (min-width: 56.25em) { .features .feature { align-items: start; } }  /* name and date on the first screen of /speakers */
 .feature__text { display: flex; flex-direction: column; }
 .feature__label { order: -1; font-size: var(--t-5); font-weight: 700; color: var(--gray); }
 .feature__name { margin-top: 6px; font-size: var(--t-1); letter-spacing: -0.035em; line-height: 0.98; }
 .feature__affil { margin-top: 12px; font-size: var(--t-3); line-height: 1.25; }
 .feature__title { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-3); line-height: 1.25; }
 .feature__when { margin-top: clamp(20px, 3vw, 36px); font-size: var(--t-4); font-weight: 700; font-variant-numeric: tabular-nums; }
+/* Home: in thirds of the row body, so the photo is exactly as wide as a "Recently" tile under it and the text
+   starts where the second tile does. */
 @media (min-width: 56.25em) {
-  .feature { grid-template-columns: repeat(8, minmax(0, 1fr)); align-items: end; }
-  .feature__photo { grid-column: 1 / span 3; max-width: none; }
-  .feature__text { grid-column: 4 / -1; }
+  .feature { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
+  .feature__photo { grid-column: 1; max-width: none; }
+  .feature__text { grid-column: 2 / -1; }
+}
+/* /speakers ("Next", across the page): photo beside the text at every width and the text from the top, so the
+   name and the date are on the first screen. Wide screens: the photo is 3 of the 12 columns. */
+.features { display: grid; row-gap: clamp(56px, 7vw, 104px); }  /* two talks booked: the gap skips hidden ones */
+.features .feature { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; }
+.features .feature__photo { grid-column: 1; max-width: none; }
+.features .feature__text { grid-column: 2; }
+@media not all and (min-width: 22.5em) { .features .feature { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }  /* 320px phones: room for long names */
+@media not all and (min-width: 43.75em) {  /* the narrow text column on phones: "Superintelligence Labs" on one line */
+  .features .feature__affil, .features .feature__title { font-size: var(--t-4); }
+}
+@media (min-width: 56.25em) {
+  .features .feature { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .features .feature__photo { grid-column: 1 / span 3; }
+  .features .feature__text { grid-column: 4 / -1; }
 }
 
 /* ---------- People grids (speakers on home, team) ---------- */
 .people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--gap); }
 @media (min-width: 56.25em) { .people--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 43.75em) { .people--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* Team: 8 of the 12 columns on wide screens (the width of a row body), so the officer photos, most of them
+   about 500px wide, are not shown larger than the files. */
+@media (min-width: 56.25em) { .people--team { max-width: calc((100% - 11 * var(--gap)) * 8 / 12 + 7 * var(--gap)); } }
 .person { min-width: 0; }
 .person__name { margin-top: 14px; font-size: var(--t-4); line-height: 1.2; }
 .person__meta { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
@@ -590,7 +622,8 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .page-head { padding-top: clamp(48px, 9vw, 136px); padding-bottom: clamp(40px, 6vw, 96px); }
 .page-title { font-size: var(--t-page); letter-spacing: -0.045em; line-height: 0.92; }
 .page-lead { margin-top: clamp(20px, 3vw, 36px); max-width: 26em; font-size: var(--t-3); line-height: 1.28; letter-spacing: -0.005em; text-wrap: balance; }
-.pillar__text, .join-band__text, .talk__desc, .step__body p, .about__text, .notfound__text { text-wrap: pretty; }
+.pillar__text, .join-band__text, .talk__desc, .step__body p, .about__text, .notfound__text,
+.talk__extra, .talk__affil, .feature__affil, .feature__title, .person__meta, .list-rows__meta, .session__summary { text-wrap: pretty; }
 
 /* ---------- Talks list (speakers page) ---------- */
 .year { padding-block: 14px; border-top: 1px solid var(--ink); font-size: var(--t-5); font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -634,7 +667,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .session__links { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: var(--t-5); }
 .session__links a, .talk__extra a { padding-block: 2px; }
 @media (min-width: 56.25em) {
-  .session { grid-template-columns: 9.5em minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }
+  .session { grid-template-columns: minmax(128px, auto) minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }  /* 128px: the talk photo column, so titles line up with talk names */
   .session__date { grid-column: 1; grid-row: 1 / span 3; }
   .session__title, .session__people, .session__summary { grid-column: 2; }
   .session__links { grid-column: 3; grid-row: 1; justify-content: flex-end; }
@@ -646,6 +679,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .list-rows__title { font-size: var(--t-4); font-weight: 700; line-height: 1.3; }
 .list-rows__meta { margin-top: 2px; font-size: var(--t-5); color: var(--gray); }
 .list-rows a.list-rows__title { padding-block: 2px; text-decoration: none; }
+.list-rows a.link-arrow--inline { padding-block: 4px; }
+.link-arrow--inline { display: inline; padding-block: 4px; }  /* inline: 4px keeps each line of the link 24px+ tall to tap */
+.link-arrow--inline .arrow { display: inline-block; margin-left: 0.12em; vertical-align: -0.04em; }  /* the space + 0.12em = the 0.4em gap of .link-arrow */
 .list-rows a.list-rows__title:hover { text-decoration: underline; }
 
 /* ---------- Steps (join page) ---------- */
@@ -692,14 +728,13 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 
 /* ---------- Footer ---------- */
 .site-footer {
-  padding-top: 40px;
   padding-bottom: max(36px, env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid var(--rule);
   font-size: var(--t-5);
   line-height: 1.5;
 }
-.site-footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.site-footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 40px; border-top: 1px solid var(--rule); }
 .site-footer__brand a { display: block; width: 104px; color: var(--ink); }
+@media (min-width: 56.25em) { .site-footer__brand a { width: 116px; } }
 .site-footer__brand svg { width: 100%; height: auto; }
 .site-footer .label { display: block; margin-bottom: 4px; font-weight: 700; }
 .site-footer__nav ul { display: grid; gap: 0; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
@@ -707,7 +742,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
-.site-footer__email { display: inline-block; padding-block: 4px; word-break: break-word; -webkit-user-select: all; user-select: all; }
+.site-footer__email { display: inline-block; padding-block: 4px; -webkit-user-select: all; user-select: all; }
 .site-footer__legal { color: var(--gray); }
 @media (min-width: 56.25em) {
   .site-footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; }
@@ -740,6 +775,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 @media print {
   .site-header, .site-menu, .skip-link, .hero__thumb, .hero__photo--mono { display: none !important; }
   .page-pad, .hero { padding-top: 0; }
+  .hero { margin-bottom: 0 !important; }  /* site.js spacing for the hand-off */
   .talk, .person, .feature, .session, .pillar, .facts, .step { break-inside: avoid; }
   h1, h2, h3, h4, .row__label, .subhead { break-after: avoid; }
   .feature__photo { max-width: 260px; }

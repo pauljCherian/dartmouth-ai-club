@@ -55,9 +55,11 @@ Photos go through one script, so every face gets the same crop and the same ink-
 python3 tools/images.py all
 ```
 
-That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, never upscales, converts to sRGB, and strips all metadata including location. People without a usable photo are listed under `missing` and get a neutral initials tile on the site. Any other `photo` id without an image stops the build, so a typo can't slip through.
+That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, and the link-preview image `public/og.jpg` (the group photo beside the logo), never upscales, converts to sRGB, and strips all metadata including location. People without a usable photo are listed under `missing` and get a neutral initials tile on the site. Any other `photo` id without an image stops the build, so a typo can't slip through.
 
-For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes.
+For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes. Crops marked `"frac": true` (the Yann LeCun tile is cut from the group photo) are fractions of the image, so they stay right when a larger copy of the same photo replaces it.
+
+`assets-src/brand/og-logo.png` is the logo for `og.jpg`, rendered from `src/svg/logo-display.svg` (ink on transparent, 544px wide). Render it again if the logo changes.
 
 ## Build and look at it locally
 
@@ -121,7 +123,7 @@ src/scripts/    site.js (hand-off, mobile menu, upcoming talks)
 src/svg/        logo lockups and arrows
 public/         copied as-is: fonts, images, icons
 tools/          build.mjs, serve.mjs, images.py
-assets-src/     metadata-free originals of the photos (not published)
+assets-src/     metadata-free originals of the photos, and the logo for og.jpg (not published)
 ```
 
 ## Licences

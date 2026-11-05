@@ -10,7 +10,16 @@ export const html = (strings, ...values) => strings.reduce((out, s, i) => out + 
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // Escaped text whose last two words never split across lines (no single word left alone on the last line).
-export const keepLast = (text) => esc(text).replace(/ (\S+)$/, '&nbsp;$1');
+// Only when the pair is short: a long pair ("Superintelligence Labs") held together could not wrap at all in a
+// narrow column. Those lines rely on text-wrap: pretty instead.
+export const keepLast = (text) => esc(text).replace(/(\S+) (\S+)$/, (m, a, b) => (a.length + b.length <= 17 ? `${a}&nbsp;${b}` : m));
+// Escaped text with dates ("Oct 29, 2026", "Fri Nov 6, 2026") held on one line.
+export const tieDates = (text) =>
+  esc(text).replace(/\b((?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) )?(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}, \d{4})\b/g, (d) => d.replace(/ /g, '&nbsp;'));
+// Escaped email address that may break after the @ and nowhere else (not before its last letter).
+export const email = (addr) => esc(addr).replace('@', '@<wbr>');
+// Escaped text that never breaks (a short date, a time, a room).
+export const unbroken = (text) => esc(text).replace(/ /g, '&nbsp;');
 
 export const shortDate = (iso) => {
   const [y, m, d] = iso.slice(0, 10).split('-').map(Number);
@@ -63,7 +72,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   };
 
   const affil = (ev) =>
-    html`${ev.role ? html`<span class="muted">${esc(ev.role)}</span> ` : ''}<strong>${esc(ev.org)}</strong>`;
+    html`${ev.role ? html`<span class="muted">${esc(ev.role)}</span> ` : ''}<strong>${keepLast(ev.org)}</strong>`;
 
   // Upcoming vs past at build time.
   const ends = (ev) => (ev.end ? Date.parse(ev.end) : ev.start ? Date.parse(ev.start) + 2 * 3600e3 : NaN);
@@ -161,7 +170,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     </nav>
     <div class="site-footer__contact">
       <span class="label">Contact</span>
-      <a class="site-footer__email" href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>
+      <a class="site-footer__email" href="mailto:${esc(site.contact.email)}">${email(site.contact.email)}</a>
       <p class="muted">${esc(site.meetings.when)} · ${esc(site.meetings.where)}</p>
     </div>
     ${socials('site-footer__socials') ? html`<div class="site-footer__social">
@@ -290,6 +299,6 @@ ${preview ? script : ''}
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
     upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
-    STATES, endedIn, nextIn, show, keepLast,
+    STATES, endedIn, nextIn, show, keepLast, tieDates, email, unbroken,
   };
 }

@@ -148,8 +148,10 @@
     var parked = startParked;  // too short, or the title would be too small: static layout until the window changes
     var MIN_H = 300;     // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
     var CONTENT_MAX = 1920;  // the page's content width cap (.wrap in main), so the photo shares the grid
-    // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34).
-    var CURVES = [{ s: 0.34, t: 0 }, { s: 0.22, t: 0.08 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];
+    // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34). Fine steps, so
+    // each screen gets the earliest rise that still clears the photo (an abrupt late rise looks like a jump).
+    var CURVES = [{ s: 0.34, t: 0 }, { s: 0.30, t: 0.02 }, { s: 0.27, t: 0.04 }, { s: 0.24, t: 0.06 }, { s: 0.22, t: 0.08 },
+      { s: 0.19, t: 0.10 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];
     // Matches the CSS: beside "AI CLUB" from 56.25em (900px) wide, unless the short-screen layout (under 38.6875em,
     // 619px, tall) applies. In em, like the CSS, so larger default text moves both together.
     var wideQ = mq('(min-width: 56.25em)'), shortQ = mq('(orientation: landscape) and (max-height: 38.6875em)');
@@ -194,6 +196,7 @@
       // its real height, not a guess, so it never runs into the title.
       hero.style.removeProperty('--tag-h');
       hero.classList.remove('hero--tag-under');
+      hero.classList.add('is-measured');  // normally done by the inline script after the tagline already
       var under = !taglineBeside.matches;
       if (tagline) {
         tagline.style.transform = '';
@@ -303,6 +306,14 @@
       caption.style.left = cap.x + 'px';
       caption.style.top = cap.y + 'px';
       caption.style.width = Math.max(0, cap.w) + 'px';
+
+      // The next section's rule sits one row padding below the settled photo and caption, the spacing every
+      // other section has above its rule. Wide screens: the photo fills the screen down to a small gap, so the
+      // hero gets a bottom margin. Tall screens (phones): the photo leaves the bottom of the stage empty, so the
+      // margin is negative and the next section comes up into that empty part (CSS paints it above the stage).
+      var rowPad = gridRow ? parseFloat(getComputedStyle(gridRow).paddingTop) || 0 : 0;
+      var settledBottom = Math.max(F.y + F.h, cap.y + caption.offsetHeight);
+      hero.style.marginBottom = Math.round(rowPad - (vh - settledBottom)) + 'px';
 
       var heroTop = hero.getBoundingClientRect().top + window.scrollY;
       var pin = Math.max(1, hero.offsetHeight - stage.offsetHeight);
@@ -415,6 +426,7 @@
       });
       if (mono) mono.style.display = 'none';
       hero.style.removeProperty('--tag-h');
+      hero.style.marginBottom = '';
       hero.classList.remove('hero--tag-under');
       ruleAfter = 4;
       updateRule();

@@ -12,10 +12,10 @@ export function render(c) {
 
 <section class="wrap block" aria-labelledby="officers-h">
   <h2 class="year" id="officers-h">Officers</h2>
-  <ul class="people people--3" style="margin-top:12px">
+  <ul class="people people--3 people--team" style="margin-top:12px">
     ${team.officers.map((o) => html`
     <li class="person">
-      ${c.photo(o.photo, { alt: '', name: o.name, sizes: '(min-width: 43.75em) 30vw, 45vw' })}
+      ${c.photo(o.photo, { alt: '', name: o.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
       <h3 class="person__name">${esc(o.name)}</h3>
       <p class="person__meta">${esc(o.role)}</p>
       ${o.linkedin ? html`<a class="person__link link-arrow" href="${esc(o.linkedin)}">LinkedIn ${c.arrow('ne')}<span class="visually-hidden"> profile of ${esc(o.name)}</span></a>` : ''}
@@ -29,7 +29,7 @@ export function render(c) {
     ${team.advisors.map((a) => html`
     <li>
       <p class="list-rows__title">${esc(a.name)}</p>
-      <p class="list-rows__meta">${esc(a.title)}, ${esc(a.unit)}</p>
+      <p class="list-rows__meta">${esc(a.title)}, ${c.keepLast(a.unit)}</p>
     </li>`)}
   </ul>
 </section>`;

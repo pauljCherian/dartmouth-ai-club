@@ -14,7 +14,7 @@ export function render(c) {
       ? html`<p>Sign in with your Dartmouth account and the link appears. Keeping it behind Dartmouth login keeps the bots out.</p>
        <p><a class="button" href="#get-link" aria-disabled="true">Get the GroupMe link ${c.arrow('ne')}</a></p>
        <p class="step__note">Preview: the Dartmouth-only form doesn’t exist yet, so this button goes nowhere.</p>`
-      : html`<p>Email <a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a> from your Dartmouth address and we will send you the link.</p>`;
+      : html`<p>Email <a href="mailto:${esc(contact.email)}">${c.email(contact.email)}</a> from your Dartmouth address and we will send you the link.</p>`;
 
   const main = html`
 <header class="page-head wrap">
@@ -44,7 +44,7 @@ export function render(c) {
 
 <section class="wrap block" aria-labelledby="questions-h">
   <h2 class="year" id="questions-h">Questions</h2>
-  <p class="page-lead" style="margin-top:12px">Email ${esc(contact.name)}, ${esc(contact.role)}: <a href="mailto:${esc(contact.email)}" class="site-footer__email">${esc(contact.email)}</a></p>
+  <p class="page-lead" style="margin-top:12px">Email ${esc(contact.name)}, ${esc(contact.role)}: <a href="mailto:${esc(contact.email)}" class="site-footer__email">${c.email(contact.email)}</a></p>
 </section>`;
 
   return c.layout({

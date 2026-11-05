@@ -15,9 +15,9 @@
   {
    "id": "yann-lecun-visit",
    "src": "assets-src/hero/hero.jpg",
-   "crop": "0.2,0,0.6,1",
+   "crop": "0.4033,0.1589,0.1641,0.2734",
    "frac": true,
-   "note": "event tile: the full height of the group photo, centred; replace with a photo of him"
+   "note": "event tile: cropped around him at the head of the table in the group photo. Only 168 px wide from the 1024 px copy (soft on large screens); the full-resolution original gives about 940 px. Better still, a photo of him."
   },
   {
    "id": "christina-lu",

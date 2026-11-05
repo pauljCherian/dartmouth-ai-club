@@ -9,19 +9,23 @@ const feature = (c, ev, { sizes, next = true, show = '' }) => html`
     <h3 class="feature__name">${esc(ev.name)}</h3>
     <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
     <p class="feature__affil">${c.affil(ev)}</p>
-    ${ev.title ? html`<p class="feature__title">${esc(ev.title)}</p>` : ''}
-    <p class="feature__when">${esc(ev.date_label)}${ev.time_label ? ` · ${esc(ev.time_label)}` : ''}${ev.place ? ` · ${esc(ev.place)}` : ''}</p>
+    ${ev.title ? html`<p class="feature__title">${c.keepLast(ev.title)}</p>` : ''}
+    <p class="feature__when">${[ev.date_label, ev.time_label, ev.place].filter(Boolean).map(c.unbroken).join(' · ')}</p>
   </div>
 </article>`;
 
 export { feature };
 
-// Runs right after the tagline is parsed, before the first paint: reserve its real height under the title, so
-// the title doesn't jump when site.js measures the same thing (same rule as measure() in site.js).
-const TAG_ROOM = `(function(){var d=document.documentElement;if(!d.classList.contains('js-handoff'))return;` +
+// Runs right after the tagline is parsed: reserve its real height under the title, so the title doesn't jump
+// when site.js measures the same thing (same rule as measure() in site.js). The title stays transparent until
+// this has run (.is-measured), so a page that arrives in pieces on a slow network never paints it in the
+// wrong place first.
+const TAG_ROOM = `(function(){var d=document.documentElement,t=document.currentScript.previousElementSibling,h=t.parentNode.parentNode;` +
+  `try{if(!d.classList.contains('js-handoff'))return;` +
   `if(matchMedia('(min-width: 56.25em)').matches&&!matchMedia('(orientation: landscape) and (max-height: 38.6875em)').matches)return;` +
-  `var t=document.currentScript.previousElementSibling,s=getComputedStyle(t),g=Math.max(16,Math.min(28,innerWidth*0.02));` +
-  `t.closest('.hero').style.setProperty('--tag-h',Math.ceil(t.getBoundingClientRect().height+(parseFloat(s.marginTop)||0)+(parseFloat(s.marginBottom)||0)+g)+'px')})();`;
+  `var s=getComputedStyle(t),g=Math.max(16,Math.min(28,innerWidth*0.02));` +
+  `h.style.setProperty('--tag-h',Math.ceil(t.getBoundingClientRect().height+(parseFloat(s.marginTop)||0)+(parseFloat(s.marginBottom)||0)+g)+'px')` +
+  `}finally{h.classList.add('is-measured')}})();`;
 
 export function render(c) {
   const { site, brand } = c;
@@ -61,7 +65,7 @@ export function render(c) {
           ${c.manifest['hero/hero-mono'] ? c.picture('hero/hero-mono', { decorative: true, sizes: '100vw', cls: 'hero__photo--mono' }) : ''}
         </div>
       </div>
-      <figcaption class="hero__caption">${esc(site.hero.caption)}</figcaption>
+      <figcaption class="hero__caption">${c.tieDates(site.hero.caption)}</figcaption>
     </figure>
   </div>
 </section>
@@ -114,14 +118,14 @@ export function render(c) {
 <section class="row wrap" id="speakers" aria-labelledby="speakers-h">
   <h2 class="row__label" id="speakers-h">Speakers</h2>
   <div class="row__body">
-    ${c.upcoming.length ? html`<div data-upcoming-section${c.show((k) => c.nextIn(k))}>${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 24vw, 92vw', show: c.show((k) => c.nextIn(k) === ev) }))}</div>` : ''}
+    ${c.upcoming.length ? html`<div data-upcoming-section${c.show((k) => c.nextIn(k))}>${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 56.25em) 20vw, (min-width: 28.5em) 420px, 92vw', show: c.show((k) => c.nextIn(k) === ev) }))}</div>` : ''}
     <h3 class="subhead">Recently</h3>
     <ul class="people people--3">
       ${recent.map((ev) => html`
       <li class="person"${c.show((k) => recentIn(k).includes(ev))}>
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 56.25em) 20vw, (min-width: 43.75em) 30vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
-        <p class="person__meta">${esc(plain(ev))}</p>
+        <p class="person__meta">${c.keepLast(plain(ev))}</p>
         <p class="person__date">${esc(ev.start ? c.shortDate(ev.start) : ev.date_label)}</p>
       </li>`)}
     </ul>

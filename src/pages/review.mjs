@@ -36,9 +36,10 @@ export function render(c) {
   const needed = [
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284. Export as JPEG (maximum quality, full size, location unchecked) and share a Google Drive link. Everything else is automatic.'],
     ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. Goes in “Who we are”.'],
-    ['Yann LeCun', 'A photo of him from the visit. His entry currently uses a crop of the group photo.'],
+    ['Yann LeCun', 'A photo of him from the visit. His tile is cut from the group photo around where he stands, so it is soft until the full-resolution original arrives (then it sharpens by itself); a portrait of him would be better still.'],
     ['Ted Li', 'A larger photo (the only one we have is 361 × 343 px), and his poster shared publicly or sent as a file.'],
     ['Charlie Peers, Jeffrey Xie', 'Head-and-shoulders photos. The current ones are full- and half-length, so the faces are only about 55 and 75 px tall.'],
+    ['Paul Cherian, Lisa Samoylov, Sean Noh', 'Larger originals, at least 1000 px wide. The current files are about 500 px, a little soft on large high-resolution screens (the Team page is now capped so they are never shown much larger than that).'],
     ['Lisa Samoylov', 'A working link to the “LLMs for math” slides.'],
     ['Mazda Moayeri', 'The original photo. It is currently cut out of the event poster.'],
     ['GroupMe form', 'A Dartmouth-only form whose confirmation shows the GroupMe link (setup steps in my message).'],
@@ -101,6 +102,8 @@ export function render(c) {
   </div>
   <h3 class="subhead review-h">Hero photo correction</h3>
   ${img('hero-before-after.png', 'The group photo before and after correction', 'Left: as sent. Right: warm cast reduced, shadows opened slightly, no haze.')}
+  <h3 class="subhead review-h">Link preview</h3>
+  <figure class="review-fig" style="max-width:720px"><img src="${c.asset('og.jpg')}" alt="The link preview: the whole group photo beside the two-line logo" loading="lazy"><figcaption>What iMessage, Slack and LinkedIn show when someone shares the site. The whole photo, nothing cut; it is rebuilt with the hero photo.</figcaption></figure>
   <h3 class="subhead review-h">Logo</h3>
   ${img('logo-specimen.png', 'The lockup at display and small sizes', 'Display size: tighter letterspacing and leading. Small size: looser, so the two lines never touch.')}
 </section>

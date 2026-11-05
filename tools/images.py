@@ -5,7 +5,9 @@
   python3 tools/images.py portrait <src> <id> public/img/people --crop x,y,w,h
   python3 tools/images.py manifest public/img
   python3 tools/images.py sheet public/img/people <duo|color> out.png id1 id2 ...
-  python3 tools/images.py all          rebuild every image listed in content/photos.json, then the manifest
+  python3 tools/images.py og public/img/hero assets-src/brand/og-logo.png public/og.jpg
+  python3 tools/images.py all          rebuild every image listed in content/photos.json, the link-preview
+                                       image (public/og.jpg) and the manifest
 
 Every output is converted to sRGB and saved without any metadata (no EXIF, no GPS, no camera data).
 Never upscales: if a crop is smaller than a target size, the largest available size is written instead.
@@ -225,6 +227,32 @@ def cmd_portrait(src: str, pid: str, outdir: str, crop: str, frac: bool = False)
     print(f"{pid}: crop {w}x{h} from {im.width}x{im.height}{note}")
 
 
+def cmd_og(herodir: str, logo_png: str, out: str) -> None:
+    """Link-preview image, 1200x630: the whole group photo full-bleed on the left (4:3, so nothing is cropped;
+    a wider crop would cut the back row), the two-line lockup on paper beside it, on the photo's bottom
+    margin, like the settled hero on the site. The lockup is a PNG rendered from src/svg/logo-display.svg
+    (render it again if the logo changes)."""
+    heroes = sorted((p for p in Path(herodir).glob("hero-*.jpg") if re.match(r"^hero-\d+\.jpg$", p.name)),
+                    key=lambda p: int(re.findall(r"\d+", p.name)[0]))
+    if not heroes:
+        sys.exit(f"og: no hero-<width>.jpg in {herodir} (run the hero command first)")
+    photo = load_srgb(str(heroes[-1]))
+    W, H, PW, M = 1200, 630, 840, 44
+    # Cover the 840x630 box; anything cut comes off the top (the ceiling), never the sides or the bottom.
+    s = max(PW / photo.width, H / photo.height)
+    r = photo.resize((round(photo.width * s), round(photo.height * s)), Image.LANCZOS)
+    left = (r.width - PW) // 2
+    r = r.crop((left, r.height - H, left + PW, r.height))
+    canvas = Image.new("RGB", (W, H), PAPER_RGB)
+    canvas.paste(r, (0, 0))
+    logo = Image.open(logo_png).convert("RGBA")
+    lw = W - PW - 2 * M
+    logo = logo.resize((lw, round(logo.height * lw / logo.width)), Image.LANCZOS)
+    canvas.paste(logo, (PW + M, H - M - logo.height), logo)
+    canvas.save(out, "JPEG", quality=88, optimize=True, progressive=True)  # no EXIF: nothing is copied over
+    print(f"og: {out} from {heroes[-1].name}")
+
+
 def cmd_manifest(imgdir: str) -> None:
     root = Path(imgdir)
     groups: dict[str, list] = {}
@@ -282,6 +310,10 @@ def cmd_all(root: str = ".") -> None:
             cmd_portrait(str(base / p["src"]), p["id"], str(base / "public/img/people"), p["crop"], frac=bool(p.get("frac")))
         except (Exception, SystemExit) as e:
             failed.append(f"{p['id']}: {e}")
+    try:
+        cmd_og(str(base / "public/img/hero"), str(base / "assets-src/brand/og-logo.png"), str(base / "public/og.jpg"))
+    except (Exception, SystemExit) as e:
+        failed.append(f"og.jpg: {e}")
     cmd_manifest(str(base / "public/img"))
     for pid, why in cfg.get("missing", {}).items():
         print(f"missing portrait {pid}: {why}")
@@ -300,6 +332,8 @@ def main(argv: list[str]) -> None:
         cmd_portrait(args[0], args[1], args[2], args[args.index("--crop") + 1], frac="--frac" in args)
     elif cmd == "manifest":
         cmd_manifest(args[0])
+    elif cmd == "og":
+        cmd_og(args[0], args[1], args[2])
     elif cmd == "sheet":
         cmd_sheet(args[0], args[1], args[2], args[3:])
     elif cmd == "all":
