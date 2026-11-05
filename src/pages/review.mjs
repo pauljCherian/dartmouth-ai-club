@@ -189,7 +189,7 @@ export function render(c) {
     <h3 class="review-sub">Link preview</h3>
     <figure class="review-fig" style="max-width:720px"><img src="${c.asset('og.jpg')}" alt="The link preview: the whole group photo beside the two-line logo" loading="lazy"><figcaption>What iMessage, Slack and LinkedIn show when someone shares the site.</figcaption></figure>
     <h3 class="review-sub">Logo</h3>
-    ${img('logo-specimen.png', 'The lockup at display and small sizes', 'Display size (the home title): tight. Small size (the header): a little more open, so the lines stay apart on ordinary screens.')}
+    ${img('logo-specimen.png', 'The one logo drawing, as the home title and at the header’s sizes', 'One drawing at every size: the home title, then the header at 124 px (laptops), 108 px (phones) and 124 px on a 2× screen.')}
   </div>
 </section>
 
