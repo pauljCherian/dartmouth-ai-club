@@ -9,14 +9,14 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 | File | What it holds |
 | --- | --- |
 | `content/site.json` | Tagline, contact email, meeting time and place, member count, join form link, social links, hero caption |
-| `content/speakers.json` | Every guest talk, newest first. The first talk that hasn't ended is shown as "Next" |
+| `content/speakers.json` | Every guest talk. The site sorts them by date; the earliest talk that hasn't ended is shown as "Next" |
 | `content/sessions.json` | Member sessions (Tuesday talks) with slides and paper links |
 | `content/team.json` | Officers and faculty advisors |
 | `content/reading.json` | The reading list |
 
 ### Add a speaker
 
-Add an entry at the top of `content/speakers.json`:
+Add an entry to `content/speakers.json` (anywhere; the top is easiest):
 
 ```json
 {
@@ -36,8 +36,9 @@ Add an entry at the top of `content/speakers.json`:
 }
 ```
 
-- `start` and `end` need a time zone offset: `-05:00` in winter, `-04:00` in summer.
+- `start` and `end` need New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks it, and checks that `end` is after `start`.
 - A talk counts as upcoming until `end`, or two hours after `start` if there is no `end`. The page switches it to "past" in the visitor's browser the moment it ends, even before the next build.
+- The home page shows the next talk and the six most recent past ones. `/speakers` shows every talk.
 - `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**".
 
 ### Add or replace a photo
@@ -52,7 +53,9 @@ Photos go through one script, so every face gets the same crop and the same ink-
 python3 tools/images.py all
 ```
 
-That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, never upscales, converts to sRGB, and strips all metadata including location. People without a usable photo are listed under `missing` and get a neutral initials tile on the site.
+That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, never upscales, converts to sRGB, and strips all metadata including location. People without a usable photo are listed under `missing` and get a neutral initials tile on the site. Any other `photo` id without an image stops the build, so a typo can't slip through.
+
+For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes.
 
 ## Build and look at it locally
 
@@ -62,7 +65,7 @@ Needs Node 18 or newer. Nothing to install.
 npm run dev
 ```
 
-That builds `dist/` and serves it at http://localhost:4321 with the same clean URLs and redirects as Vercel. Other commands:
+That builds `dist/` and serves it at http://localhost:4321, on this computer only, with the same clean URLs, redirects and headers as Vercel. Other commands:
 
 ```bash
 npm run build      # production build into dist/
@@ -70,11 +73,30 @@ npm run preview    # self-contained preview into preview/ (inlined CSS, JS and f
 BUILD_NOW=2026-11-07T12:00:00-05:00 npm run build   # pretend it is another date
 ```
 
-The build stops with a list of problems if content is invalid, an image is missing, or any internal link or anchor is broken.
+The build stops with a list of problems if content is invalid (including a talk time with the wrong offset), a photo or font is missing, or any internal link, anchor, icon or redirect target is broken.
 
 ## Deploy
 
-Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials`, `/resources`, `/reading-lists`). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu.
+Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`, clean URLs, and permanent redirects from the old pages (`/meeting-materials`, `/resources`, `/reading-lists`). Every branch pushed to GitHub gets its own preview URL. Merging into `main` publishes to aiclub.dartmouth.edu. Fonts are published under names that include a hash of their contents, so browsers can keep them for a year and still get a replaced font at once.
+
+### Optional: rebuild every morning
+
+Visitors' browsers already move a talk from "Next" to past when it ends. A daily rebuild also updates what doesn't run JavaScript: the event data search engines read, and visitors with JavaScript off. To set it up, create a deploy hook for `main` in Vercel (Project, Settings, Git, Deploy Hooks), save its URL in GitHub as the Actions secret `VERCEL_DEPLOY_HOOK`, and add `.github/workflows/rebuild.yml`:
+
+```yaml
+name: Daily rebuild
+on:
+  schedule:
+    - cron: '17 10 * * *'   # 10:17 UTC, early morning in Hanover
+  workflow_dispatch:
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS -X POST "$HOOK"
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+```
 
 ## Design rules
 

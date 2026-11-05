@@ -1,7 +1,9 @@
 {
  "_about": "Crop boxes for tools/images.py all. crop = x,y,w,h in source pixels (4:5). frac crops are fractions of the image and survive a higher-resolution source.",
  "hero": {
-  "src": "assets-src/hero/hero.jpg"
+  "src": "assets-src/hero/hero.jpg",
+  "ceiling": 0.18,
+  "ceiling_note": "Fraction of the photo's height, from the top, that is only ceiling (the highest head starts at about 0.215). Wide screens may crop this much and no more; anything wider gets margins. Re-measure if the photo changes."
  },
  "portraits": [
   {

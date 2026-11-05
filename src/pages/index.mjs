@@ -2,8 +2,8 @@ import { html, esc } from '../lib/core.mjs';
 
 export const page = { id: 'home', path: '/', out: 'index.html' };
 
-const feature = (c, ev, { sizes, next = true }) => html`
-<article class="feature" data-ends="${c.endISO(ev)}">
+const feature = (c, ev, { sizes, next = true, hidden = false }) => html`
+<article class="feature" data-ends="${c.endISO(ev)}"${hidden ? ' hidden' : ''}>
   <div class="feature__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes })}</div>
   <div class="feature__text">
     <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
@@ -18,16 +18,29 @@ export { feature };
 
 export function render(c) {
   const { site, brand } = c;
-  const next = c.upcoming[0];
-  const past = c.content.speakers.filter((ev) => !c.upcoming.includes(ev));
-  // Four most recent past talks. Upcoming talks are rendered hidden first; site.js reveals one when its
-  // talk ends and keeps the list at four, so the home page stays right between builds.
-  const LIMIT = 4;
-  const recent = [...c.upcoming.map((ev) => ({ ev, upcoming: true })), ...past.slice(0, LIMIT + c.upcoming.length).map((ev, i) => ({ ev, spare: i >= LIMIT }))];
+  // "Recently": the six most recent past talks, newest first (two rows of three). Upcoming talks are
+  // rendered hidden in front of them, latest first; site.js reveals each one when it ends and keeps the
+  // list at six, so the home page stays right between builds. Older talks stay on /speakers.
+  const LIMIT = 6;
+  const recent = [
+    ...[...c.upcoming].reverse().map((ev) => ({ ev, upcoming: true })),
+    ...c.past.slice(0, LIMIT + c.upcoming.length).map((ev, i) => ({ ev, spare: i >= LIMIT })),
+  ];
   const plain = (ev) => [ev.role, ev.org].filter(Boolean).join(' ');
+  // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
+  // with that strip removed from the top. Shared with site.js through the custom properties.
+  const heroV = c.manifest['hero/hero'].variants.at(-1);
+  const heroAspect = heroV.w / heroV.h;
+  const ceiling = c.content.photos?.hero?.ceiling ?? 0.18;
+  const heroVars = [
+    `--title-ratio:${brand.display.ratio}`,
+    `--line2-ratio:${brand.display.line2}`,
+    `--hero-aspect:${heroAspect.toFixed(4)}`,
+    `--hero-max-aspect:${(heroAspect / (1 - ceiling)).toFixed(4)}`,
+  ].join(';');
 
   const main = html`
-<section class="hero" data-handoff style="--title-ratio:${brand.display.ratio};--line2-ratio:${brand.display.line2}">
+<section class="hero" data-handoff style="${heroVars}">
   <div class="hero__stage">
     <h1 class="hero__title"><span class="visually-hidden">Dartmouth AI Club</span>${c.svg('logo-display')}</h1>
     <p class="hero__tagline">${esc(site.tagline)}</p>
@@ -92,12 +105,12 @@ export function render(c) {
 <section class="row wrap" id="speakers" aria-labelledby="speakers-h">
   <h2 class="row__label" id="speakers-h">Speakers</h2>
   <div class="row__body">
-    ${next ? html`<div data-upcoming-section>${feature(c, next, { sizes: '(min-width: 900px) 24vw, 92vw' })}</div>` : ''}
+    ${c.upcoming.length ? html`<div data-upcoming-section data-first-only>${c.upcoming.map((ev, i) => feature(c, ev, { sizes: '(min-width: 900px) 24vw, 92vw', hidden: i > 0 }))}</div>` : ''}
     <h3 class="subhead">Recently</h3>
-    <ul class="people people--4" data-limit="${LIMIT}">
+    <ul class="people people--3" data-limit="${LIMIT}">
       ${recent.map(({ ev, upcoming, spare }) => html`
       <li class="person"${upcoming ? ` hidden data-past-after="${c.endISO(ev)}"` : spare ? ' hidden data-spare' : ''}>
-        ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 15vw, 45vw' })}
+        ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 20vw, (min-width: 700px) 30vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
         <p class="person__meta">${esc(plain(ev))}</p>
         <p class="person__date">${esc(ev.date_label)}</p>

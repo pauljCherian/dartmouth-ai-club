@@ -24,6 +24,7 @@ from PIL import Image, ImageCms, ImageDraw, ImageFilter, ImageOps
 
 INK = np.array([0x16, 0x16, 0x16], dtype=np.float64) / 255.0
 PAPER = np.array([0xF4, 0xF4, 0xF1], dtype=np.float64) / 255.0
+PAPER_RGB = (0xF4, 0xF4, 0xF1)
 HERO_WIDTHS = [640, 960, 1280, 1600, 2048, 2560, 3200]
 PORTRAIT_WIDTHS = [240, 480, 960]
 FORMATS = (("avif", "AVIF", {"quality": 55, "speed": 6}),
@@ -33,7 +34,8 @@ FORMATS = (("avif", "AVIF", {"quality": 55, "speed": 6}),
 
 # ---------- loading ----------
 def load_srgb(path: str) -> Image.Image:
-    """Open, apply EXIF orientation, convert from the embedded ICC profile (e.g. Display P3) to sRGB."""
+    """Open, apply EXIF orientation, convert to sRGB from the embedded ICC profile (Display P3, a gray or a
+    CMYK profile) in the image's own mode, and flatten any transparency onto paper (never pure white)."""
     im = Image.open(path)
     try:
         im.seek(0)  # MPO / multi-frame: primary image only
@@ -41,15 +43,32 @@ def load_srgb(path: str) -> Image.Image:
         pass
     icc = im.info.get("icc_profile")
     im = ImageOps.exif_transpose(im)
-    if im.mode in ("RGBA", "LA", "P"):
-        im = im.convert("RGBA")
-        bg = Image.new("RGBA", im.size, (255, 255, 255, 255))
-        im = Image.alpha_composite(bg, im)
+    # 16-bit grayscale: scale to 8 bits. convert() would clip everything above 255 to white.
+    if im.mode in ("I;16", "I;16L", "I;16B", "I;16N", "I"):
+        a = np.asarray(im).astype(np.float64)
+        scale = 257.0 if (im.mode != "I" or a.max() > 255) else 1.0
+        im = Image.fromarray(np.clip(np.round(a / scale), 0, 255).astype(np.uint8), "L")
+    if im.mode == "1":
+        im = im.convert("L")
+    # Transparency in any form (alpha channel, palette, single-colour key) becomes a separate alpha mask.
+    alpha = None
+    if im.mode == "P" or (im.mode in ("RGB", "L") and "transparency" in im.info):
+        im = im.convert("LA" if im.mode == "L" else "RGBA")
+    if im.mode in ("RGBA", "LA", "PA", "La", "RGBa"):
+        alpha = im.getchannel("A")
+        im = im.convert("L" if im.mode in ("LA", "La") else "RGB")
+    if icc and im.mode in ("RGB", "L", "CMYK"):
+        try:
+            src = ImageCms.ImageCmsProfile(io.BytesIO(icc))
+            im = ImageCms.profileToProfile(im, src, ImageCms.createProfile("sRGB"),
+                                           renderingIntent=ImageCms.Intent.PERCEPTUAL, outputMode="RGB")
+        except ImageCms.PyCMSError as e:
+            print(f"warning: {path}: colour profile not applied ({e}); colours may be off", file=sys.stderr)
     im = im.convert("RGB")
-    if icc:
-        src = ImageCms.ImageCmsProfile(io.BytesIO(icc))
-        im = ImageCms.profileToProfile(im, src, ImageCms.createProfile("sRGB"),
-                                       renderingIntent=ImageCms.Intent.PERCEPTUAL, outputMode="RGB")
+    if alpha is not None:
+        bg = Image.new("RGB", im.size, PAPER_RGB)
+        bg.paste(im, mask=alpha)
+        im = bg
     clean = Image.new("RGB", im.size)
     clean.paste(im)
     return clean  # a fresh image: carries no metadata
@@ -147,9 +166,7 @@ def widths_for(src_w: int, wanted: list[int]) -> list[int]:
 def cmd_hero(src: str, outdir: str, compare: str | None = None) -> None:
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
-    for old in out.glob("hero-*"):
-        old.unlink()
-    im = load_srgb(src)
+    im = load_srgb(src)  # load first: a bad source must not delete the current images
     a = to_np(im)
     h = a.shape[0]
     top = a[: int(h * 0.15)]
@@ -159,6 +176,10 @@ def cmd_hero(src: str, outdir: str, compare: str | None = None) -> None:
     a2 = lift_shadows(a2, 0.15)
     fixed = to_im(a2)
     mono = to_im(duotone(a2))
+    own = re.compile(r"^hero-(mono-)?\d+\.(avif|webp|jpg)$")
+    for old in out.iterdir():
+        if own.match(old.name):
+            old.unlink()
     for w in widths_for(fixed.width, HERO_WIDTHS):
         save_all(resized(fixed, w), out / f"hero-{w}")
         save_all(resized(mono, w), out / f"hero-mono-{w}")
@@ -190,10 +211,13 @@ def cmd_portrait(src: str, pid: str, outdir: str, crop: str, frac: bool = False)
     if abs(w / h - 0.8) > 0.01:
         sys.exit(f"{pid}: crop must be 4:5 (got {w}x{h})")
     c = im.crop((x, y, x + w, y + h))
-    for old in out.glob(f"{pid}-*"):
-        old.unlink()
     a = to_np(c)
     variants = {"duo": to_im(duotone(a)), "color": to_im(balanced_colour(a))}
+    # Remove this id's old files only (exact id: "yann-lecun" must not delete "yann-lecun-visit-...").
+    own = re.compile(rf"^{re.escape(pid)}-(duo|color)-\d+\.(avif|webp|jpg)$")
+    for old in out.iterdir():
+        if own.match(old.name):
+            old.unlink()
     for tname, timg in variants.items():
         for tw in widths_for(timg.width, PORTRAIT_WIDTHS):
             save_all(resized(timg, tw), out / f"{pid}-{tname}-{tw}")
@@ -248,12 +272,21 @@ def cmd_sheet(imgdir: str, treatment: str, outpng: str, ids: list[str]) -> None:
 def cmd_all(root: str = ".") -> None:
     base = Path(root)
     cfg = json.loads((base / "content/photos.json").read_text())
-    cmd_hero(str(base / cfg["hero"]["src"]), str(base / "public/img/hero"))
+    failed = []
+    try:
+        cmd_hero(str(base / cfg["hero"]["src"]), str(base / "public/img/hero"))
+    except (Exception, SystemExit) as e:  # keep going: one bad file must not leave public/img half rebuilt
+        failed.append(f"hero: {e}")
     for p in cfg["portraits"]:
-        cmd_portrait(str(base / p["src"]), p["id"], str(base / "public/img/people"), p["crop"], frac=bool(p.get("frac")))
+        try:
+            cmd_portrait(str(base / p["src"]), p["id"], str(base / "public/img/people"), p["crop"], frac=bool(p.get("frac")))
+        except (Exception, SystemExit) as e:
+            failed.append(f"{p['id']}: {e}")
     cmd_manifest(str(base / "public/img"))
     for pid, why in cfg.get("missing", {}).items():
         print(f"missing portrait {pid}: {why}")
+    if failed:
+        sys.exit("Not rebuilt (the previous files were kept):\n- " + "\n- ".join(failed))
 
 
 def main(argv: list[str]) -> None:

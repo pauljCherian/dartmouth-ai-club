@@ -64,7 +64,20 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
 
   // Upcoming vs past at build time; site.js corrects it in the browser if a talk ends after the build.
   const ends = (ev) => (ev.end ? Date.parse(ev.end) : ev.start ? Date.parse(ev.start) + 2 * 3600e3 : NaN);
-  const upcoming = content.speakers.filter((ev) => ev.start && ends(ev) > now.getTime());
+  const upcoming = content.speakers
+    .filter((ev) => ev.start && ends(ev) > now.getTime())
+    .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
+  // Every talk, newest first. A talk without a date keeps its position in the file relative to the dated ones.
+  let lastKnown = Infinity;
+  const ordered = content.speakers
+    .map((ev, i) => {
+      const t = ev.start ? Date.parse(ev.start) : lastKnown - 1;
+      if (ev.start) lastKnown = t;
+      return { ev, t, i };
+    })
+    .sort((a, b) => b.t - a.t || a.i - b.i)
+    .map((x) => x.ev);
+  const past = ordered.filter((ev) => !upcoming.includes(ev));
   const endISO = (ev) => new Date(ends(ev)).toISOString();
 
   const socials = (cls = 'socials') => {
@@ -135,7 +148,9 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     (preview && page === 'home' ? `d.lang='en';d.classList.add('page-home');` : '') +
     `d.classList.add('js');try{if(location.hash==='#logo')d.classList.add('logo-always');` +
     `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('js-handoff');` +
-    `setTimeout(function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')},4000)}}catch(e){}})(document.documentElement);`;
+    // site.js always runs before DOMContentLoaded (deferred or inline at the end), so this cannot race it:
+    // if the hand-off did not start by then, fall back to the static layout.
+    `document.addEventListener('DOMContentLoaded',function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')})}}catch(e){}})(document.documentElement);`;
 
   const same = site.socials.filter((s) => s.url).map((s) => s.url);
   const jsonLd = () =>
@@ -198,7 +213,8 @@ ${header(page)}
 ${main}
 </main>
 ${footer()}`;
-    const script = preview ? `<script>${inline.js}</script>` : `<script src="/js/site.js" defer></script>`;
+    // If site.js cannot load, drop the classes that promise it (dead menu button, pinned hero).
+    const script = preview ? `<script>${inline.js}</script>` : `<script src="/js/site.js" defer onerror="document.documentElement.classList.remove('js','js-handoff')"></script>`;
 
     if (preview && page === 'home') {
       // Artifact page: the host wraps this in its own document skeleton.
@@ -233,6 +249,6 @@ ${preview ? script : ''}
   return {
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
-    upcoming, ends, endISO, shortDate, socials, layout, esc, html,
+    upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
   };
 }

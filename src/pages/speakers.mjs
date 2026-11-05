@@ -7,10 +7,10 @@ export function render(c) {
   const { content } = c;
   const isUpcoming = (ev) => c.upcoming.includes(ev);
 
-  // Group by calendar year of the talk; talks without a date keep their year label.
+  // Newest first, grouped by calendar year of the talk; talks without a date keep their year label.
   const yearOf = (ev) => (ev.start ? ev.start.slice(0, 4) : String(ev.date_label).match(/\d{4}/)?.[0] || 'Earlier');
   const groups = [];
-  for (const ev of content.speakers) {
+  for (const ev of c.ordered) {
     const y = yearOf(ev);
     let g = groups.find((x) => x.year === y);
     if (!g) groups.push((g = { year: y, items: [] }));
@@ -33,7 +33,7 @@ export function render(c) {
         <h4 class="talk__name">${esc(ev.name)}</h4>
         <p class="talk__affil">${c.affil(ev)}</p>
         ${ev.description ? html`<p class="talk__desc">${esc(ev.description)}</p>` : ''}
-        ${ev.title && !upcoming ? html`<p class="talk__desc">${esc(ev.title)}</p>` : ''}
+        ${ev.title ? html`<p class="talk__desc">${esc(ev.title)}</p>` : ''}
         ${extra || links.length ? html`<p class="talk__extra">${extra ? html`<span>${extra}</span>` : ''}${links}</p>` : ''}
       </div>
     </li>`;
@@ -54,10 +54,13 @@ ${c.upcoming.length ? html`
 <section class="wrap" aria-labelledby="past-h">
   <h2 class="visually-hidden" id="past-h">Past speakers</h2>
   ${groups.map((g) => {
+    // A year whose talks are all still upcoming starts hidden; site.js shows it once one of them has ended.
     const shown = g.items.filter((ev) => !isUpcoming(ev));
     return html`
-  <h3 class="year"${shown.length ? '' : ' hidden'}>${esc(g.year)}</h3>
-  <ul class="talks">${g.items.map(talk)}</ul>`;
+  <div class="year-group" data-year-group${shown.length ? '' : ' hidden'}>
+    <h3 class="year">${esc(g.year)}</h3>
+    <ul class="talks">${g.items.map(talk)}</ul>
+  </div>`;
   })}
 </section>
 
