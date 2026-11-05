@@ -57,7 +57,11 @@
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
-    function open() {
+    // Opened from the keyboard, focus goes to the first link and shows its ring, so keyboard users land in the menu.
+    // Opened by a tap or a click, focus goes to the menu itself, which draws no ring: the page behind stays out of
+    // reach and a screen reader starts in the menu, but no box appears around Home (iPhones draw the focus ring
+    // for focus a script moves after a tap, and a box around Home reads as if Home were the current page).
+    function open(viaKeyboard) {
       panel.hidden = false;
       doc.classList.add('menu-open');
       button.setAttribute('aria-expanded', 'true');
@@ -66,7 +70,8 @@
       panel.scrollTop = 0;  // a short screen may have left it scrolled; the first link must not sit under the header
       updateRule();
       var firstLink = panel.querySelector('a[href]');
-      if (firstLink) firstLink.focus({ preventScroll: true });
+      if (viaKeyboard && firstLink) firstLink.focus({ preventScroll: true });
+      else panel.focus({ preventScroll: true });
     }
     function close(returnFocus) {
       panel.hidden = true;
@@ -77,8 +82,11 @@
       document.removeEventListener('keydown', onKey);
       if (returnFocus) button.focus({ preventScroll: true });
     }
-    button.addEventListener('click', function () {
-      if (button.getAttribute('aria-expanded') === 'true') close(true); else open();
+    // A click from the keyboard (Enter or Space on the button) has detail 0; a tap or a mouse click has 1 or more.
+    // Closing by tap leaves focus where the tap was; from the keyboard, focus returns to the button.
+    button.addEventListener('click', function (e) {
+      var viaKeyboard = e.detail === 0;
+      if (button.getAttribute('aria-expanded') === 'true') close(viaKeyboard); else open(viaKeyboard);
     });
     panel.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[href]')) close(false);
@@ -93,7 +101,7 @@
     listen(mq('(min-width: 56.25em)'), function (e) {
       var active = document.activeElement && document.activeElement !== document.body ? document.activeElement : lastFocus;
       if (e.matches) {
-        var hadFocus = active && (active === button || panel.contains(active));
+        var hadFocus = active && active !== panel && (active === button || panel.contains(active));  // the menu itself: focus after a tap, nothing to carry over
         if (!panel.hidden) close(false);
         if (!hadFocus) return;
         // The matching control on a laptop: the same address; for Home that is the logo (outside .site-nav), used

@@ -118,7 +118,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     </button>
   </div>
 </header>
-<nav class="site-menu" id="site-menu" aria-label="Menu" hidden>
+<nav class="site-menu" id="site-menu" aria-label="Menu" tabindex="-1" hidden>
   <div class="site-menu__nav wrap">
     <a href="${link('home')}"${page === 'home' ? ' aria-current="page"' : ''}>Home</a>
     <a href="${link('speakers')}"${page === 'speakers' ? ' aria-current="page"' : ''}>Speakers</a>

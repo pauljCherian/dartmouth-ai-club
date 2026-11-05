@@ -281,6 +281,7 @@ html:not(.js) .menu-button { display: none; }
   scroll-padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 8px);
 }
 .site-menu[hidden] { display: none; }
+.site-menu:focus { outline: none; }  /* the menu itself takes focus after a tap: no ring around the whole screen */
 .site-menu__nav { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: 32px; }
 .site-menu__nav > a {
   display: block;
