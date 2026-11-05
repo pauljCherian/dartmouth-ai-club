@@ -152,9 +152,9 @@
     // each screen gets the earliest rise that still clears the photo (an abrupt late rise looks like a jump).
     var CURVES = [{ s: 0.34, t: 0 }, { s: 0.30, t: 0.02 }, { s: 0.27, t: 0.04 }, { s: 0.24, t: 0.06 }, { s: 0.22, t: 0.08 },
       { s: 0.19, t: 0.10 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];
-    // Matches the CSS: beside "AI CLUB" from 56.25em (900px) wide, unless the short-screen layout (under 38.6875em,
-    // 619px, tall) applies. In em, like the CSS, so larger default text moves both together.
-    var wideQ = mq('(min-width: 56.25em)'), shortQ = mq('(orientation: landscape) and (max-height: 38.6875em)');
+    // Matches the CSS: beside "AI CLUB" from 56.25em (900px at the default text size) wide, unless the short-screen
+    // layout (landscape, 619px tall or less, in px like the CSS) applies.
+    var wideQ = mq('(min-width: 56.25em)'), shortQ = mq('(orientation: landscape) and (max-height: 619px)');
     var taglineBeside = { get matches() { return wideQ.matches && !shortQ.matches; } };
     var logoAlways = doc.classList.contains('logo-always');
     var monoMode = !!mono && (location.hash === '#mono' || hero.getAttribute('data-mono') === 'on');
@@ -258,7 +258,10 @@
           }
           var band2 = content - F.w - gap;
           if (F.x > 0 && band2 >= capFont * 12) {
-            var hB2 = capHeight(band2);  // the shorter photo freed columns: use them after all
+            // The shorter photo freed columns: the caption goes beside it after all, so the photo gets back the
+            // height it gave up for a caption underneath (same width, so the band stays free).
+            F = { x: F.x, y: F.y, w: F.w, h: Math.min(vh - top - gap, F.w / ASPECT) };
+            var hB2 = capHeight(band2);
             cap = { x: F.x + F.w + gap, y: F.y + F.h - hB2, w: band2 };
           } else {
             capHeight(F.x > 0 ? F.w : content);
@@ -266,10 +269,12 @@
           }
         }
       } else {
-        // Tall screens (phones): full width at the photo's own aspect, nothing cropped; caption under it.
-        var w2 = vw, h2 = w2 / ASPECT;
+        // Tall screens (phones): full width at the photo's own aspect, nothing cropped; caption under it. Wider
+        // than the content cap (portrait monitors): on the margins at the cap, like the rest of the page.
+        var capped = vw - gutter * 2 > CONTENT_MAX;
+        var w2 = capped ? content : vw, h2 = w2 / ASPECT;
         var free = Math.max(0, vh - top - h2 - capUnder - gap * 1.4);
-        F = { x: 0, y: top + free * 0.3, w: w2, h: h2 };
+        F = { x: capped ? gutter : 0, y: top + free * 0.3, w: w2, h: h2 };
         cap = { x: gutter, y: F.y + F.h + gap * 0.6, w: content };
       }
       var coverW = Math.max(F.w, F.h * ASPECT);
@@ -400,7 +405,7 @@
       }
       measure();
       // A title squeezed to a sliver (very short screens with large text) reads worse than the static layout.
-      if (L.Ti.w < 0.4 * (w - 2 * (parseFloat(getComputedStyle(title).left) || 16))) { park(); return; }
+      if (L.Ti.w < 0.4 * Math.min(w - 2 * (parseFloat(getComputedStyle(title).left) || 16), CONTENT_MAX)) { park(); return; }
       current = target = clamp((window.scrollY - L.heroTop) / L.pin);
       apply(current);
       updateRule();

@@ -115,7 +115,9 @@ a {
   text-underline-offset: 0.2em;
 }
 a:hover { color: var(--green); }
-a[href^="mailto:"] { overflow-wrap: break-word; }  /* addresses break after the @ (<wbr> in the markup) */
+/* Addresses break after the @ first (a <wbr> in the markup). "anywhere" only for very large text, where even
+   half an address is wider than the column; unlike break-word it also lets inline-block addresses shrink. */
+a[href^="mailto:"] { overflow-wrap: anywhere; }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 ::selection { background: var(--green); color: var(--paper); }
 
@@ -349,6 +351,10 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
     margin-left: var(--gutter-l);
   }
 }
+/* Portrait screens wider than the content cap: the photo stops at 1920px on the margin, like the rows. */
+@media (max-aspect-ratio: 4/3) and (min-width: 2016px) {
+  .hero__frame { width: 1920px; margin-left: var(--gutter-l); }
+}
 .hero__img { position: absolute; inset: 0; }
 .hero__img picture, .hero__img img { width: 100%; height: 100%; }
 .hero__img img { object-fit: cover; object-position: 50% 100%; }  /* crop from the top: ceiling, never people */
@@ -429,8 +435,10 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   max-width: 22em;
 }
 /* Short landscape screens at any width (phones on their side, laptop windows under 620px tall): title left
-   of the thumbnail, tagline under it in one line. After the rules above, so it wins. */
-@media (orientation: landscape) and (max-height: 38.6875em) {
+   of the thumbnail, tagline under it in one line. After the rules above, so it wins. In px, unlike the width
+   breakpoints: the room needed is for the photo and the title, which don't grow with the default text size
+   (site.js measures the tagline itself). In em, a 24px default font would send 900px-tall laptops here. */
+@media (orientation: landscape) and (max-height: 619px) {
   .js-handoff .hero {
     --thumb-w: min(34vw, calc(52 * var(--vh)));
     --tag-h: calc(var(--t-3) * 1.3 + var(--gap));

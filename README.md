@@ -45,9 +45,9 @@ Add an entry to `content/speakers.json` (anywhere; the top is easiest):
 
 ### Add or replace a photo
 
-Photos go through one script, so every face gets the same crop and the same ink-and-paper tone. It needs Python 3 with Pillow and numpy (`pip install pillow numpy`).
+Photos go through one script, so every face gets the same crop and the same ink-and-paper tone. It needs Python 3 with Pillow and numpy (`pip install pillow numpy`). iPhone originals (`.heic`) also need `pip install pillow-heif`; without it, export the photo as a JPEG at full size.
 
-1. Put the original in `assets-src/people/` (or `assets-src/hero/hero.jpg` for the group photo).
+1. Put the original in `assets-src/people/` (or `assets-src/hero/hero.jpg` for the group photo). Phone photos carry the location where they were taken, and `assets-src/` is committed, so copy them in with `python3 tools/images.py original <photo> assets-src/hero/hero.jpg`: that writes an upright JPEG with no metadata at all.
 2. Add or edit its line in `content/photos.json`. `crop` is a 4:5 box in the original's pixels, `x,y,w,h`: eyes about 40% from the top, head about 55-60% of the box height.
 3. Run:
 

@@ -121,9 +121,13 @@ const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { 
     }
   });
   reading.forEach((r, i) => need(r, ['title', 'authors', 'href'], `reading.json[${i}]`));
+  const CLAIMS = ['build_nights', 'majors'];  // the claims a page shows (index.mjs, review.mjs)
   for (const [k, v] of Object.entries(site.claims || {})) {
     if (k.startsWith('_')) continue;
+    if (!CLAIMS.includes(k)) { fail(`site.json claims.${k}: no page shows this claim (the site knows ${CLAIMS.join(' and ')}); put new wording in the page itself`); continue; }
     if (!v || typeof v.about !== 'string' || !v.about) fail(`site.json claims.${k}: needs "about" (the words used in Who we are), or delete the entry`);
+    else if (/[.,;:!?]$/.test(v.about.trim())) fail(`site.json claims.${k}: "about" continues a sentence in Who we are, so it must not end with punctuation ("${v.about}")`);
+    if (v && (typeof v.source !== 'string' || !v.source)) fail(`site.json claims.${k}: needs "source" (where the statement comes from, shown on the review page)`);
   }
 })(content);
 

@@ -22,7 +22,7 @@ export { feature };
 // wrong place first.
 const TAG_ROOM = `(function(){var d=document.documentElement,t=document.currentScript.previousElementSibling,h=t.parentNode.parentNode;` +
   `try{if(!d.classList.contains('js-handoff'))return;` +
-  `if(matchMedia('(min-width: 56.25em)').matches&&!matchMedia('(orientation: landscape) and (max-height: 38.6875em)').matches)return;` +
+  `if(matchMedia('(min-width: 56.25em)').matches&&!matchMedia('(orientation: landscape) and (max-height: 619px)').matches)return;` +
   `var s=getComputedStyle(t),g=Math.max(16,Math.min(28,innerWidth*0.02));` +
   `h.style.setProperty('--tag-h',Math.ceil(t.getBoundingClientRect().height+(parseFloat(s.marginTop)||0)+(parseFloat(s.marginBottom)||0)+g)+'px')` +
   `}finally{h.classList.add('is-measured')}})();`;

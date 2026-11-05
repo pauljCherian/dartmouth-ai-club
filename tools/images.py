@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Image pipeline for the Dartmouth AI Club site. Needs Python 3.10+, Pillow (with AVIF/WebP) and numpy.
+"""Image pipeline for the Dartmouth AI Club site. Needs Python 3.10+, Pillow (with AVIF/WebP) and numpy;
+pillow-heif for iPhone .heic originals (optional: a JPEG export works without it).
 
   python3 tools/images.py hero <src.jpg> public/img/hero [--compare review.png]
   python3 tools/images.py portrait <src> <id> public/img/people --crop x,y,w,h
   python3 tools/images.py manifest public/img
   python3 tools/images.py sheet public/img/people <duo|color> out.png id1 id2 ...
   python3 tools/images.py og public/img/hero assets-src/brand/og-logo.png public/og.jpg
+  python3 tools/images.py original ~/Downloads/IMG_0412.HEIC assets-src/hero/hero.jpg
+                                       a clean copy of an original for assets-src/: upright, sRGB, JPEG
+                                       quality 95, and no metadata at all (no location, no camera data)
   python3 tools/images.py all          rebuild every image listed in content/photos.json, the link-preview
                                        image (public/og.jpg) and the manifest
 
@@ -24,6 +28,13 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageCms, ImageDraw, ImageFilter, ImageOps
 
+try:  # iPhone originals (.heic), if pillow-heif is installed: pip install pillow-heif. Otherwise export a JPEG.
+    import pillow_heif
+    pillow_heif.register_heif_opener()
+    HEIF = True
+except ImportError:
+    HEIF = False
+
 INK = np.array([0x16, 0x16, 0x16], dtype=np.float64) / 255.0
 PAPER = np.array([0xF4, 0xF4, 0xF1], dtype=np.float64) / 255.0
 PAPER_RGB = (0xF4, 0xF4, 0xF1)
@@ -38,6 +49,8 @@ FORMATS = (("avif", "AVIF", {"quality": 55, "speed": 6}),
 def load_srgb(path: str) -> Image.Image:
     """Open, apply EXIF orientation, convert to sRGB from the embedded ICC profile (Display P3, a gray or a
     CMYK profile) in the image's own mode, and flatten any transparency onto paper (never pure white)."""
+    if Path(path).suffix.lower() in (".heic", ".heif") and not HEIF:
+        sys.exit(f"{path}: HEIC needs pillow-heif (pip install pillow-heif), or export the photo as a JPEG")
     im = Image.open(path)
     try:
         im.seek(0)  # MPO / multi-frame: primary image only
@@ -227,6 +240,13 @@ def cmd_portrait(src: str, pid: str, outdir: str, crop: str, frac: bool = False)
     print(f"{pid}: crop {w}x{h} from {im.width}x{im.height}{note}")
 
 
+def cmd_original(src: str, dest: str) -> None:
+    im = load_srgb(src)
+    Path(dest).parent.mkdir(parents=True, exist_ok=True)
+    im.save(dest, "JPEG", quality=95, subsampling="4:4:4", optimize=True)  # nothing copied over: no EXIF, no GPS
+    print(f"original: {dest} {im.width}x{im.height}, no metadata")
+
+
 def cmd_og(herodir: str, logo_png: str, out: str) -> None:
     """Link-preview image, 1200x630: the whole group photo full-bleed on the left (4:3, so nothing is cropped;
     a wider crop would cut the back row), the two-line lockup on paper beside it, on the photo's bottom
@@ -334,6 +354,8 @@ def main(argv: list[str]) -> None:
         cmd_manifest(args[0])
     elif cmd == "og":
         cmd_og(args[0], args[1], args[2])
+    elif cmd == "original":
+        cmd_original(args[0], args[1])
     elif cmd == "sheet":
         cmd_sheet(args[0], args[1], args[2], args[3:])
     elif cmd == "all":
