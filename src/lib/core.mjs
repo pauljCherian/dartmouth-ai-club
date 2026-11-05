@@ -196,7 +196,14 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     // Last resort for a site.js request that never answers (DOMContentLoaded then never fires): 12 s after the
     // HTML is parsed, fall back to the no-script layout. site.js restores the js class if it arrives later.
     `document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){if(!window.__daicSite)d.classList.remove('js','js-handoff')},12000)})` +
-    `}catch(e){}})(document.documentElement);`;
+    `}catch(e){}` +
+    // Preview only: the Claude artifact viewer keeps one scroll position for the whole artifact and re-applies
+    // it to whichever page loads next, so a page opened from a link would start where the last one was left.
+    // A page reached by a link (not a reload, not back/forward) starts at the top, as in a browser.
+    (preview ? `try{var P='__daic_page',was=sessionStorage.getItem(P),here=location.pathname,nv=(performance.getEntriesByType('navigation')[0]||{}).type;` +
+      `sessionStorage.setItem(P,here);if(was&&was!==here&&nv==='navigate'&&!location.hash){sessionStorage.removeItem('__frame_scroll');` +
+      `var top=function(){if(scrollY)scrollTo(0,0)};addEventListener('load',function(){top();setTimeout(top,0);setTimeout(top,120)})}}catch(e){}` : '') +
+    `})(document.documentElement);`;
 
   const same = site.socials.filter((s) => s.url).map((s) => s.url);
   const portraitUrl = (ev) => { const m = manifest[`people/${ev.photo}-${treatment}`]; return m ? `${site.origin}/${m.variants.at(-1).jpg}` : null; };
