@@ -44,6 +44,8 @@ const nyOffsetMinutes = (date) => {
   return Math.round((Date.UTC(v.year, v.month - 1, v.day, v.hour, v.minute, v.second) - date.getTime()) / 60000);
 };
 const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(min) / 60)).padStart(2, '0')}:${String(Math.abs(min) % 60).padStart(2, '0')}`;
+// New York calendar date and clock time of an instant, for checking the printed labels.
+const nyParts = (date) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).formatToParts(date).map((x) => [x.type, x.value]));
 
 (function validate({ site, speakers, team, sessions, reading }) {
   const need = (obj, keys, where) => keys.forEach((k) => (obj[k] === undefined || obj[k] === '') && fail(`${where}: missing "${k}"`));
@@ -67,11 +69,31 @@ const fmtOffset = (min) => `${min < 0 ? '-' : '+'}${String(Math.floor(Math.abs(m
       }
       const m = ev[k].match(/([+-])(\d\d):(\d\d)$/);
       const given = m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) : 0;
+      // The date must exist: Date.parse quietly rolls Nov 31 over to Dec 1.
+      if (new Date(Date.parse(ev[k]) + given * 60000).toISOString().slice(0, 16) !== ev[k].slice(0, 16)) {
+        fail(`${where}: "${k}" is not a real date and time (${ev[k].slice(0, 16)})`);
+        datesOk = false;
+        continue;
+      }
       const expected = nyOffsetMinutes(new Date(ev[k]));
       if (given !== expected) fail(`${where}: "${k}" uses offset ${fmtOffset(given)}, but New York is on ${fmtOffset(expected)} that day`);
     }
     if (ev.end && !ev.start) fail(`${where}: "end" is set but "start" is not`);
     if (datesOk && ev.start && ev.end && !(Date.parse(ev.end) > Date.parse(ev.start))) fail(`${where}: "end" must be after "start"`);
+    if (datesOk && ev.start && ev.end && Date.parse(ev.end) - Date.parse(ev.start) > 12 * 3600e3) fail(`${where}: "end" is more than 12 hours after "start" (typo?)`);
+    // The printed date and time must match "start" (a rescheduled talk must not keep its old label).
+    if (datesOk && ev.start) {
+      const ny = nyParts(new Date(ev.start));
+      const want = `${ny.month} ${ny.day}, ${ny.year}`;
+      const label = String(ev.date_label || '');
+      if (!label.includes(want)) fail(`${where}: "date_label" says "${label}" but "start" is ${ny.weekday} ${want} in New York`);
+      else if (/^[A-Z][a-z]{2}\b/.test(label) && !label.startsWith(want) && !label.startsWith(ny.weekday)) fail(`${where}: "date_label" weekday is wrong: ${ny.weekday} ${want}`);
+      if (ev.time_label) {
+        const t = String(ev.time_label).toLowerCase().replace(/\s+/g, '');
+        const hm = `${ny.hour}${ny.minute === '00' ? '' : ':' + ny.minute}${ny.dayPeriod.toLowerCase()}`;
+        if (t !== hm) fail(`${where}: "time_label" says "${ev.time_label}" but "start" is ${hm.replace(/(am|pm)$/, ' $1')} in New York`);
+      }
+    }
   });
   team.officers.forEach((o, i) => need(o, ['name', 'role', 'photo'], `team.json officers[${i}]`));
   team.advisors.forEach((a, i) => need(a, ['name', 'title', 'unit'], `team.json advisors[${i}]`));
@@ -201,7 +223,8 @@ const check = (from, raw) => {
   let ref = raw.replace(/&amp;/g, '&');
   if (!PREVIEW && ref.startsWith(`${origin}/`)) ref = ref.slice(origin.length); // canonical, og:image, JSON-LD
   if (/^(https?:|mailto:|tel:|data:)/.test(ref)) return;
-  const [p, hash] = ref.split('#');
+  let [p, hash] = ref.split('#');
+  p = p.split('?')[0]; // "?v=2" cache busters don't change the file
   const file = p === '' ? from : fileFor(p);
   if (!isFile(path.join(OUT, file))) { fail(`${from}: broken link or file "${raw}"`); return; }
   if (hash && ids.has(file) && !ids.get(file).has(hash) && !['mono', 'logo'].includes(hash)) fail(`${from}: anchor "#${hash}" not found in ${file}`);
@@ -211,16 +234,24 @@ for (const w of written) {
   for (const m of w.html.matchAll(/\s(?:href|src)="([^"]+)"/g)) refs.push(m[1]);
   for (const m of w.html.matchAll(/\ssrcset="([^"]+)"/g)) m[1].split(',').forEach((part) => refs.push(part.trim().split(/\s+/)[0]));
   for (const m of w.html.matchAll(/\scontent="(https?:\/\/[^"]+)"/g)) refs.push(m[1]); // og:image, og:url
-  for (const m of w.html.matchAll(/url\(["']?([^"')]+)["']?\)/g)) refs.push(m[1]); // fonts in the inlined CSS
+  for (const st of w.html.matchAll(/<style>([\s\S]*?)<\/style>/g)) for (const m of st[1].matchAll(/url\(["']?([^"')]+)["']?\)/g)) refs.push(m[1]); // fonts in the inlined CSS
   for (const m of w.html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     JSON.parse(m[1], (k, v) => { if (typeof v === 'string' && v.startsWith(`${origin}/`)) refs.push(v); return v; });
   }
   for (const raw of refs) check(w.file, raw);
 }
 if (!PREVIEW) {
-  const wm = JSON.parse(await readFile(path.join(OUT, 'site.webmanifest'), 'utf8'));
-  for (const icon of wm.icons || []) check('site.webmanifest', `/${icon.src.replace(/^\//, '')}`);
-  for (const r of (JSON.parse(await readFile(rel('vercel.json'), 'utf8')).redirects || [])) check(`vercel.json redirect ${r.source}`, r.destination);
+  let wm = null;
+  try { wm = JSON.parse(await readFile(path.join(OUT, 'site.webmanifest'), 'utf8')); }
+  catch (e) { fail(`public/site.webmanifest is missing or not valid JSON: ${e.message}`); }
+  for (const icon of (wm && wm.icons) || []) {
+    const u = new URL(icon.src, `${origin}/site.webmanifest`);
+    if (`${u.protocol}//${u.host}` === new URL(origin).origin) check('site.webmanifest', u.pathname);
+  }
+  for (const r of (JSON.parse(await readFile(rel('vercel.json'), 'utf8')).redirects || [])) {
+    if (/:\w|\(|\$\d/.test(r.destination)) continue; // a pattern (":file", "(.*)", "$1"): no single file to check
+    check(`vercel.json redirect ${r.source}`, r.destination);
+  }
 }
 if (problems.length) {
   if (ALLOW_MISSING) console.warn(`Development build with missing pieces:\n- ${problems.join('\n- ')}`);
