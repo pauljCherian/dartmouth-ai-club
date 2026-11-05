@@ -62,23 +62,51 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const affil = (ev) =>
     html`${ev.role ? html`<span class="muted">${esc(ev.role)}</span> ` : ''}<strong>${esc(ev.org)}</strong>`;
 
-  // Upcoming vs past at build time; site.js corrects it in the browser if a talk ends after the build.
+  // Upcoming vs past at build time.
   const ends = (ev) => (ev.end ? Date.parse(ev.end) : ev.start ? Date.parse(ev.start) + 2 * 3600e3 : NaN);
   const upcoming = content.speakers
     .filter((ev) => ev.start && ends(ev) > now.getTime())
     .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
-  // Every talk, newest first. A talk without a date keeps its position in the file relative to the dated ones.
+  // Every talk, newest first. A talk without a date keeps its place next to the dated talks around it in the
+  // file, kept inside the year on its label (so one added at the top of the file still sorts into its year).
   let lastKnown = Infinity;
+  const labelYear = (ev) => Number(String(ev.date_label || '').match(/\d{4}/)?.[0]) || null;
   const ordered = content.speakers
     .map((ev, i) => {
-      const t = ev.start ? Date.parse(ev.start) : lastKnown - 1;
-      if (ev.start) lastKnown = t;
+      let t;
+      if (ev.start) t = lastKnown = Date.parse(ev.start);
+      else {
+        const y = labelYear(ev);
+        t = lastKnown - 1;
+        if (y) t = Math.min(Math.max(t, Date.UTC(y, 0, 1)), Date.UTC(y + 1, 0, 1) - 1);
+        else if (!Number.isFinite(t)) t = -Infinity;
+      }
       return { ev, t, i };
     })
     .sort((a, b) => b.t - a.t || a.i - b.i)
     .map((x) => x.ev);
   const past = ordered.filter((ev) => !upcoming.includes(ev));
   const endISO = (ev) => new Date(ends(ev)).toISOString();
+
+  // Talk states, decided before the first paint. The upcoming talks sorted by end time end in that order, so
+  // "state k" means the first k of them have ended (state 0 is the build). The early script in <head> picks
+  // the state from the clock and tags <html> with talks-k; CSS generated here shows exactly the elements
+  // that belong to that state. No script: state 0. A page left open: site.js moves the tag when a talk ends.
+  const byEnd = [...upcoming].sort((a, b) => ends(a) - ends(b));
+  const STATES = Array.from({ length: byEnd.length + 1 }, (_, k) => k);
+  const endedIn = (ev, k) => { const i = byEnd.indexOf(ev); return i > -1 && i < k; };
+  const nextIn = (k) => upcoming.find((ev) => !endedIn(ev, k)) || null;
+  // data-show attribute for an element visible only in some states ('' when it is visible in all of them).
+  const show = (visibleIn) => {
+    const ks = STATES.filter(visibleIn);
+    return ks.length === STATES.length ? '' : ` data-show="${ks.join(' ')}"`;
+  };
+  const stateCss = byEnd.length
+    ? STATES.map((k) => `html.talks-${k} [data-show]:not([data-show~="${k}"]){display:none!important}` +
+        `html.talks-${k} [data-upcoming-section]:not([data-show~="${k}"])+.subhead{margin-top:0;padding-top:0;border-top:0}`).join('') +
+      `html:not(.js) [data-show]:not([data-show~="0"]){display:none!important}`
+    : '';
+  const talkEnds = byEnd.map(ends);
 
   const socials = (cls = 'socials') => {
     const items = site.socials.filter((s) => s.url || preview);
@@ -144,6 +172,8 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   const early = (page) =>
     `(function(d){` +
     (preview && page === 'home' ? `d.lang='en';d.classList.add('page-home');` : '') +
+    // Talk state before the first paint: how many of the upcoming talks (sorted by end) have ended.
+    `var k=0;try{var E=window.__daicEnds=[${talkEnds.join(',')}],n=Date.now();for(var i=0;i<E.length;i++)if(E[i]<n)k++}catch(e){}d.classList.add('talks-'+k);` +
     `d.classList.add('js');try{if(location.hash==='#logo')d.classList.add('logo-always');` +
     `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&matchMedia('(min-height: 300px)').matches){d.classList.add('js-handoff');` +
     // site.js always runs before DOMContentLoaded (deferred or inline at the end), so this cannot race it:
@@ -182,7 +212,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     const fullTitle = page === 'home' ? site.name : `${title} – ${site.name}`;
     const desc = description || site.description;
     const url = `${site.origin}${path}`;
-    const css = inline.css;
+    const css = inline.css + stateCss;
     const icon = (p) => (preview ? p : `/${p}`);
     const meta = html`
 <meta name="description" content="${esc(desc)}">
@@ -248,5 +278,6 @@ ${preview ? script : ''}
     mode, preview, now, site, content, brand, manifest,
     link, asset, href, isExternal, svg, arrow, picture, photo, affil,
     upcoming, past, ordered, ends, endISO, shortDate, socials, layout, esc, html,
+    STATES, endedIn, nextIn, show,
   };
 }

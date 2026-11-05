@@ -1,5 +1,5 @@
 /* Dartmouth AI Club - site.js
-   1. Upcoming vs past talks (so a talk moves to "past" the moment it ends, even without a rebuild)
+   1. Upcoming vs past talks (keeps the state the <head> script set right while the page stays open)
    2. Header hairline once content scrolls under it
    3. Mobile menu (logo + close, focus kept inside, Escape closes)
    4. The hand-off: scroll-scrubbed hero on the home page.
@@ -18,39 +18,15 @@
   var mq = function (q) { return window.matchMedia ? window.matchMedia(q) : { matches: false, addEventListener: function () {} }; };
   var listen = function (m, fn) { if (m.addEventListener) m.addEventListener('change', fn); else if (m.addListener) m.addListener(fn); };
 
-  /* ---------- 1. Upcoming vs past ---------- */
+  /* ---------- 1. Upcoming vs past ----------
+     The early script in <head> already tagged <html> with talks-k (how many upcoming talks have ended) before
+     the first paint, and CSS shows the right blocks for that state. Here: keep the tag right while the page
+     stays open, by moving it when the next talk ends (timers cap at about 24 days). */
   (function talks() {
-    var now = Date.now();
-    var ended = function (el, attr) { var t = Date.parse(el.getAttribute(attr)); return !isNaN(t) && t < now; };
-    // "Next" blocks: hide talks that have ended. The home page shows only the first one left.
-    var sections = document.querySelectorAll('[data-upcoming-section]');
-    for (var k = 0; k < sections.length; k++) {
-      var feats = sections[k].querySelectorAll('[data-ends]');
-      var firstOnly = sections[k].hasAttribute('data-first-only'), live = 0;
-      for (var f = 0; f < feats.length; f++) {
-        var show = !ended(feats[f], 'data-ends') && !(firstOnly && live > 0);
-        feats[f].hidden = !show;
-        if (show) live++;
-      }
-      sections[k].hidden = live === 0;
-    }
-    // Past lists: a talk that has ended takes its place among past talks.
-    var later = document.querySelectorAll('[data-past-after]');
-    for (var j = 0; j < later.length; j++) later[j].hidden = !ended(later[j], 'data-past-after');
-    // Lists with a limit (home "Recently"): show the first N items that are not still upcoming.
-    var limited = document.querySelectorAll('[data-limit]');
-    for (var m = 0; m < limited.length; m++) {
-      var max = parseInt(limited[m].getAttribute('data-limit'), 10) || 6, shown = 0;
-      var items = limited[m].children;
-      for (var n = 0; n < items.length; n++) {
-        var stillUpcoming = items[n].hasAttribute('data-past-after') && !ended(items[n], 'data-past-after');
-        items[n].hidden = stillUpcoming || shown >= max;
-        if (!items[n].hidden) shown++;
-      }
-    }
-    // Year groups on /speakers: shown when at least one of their talks is.
-    var groups = document.querySelectorAll('[data-year-group]');
-    for (var g = 0; g < groups.length; g++) groups[g].hidden = !groups[g].querySelector('.talk:not([hidden])');
+    var E = window.__daicEnds || [], now = Date.now(), k = 0, next = Infinity;
+    for (var i = 0; i < E.length; i++) { if (E[i] < now) k++; else if (E[i] < next) next = E[i]; }
+    for (var j = 0; j <= E.length; j++) doc.classList.toggle('talks-' + j, j === k);
+    if (next < Infinity && next - now < 2147483000) window.setTimeout(talks, next - now + 1000);
   })();
 
   /* ---------- 2. Header hairline ---------- */
@@ -153,7 +129,10 @@
     var ASPECT = parseFloat(heroCS.getPropertyValue('--hero-aspect')) || 4 / 3;
     var MAX_ASPECT = parseFloat(heroCS.getPropertyValue('--hero-max-aspect')) || 1.6;
     var dead = false;
-    var MIN_H = 300;       // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
+    var MIN_H = 300;
+    var CONTENT_MAX = 1920;  // the page's content width cap (.wrap in main), so the photo shares the grid
+    // Title timings, tried in order: scale ends at s, the rise starts at t (both end by 0.34).
+    var CURVES = [{ s: 0.34, t: 0 }, { s: 0.22, t: 0.08 }, { s: 0.16, t: 0.12 }, { s: 0.12, t: 0.16 }];       // below this height (e.g. 400% zoom) there is no room for title, tagline and photo: static layout
     var taglineBeside = mq('(min-width: 900px) and (min-height: 561px)');  // matches the CSS that puts it beside "AI CLUB"
     var logoAlways = doc.classList.contains('logo-always');
     var monoMode = !!mono && (location.hash === '#mono' || hero.getAttribute('data-mono') === 'on');
@@ -218,30 +197,69 @@
       var lr = logo.getBoundingClientRect();
       var Lg = { x: lr.left, y: lr.top, w: lr.width, h: lr.height }; // fixed header: viewport coordinates equal stage coordinates while pinned
 
-      // Final rectangle F for the photo. Measure the caption at its final width first.
-      caption.style.width = Math.max(0, vw - gutter * 2) + 'px';
-      var capH = caption.offsetHeight || 18;
-      var bottomRoom = capH + gap * 1.4;
-      var availH = vh - top - bottomRoom;
-      var F;
-      if (vw / availH >= ASPECT) {
-        // Wide screens: fill the height. Edge to edge only if the crop stays in the ceiling; otherwise the
-        // photo sits flush left on the grid margin and ends on a column edge, never on an arbitrary width.
-        var h = availH, wMax = h * MAX_ASPECT;
-        if (wMax >= vw) F = { x: 0, y: top, w: vw, h: h };
-        else {
-          var content = vw - gutter * 2, limit = Math.min(content, wMax), n = 12;
-          while (n > 1 && columns(content, gap, n) > limit + 0.5) n--;
-          F = { x: gutter, y: top, w: columns(content, gap, n), h: h };
+      // Final rectangle F for the photo, and its caption. The grid's content width is capped like the
+      // page sections (1920px), so the settled photo lines up with the columns below it.
+      var content = Math.min(vw - gutter * 2, CONTENT_MAX);
+      var capFont = parseFloat(getComputedStyle(caption).fontSize) || 13;
+      var capHeight = function (width) { caption.style.width = Math.max(0, width) + 'px'; return caption.offsetHeight || capFont * 1.4; };
+      // Wide screens fill the height. Edge to edge only if the crop stays in the ceiling; otherwise flush left on
+      // the grid margin, ending on a column edge (short screens keep every pixel instead of rounding down).
+      var wideRect = function (availH) {
+        var wMax = availH * MAX_ASPECT;
+        if (wMax >= vw && vw - gutter * 2 <= CONTENT_MAX) return { x: 0, y: top, w: vw, h: availH };
+        var limit = Math.min(content, wMax), w = limit;
+        if (vh >= 561) { var n = 12; while (n > 1 && columns(content, gap, n) > limit + 0.5) n--; w = columns(content, gap, n); }
+        return { x: gutter, y: top, w: w, h: availH };
+      };
+      var F, cap;
+      var capUnder = capHeight(content);
+      if (vw / (vh - top - capUnder - gap * 1.4) >= ASPECT) {
+        // First choice: the photo fills the height and the caption sits in the columns it leaves free, on the
+        // photo's bottom edge, so that band is part of the layout. Too narrow a band: caption under the photo.
+        var Fb = wideRect(vh - top - gap);
+        var band = content - Fb.w - gap;
+        if (Fb.x > 0 && band >= capFont * 12) {
+          F = Fb;
+          var hB = capHeight(band);
+          cap = { x: F.x + F.w + gap, y: F.y + F.h - hB, w: band };
+        } else {
+          F = wideRect(vh - top - capUnder - gap * 1.4);
+          var capW = F.x > 0 ? F.w : content;
+          var hU = capHeight(capW);
+          if (hU > capUnder) F = wideRect(vh - top - hU - gap * 1.4);  // narrower caption, more lines
+          cap = { x: F.x > 0 ? F.x : gutter, y: F.y + F.h + gap * 0.6, w: F.x > 0 ? F.w : content };
         }
       } else {
-        // Tall screens (phones): full width at the photo's own aspect, nothing cropped.
+        // Tall screens (phones): full width at the photo's own aspect, nothing cropped; caption under it.
         var w2 = vw, h2 = w2 / ASPECT;
-        var free = Math.max(0, vh - top - h2 - bottomRoom);
+        var free = Math.max(0, vh - top - h2 - capUnder - gap * 1.4);
         F = { x: 0, y: top + free * 0.3, w: w2, h: h2 };
+        cap = { x: gutter, y: F.y + F.h + gap * 0.6, w: content };
       }
       var coverW = Math.max(F.w, F.h * ASPECT);
       var coverH = coverW / ASPECT;
+
+      // Title path. Shrinking and rising at the same rate, a full-width title would pass under the photo
+      // thumbnail (top right) on narrow screens. Use the first timing that keeps them apart: the same rate
+      // where there is room (desktop), otherwise shrink first and rise after.
+      var ratio = Lg.w / Ti.w;
+      var titleAt = function (q, c) {
+        var a = ease(seg(q, 0, c.s)), b = ease(seg(q, c.t, 0.34)), sc = Math.pow(ratio, a);
+        return { x: Ti.x + (Lg.x - Ti.x) * b, y: Ti.y + (Lg.y - Ti.y) * b, w: Ti.w * sc, h: Ti.h * sc };
+      };
+      var frameAt = function (q) {
+        var e = ease(seg(q, 0.08, 0.86));
+        return { x: mix(T.x, F.x, e), y: mix(T.y, F.y, e), w: mix(T.w, F.w, e), h: mix(T.h, F.h, e) };
+      };
+      var clashes = function (c) {
+        for (var q = 0; q <= 0.34; q += 0.005) {
+          var a = titleAt(q, c), f = frameAt(q);
+          if (a.x < f.x + f.w + 2 && f.x < a.x + a.w + 2 && a.y < f.y + f.h + 2 && f.y < a.y + a.h + 2) return true;
+        }
+        return false;
+      };
+      var curve = CURVES[CURVES.length - 1];
+      for (var ci = 0; ci < CURVES.length; ci++) if (!clashes(CURVES[ci])) { curve = CURVES[ci]; break; }
 
       // The frame keeps its CSS box (the thumbnail) for good and is only ever transformed, so the
       // layout never moves (no layout shift). The image inside is laid out at its largest size and
@@ -249,14 +267,13 @@
       inner.style.width = coverW + 'px';
       inner.style.height = coverH + 'px';
 
-      var capX = F.x > 0 ? F.x : gutter;
-      caption.style.left = capX + 'px';
-      caption.style.top = (F.y + F.h + gap * 0.6) + 'px';
-      caption.style.width = Math.max(0, (F.x > 0 ? F.w : vw - gutter * 2)) + 'px';
+      caption.style.left = cap.x + 'px';
+      caption.style.top = cap.y + 'px';
+      caption.style.width = Math.max(0, cap.w) + 'px';
 
       var heroTop = hero.getBoundingClientRect().top + window.scrollY;
       var pin = Math.max(1, hero.offsetHeight - stage.offsetHeight);
-      L = { vw: vw, vh: vh, T: T, F: F, Ti: Ti, Lg: Lg, coverW: coverW, coverH: coverH, heroTop: heroTop, pin: pin };
+      L = { vw: vw, vh: vh, T: T, F: F, Ti: Ti, Lg: Lg, coverW: coverW, coverH: coverH, heroTop: heroTop, pin: pin, curve: curve };
       ruleAfter = heroTop + pin + 2;
     }
 
@@ -274,10 +291,11 @@
         title.style.transform = 'translate3d(0,' + (-24 * fadeOnly) + 'px,0)';
         title.style.opacity = String(1 - fadeOnly);
       } else {
-        var tq = ease(seg(p, 0, 0.34));   // arrive first...
-        var s = Math.pow(L.Lg.w / L.Ti.w, tq);          // geometric: shrinking looks even
-        var tx = (L.Lg.x - L.Ti.x) * tq;
-        var ty = (L.Lg.y - L.Ti.y) * tq;
+        // Arrive first (by p = 0.34). Scale is geometric, so the shrinking looks even.
+        var a = ease(seg(p, 0, L.curve.s)), b = ease(seg(p, L.curve.t, 0.34));
+        var s = Math.pow(L.Lg.w / L.Ti.w, a);
+        var tx = (L.Lg.x - L.Ti.x) * b;
+        var ty = (L.Lg.y - L.Ti.y) * b;
         title.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + s + ')';
         // ...then swap in one step once docked. A cross-fade would show both lockups at once, and they
         // differ slightly in letter-spacing and leading, so the logo would look doubled.

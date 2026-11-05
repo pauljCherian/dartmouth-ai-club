@@ -19,7 +19,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Join the club.</h1>
-  <p class="page-lead">Open to Dartmouth students, whatever you study. No experience required.</p>
+  <p class="page-lead">Open to Dartmouth students, whatever you study. No&nbsp;experience required.</p>
 </header>
 
 <section class="wrap block" aria-label="How to join">

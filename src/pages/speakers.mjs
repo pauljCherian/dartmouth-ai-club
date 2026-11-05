@@ -27,7 +27,7 @@ export function render(c) {
     });
     const extra = [ev.format, ev.host].filter(Boolean).map(esc).join(' · ');
     return html`
-    <li class="talk"${upcoming ? ` hidden data-past-after="${c.endISO(ev)}"` : ''}>
+    <li class="talk"${upcoming ? c.show((k) => c.endedIn(ev, k)) : ''}>
       <div class="talk__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 128px, 84px' })}</div>
       <div class="talk__body">
         <h4 class="talk__name">${esc(ev.name)}</h4>
@@ -43,22 +43,21 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Speakers</h1>
-  <p class="page-lead">The people building AI, in conversation with Dartmouth students.</p>
+  <p class="page-lead">The people building AI, in conversation with Dartmouth&nbsp;students.</p>
 </header>
 
 ${c.upcoming.length ? html`
-<section class="wrap block" data-upcoming-section aria-labelledby="next-h">
+<section class="wrap block" data-upcoming-section${c.show((k) => c.nextIn(k))} aria-labelledby="next-h">
   <h2 class="year" id="next-h">Next</h2>
-  ${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 30vw, 92vw', next: false }))}
+  <div class="features">${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 30vw, 92vw', next: false, show: c.show((k) => !c.endedIn(ev, k)) }))}</div>
 </section>` : ''}
 
 <section class="wrap" aria-labelledby="past-h">
   <h2 class="visually-hidden" id="past-h">Past speakers</h2>
   ${groups.map((g) => {
-    // A year whose talks are all still upcoming starts hidden; site.js shows it once one of them has ended.
-    const shown = g.items.filter((ev) => !isUpcoming(ev));
+    // A year shows once one of its talks has happened.
     return html`
-  <div class="year-group" data-year-group${shown.length ? '' : ' hidden'}>
+  <div class="year-group"${c.show((k) => g.items.some((ev) => !isUpcoming(ev) || c.endedIn(ev, k)))}>
     <h3 class="year">${esc(g.year)}</h3>
     <ul class="talks">${g.items.map(talk)}</ul>
   </div>`;

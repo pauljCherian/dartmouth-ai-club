@@ -37,7 +37,7 @@ Add an entry to `content/speakers.json` (anywhere; the top is easiest):
 ```
 
 - `start` and `end` need New York's offset for that date: `-04:00` from the second Sunday in March to the first Sunday in November, `-05:00` the rest of the year. The build checks it, and checks that `end` is after `start`.
-- A talk counts as upcoming until `end`, or two hours after `start` if there is no `end`. The page switches it to "past" in the visitor's browser the moment it ends, even before the next build.
+- A talk counts as upcoming until `end`, or two hours after `start` if there is no `end`. The page switches it to "past" in the visitor's browser when it ends (on load, or live if the page is open), even before the next build.
 - The home page shows the next talk and the six most recent past ones. `/speakers` shows every talk.
 - `role` is shown in gray and `org` in bold, as on the posters: "Research at **Meta Superintelligence Labs**".
 - `photo_alt`: leave it `""` for a plain head-and-shoulders portrait (the name is printed right next to it, so screen readers would hear it twice). Describe the photo only when it shows more, such as the speaker at the event.

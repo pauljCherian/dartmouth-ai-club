@@ -2,8 +2,8 @@ import { html, esc } from '../lib/core.mjs';
 
 export const page = { id: 'home', path: '/', out: 'index.html' };
 
-const feature = (c, ev, { sizes, next = true, hidden = false }) => html`
-<article class="feature" data-ends="${c.endISO(ev)}"${hidden ? ' hidden' : ''}>
+const feature = (c, ev, { sizes, next = true, show = '' }) => html`
+<article class="feature"${show}>
   <div class="feature__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes })}</div>
   <div class="feature__text">
     <h3 class="feature__name">${esc(ev.name)}</h3>
@@ -18,14 +18,13 @@ export { feature };
 
 export function render(c) {
   const { site, brand } = c;
-  // "Recently": the six most recent past talks, newest first (two rows of three). Upcoming talks are
-  // rendered hidden in front of them, latest first; site.js reveals each one when it ends and keeps the
-  // list at six, so the home page stays right between builds. Older talks stay on /speakers.
+  // "Next": the earliest talk that hasn't ended. "Recently": the six most recent past talks, newest first (two
+  // rows of three); older ones stay on /speakers. Both are rendered for every talk state (see core.mjs), so the
+  // page is right before the first paint even when a talk ends between builds.
   const LIMIT = 6;
-  const recent = [
-    ...[...c.upcoming].reverse().map((ev) => ({ ev, upcoming: true })),
-    ...c.past.slice(0, LIMIT + c.upcoming.length).map((ev, i) => ({ ev, spare: i >= LIMIT })),
-  ];
+  const candidates = [...[...c.upcoming].reverse(), ...c.past];
+  const recentIn = (k) => candidates.filter((ev) => !c.upcoming.includes(ev) || c.endedIn(ev, k)).slice(0, LIMIT);
+  const recent = candidates.filter((ev) => c.STATES.some((k) => recentIn(k).includes(ev)));
   const plain = (ev) => [ev.role, ev.org].filter(Boolean).join(' ');
   // Never crop the photo past its ceiling: the widest the frame may get is the photo's own aspect ratio
   // with that strip removed from the top. Shared with site.js through the custom properties.
@@ -63,7 +62,7 @@ export function render(c) {
     <ul class="about__lines">
       <li>Read the paper.</li>
       <li>Build the thing.</li>
-      <li>Meet the people who made it.</li>
+      <li>Meet the makers.</li>
       <li>Bring a friend.</li>
     </ul>
   </div>
@@ -105,11 +104,11 @@ export function render(c) {
 <section class="row wrap" id="speakers" aria-labelledby="speakers-h">
   <h2 class="row__label" id="speakers-h">Speakers</h2>
   <div class="row__body">
-    ${c.upcoming.length ? html`<div data-upcoming-section data-first-only>${c.upcoming.map((ev, i) => feature(c, ev, { sizes: '(min-width: 900px) 24vw, 92vw', hidden: i > 0 }))}</div>` : ''}
+    ${c.upcoming.length ? html`<div data-upcoming-section${c.show((k) => c.nextIn(k))}>${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 24vw, 92vw', show: c.show((k) => c.nextIn(k) === ev) }))}</div>` : ''}
     <h3 class="subhead">Recently</h3>
-    <ul class="people people--3" data-limit="${LIMIT}">
-      ${recent.map(({ ev, upcoming, spare }) => html`
-      <li class="person"${upcoming ? ` hidden data-past-after="${c.endISO(ev)}"` : spare ? ' hidden data-spare' : ''}>
+    <ul class="people people--3">
+      ${recent.map((ev) => html`
+      <li class="person"${c.show((k) => recentIn(k).includes(ev))}>
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 20vw, (min-width: 700px) 30vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
         <p class="person__meta">${esc(plain(ev))}</p>

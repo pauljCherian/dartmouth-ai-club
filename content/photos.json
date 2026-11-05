@@ -22,12 +22,14 @@
   {
    "id": "christina-lu",
    "src": "assets-src/people/christina-lu.jpg",
-   "crop": "19,1,1832,2290"
+   "crop": "153,71,1494,1867",
+   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
   },
   {
    "id": "chetan-patel",
    "src": "assets-src/people/chetan-patel.jpg",
-   "crop": "156,36,488,610"
+   "crop": "133,18,554,693",
+   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
   },
   {
    "id": "andrew-milich",
@@ -43,7 +45,8 @@
   {
    "id": "paul-cherian",
    "src": "assets-src/people/paul-cherian.jpg",
-   "crop": "55,165,640,800"
+   "crop": "126,192,491,614",
+   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
   },
   {
    "id": "lisa-samoylov",
@@ -58,7 +61,8 @@
   {
    "id": "sol-song",
    "src": "assets-src/people/sol-song.jpg",
-   "crop": "244,277,1632,2040"
+   "crop": "250,313,1511,1889",
+   "note": "eyes at about 40%, head 51-57% of the frame (re-cropped for consistency)"
   }
  ],
  "missing": {
