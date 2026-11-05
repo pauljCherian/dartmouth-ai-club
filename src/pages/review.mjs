@@ -55,7 +55,7 @@ export function render(c) {
     ]],
     ['Team', [
       ['Lead', 'Cut', 'It repeated the two section headings.'],
-      ['Officers', 'Changed', `A list, as Stanford’s: name, links, role, one line each where it fits, under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
+      ['Officers', 'Changed', `A list: name, profile links, then the role, flush left like every name and role on the site (on laptops the role starts on column 8, the footer’s contact column), under “Officers, ${team.officers_term}”. No photos: they went out of date every year and two were always missing; the club’s faces are in the group photo.`],
       ['LinkedIn and X', 'Changed', 'The networks’ marks beside each name, always visible: Stanford shows them on hover, which phones don’t have.'],
       ['Faculty advisors', 'Changed', 'The same list: name, and school or department (a rank changes with promotions).'],
     ]],

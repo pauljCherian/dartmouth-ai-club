@@ -149,7 +149,8 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 
 .wrap { padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
 /* On very wide screens the content stops at 1920px, flush left: photos stay a sensible size and every row
-   stays readable. The header and footer stop at the same edge, and so do their rules. */
+   stays readable. The header's logo and links and the footer stop at the same edge. The header's rule runs
+   edge to edge, like the fixed bar it closes; a section's runs from margin to margin. */
 main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + var(--gutter-l) + var(--gutter-r)); }
 .muted { color: var(--gray); }
 .credits { margin-top: clamp(32px, 4vw, 56px); max-width: 48em; font-size: var(--t-6); line-height: 1.5; color: var(--gray); }
@@ -197,8 +198,8 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
   padding-top: env(safe-area-inset-top, 0px);
   background: var(--paper);
 }
-.site-header__inner { transition: box-shadow 0.2s linear; }
-.site-header.is-ruled .site-header__inner { box-shadow: 0 1px 0 var(--rule); }
+.site-header { transition: box-shadow 0.2s linear; }
+.site-header.is-ruled { box-shadow: 0 1px 0 var(--rule); }
 /* During the hand-off the title docks into the header, so the header must not paint over it. */
 .js-handoff.page-home .site-header:not(.is-solid) { background: transparent; }
 .site-header__inner {
@@ -504,8 +505,9 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .row__title { grid-column: 1 / span 4; }
   .row__body { grid-column: 5 / -1; }
 }
-/* Inner pages: the page title already opens the page, so its sections sit closer to it and to each other. */
-.page-pad .row { padding-block: clamp(32px, 4.5vw, 64px); }
+/* Inner pages: the page title already opens the page, so its sections sit closer to it and to each other,
+   and the footer (a section like them) keeps the same rhythm. */
+html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .row__more { margin-top: clamp(32px, 4vw, 56px); font-size: var(--t-4); }
 
 /* ---------- Who we are ---------- */
@@ -532,7 +534,7 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 @media (forced-colors: active) {
   .bullet { border: 2px solid CanvasText; }
   .menu-button__icon span { background: ButtonText; }
-  .site-header.is-ruled .site-header__inner { border-bottom: 1px solid CanvasText; }
+  .site-header.is-ruled { border-bottom: 1px solid CanvasText; }
 }
 
 /* ---------- People grid (the speakers on the home page) ---------- */
@@ -576,26 +578,30 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
 .talk__desc { margin-top: 10px; max-width: 34em; }
 .talk__date { margin-top: 10px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
 
-/* ---------- Roster (team page): name and links left, role right; one line each where it fits, and a role that
-   wraps stays flush right ---------- */
+/* ---------- Roster (team page): name and links, then the role, flush left like every name and role ---------- */
 .roster__row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-items: baseline;
-  justify-content: space-between;
-  gap: 4px var(--gap);
+  gap: 3px var(--gap);
   padding-block: 16px;
   border-top: 1px solid var(--rule);
 }
 .roster__row:first-child { padding-top: 0; border-top: 0; }  /* the section's hairline is the first rule */
 .roster__row:last-child { padding-bottom: 0; }
 .roster__who { display: inline-flex; align-items: baseline; gap: 14px; min-width: 0; }
-.roster__name { font-size: var(--t-4); font-weight: 700; line-height: 1.3; }
+.roster__name { font-size: var(--t-4); font-weight: 700; line-height: 1.2; }  /* as every name */
 .roster__links { display: inline-flex; gap: 10px; align-self: center; }
 .roster__links .social { color: var(--gray); }  /* quieter than the name; green on hover like any link */
 .roster__links .social:hover { color: var(--green); }
 .roster__link .social__icon { width: 18px; height: 18px; }
-.roster__what { margin-left: auto; font-size: var(--t-5); line-height: 1.35; color: var(--gray); text-align: right; }
+.roster__what { font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
+/* Laptops: the role on the name's line, starting on column 8 of 12 (the footer's contact column). */
+@media (min-width: 56.25em) {
+  .roster__row { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .roster__who { grid-column: span 3; }
+  .roster__what { grid-column: span 5; }
+}
 
 /* ---------- Steps (join page): sections like any other, the heading led by its green number ---------- */
 .step__title { display: grid; grid-template-columns: calc(2 * var(--t-4)) minmax(0, 1fr); column-gap: 14px; align-items: start; }
