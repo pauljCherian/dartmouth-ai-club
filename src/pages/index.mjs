@@ -2,11 +2,11 @@ import { html, esc } from '../lib/core.mjs';
 
 export const page = { id: 'home', path: '/', out: 'index.html' };
 
-const feature = (c, ev, { sizes }) => html`
+const feature = (c, ev, { sizes, next = true }) => html`
 <article class="feature" data-ends="${c.endISO(ev)}">
   <div class="feature__photo">${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes })}</div>
   <div class="feature__text">
-    <p class="feature__label">Next${ev.format ? ` · ${esc(ev.format)}` : ''}</p>
+    <p class="feature__label">${[next ? 'Next' : '', ev.format ? esc(ev.format) : ''].filter(Boolean).join(' · ')}</p>
     <h3 class="feature__name">${esc(ev.name)}</h3>
     <p class="feature__affil">${c.affil(ev)}</p>
     ${ev.title ? html`<p class="feature__title">${esc(ev.title)}</p>` : ''}

@@ -48,7 +48,7 @@ export function render(c) {
 ${c.upcoming.length ? html`
 <section class="wrap block" data-upcoming-section aria-labelledby="next-h">
   <h2 class="year" id="next-h">Next</h2>
-  ${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 30vw, 92vw' }))}
+  ${c.upcoming.map((ev) => feature(c, ev, { sizes: '(min-width: 900px) 30vw, 92vw', next: false }))}
 </section>` : ''}
 
 <section class="wrap" aria-labelledby="past-h">

@@ -565,7 +565,8 @@ main { display: block; }
 .session__links a, .talk__extra a { padding-block: 2px; }
 @media (min-width: 900px) {
   .session { grid-template-columns: 9.5em minmax(0, 1fr) minmax(12em, auto); column-gap: var(--gap); align-items: baseline; }
-  .session__date { grid-row: 1 / span 3; }
+  .session__date { grid-column: 1; grid-row: 1 / span 3; }
+  .session__title, .session__people, .session__summary { grid-column: 2; }
   .session__links { grid-column: 3; grid-row: 1; justify-content: flex-end; }
 }
 
