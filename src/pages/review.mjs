@@ -58,6 +58,7 @@ export function render(c) {
       ['Faculty advisors', 'Changed', 'Name and school only: a rank changes with promotions.'],
     ]],
     ['Join', [
+      ['Step 1', 'Changed', 'With the form: “Sign in with your Dartmouth account and the link appears.” and one button; the sentence about bots is gone. Until the form exists: email the contact address.'],
       ['Step 2', 'Changed', '“Each week’s time and room are posted in the GroupMe.”'],
       ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact and the social marks.'],
     ]],

@@ -8,10 +8,10 @@ export function render(c) {
   const contact = site.contact;
 
   const step1 = form
-    ? html`<p>Sign in with your Dartmouth account and the link appears. Keeping it behind Dartmouth login keeps the bots out.</p>
+    ? html`<p>Sign in with your Dartmouth account and the link appears.</p>
        <p><a class="button" href="${esc(form)}">Get the GroupMe link ${c.arrow('ne')}</a></p>`
     : c.preview
-      ? html`<p>Sign in with your Dartmouth account and the link appears. Keeping it behind Dartmouth login keeps the bots out.</p>
+      ? html`<p>Sign in with your Dartmouth account and the link appears.</p>
        <p><a class="button" href="#get-link" aria-disabled="true">Get the GroupMe link ${c.arrow('ne')}</a></p>
        <p class="step__note">Preview: the Dartmouth-only form doesn’t exist yet, so this button goes nowhere.</p>`
       : html`<p>Email <a href="mailto:${esc(contact.email)}">${c.email(contact.email)}</a> from your Dartmouth address and we will send you the link.</p>`;
