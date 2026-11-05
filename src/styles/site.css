@@ -1,10 +1,11 @@
 /* ==========================================================================
    Dartmouth AI Club - site.css
-   Layout: Swiss 12-column grid. Flush-left, ragged-right text. Sections are
-   hairline-ruled rows: a label column (4) and a content column (8).
+   Layout: Swiss 12-column grid. Flush-left, ragged-right text. A page has one
+   giant title; every section below it is a hairline (margin to margin), one
+   heading in columns 1-4 and its content in columns 5-12 (Vitsoe's pattern).
    Colour: paper and ink, never pure white or black. Dartmouth Green is the
    only accent and means "act here" or "this is a numbered step": links you
-   should press, numbered markers, focus, selection. Nowhere else.
+   should press, the steps on /join, focus, selection. Nowhere else.
    Type: Helvetica on Apple devices, TeX Gyre Heros (a free Helvetica clone)
    everywhere else, through one family name so every platform matches.
    ========================================================================== */

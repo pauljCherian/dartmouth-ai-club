@@ -8,9 +8,11 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 
 | File | What it holds |
 | --- | --- |
-| `content/site.json` | Tagline, contact email, member count, join form link, social links, hero caption, and claims to confirm (`build_nights` and `majors`, each with its `source`; delete one under `claims` to remove it from every page). There is no meeting time or room on purpose: they change every term, so the site sends people to the GroupMe for them |
+| `content/site.json` | Tagline, description for search results, contact email, join form link, social links, hero photo and caption |
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
-| `content/team.json` | Officers and faculty advisors |
+| `content/team.json` | The officers and their academic year (`officers_term`), and the faculty advisors |
+
+What is not on the site, on purpose: the meeting night and room, a member count, and anything an officer hasn't confirmed. The night and room change every term, so /join says the GroupMe posts them; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
 
 ### Add a speaker
 
@@ -28,12 +30,13 @@ Add an entry to `content/speakers.json` (anywhere; the site sorts by date). Ever
 }
 ```
 
-- `role`: their role and organisation **at the time of the talk**, as one line ("Head of Data, Simile"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
-- `description`: required, one plain line about the person's own work (not their company's slogan).
+- `role`: their title and organisation **at the time of the talk**, as "Title, Organisation" ("Head of Data, Simile"), with a second affiliation after a semicolon if it matters ("…, Anthropic; PhD student, Oxford"). Never "Formerly at…": the list is a record of who came, so it never needs updating when people move on.
+- `description`: one plain line about the person's own work at the time, under about 90 characters, starting with a verb ("Studies why AI models fail…"). Not their company's slogan, and not the title again. Write it for someone who doesn't study computer science.
+- The live build stops while a talk has no `role` or `description`. The preview shows the gap in gray instead, so you can see what is missing.
 - `date`: the day of the talk. You can add a talk before it happens: it stays hidden until that day is over in New York, decided in the visitor's browser, so nobody has to remember to update the site afterwards.
-- The home page shows the six most recent talks; `/speakers` shows every talk, grouped by year.
+- The home page shows the six most recent talks (photo, name, role, date); `/speakers` shows every talk, grouped by year, with its one line.
 - `photo_alt`: leave it `""` for a plain head-and-shoulders portrait (the name is printed right next to it, so screen readers would hear it twice). Describe the photo only when it shows more, such as the speaker at the event.
-- `photo_credit` (only for a photo whose licence asks for a credit, e.g. from Wikimedia Commons): `{"by": "Photographer", "source": "https://…", "license": "CC BY-SA 2.0", "license_url": "https://…"}`. The credit line is shown wherever the photo appears.
+- `photo_credit` (only for a photo whose licence asks for a credit, e.g. from Wikimedia Commons): `{"by": "Photographer", "source": "https://…", "license": "CC BY-SA 2.0", "license_url": "https://…"}`. The credit line is shown wherever the photo appears; a photo the club took itself needs none.
 
 ### Add or replace a photo
 
@@ -100,10 +103,13 @@ jobs:
 
 ## Design rules
 
-- **Colour.** Paper `#F4F4F1`, ink `#161616`, gray `#666662`, hairlines `#D9D9D4`. Never pure white or pure black. Dartmouth Green `#00693E` marks things you can act on (the Join links and button, link hover, keyboard focus, selection) and numbered markers. Nowhere else.
+- **Colour.** Paper `#F4F4F1`, ink `#161616`, gray `#666662`, hairlines `#D9D9D4`. Never pure white or pure black. Dartmouth Green `#00693E` marks things you can act on (the Join links and buttons, link hover, keyboard focus, selection) and the numbered steps on /join. Nowhere else.
 - **Type.** One family, two weights. Helvetica on Apple devices and TeX Gyre Heros (a free Helvetica clone) everywhere else, through the single family name `Club Sans` in `src/styles/site.css`.
-- **Logo.** `src/svg/logo-display.svg` (hero size: tighter letter-spacing and leading) and `src/svg/logo-small.svg` (header and footer: looser, so the lines never touch). They are drawn outlines, so they look identical on every device. Never retype the logo as live text.
-- **Arrow.** `src/svg/arrow-e.svg` and `arrow-ne.svg` are the only icons. → goes somewhere on this site; ↗ leaves it.
+- **Logo.** The club's name in TeX Gyre Heros Bold, set as two lines and converted to outlines, so it looks identical on every device. Never retype it as live text. `src/svg/logo-display.svg` is the giant home title: letters 0.045 em tighter than the font, lines 0.81 em apart (a gap of about 8% of the letter height), so the name reads as one block. `src/svg/logo-small.svg` is the header: normal spacing, lines 0.90 em apart (about 20%), because at 104–116 px wide the display setting leaves under 2 px between the lines on an ordinary screen. Both have the same proportions, so the hand-off swaps one for the other without a jump.
+- **Layout.** A page has one giant title. Below it, every section is the same: a gray hairline from margin to margin, one heading top left (large, regular weight) and the content on the right. The footer follows the same grid: the invitation to join (left, on every page but /join), the page links and the contact.
+- **Arrow.** `src/svg/arrow-e.svg` and `arrow-ne.svg`: → goes somewhere on this site; ↗ leaves it. The Instagram and LinkedIn marks need no arrow: the mark says where it goes.
+- **Navigation.** Laptops: the logo (home) and Speakers, Team, Join the club. Phones: the menu lists all four pages, Home first.
+- **Words.** Sentences end with a full stop (“Join the club.”, “Read the paper.”); names don't (“Speakers”, “Team”).
 - **Motion.** One choreographed moment: the hand-off on the home page. Native scrolling, the browser's own cursor, nothing fading in on scroll. People who ask their device for reduced motion get the static layout.
 
 ## Folders
