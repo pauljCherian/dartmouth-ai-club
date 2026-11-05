@@ -22,7 +22,7 @@ export function render(c) {
   return c.layout({
     page: 'reading',
     title: 'Reading list',
-    description: 'Papers and posts recommended by the Dartmouth AI Club.',
+    description: 'Papers and posts the Dartmouth AI Club has read and recommends, from adversarial examples to recursive language models.',
     path: '/reading',
     main,
   });

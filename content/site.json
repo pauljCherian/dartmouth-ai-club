@@ -2,7 +2,7 @@
   "name": "Dartmouth AI Club",
   "origin": "https://aiclub.dartmouth.edu",
   "tagline": "Undergraduates who study and build AI.",
-  "description": "Dartmouth undergraduates studying and building artificial intelligence: paper talks, build nights, research groups and conversations with the people shaping the field.",
+  "description": "Dartmouth undergraduates studying and building AI: paper talks, build nights, research groups and conversations with the people shaping the field.",
   "contact": {
     "email": "paul.cherian.27@dartmouth.edu",
     "name": "Paul Cherian",
@@ -25,14 +25,34 @@
     "note": "Dartmouth-only form whose confirmation screen shows the GroupMe link. Empty until the officers create it."
   },
   "socials": [
-    { "name": "Instagram", "url": "", "confirmed": false },
-    { "name": "LinkedIn", "url": "", "confirmed": false }
+    {
+      "name": "Instagram",
+      "url": "",
+      "confirmed": false
+    },
+    {
+      "name": "LinkedIn",
+      "url": "",
+      "confirmed": false
+    }
   ],
   "hero": {
     "photo": "hero",
     "alt": "Dozens of Dartmouth AI Club members crowded around a long conference table with Yann LeCun, smiling into a wide-angle selfie.",
-    "caption": "The club with Yann LeCun. Hanover, October 29, 2026.",
+    "caption": "The club with Yann LeCun. Hanover, Oct 29, 2026.",
     "caption_confirmed": false,
     "caption_source": "Photo metadata (date, Hanover area) and the previous site's 'Featured Visit: Yann LeCun'"
+  },
+  "claims": {
+    "build_nights": {
+      "text": "weekly build nights",
+      "confirmed": false,
+      "source": "Stripe call prep doc, Oct 29, 2026: \"We run weekly build nights where members ship small AI projects.\""
+    },
+    "majors": {
+      "text": "most of them in computer science and engineering",
+      "confirmed": false,
+      "source": "Stripe call prep doc, Oct 29, 2026: \"mostly CS and engineering students who actually build\""
+    }
   }
 }

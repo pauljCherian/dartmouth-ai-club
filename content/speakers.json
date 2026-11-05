@@ -26,7 +26,7 @@
     "date_label": "Oct 29, 2026",
     "photo": "yann-lecun-visit",
     "photo_alt": "Club members around the conference table during the visit with Yann LeCun.",
-    "confirm": "Title updated from 'Chief AI Scientist, Meta': he co-founded AMI Labs in Dec 2025 (Executive Chair) and remains an NYU professor. Confirm the wording and the exact event date.",
+    "confirm": "Title updated from “Chief AI Scientist, Meta”: he co-founded AMI Labs in Dec 2025 (Executive Chair) and remains an NYU professor. Confirm the wording and the exact event date.",
     "source": "Previous site + photo metadata"
   },
   {
@@ -37,7 +37,7 @@
     "date_label": "2026",
     "photo": "christina-lu",
     "photo_alt": "Portrait of Christina Lu.",
-    "confirm": "Date, format and role are unknown. The previous site listed only 'Anthropic'.",
+    "confirm": "Date, format and role are unknown. The previous site listed only “Anthropic”.",
     "source": "Previous site"
   },
   {
@@ -51,7 +51,12 @@
     "date_label": "May 5, 2026",
     "photo": "chetan-patel",
     "photo_alt": "Portrait of Chetan Patel.",
-    "links": [ { "label": "Poster", "href": "asset:img/posters/chetan-patel-poster.png" } ],
+    "links": [
+      {
+        "label": "Poster",
+        "href": "asset:img/posters/chetan-patel-poster.png"
+      }
+    ],
     "source": "Previous site + session archive"
   },
   {
@@ -66,8 +71,14 @@
     "date_label": "Mar 4, 2026",
     "photo": "andrew-milich",
     "photo_alt": "Portrait of Andrew Milich.",
-    "links": [ { "label": "Poster", "href": "https://drive.google.com/file/d/1Wh1l2Y8znmS1K52bAt8QGz16ghg5sqFp/view?usp=sharing" } ],
-    "source": "Previous site + session archive"
+    "links": [
+      {
+        "label": "Poster",
+        "href": "asset:img/posters/andrew-milich-poster.png"
+      }
+    ],
+    "source": "Previous site + session archive",
+    "place": "ECSC 009"
   },
   {
     "id": "ted-li",
@@ -80,8 +91,7 @@
     "date_label": "Feb 4, 2026",
     "photo": "ted-li",
     "photo_alt": "Portrait of Ted Li.",
-    "links": [ { "label": "Poster", "href": "https://drive.google.com/file/d/1WPp8dIEaEc6CwU1-PiKv9XAA7uLI9vI2/view?usp=sharing" } ],
-    "confirm": "Source photo is only 361x343 px; send a larger one.",
+    "confirm": "Source photo is only 361 × 343 px: send a larger one. His poster on Google Drive asks visitors to sign in: share it (“Anyone with the link”) or send the file.",
     "source": "Previous site + session archive"
   }
 ]

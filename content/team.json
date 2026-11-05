@@ -1,14 +1,52 @@
 {
   "officers": [
-    { "name": "Paul Cherian", "role": "President", "photo": "paul-cherian", "linkedin": "https://www.linkedin.com/in/paul-cherian-164956311/" },
-    { "name": "Jeffrey Xie", "role": "VP Research", "photo": "jeffrey-xie", "linkedin": "https://www.linkedin.com/in/jeffreyxiekl" },
-    { "name": "Sean Noh", "role": "VP Research", "photo": "sean-noh", "linkedin": "https://www.linkedin.com/in/seannoh/" },
-    { "name": "Lisa Samoylov", "role": "VP Research", "photo": "lisa-samoylov", "linkedin": "https://www.linkedin.com/in/lisavsamoylov" },
-    { "name": "Sol Song", "role": "VP Finance", "photo": "sol-song", "linkedin": "https://www.linkedin.com/in/sol-song-s102/" },
-    { "name": "Charlie Peers", "role": "VP Growth", "photo": "charlie-peers", "linkedin": "https://www.linkedin.com/in/charlie-peers/" }
+    {
+      "name": "Paul Cherian",
+      "role": "President",
+      "photo": "paul-cherian",
+      "linkedin": "https://www.linkedin.com/in/paul-cherian-164956311"
+    },
+    {
+      "name": "Jeffrey Xie",
+      "role": "VP Research",
+      "photo": "jeffrey-xie",
+      "linkedin": "https://www.linkedin.com/in/jeffreyxiekl"
+    },
+    {
+      "name": "Sean Noh",
+      "role": "VP Research",
+      "photo": "sean-noh",
+      "linkedin": "https://www.linkedin.com/in/seannoh"
+    },
+    {
+      "name": "Lisa Samoylov",
+      "role": "VP Research",
+      "photo": "lisa-samoylov",
+      "linkedin": "https://www.linkedin.com/in/lisavsamoylov"
+    },
+    {
+      "name": "Sol Song",
+      "role": "VP Finance",
+      "photo": "sol-song",
+      "linkedin": "https://www.linkedin.com/in/sol-song-s102"
+    },
+    {
+      "name": "Charlie Peers",
+      "role": "VP Growth",
+      "photo": "charlie-peers",
+      "linkedin": "https://www.linkedin.com/in/charlie-peers"
+    }
   ],
   "advisors": [
-    { "name": "Peter Chin", "title": "Professor", "unit": "Thayer School of Engineering" },
-    { "name": "Soroush Vosoughi", "title": "Professor", "unit": "Department of Computer Science" }
+    {
+      "name": "Peter Chin",
+      "title": "Professor",
+      "unit": "Thayer School of Engineering"
+    },
+    {
+      "name": "Soroush Vosoughi",
+      "title": "Associate Professor",
+      "unit": "Department of Computer Science"
+    }
   ]
 }

@@ -31,6 +31,18 @@
       var u = Date.parse(later[j].getAttribute('data-past-after'));
       if (!isNaN(u) && u < now) later[j].hidden = false;
     }
+    // Lists with a limit (home "Recently"): show the first N items that are not still upcoming.
+    var limited = document.querySelectorAll('[data-limit]');
+    for (var m = 0; m < limited.length; m++) {
+      var max = parseInt(limited[m].getAttribute('data-limit'), 10) || 4, shown = 0;
+      var items = limited[m].children;
+      for (var n = 0; n < items.length; n++) {
+        var pa = items[n].getAttribute('data-past-after');
+        var stillUpcoming = pa && !(Date.parse(pa) < now);
+        items[n].hidden = stillUpcoming || shown >= max;
+        if (!items[n].hidden) shown++;
+      }
+    }
     var sections = document.querySelectorAll('[data-upcoming-section]');
     for (var k = 0; k < sections.length; k++) {
       if (!sections[k].querySelector('[data-ends]:not([hidden])')) sections[k].hidden = true;

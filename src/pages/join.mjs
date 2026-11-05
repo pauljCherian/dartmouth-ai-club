@@ -31,7 +31,7 @@ export function render(c) {
     </li>
     <li class="step">
       <span class="bullet" aria-hidden="true">2</span>
-      <h2 class="step__title">Come on Tuesday.</h2>
+      <h2 class="step__title">Come to a meeting.</h2>
       <div class="step__body"><p>${esc(site.meetings.when)}, ${esc(site.meetings.where)}.</p></div>
     </li>
     ${c.socials() ? html`<li class="step">
@@ -50,7 +50,7 @@ export function render(c) {
   return c.layout({
     page: 'join',
     title: 'Join the club',
-    description: 'How to join the Dartmouth AI Club: get the GroupMe link with your Dartmouth account, then come to a Tuesday meeting.',
+    description: 'How to join the Dartmouth AI Club: get the GroupMe link, then come to a meeting. Open to Dartmouth students, whatever you study.',
     path: '/join',
     main,
   });

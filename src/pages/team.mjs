@@ -37,7 +37,7 @@ export function render(c) {
   return c.layout({
     page: 'team',
     title: 'Team',
-    description: 'The officers and faculty advisors of the Dartmouth AI Club.',
+    description: 'The officers who run the Dartmouth AI Club and the faculty advisors from Thayer School of Engineering and Computer Science who advise it.',
     path: '/team',
     main,
   });

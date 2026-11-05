@@ -22,7 +22,7 @@ export function render(c) {
     const links = (ev.links || []).map((l) => {
       const h = c.href(l.href);
       const ext = c.isExternal(h);
-      return html`<a class="link-arrow" href="${esc(h)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(l.label)} ${c.arrow('ne')}</a>`;
+      return html`<a class="link-arrow" href="${esc(h)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(l.label)} ${c.arrow(ext ? 'ne' : 'e')}</a>`;
     });
     const extra = [ev.format, ev.host].filter(Boolean).map(esc).join(' · ');
     return html`
@@ -63,7 +63,7 @@ ${c.upcoming.length ? html`
 
 <section class="wrap block" id="sessions" aria-labelledby="sessions-h">
   <h2 class="year" id="sessions-h">Member sessions</h2>
-  <p class="page-lead" style="margin:0 0 clamp(24px,3vw,40px)">Every Tuesday an officer or member presents a paper or a topic. Slides and papers from past sessions.</p>
+  <p class="page-lead" style="margin:0 0 clamp(24px,3vw,40px)">At the weekly meeting an officer or member presents a paper or a topic. Slides and papers from past sessions.</p>
   <ul class="sessions">
     ${content.sessions.map((s) => html`
     <li class="session">
@@ -74,7 +74,7 @@ ${c.upcoming.length ? html`
       <p class="session__links">${(s.links || []).map((l) => {
         const h = c.href(l.href);
         const ext = c.isExternal(h);
-        return html`<a class="link-arrow" href="${esc(h)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(l.label)} ${c.arrow('ne')}</a>`;
+        return html`<a class="link-arrow" href="${esc(h)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(l.label)} ${c.arrow(ext ? 'ne' : 'e')}</a>`;
       })}</p>
     </li>`)}
   </ul>

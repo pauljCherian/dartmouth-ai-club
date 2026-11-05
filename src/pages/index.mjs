@@ -20,7 +20,10 @@ export function render(c) {
   const { site, brand } = c;
   const next = c.upcoming[0];
   const past = c.content.speakers.filter((ev) => !c.upcoming.includes(ev));
-  const recent = past.slice(0, 4);
+  // Four most recent past talks. Upcoming talks are rendered hidden first; site.js reveals one when its
+  // talk ends and keeps the list at four, so the home page stays right between builds.
+  const LIMIT = 4;
+  const recent = [...c.upcoming.map((ev) => ({ ev, upcoming: true })), ...past.slice(0, LIMIT + c.upcoming.length).map((ev, i) => ({ ev, spare: i >= LIMIT }))];
   const plain = (ev) => [ev.role, ev.org].filter(Boolean).join(' ');
 
   const main = html`
@@ -52,7 +55,7 @@ export function render(c) {
     </ul>
   </div>
   <div class="row__body">
-    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates, most of them in computer science and engineering, who want to understand AI by working on it. Every Tuesday an officer presents a paper or a topic. Every week there is a build night. Through the year we sit down with the researchers and founders shaping the field. No experience required. Curiosity is enough.</p>
+    <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates, most of them in computer science and engineering, who want to understand AI by working on it. Every week an officer or member presents a paper or a topic, and there is a build night. Through the year we sit down with the researchers and founders shaping the field. No experience required. Curiosity is enough.</p>
     <dl class="facts">
       <div><dt>Members</dt><dd class="tnum">${esc(site.members.count)}</dd></div>
       <div><dt>Meetings</dt><dd>${esc(site.meetings.when)}<br>${esc(site.meetings.where)}</dd></div>
@@ -91,9 +94,9 @@ export function render(c) {
   <div class="row__body">
     ${next ? html`<div data-upcoming-section>${feature(c, next, { sizes: '(min-width: 900px) 24vw, 92vw' })}</div>` : ''}
     <h3 class="subhead">Recently</h3>
-    <ul class="people people--4">
-      ${recent.map((ev) => html`
-      <li class="person">
+    <ul class="people people--4" data-limit="${LIMIT}">
+      ${recent.map(({ ev, upcoming, spare }) => html`
+      <li class="person"${upcoming ? ` hidden data-past-after="${c.endISO(ev)}"` : spare ? ' hidden data-spare' : ''}>
         ${c.photo(ev.photo, { alt: ev.photo_alt, name: ev.name, sizes: '(min-width: 900px) 15vw, 45vw' })}
         <h4 class="person__name">${esc(ev.name)}</h4>
         <p class="person__meta">${esc(plain(ev))}</p>
@@ -108,7 +111,7 @@ export function render(c) {
   <p class="row__label" aria-hidden="true">Join</p>
   <div class="row__body">
     <h2 class="join-band__title" id="join-h">Join the club.</h2>
-    <p class="join-band__text">Open to Dartmouth students, whatever you study. Get the GroupMe link, then come on Tuesday.</p>
+    <p class="join-band__text">Open to Dartmouth students, whatever you study. Get the GroupMe link, then come to a meeting.</p>
     <div class="join-band__actions">
       <a class="button" href="${c.link('join')}">Join the club ${c.arrow('e')}</a>
       <span class="join-band__when">${esc(site.meetings.when)} · ${esc(site.meetings.where)}</span>

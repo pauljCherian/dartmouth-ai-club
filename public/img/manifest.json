@@ -52,6 +52,13 @@
  "people/andrew-milich-color": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/andrew-milich-color-240.avif",
+    "jpg": "img/people/andrew-milich-color-240.jpg",
+    "webp": "img/people/andrew-milich-color-240.webp"
+   },
+   {
     "w": 400,
     "h": 500,
     "avif": "img/people/andrew-milich-color-400.avif",
@@ -63,6 +70,13 @@
  "people/andrew-milich-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/andrew-milich-duo-240.avif",
+    "jpg": "img/people/andrew-milich-duo-240.jpg",
+    "webp": "img/people/andrew-milich-duo-240.webp"
+   },
+   {
     "w": 400,
     "h": 500,
     "avif": "img/people/andrew-milich-duo-400.avif",
@@ -73,6 +87,13 @@
  },
  "people/chetan-patel-color": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/chetan-patel-color-240.avif",
+    "jpg": "img/people/chetan-patel-color-240.jpg",
+    "webp": "img/people/chetan-patel-color-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -92,6 +113,13 @@
  "people/chetan-patel-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/chetan-patel-duo-240.avif",
+    "jpg": "img/people/chetan-patel-duo-240.jpg",
+    "webp": "img/people/chetan-patel-duo-240.webp"
+   },
+   {
     "w": 480,
     "h": 600,
     "avif": "img/people/chetan-patel-duo-480.avif",
@@ -109,6 +137,13 @@
  },
  "people/christina-lu-color": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/christina-lu-color-240.avif",
+    "jpg": "img/people/christina-lu-color-240.jpg",
+    "webp": "img/people/christina-lu-color-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -128,6 +163,13 @@
  "people/christina-lu-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/christina-lu-duo-240.avif",
+    "jpg": "img/people/christina-lu-duo-240.jpg",
+    "webp": "img/people/christina-lu-duo-240.webp"
+   },
+   {
     "w": 480,
     "h": 600,
     "avif": "img/people/christina-lu-duo-480.avif",
@@ -146,6 +188,13 @@
  "people/lisa-samoylov-color": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/lisa-samoylov-color-240.avif",
+    "jpg": "img/people/lisa-samoylov-color-240.jpg",
+    "webp": "img/people/lisa-samoylov-color-240.webp"
+   },
+   {
     "w": 480,
     "h": 600,
     "avif": "img/people/lisa-samoylov-color-480.avif",
@@ -156,6 +205,13 @@
  },
  "people/lisa-samoylov-duo": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/lisa-samoylov-duo-240.avif",
+    "jpg": "img/people/lisa-samoylov-duo-240.jpg",
+    "webp": "img/people/lisa-samoylov-duo-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -168,6 +224,13 @@
  "people/mazda-moayeri-color": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/mazda-moayeri-color-240.avif",
+    "jpg": "img/people/mazda-moayeri-color-240.jpg",
+    "webp": "img/people/mazda-moayeri-color-240.webp"
+   },
+   {
     "w": 400,
     "h": 500,
     "avif": "img/people/mazda-moayeri-color-400.avif",
@@ -179,6 +242,13 @@
  "people/mazda-moayeri-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/mazda-moayeri-duo-240.avif",
+    "jpg": "img/people/mazda-moayeri-duo-240.jpg",
+    "webp": "img/people/mazda-moayeri-duo-240.webp"
+   },
+   {
     "w": 400,
     "h": 500,
     "avif": "img/people/mazda-moayeri-duo-400.avif",
@@ -189,6 +259,13 @@
  },
  "people/paul-cherian-color": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/paul-cherian-color-240.avif",
+    "jpg": "img/people/paul-cherian-color-240.jpg",
+    "webp": "img/people/paul-cherian-color-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -208,6 +285,13 @@
  "people/paul-cherian-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/paul-cherian-duo-240.avif",
+    "jpg": "img/people/paul-cherian-duo-240.jpg",
+    "webp": "img/people/paul-cherian-duo-240.webp"
+   },
+   {
     "w": 480,
     "h": 600,
     "avif": "img/people/paul-cherian-duo-480.avif",
@@ -225,6 +309,13 @@
  },
  "people/sean-noh-color": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/sean-noh-color-240.avif",
+    "jpg": "img/people/sean-noh-color-240.jpg",
+    "webp": "img/people/sean-noh-color-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -244,6 +335,13 @@
  "people/sean-noh-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/sean-noh-duo-240.avif",
+    "jpg": "img/people/sean-noh-duo-240.jpg",
+    "webp": "img/people/sean-noh-duo-240.webp"
+   },
+   {
     "w": 480,
     "h": 600,
     "avif": "img/people/sean-noh-duo-480.avif",
@@ -261,6 +359,13 @@
  },
  "people/sol-song-color": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/sol-song-color-240.avif",
+    "jpg": "img/people/sol-song-color-240.jpg",
+    "webp": "img/people/sol-song-color-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -280,6 +385,13 @@
  "people/sol-song-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/sol-song-duo-240.avif",
+    "jpg": "img/people/sol-song-duo-240.jpg",
+    "webp": "img/people/sol-song-duo-240.webp"
+   },
+   {
     "w": 480,
     "h": 600,
     "avif": "img/people/sol-song-duo-480.avif",
@@ -298,6 +410,13 @@
  "people/ted-li-color": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/ted-li-color-240.avif",
+    "jpg": "img/people/ted-li-color-240.jpg",
+    "webp": "img/people/ted-li-color-240.webp"
+   },
+   {
     "w": 272,
     "h": 340,
     "avif": "img/people/ted-li-color-272.avif",
@@ -309,6 +428,13 @@
  "people/ted-li-duo": {
   "variants": [
    {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/ted-li-duo-240.avif",
+    "jpg": "img/people/ted-li-duo-240.jpg",
+    "webp": "img/people/ted-li-duo-240.webp"
+   },
+   {
     "w": 272,
     "h": 340,
     "avif": "img/people/ted-li-duo-272.avif",
@@ -319,6 +445,13 @@
  },
  "people/yann-lecun-visit-color": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/yann-lecun-visit-color-240.avif",
+    "jpg": "img/people/yann-lecun-visit-color-240.jpg",
+    "webp": "img/people/yann-lecun-visit-color-240.webp"
+   },
    {
     "w": 480,
     "h": 600,
@@ -337,6 +470,13 @@
  },
  "people/yann-lecun-visit-duo": {
   "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/yann-lecun-visit-duo-240.avif",
+    "jpg": "img/people/yann-lecun-visit-duo-240.jpg",
+    "webp": "img/people/yann-lecun-visit-duo-240.webp"
+   },
    {
     "w": 480,
     "h": 600,

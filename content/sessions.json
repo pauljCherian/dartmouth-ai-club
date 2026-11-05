@@ -1,10 +1,58 @@
 [
-  { "date": "2026-05-05", "title": "Fireside chat with Chetan Patel", "people": "Chetan Patel, interviewed by Paul Cherian", "links": [ { "label": "Poster", "href": "asset:img/posters/chetan-patel-poster.png" } ] },
-  { "date": "2026-04-07", "title": "Kickoff and an introduction to transformers and GPT", "people": "Paul Cherian, Arses Prasai", "summary": "A short history of NLP, attention, transformers and decoder-only architectures.", "links": [ { "label": "Slides", "href": "https://docs.google.com/presentation/d/1DOOweMX4kZMD4Ji56PBqOxuOhp9LVbb9PhAIeWOdJ9Q/edit?usp=sharing" } ] },
-  { "date": "2026-03-04", "title": "Fireside chat with Andrew Milich", "people": "Andrew Milich, interviewed by Paul Cherian", "links": [ { "label": "Poster", "href": "https://drive.google.com/file/d/1Wh1l2Y8znmS1K52bAt8QGz16ghg5sqFp/view?usp=sharing" } ] },
-  { "date": "2026-02-25", "title": "Suspicious Alignment of SGD: A Fine-Grained Step Size Condition Analysis", "people": "Shenyang Deng", "links": [ { "label": "Paper", "href": "https://arxiv.org/abs/2601.11789" } ] },
-  { "date": "2026-02-18", "title": "Recursive Language Models", "people": "Jeffrey Xie", "links": [ { "label": "Paper", "href": "https://arxiv.org/pdf/2512.24601" } ] },
-  { "date": "2026-02-11", "title": "LLMs for math", "people": "Lisa Samoylov", "links": [ { "label": "Slides", "href": "https://docs.google.com/presentation/d/1zwYm6JnHsS19ctDeEoC1m_ISegnAkSXgSRXZ2VULINc/edit?usp=sharing" } ] },
-  { "date": "2026-02-04", "title": "Fireside chat with Ted Li", "people": "Ted Li, interviewed by Paul Cherian", "links": [ { "label": "Poster", "href": "https://drive.google.com/file/d/1WPp8dIEaEc6CwU1-PiKv9XAA7uLI9vI2/view?usp=sharing" } ] },
-  { "date": "2026-01-28", "title": "Kickoff and an introduction to adversarial attacks", "people": "Paul Cherian", "links": [ { "label": "Kickoff slides", "href": "https://docs.google.com/presentation/d/17oFRVY-wjNaGG4_OnowStdUXzlxbZiwkaQmEMgi0240/edit?usp=sharing" }, { "label": "Adversarial attacks slides", "href": "https://docs.google.com/presentation/d/1XkT3s0LtqDh_YAc7iyqrgfMs86tmNXz80K1xVUdhXgE/edit?usp=sharing" } ] }
+  {
+    "date": "2026-04-07",
+    "title": "Kickoff and an introduction to transformers and GPT",
+    "people": "Paul Cherian, Arses Prasai",
+    "summary": "A short history of NLP, attention, transformers and decoder-only architectures.",
+    "links": [
+      {
+        "label": "Slides",
+        "href": "https://docs.google.com/presentation/d/1DOOweMX4kZMD4Ji56PBqOxuOhp9LVbb9PhAIeWOdJ9Q/edit?usp=sharing"
+      }
+    ]
+  },
+  {
+    "date": "2026-02-25",
+    "title": "Suspicious Alignment of SGD: A Fine-Grained Step Size Condition Analysis",
+    "people": "Shenyang Deng",
+    "links": [
+      {
+        "label": "Paper",
+        "href": "https://arxiv.org/abs/2601.11789"
+      }
+    ]
+  },
+  {
+    "date": "2026-02-18",
+    "title": "Recursive Language Models",
+    "people": "Jeffrey Xie",
+    "links": [
+      {
+        "label": "Paper",
+        "href": "https://arxiv.org/abs/2512.24601"
+      }
+    ]
+  },
+  {
+    "date": "2026-02-11",
+    "title": "LLMs for math",
+    "people": "Lisa Samoylov",
+    "links": [],
+    "confirm": "The slides link returns 404 (the Google file no longer exists or is private). Ask Lisa Samoylov for a working share link."
+  },
+  {
+    "date": "2026-01-28",
+    "title": "Kickoff and an introduction to adversarial attacks",
+    "people": "Paul Cherian",
+    "links": [
+      {
+        "label": "Kickoff slides",
+        "href": "https://docs.google.com/presentation/d/17oFRVY-wjNaGG4_OnowStdUXzlxbZiwkaQmEMgi0240/edit?usp=sharing"
+      },
+      {
+        "label": "Adversarial attacks slides",
+        "href": "https://docs.google.com/presentation/d/1XkT3s0LtqDh_YAc7iyqrgfMs86tmNXz80K1xVUdhXgE/edit?usp=sharing"
+      }
+    ]
+  }
 ]

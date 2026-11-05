@@ -137,17 +137,34 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     `if(d.classList.contains('page-home')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('js-handoff');` +
     `setTimeout(function(){if(!window.__daicHandoff)d.classList.remove('js-handoff')},4000)}}catch(e){}})(document.documentElement);`;
 
+  const same = site.socials.filter((s) => s.url).map((s) => s.url);
   const jsonLd = () =>
-    JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: site.name,
-      url: site.origin,
-      logo: `${site.origin}/icon-512.png`,
-      email: site.contact.email,
-      sameAs: site.socials.filter((s) => s.url).map((s) => s.url),
-    }).replace(/</g, '\\u003c');
+    JSON.stringify([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: site.name,
+        url: site.origin,
+        logo: `${site.origin}/logo-512.png`,
+        email: site.contact.email,
+        ...(same.length ? { sameAs: same } : {}),
+      },
+      ...upcoming.map((ev) => ({
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: [ev.format, ev.name].filter(Boolean).join(' with ') + (ev.title ? `: ${ev.title}` : ''),
+        startDate: ev.start,
+        ...(ev.end ? { endDate: ev.end } : {}),
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        location: { '@type': 'Place', name: ev.place || 'Dartmouth College', address: 'Hanover, NH' },
+        performer: { '@type': 'Person', name: ev.name },
+        organizer: { '@type': 'Organization', name: site.name, url: site.origin },
+      })),
+    ]).replace(/</g, '\\u003c');
 
+  // Link previews of Vercel preview deployments must point at that deployment's own og.jpg.
+  const ogOrigin = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production' && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : site.origin;
   const layout = ({ page, title, description, path, main, noindex = false }) => {
     const fullTitle = page === 'home' ? site.name : `${title} – ${site.name}`;
     const desc = description || site.description;
@@ -164,7 +181,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${esc(url)}">
-<meta property="og:image" content="${esc(site.origin)}/og.jpg">
+<meta property="og:image" content="${esc(ogOrigin)}/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${esc(site.hero.alt)}">

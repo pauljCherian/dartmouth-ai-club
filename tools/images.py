@@ -25,7 +25,7 @@ from PIL import Image, ImageCms, ImageDraw, ImageFilter, ImageOps
 INK = np.array([0x16, 0x16, 0x16], dtype=np.float64) / 255.0
 PAPER = np.array([0xF4, 0xF4, 0xF1], dtype=np.float64) / 255.0
 HERO_WIDTHS = [640, 960, 1280, 1600, 2048, 2560, 3200]
-PORTRAIT_WIDTHS = [480, 960]
+PORTRAIT_WIDTHS = [240, 480, 960]
 FORMATS = (("avif", "AVIF", {"quality": 55, "speed": 6}),
            ("webp", "WEBP", {"quality": 82, "method": 6}),
            ("jpg", "JPEG", {"quality": 84, "progressive": True, "optimize": True, "subsampling": "4:2:0"}))
