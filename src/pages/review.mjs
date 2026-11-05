@@ -19,7 +19,6 @@ export function render(c) {
     ['Members', String(site.members.count), site.members.source],
     ...(site.claims?.build_nights ? [['Build nights', `“…, ${site.claims.build_nights.about}.” in Who we are${site.claims.build_nights.fact ? `, and the fact “Build nights: ${site.claims.build_nights.fact}”` : ''}`, `${site.claims.build_nights.source}. A pitch script, not a confirmed fact: delete claims.build_nights in content/site.json to remove it everywhere.`]] : []),
     ...(site.claims?.majors ? [['Majors', `“${site.claims.majors.about}” in Who we are`, `${site.claims.majors.source}. Delete claims.majors in content/site.json to remove it.`]] : []),
-    ['Meetings', `${site.meetings.when}, ${site.meetings.where}`, `${site.meetings.source}. The winter-term sessions in the archive were on Wednesdays (Jan 28 to Mar 4); spring was Tuesdays. Which night this term?`],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both programs. Are they still running? If so, they could replace the placeholder pillars below.'],
     ['Hero caption', site.hero.caption, site.hero.caption_source],
     ['Research groups, Nonprofits', 'Pillar descriptions', 'Placeholder copy. What do these programs actually do?'],

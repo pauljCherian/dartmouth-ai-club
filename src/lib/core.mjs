@@ -179,7 +179,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     <div class="site-footer__contact">
       <span class="label">Contact</span>
       <a class="site-footer__email" href="mailto:${esc(site.contact.email)}">${email(site.contact.email)}</a>
-      <p class="muted">${esc(site.meetings.when)} · ${esc(site.meetings.where)}</p>
     </div>
     ${socials() ? html`<div class="site-footer__social">
       <span class="label">Follow</span>

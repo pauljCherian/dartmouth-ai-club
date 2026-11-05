@@ -8,7 +8,7 @@ Everything people read lives in `content/`. Edit the JSON, commit, push. Vercel 
 
 | File | What it holds |
 | --- | --- |
-| `content/site.json` | Tagline, contact email, meeting time and place, member count, join form link, social links, hero caption, and claims to confirm (`build_nights` and `majors`, each with its `source`; delete one under `claims` to remove it from every page) |
+| `content/site.json` | Tagline, contact email, member count, join form link, social links, hero caption, and claims to confirm (`build_nights` and `majors`, each with its `source`; delete one under `claims` to remove it from every page). There is no meeting time or room on purpose: they change every term, so the site sends people to the GroupMe for them |
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
 | `content/team.json` | Officers and faculty advisors |
 

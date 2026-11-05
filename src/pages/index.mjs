@@ -67,11 +67,6 @@ export function render(c) {
   </div>
   <div class="row__body">
     <p class="about__text">The Dartmouth AI Club is ${esc(site.members.count)} undergraduates${majors ? `, ${esc(majors.about)},` : ''} who want to understand AI by working on it. Every week an officer or member presents a paper or a topic${build ? `, ${esc(build.about)}` : ''}. Through the year we sit down with the researchers and founders shaping the field. No&nbsp;experience required. Curiosity is&nbsp;enough.</p>
-    <dl class="facts">
-      <div><dt>Members</dt><dd class="tnum">${esc(site.members.count)}</dd></div>
-      <div><dt>Meetings</dt><dd>${esc(site.meetings.when)}<br>${esc(site.meetings.where)}</dd></div>
-      ${build && build.fact ? html`<div><dt>Build nights</dt><dd>${esc(build.fact)}</dd></div>` : ''}
-    </dl>
     ${c.preview ? html`<figure class="about__photo"><div class="photo photo--wide photo--placeholder" role="img" aria-label="Placeholder for the second photo">Second photo: an ordinary weekly meeting. To come.</div></figure>` : ''}
   </div>
 </section>
@@ -118,13 +113,11 @@ export function render(c) {
 </section>
 
 <section class="row wrap join-band" id="join" aria-labelledby="join-h">
-  <p class="row__label" aria-hidden="true">Join</p>
   <div class="row__body">
     <h2 class="join-band__title" id="join-h">Join the club.</h2>
     <p class="join-band__text">Open to Dartmouth students, whatever you study. Get the GroupMe link, then come to a meeting.</p>
     <div class="join-band__actions">
       <a class="button" href="${c.link('join')}">Join the club ${c.arrow('e')}</a>
-      <span class="join-band__when">${esc(site.meetings.when)} · ${esc(site.meetings.where)}</span>
     </div>
   </div>
 </section>`;

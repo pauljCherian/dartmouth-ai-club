@@ -32,19 +32,9 @@ export function render(c) {
     <li class="step">
       <span class="bullet" aria-hidden="true">2</span>
       <h2 class="step__title">Come to a meeting.</h2>
-      <div class="step__body"><p>${esc(site.meetings.when)}, ${esc(site.meetings.where)}.</p></div>
+      <div class="step__body"><p>Each week’s time and room is posted in the GroupMe. Come to any meeting.</p></div>
     </li>
-    ${c.socials() ? html`<li class="step">
-      <span class="bullet" aria-hidden="true">3</span>
-      <h2 class="step__title">Follow along.</h2>
-      <div class="step__body">${c.socials()}</div>
-    </li>` : ''}
   </ol>
-</section>
-
-<section class="wrap block" aria-labelledby="questions-h">
-  <h2 class="year" id="questions-h">Questions</h2>
-  <p class="page-lead" style="margin-top:12px">Email ${esc(contact.name)}, ${esc(contact.role)}: <a href="mailto:${esc(contact.email)}" class="site-footer__email">${c.email(contact.email)}</a></p>
 </section>`;
 
   return c.layout({
