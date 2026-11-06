@@ -1,0 +1,1067 @@
+{
+ "base": "http://127.0.0.1:4321",
+ "widths": {
+  "390": {
+   "tokens": {
+    "--t-page": 52,
+    "--t-2": 28,
+    "--t-3": 20,
+    "--t-4": 17,
+    "--t-5": 15,
+    "--t-6": 13,
+    "--t-menu": 48.36
+   },
+   "cols": [
+    [
+     16,
+     15.2
+    ],
+    [
+     47.2,
+     15.2
+    ],
+    [
+     78.3,
+     15.2
+    ],
+    [
+     109.5,
+     15.2
+    ],
+    [
+     140.7,
+     15.2
+    ],
+    [
+     171.8,
+     15.2
+    ],
+    [
+     203,
+     15.2
+    ],
+    [
+     234.2,
+     15.2
+    ],
+    [
+     265.3,
+     15.2
+    ],
+    [
+     296.5,
+     15.2
+    ],
+    [
+     327.7,
+     15.2
+    ],
+    [
+     358.8,
+     15.2
+    ]
+   ],
+   "styles": [
+    {
+     "token": "t-page",
+     "px": 52,
+     "weight": 700,
+     "lh": 0.92,
+     "ls": -0.045,
+     "color": "ink",
+     "uses": {
+      "speakers: h1.page-title": {
+       "n": 1,
+       "text": "Speakers"
+      },
+      "team: h1.page-title": {
+       "n": 1,
+       "text": "Team"
+      },
+      "join: h1.page-title": {
+       "n": 1,
+       "text": "Join the club."
+      }
+     }
+    },
+    {
+     "token": "t-page",
+     "px": 52,
+     "weight": 700,
+     "lh": 0.92,
+     "ls": -0.045,
+     "color": "paper",
+     "uses": {
+      "404: span.sign__text": {
+       "n": 1,
+       "text": "Not in service"
+      }
+     }
+    },
+    {
+     "token": "t-menu",
+     "px": 48.36,
+     "weight": 700,
+     "lh": 1.06,
+     "ls": -0.035,
+     "color": "ink",
+     "uses": {
+      "menu: div.site-menu__nav.wrap > a": {
+       "n": 3,
+       "text": "Home"
+      }
+     }
+    },
+    {
+     "token": "t-menu",
+     "px": 48.36,
+     "weight": 700,
+     "lh": 1.06,
+     "ls": -0.035,
+     "color": "green",
+     "uses": {
+      "menu: div.site-menu__nav.wrap > a": {
+       "n": 1,
+       "text": "Join the club"
+      }
+     }
+    },
+    {
+     "token": "t-2",
+     "px": 28,
+     "weight": 400,
+     "lh": 1.1,
+     "ls": -0.02,
+     "color": "ink",
+     "uses": {
+      "home: h2.row__title.row__title--lines > span": {
+       "n": 4,
+       "text": "Read the paper."
+      },
+      "home: h2.row__title": {
+       "n": 1,
+       "text": "Speakers"
+      },
+      "home: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      },
+      "speakers: h2.row__title.tnum": {
+       "n": 1,
+       "text": "2026"
+      },
+      "speakers: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      },
+      "team: h2.row__title": {
+       "n": 2,
+       "text": "Officers, 2026–27"
+      },
+      "team: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      },
+      "join: span.step__n": {
+       "n": 2,
+       "text": "1"
+      },
+      "join: h2.row__title.step__title > span": {
+       "n": 2,
+       "text": "Join on Dartmouth Groups."
+      },
+      "404: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      }
+     }
+    },
+    {
+     "token": "t-3",
+     "px": 20,
+     "weight": 400,
+     "lh": 1.22,
+     "ls": -0.005,
+     "color": "ink",
+     "uses": {
+      "home: p.hero__tagline": {
+       "n": 1,
+       "text": "Undergraduates who study and build AI."
+      }
+     }
+    },
+    {
+     "token": "t-3",
+     "px": 20,
+     "weight": 400,
+     "lh": 1.3,
+     "ls": -0.005,
+     "color": "ink",
+     "uses": {
+      "home: p.about__text": {
+       "n": 1,
+       "text": "The Dartmouth AI Club meets every week: an offic"
+      }
+     }
+    },
+    {
+     "token": "t-3",
+     "px": 20,
+     "weight": 400,
+     "lh": 1.28,
+     "ls": -0.005,
+     "color": "ink",
+     "uses": {
+      "speakers: p.page-lead": {
+       "n": 1,
+       "text": "The people building AI, in conversation with Dar"
+      },
+      "join: p.page-lead": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "404: p.page-lead": {
+       "n": 1,
+       "text": "This page doesn’t exist."
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 17,
+     "weight": 700,
+     "lh": 1.2,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: h3.person__name": {
+       "n": 6,
+       "text": "Mazda Moayeri"
+      },
+      "speakers: h3.talk__name": {
+       "n": 6,
+       "text": "Mazda Moayeri"
+      },
+      "team: h3.roster__name": {
+       "n": 7,
+       "text": "Paul Cherian"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 17,
+     "weight": 700,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: a.link-arrow": {
+       "n": 1,
+       "text": "All speakers"
+      },
+      "404: a.link-arrow": {
+       "n": 1,
+       "text": "Home"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 17,
+     "weight": 700,
+     "lh": 1.1,
+     "ls": 0,
+     "color": "paper",
+     "uses": {
+      "home: a.button": {
+       "n": 1,
+       "text": "How to join"
+      },
+      "speakers: a.button": {
+       "n": 1,
+       "text": "How to join"
+      },
+      "team: a.button": {
+       "n": 1,
+       "text": "How to join"
+      },
+      "join: a.button": {
+       "n": 1,
+       "text": "Join on Dartmouth Groups"
+      },
+      "404: a.button": {
+       "n": 1,
+       "text": "How to join"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 17,
+     "weight": 400,
+     "lh": 1.4,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "speakers: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "team: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "404: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 17,
+     "weight": 400,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "speakers: p.talk__desc": {
+       "n": 6,
+       "text": "Built tools during his PhD that find where and w"
+      },
+      "join: div.row__body.step__body > p": {
+       "n": 2,
+       "text": "Sign in with your Dartmouth account and join the"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 700,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "speakers: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "team: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "join: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "404: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 700,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "green",
+     "uses": {
+      "home: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "speakers: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "team: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "join: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "404: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.35,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: p.person__meta": {
+       "n": 6,
+       "text": "Researcher, Meta Super­intelligence Labs"
+      },
+      "speakers: p.talk__affil": {
+       "n": 6,
+       "text": "Researcher, Meta Super­intelligence Labs"
+      },
+      "team: span.roster__what": {
+       "n": 7,
+       "text": "President"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: p.person__date": {
+       "n": 6,
+       "text": "Nov 6, 2026"
+      },
+      "speakers: p.talk__date": {
+       "n": 6,
+       "text": "Nov 6, 2026"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "speakers: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "team: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "join: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "404: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "speakers: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "team: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "join: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "404: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      }
+     }
+    },
+    {
+     "token": "t-6",
+     "px": 13,
+     "weight": 400,
+     "lh": 1.35,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: figcaption.hero__caption": {
+       "n": 1,
+       "text": "The club with Yann LeCun."
+      }
+     }
+    }
+   ]
+  },
+  "1440": {
+   "tokens": {
+    "--t-page": 144,
+    "--t-2": 47.52,
+    "--t-3": 26.64,
+    "--t-4": 18,
+    "--t-5": 15,
+    "--t-6": 13,
+    "--t-menu": 72
+   },
+   "cols": [
+    [
+     46.1,
+     86.6
+    ],
+    [
+     160.7,
+     86.7
+    ],
+    [
+     275.4,
+     86.7
+    ],
+    [
+     390,
+     86.7
+    ],
+    [
+     504.7,
+     86.7
+    ],
+    [
+     619.3,
+     86.7
+    ],
+    [
+     734,
+     86.6
+    ],
+    [
+     848.6,
+     86.7
+    ],
+    [
+     963.3,
+     86.7
+    ],
+    [
+     1078,
+     86.7
+    ],
+    [
+     1192.6,
+     86.7
+    ],
+    [
+     1307.3,
+     86.7
+    ]
+   ],
+   "styles": [
+    {
+     "token": "t-page",
+     "px": 144,
+     "weight": 700,
+     "lh": 0.92,
+     "ls": -0.045,
+     "color": "ink",
+     "uses": {
+      "speakers: h1.page-title": {
+       "n": 1,
+       "text": "Speakers"
+      },
+      "team: h1.page-title": {
+       "n": 1,
+       "text": "Team"
+      },
+      "join: h1.page-title": {
+       "n": 1,
+       "text": "Join the club."
+      }
+     }
+    },
+    {
+     "token": "t-page",
+     "px": 144,
+     "weight": 700,
+     "lh": 0.92,
+     "ls": -0.045,
+     "color": "paper",
+     "uses": {
+      "404: span.sign__text": {
+       "n": 1,
+       "text": "Not in service"
+      }
+     }
+    },
+    {
+     "token": "t-2",
+     "px": 47.52,
+     "weight": 400,
+     "lh": 1.1,
+     "ls": -0.02,
+     "color": "ink",
+     "uses": {
+      "home: h2.row__title.row__title--lines > span": {
+       "n": 4,
+       "text": "Read the paper."
+      },
+      "home: h2.row__title": {
+       "n": 1,
+       "text": "Speakers"
+      },
+      "home: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      },
+      "speakers: h2.row__title.tnum": {
+       "n": 1,
+       "text": "2026"
+      },
+      "speakers: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      },
+      "team: h2.row__title": {
+       "n": 2,
+       "text": "Officers, 2026–27"
+      },
+      "team: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      },
+      "join: span.step__n": {
+       "n": 2,
+       "text": "1"
+      },
+      "join: h2.row__title.step__title > span": {
+       "n": 2,
+       "text": "Join on Dartmouth Groups."
+      },
+      "404: h2.site-footer__title": {
+       "n": 1,
+       "text": "Join the club."
+      }
+     }
+    },
+    {
+     "token": "t-3",
+     "px": 26.64,
+     "weight": 400,
+     "lh": 1.22,
+     "ls": -0.005,
+     "color": "ink",
+     "uses": {
+      "home: p.hero__tagline": {
+       "n": 1,
+       "text": "Undergraduates who study and build AI."
+      }
+     }
+    },
+    {
+     "token": "t-3",
+     "px": 26.64,
+     "weight": 400,
+     "lh": 1.3,
+     "ls": -0.005,
+     "color": "ink",
+     "uses": {
+      "home: p.about__text": {
+       "n": 1,
+       "text": "The Dartmouth AI Club meets every week: an offic"
+      }
+     }
+    },
+    {
+     "token": "t-3",
+     "px": 26.64,
+     "weight": 400,
+     "lh": 1.28,
+     "ls": -0.005,
+     "color": "ink",
+     "uses": {
+      "speakers: p.page-lead": {
+       "n": 1,
+       "text": "The people building AI, in conversation with Dar"
+      },
+      "join: p.page-lead": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "404: p.page-lead": {
+       "n": 1,
+       "text": "This page doesn’t exist."
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 18,
+     "weight": 700,
+     "lh": 1.2,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: h3.person__name": {
+       "n": 6,
+       "text": "Mazda Moayeri"
+      },
+      "speakers: h3.talk__name": {
+       "n": 6,
+       "text": "Mazda Moayeri"
+      },
+      "team: h3.roster__name": {
+       "n": 7,
+       "text": "Paul Cherian"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 18,
+     "weight": 700,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: a.link-arrow": {
+       "n": 1,
+       "text": "All speakers"
+      },
+      "404: a.link-arrow": {
+       "n": 1,
+       "text": "Home"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 18,
+     "weight": 700,
+     "lh": 1.1,
+     "ls": 0,
+     "color": "paper",
+     "uses": {
+      "home: a.button": {
+       "n": 1,
+       "text": "How to join"
+      },
+      "speakers: a.button": {
+       "n": 1,
+       "text": "How to join"
+      },
+      "team: a.button": {
+       "n": 1,
+       "text": "How to join"
+      },
+      "join: a.button": {
+       "n": 1,
+       "text": "Join on Dartmouth Groups"
+      },
+      "404: a.button": {
+       "n": 1,
+       "text": "How to join"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 18,
+     "weight": 400,
+     "lh": 1.4,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "speakers: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "team: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      },
+      "404: p.site-footer__text": {
+       "n": 1,
+       "text": "Open to Dartmouth undergraduates, whatever you s"
+      }
+     }
+    },
+    {
+     "token": "t-4",
+     "px": 18,
+     "weight": 400,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "speakers: p.talk__desc": {
+       "n": 6,
+       "text": "Built tools during his PhD that find where and w"
+      },
+      "join: div.row__body.step__body > p": {
+       "n": 2,
+       "text": "Sign in with your Dartmouth account and join the"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 700,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: nav.site-nav > a": {
+       "n": 2,
+       "text": "Speakers"
+      },
+      "speakers: nav.site-nav > a": {
+       "n": 2,
+       "text": "Speakers"
+      },
+      "team: nav.site-nav > a": {
+       "n": 2,
+       "text": "Speakers"
+      },
+      "join: nav.site-nav > a": {
+       "n": 2,
+       "text": "Speakers"
+      },
+      "404: nav.site-nav > a": {
+       "n": 2,
+       "text": "Speakers"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 700,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "green",
+     "uses": {
+      "home: a.site-nav__join": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "speakers: a.site-nav__join": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "team: a.site-nav__join": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "join: a.site-nav__join": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "404: a.site-nav__join": {
+       "n": 1,
+       "text": "Join the club"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 700,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "speakers: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "team: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "join: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      },
+      "404: nav.site-footer__nav > ul > li > a": {
+       "n": 3,
+       "text": "Home"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 700,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "green",
+     "uses": {
+      "home: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "speakers: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "team: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "join: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      },
+      "404: nav.site-footer__nav > ul > li > a": {
+       "n": 1,
+       "text": "Join the club"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.35,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: p.person__meta": {
+       "n": 6,
+       "text": "Researcher, Meta Super­intelligence Labs"
+      },
+      "speakers: p.talk__affil": {
+       "n": 6,
+       "text": "Researcher, Meta Super­intelligence Labs"
+      },
+      "team: span.roster__what": {
+       "n": 7,
+       "text": "President"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.45,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: p.person__date": {
+       "n": 6,
+       "text": "Nov 6, 2026"
+      },
+      "speakers: p.talk__date": {
+       "n": 6,
+       "text": "Nov 6, 2026"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "ink",
+     "uses": {
+      "home: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "speakers: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "team: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "join: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      },
+      "404: a.site-footer__email": {
+       "n": 1,
+       "text": "paul.cherian.27@dartmouth.edu"
+      }
+     }
+    },
+    {
+     "token": "t-5",
+     "px": 15,
+     "weight": 400,
+     "lh": 1.5,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "speakers: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "team: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "join: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      },
+      "404: p.site-footer__legal": {
+       "n": 1,
+       "text": "© 2026 Dartmouth AI Club"
+      }
+     }
+    },
+    {
+     "token": "t-6",
+     "px": 13,
+     "weight": 400,
+     "lh": 1.35,
+     "ls": 0,
+     "color": "gray",
+     "uses": {
+      "home: figcaption.hero__caption": {
+       "n": 1,
+       "text": "The club with Yann LeCun."
+      }
+     }
+    }
+   ]
+  }
+ }
+}
