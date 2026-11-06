@@ -12,7 +12,7 @@ The talks, the people, the links and the contact live in `content/`: edit the JS
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
 | `content/team.json` | The officers (name, role, and `linkedin` / `x` profile links), their academic year (`officers_term`), and the faculty advisors (name, school or department). The team page is a list: no photos. It shows the president first, then everyone else by last name, whatever the order in the file |
 
-When the officers change, update `officers_term` and `officers` in `content/team.json` and `contact` (email, name, role) in `content/site.json` in the same commit.
+When the officers change, update `officers_term` and `officers` in `content/team.json` and `contact` (email, name, role) in `content/site.json` in the same commit. Check the faculty advisors at COSO's renewal each October, when the club reports them: the names here should match.
 
 What is not on the site, on purpose: the meeting night and room, a member count, and claims nobody can check. Facts still waiting for an officer's answer are listed on the review page of the preview. The night and room change every term, so /join says they are posted on Dartmouth Groups; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
 
