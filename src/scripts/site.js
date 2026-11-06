@@ -5,10 +5,10 @@
       The giant title shrinks into the header logo while the photo grows from the
       thumbnail to fill the frame. Only transform and opacity change. Native
       scrolling is never touched. On phones and tablets whose browser has
-      scroll-driven animations (Chrome 115+, Safari 26+, Firefox 159+), this script
+      scroll-driven animations (Chrome 115+, Safari 26.5+, Firefox 159+), this script
       only measures: it hands the browser the whole path as keyframes tied to the
       scroll position, and the browser plays them in step with the finger, off the
-      main thread where it can (Chrome; Safari from 26.4). On laptops, and in older
+      main thread where it can (Chrome, Safari). On laptops, and in older
       browsers, the script moves each frame itself, smoothing mouse-wheel steps.
 */
 (function () {
@@ -199,6 +199,11 @@
       if (window.__daicNoScrollTimeline || !mq('(pointer: coarse)').matches) return null;
       try {
         if (!(window.CSS && CSS.supports('animation-timeline: scroll()') && CSS.supports('animation-range: 0px 1px'))) return null;
+        // Safari (every browser on an iPhone or iPad uses its engine) only from 26.5. Up to 26.3 it plays these
+        // animations on the main thread, no smoother than the script; 26.4 plays them off it, but a page using them
+        // can crash Safari when it comes back from the back-forward cache after a Back or Forward across sites
+        // (WebKit bug 310711, fixed in 26.5). 26.5 added the :open selector, so its support marks 26.5 and later.
+        if (/Apple/.test(navigator.vendor || '') && !CSS.supports('selector(:open)')) return null;
         var sheet = new CSSStyleSheet();
         document.adoptedStyleSheets = Array.prototype.slice.call(document.adoptedStyleSheets || []).concat([sheet]);
         return { sheet: sheet, gen: 0, on: false, els: [], sig: '', set: null };
@@ -660,9 +665,9 @@
     }
 
     function onLoad() { relayout(true); }
-    // Back to this page from the browser's back-forward cache: put the animations back. Safari 26.4 plays scroll-driven
-    // animations off the main thread but did not register a restored page's timelines there again (fixed in 26.5), so
-    // the hand-off would stop following the scroll. Cheap: the keyframes are reused.
+    // Back to this page from the browser's back-forward cache: put the animations back as new ones, tied to new scroll
+    // timelines. Insurance for engines that drop a restored page's timelines (Safari 26.4 did, after a Back or Forward
+    // across sites; it is not given the scroll-driven path above). Cheap: the keyframes are reused.
     function onPageShow(e) { if (e.persisted) relayout(true); }
     // Text that changes size after load (fonts arriving, a text-spacing tool, a larger default size) re-measures.
     var sizeWatch = window.ResizeObserver && tagline ? new ResizeObserver(function () { window.requestAnimationFrame(function () { relayout(true); }); }) : null;
