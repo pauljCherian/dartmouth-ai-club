@@ -4,11 +4,12 @@
    3. The hand-off: scroll-scrubbed hero on the home page.
       The giant title shrinks into the header logo while the photo grows from the
       thumbnail to fill the frame. Only transform and opacity change. Native
-      scrolling is never touched. Where the browser has scroll-driven animations
-      (Chrome 115+, Safari 26+, Firefox 159+), this script only measures: it hands
-      the browser the whole path as keyframes tied to the scroll position, and the
-      browser plays them in step with the finger, off the main thread where it can
-      (Chrome; Safari from 26.4). Elsewhere the script moves each frame itself.
+      scrolling is never touched. On phones and tablets whose browser has
+      scroll-driven animations (Chrome 115+, Safari 26+, Firefox 159+), this script
+      only measures: it hands the browser the whole path as keyframes tied to the
+      scroll position, and the browser plays them in step with the finger, off the
+      main thread where it can (Chrome; Safari from 26.4). On laptops, and in older
+      browsers, the script moves each frame itself, smoothing mouse-wheel steps.
 */
 (function () {
   'use strict';
@@ -191,14 +192,16 @@
     // Scroll-driven animations: the browser plays the hand-off from keyframes tied to the scroll position, in the
     // same frame as the scroll itself, so it never trails the finger. On a phone the page scrolls off the main
     // thread; a script that moves things on each scroll event is always a frame or more behind, and on iPhones it
-    // stutters. Tests can force the script path with window.__daicNoScrollTimeline.
+    // stutters. Only where touch is the main input (phones, tablets): on a laptop the script path stays, because it
+    // turns each notch of a mouse wheel into a glide (lerp above), where an animation tied to the scroll position
+    // would jump a notch at a time. Tests can force the script path with window.__daicNoScrollTimeline.
     var SDA = (function () {
-      if (window.__daicNoScrollTimeline) return null;
+      if (window.__daicNoScrollTimeline || !mq('(pointer: coarse)').matches) return null;
       try {
         if (!(window.CSS && CSS.supports('animation-timeline: scroll()') && CSS.supports('animation-range: 0px 1px'))) return null;
         var sheet = new CSSStyleSheet();
         document.adoptedStyleSheets = Array.prototype.slice.call(document.adoptedStyleSheets || []).concat([sheet]);
-        return { sheet: sheet, gen: 0, on: false, els: [] };
+        return { sheet: sheet, gen: 0, on: false, els: [], sig: '', set: null };
       } catch (e) { return null; }
     })();
 
@@ -413,7 +416,9 @@
       return o;
     }
 
-    // The script path.
+    // The script path. In the scroll-driven path the same values go in once, as plain styles under the animations:
+    // a new animation starts at the browser's next frame, and until then (a reload part way down, a re-measure)
+    // these are what shows, so even that frame is in the right place.
     function apply(p) {
       if (!L || dead || parked) return;
       var o = state(p);
@@ -422,12 +427,16 @@
         title.style.opacity = String(o.titleOpacity);
       } else {
         title.style.transform = 'translate3d(' + o.title.x + 'px,' + o.title.y + 'px,0) scale(' + o.title.s + ')';
-        // Near the end the title stops being a pre-drawn layer (will-change), so the browser draws it at its real
-        // size, as crisp as the logo; otherwise it is a shrunken picture of the big title, a little soft, and the
-        // swap would show as a sharpening on phones.
-        title.style.willChange = p >= 0.3 ? 'auto' : '';
         title.style.opacity = String(o.titleOpacity);
-        setLogo(o.docked);
+        if (SDA && SDA.on) {
+          logo.style.opacity = String(o.docked);  // under the logo's animation; its visibility is the stylesheet's
+        } else {
+          // Near the end the title stops being a pre-drawn layer (will-change), so the browser draws it at its real
+          // size, as crisp as the logo; otherwise it is a shrunken picture of the big title, a little soft, and the
+          // swap would show as a sharpening on phones.
+          title.style.willChange = p >= 0.3 ? 'auto' : '';
+          setLogo(o.docked);
+        }
       }
       if (tagline) {
         tagline.style.opacity = String(o.tagOpacity);
@@ -464,6 +473,10 @@
       'animation-timeline', 'animation-range', 'animation-range-start', 'animation-range-end'];
     function startSDA() {
       if (!SDA || !L) return;
+      // Loading measures the page several times (fonts, images, the tagline's size), usually to the same result: then
+      // the keyframes already in the sheet are reused, and only the animations are put back.
+      var sig = JSON.stringify([L.T, L.F, L.Ti, L.Lg, L.coverW, L.coverH, L.heroTop, L.pin, L.curve, fadeFor()]);
+      if (sig === SDA.sig && SDA.set) { play(SDA.set); return; }
       var g = 'handoff' + (++SDA.gen) + '-', css = '', set = [];
       var add = function (el, parts) {
         if (!el) return;
@@ -508,6 +521,11 @@
       try {
         SDA.sheet.replaceSync(css);
       } catch (e) { SDA = null; return; }
+      SDA.sig = sig;
+      SDA.set = set;
+      play(set);
+    }
+    function play(set) {
       var range = [num(L.heroTop, 3) + 'px', num(L.heroTop + L.pin, 3) + 'px'];
       set.forEach(function (item) {
         var s = item[0].style;
@@ -529,13 +547,13 @@
         var list = el.getAnimations ? el.getAnimations() : [];
         return list.length > 0 && list.every(function (an) { return an.timeline && an.timeline !== document.timeline; });
       });
-      if (!tied) { stopSDA(); SDA = null; }
+      if (!tied) { stopSDA(); SDA = null; return; }
+      apply(current);
     }
     function stopSDA() {
       if (!SDA || !SDA.on) return;
       SDA.els.forEach(function (el) { ANIM_PROPS.forEach(function (prop) { el.style.removeProperty(prop); }); });
       SDA.els = [];
-      SDA.sheet.replaceSync('');
       SDA.on = false;
       doc.classList.remove('handoff-sda');
       logo.removeAttribute('inert');
@@ -572,8 +590,13 @@
         // browser reads the scroll position for its animations once per frame, after scroll events.
         if (!SDA.checked && !SDA.checking && target > 0.02 && target < 0.98) {
           SDA.checking = true;
-          window.requestAnimationFrame(function () {
-            if (!SDA || !SDA.on || dead || parked || !L) return;
+          var waited = 0;
+          window.requestAnimationFrame(function check() {
+            if (!SDA || !SDA.on || dead || parked || !L) { if (SDA) SDA.checking = false; return; }
+            // A re-measure (loading, a resize) puts the animations back, and a new one has no progress until the
+            // browser starts it at its next frame: wait for that, ten frames at most, rather than judge it.
+            var first = title.getAnimations ? title.getAnimations()[0] : null;
+            if (first && first.pending && ++waited < 10) { window.requestAnimationFrame(check); return; }
             SDA.checking = false;
             var p = clamp((window.scrollY - L.heroTop) / L.pin);
             if (p > 0.02 && p < 0.98) checkSDA(p);
@@ -627,7 +650,7 @@
       // A title squeezed to a sliver (very short screens with large text) reads worse than the static layout.
       if (L.Ti.w < 0.4 * Math.min(w - 2 * (parseFloat(getComputedStyle(title).left) || 16), CONTENT_MAX)) { park(); return; }
       current = target = clamp((window.scrollY - L.heroTop) / L.pin);
-      if (SDA) startSDA();
+      if (SDA) startSDA();  // writes the plain styles under its animations too
       if (!SDA || !SDA.on) apply(current);
       updateRule();
     }
