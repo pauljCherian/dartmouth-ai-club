@@ -660,6 +660,10 @@
     }
 
     function onLoad() { relayout(true); }
+    // Back to this page from the browser's back-forward cache: put the animations back. Safari 26.4 plays scroll-driven
+    // animations off the main thread but did not register a restored page's timelines there again (fixed in 26.5), so
+    // the hand-off would stop following the scroll. Cheap: the keyframes are reused.
+    function onPageShow(e) { if (e.persisted) relayout(true); }
     // Text that changes size after load (fonts arriving, a text-spacing tool, a larger default size) re-measures.
     var sizeWatch = window.ResizeObserver && tagline ? new ResizeObserver(function () { window.requestAnimationFrame(function () { relayout(true); }); }) : null;
 
@@ -696,6 +700,7 @@
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('load', onLoad);
+      window.removeEventListener('pageshow', onPageShow);
       if (sizeWatch) sizeWatch.disconnect();
       window.clearTimeout(resizeTimer);
       toStatic();
@@ -711,6 +716,7 @@
     window.addEventListener('resize', onResize);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { relayout(true); });
     window.addEventListener('load', onLoad);
+    window.addEventListener('pageshow', onPageShow);
     if (sizeWatch) sizeWatch.observe(tagline);
     listen(mq('(prefers-reduced-motion: reduce)'), function (e) { if (e.matches) teardown(); });
     return { relayout: relayout };
