@@ -6,7 +6,7 @@
     "description": "Built tools during his PhD that find where and why AI models fail.",
     "date": "2026-11-06",
     "photo": "mazda-moayeri",
-    "photo_alt": "",
+    "photo_alt": "Speaking into a microphone.",
     "source": "Club poster (Fri Nov 6, 2026); Lacuna and OpenReview profiles (Meta since 2025); UMD dissertation (2025); his papers 2021–2025",
     "confirm": "His title at Meta is “Researcher” on his own profiles (“Research Scientist” on aggregators; his poster says “Research at Meta Superintelligence Labs”). What he works on there is not public, so the line describes his PhD (University of Maryland, 2025): ask him at the talk and replace it if he shares it."
   },
@@ -23,7 +23,7 @@
   {
     "id": "christina-lu",
     "name": "Christina Lu",
-    "role": "Interpretability Researcher, Anthropic; PhD Student, Oxford",
+    "role": "Interpret\u00adability Researcher, Anthropic; PhD Student, Oxford",
     "description": "Studies what goes on inside AI models like Claude, especially the characters they play.",
     "date": "2026-04-14",
     "photo": "christina-lu",

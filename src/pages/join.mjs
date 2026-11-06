@@ -14,7 +14,7 @@ export function render(c) {
 
 <ol class="steps" aria-label="How to join">
   <li class="row wrap step" id="dartmouth-groups">
-    <h2 class="row__title step__title"><span class="step__n" aria-hidden="true">1</span><span>Join on Dartmouth&nbsp;Groups.</span></h2>
+    <h2 class="row__title step__title"><span class="step__n" aria-hidden="true">1</span><span>Join on Dartmouth Groups.</span></h2>
     <div class="row__body step__body">
       <p>Sign in with your Dartmouth account and join the club.</p>
       <p><a class="button" href="${esc(groups)}">Join on Dartmouth Groups ${c.arrow('ne')}</a></p>

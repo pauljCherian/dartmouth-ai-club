@@ -50,8 +50,9 @@
   /* Type */
   --font: "Club Sans", Helvetica, Arial, sans-serif;
   /* In rem, so a larger default font size set in the browser takes effect. 1rem = 16px by default. */
-  --t-page: clamp(min(3.25rem, 21vw), 10vw, 9.5rem);      /* page titles: 52-152px (on very narrow screens with large text, up to
-                                                            a fifth of the width, so a title stays above its headings) */
+  --t-page: clamp(min(3.25rem, 21vw, (100vw - 32px) / 4.2), 10vw, 9.5rem);      /* page titles: 52-152px (on very narrow screens with large text, up to
+                                                            a fifth of the width, so a title stays above its headings, and never
+                                                            so big that "Speakers" can't fit between the margins) */
   --t-2: clamp(1.75rem, 3.3vw, 3rem);       /* statements: 28-48px */
   --t-3: clamp(1.25rem, 1.85vw, 1.6875rem); /* leads: 20-27px */
   --t-4: 1.0625rem;                         /* body: 17px */
@@ -263,6 +264,10 @@ html:not(.js) .menu-button { display: none; }
 
 /* On the home page the giant title is the logo; the header logo appears when the title hands off. */
 .js-handoff.page-home .site-logo { opacity: 0; visibility: hidden; }
+/* Where the browser plays the hand-off from the scroll position, it also sets the logo's opacity; site.js makes the
+   logo inert while it is invisible, and holds it shown while it has focus. */
+.js-handoff.handoff-sda.page-home .site-logo { visibility: visible; }
+.site-logo.is-held { opacity: 1 !important; }
 .menu-open .site-logo,
 .logo-always .site-logo { opacity: 1 !important; visibility: visible !important; }
 
@@ -545,7 +550,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 /* Roles break between whole words. A soft hyphen in a role (\u00ad in speakers.json) is used only in the home tiles on a
    screen under 20em (two columns with large text), where the word can be wider than its tile. */
 .talk__affil, .person__meta, .roster__what { -webkit-hyphens: none; hyphens: none; }
-@media (max-width: 20em) { .person__meta { -webkit-hyphens: manual; hyphens: manual; } }
+@media (max-width: 19.99em) { .person__meta { -webkit-hyphens: manual; hyphens: manual; } }
 
 /* ---------- Talks list (speakers page): the home tile's record, laid sideways, plus one line ---------- */
 /* Same sizes, colours and order as the tiles (name, role, line, date last), at every width. */
@@ -633,6 +638,8 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
   background: var(--hairline);
 }
 .site-footer__join { grid-column: 1 / -1; }
+/* Large text on the narrowest phones: one column, so "Join the club" in bold stays on one line. */
+@media (max-width: 19.99em) { .site-footer__inner { grid-template-columns: minmax(0, 1fr); } }
 .site-footer__title { font-size: var(--t-2); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
 .site-footer__text { margin-top: 16px; max-width: 24em; font-size: var(--t-4); line-height: 1.4; }
 .site-footer__action { margin-top: 28px; }
@@ -677,6 +684,14 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
   /* Footer on paper: who to contact, kept together; buttons and links can't be clicked there. */
   .site-footer__join, .site-footer__nav, .site-footer__socials { display: none; }
   .site-footer { break-inside: avoid; }
+  .site-footer .site-footer__contact { grid-row: auto; }  /* the invitation is hidden on paper, so the address keeps its place above the © line */
+  /* /join's button prints as its words: no fill on paper, and no arrow to press. */
+  .step__body .button { min-height: 0; padding: 0; border: 0; background: none; color: var(--ink); }
+  .step__body .button .arrow { display: none; }
+  /* Officers keep the laptop layout on paper (name, then role, in one row), so /team fits one page. */
+  .roster__row { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .roster__who { grid-column: span 3; }
+  .roster__what { grid-column: span 5; }
   .row, .site-footer__inner { background: none; border-top: 1px solid var(--rule); }
   a { text-decoration: none; }
 }

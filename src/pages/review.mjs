@@ -30,12 +30,12 @@ export function render(c) {
       ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, officers, advisors) run across the content column. All three gray (the 404 sign’s own paper rule is an open choice below).'],
       ['Footer', 'Changed', 'The last section of every page, laid out like the others (on /join, where the page itself is the invitation, it has no heading): “Join the club.” top left, its sentence and button on the right (on every page but /join), so every other page ends with the one thing the club asks of a visitor; then the page links and the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, in bold like every list of pages, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
       ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says Dartmouth Groups posts each week’s time and room.'],
-      ['Contact email', 'Changed', 'Paul Cherian’s Dartmouth address, as president (the officers’ decision): in the footer of every page, and on /join until the form exists. It changes at each handover, in content/site.json.'],
+      ['Contact email', 'Changed', 'Paul Cherian’s Dartmouth address, as president (the officers’ decision): in the footer of every page. It changes at each handover, in content/site.json.'],
       ['© line', 'Kept', 'A convention visitors expect at the foot of a page (the club’s old site had one too). On a printed inner page, where the header is hidden, it is the only line that names the club. It shows the year of the last build.'],
       ['Header rule', 'Changed', 'Appears as soon as the page scrolls under the header, without fading in: nothing on the site fades in as you scroll.'],
     ]],
     ['Home', [
-      ['Title, tagline, photo and hand-off', 'Kept', 'The one moment of motion. The photo is the strongest reason to join.'],
+      ['Title, tagline, photo and hand-off', 'Kept, remade', 'The one moment of motion. The photo is the strongest reason to join. Remade on Nov 6: on phones it was choppy, because a script moved the title and photo after each scroll event, a frame or more behind the finger. Now the browser plays it from the scroll position itself (scroll-driven animations: Chrome, Safari 26 and later, Firefox 159 and later), in step with the finger, and off the main thread in Chrome and in Safari from 26.4. Same path, same positions to within a twentieth of a pixel. Older browsers still get the script. Looked at and not copied: the Stanford AI Club site smooths wheel scrolling on laptops with a library (Lenis), plays its title on a timer when the page loads, and glides to the next section on a timer once you stop scrolling in the first screen; here scrolling stays the browser’s own and the hand-off follows it.'],
       ['Photo caption', 'Changed', '“The club with Yann LeCun.” Hanover is obvious; the date is on /speakers, and on the home page it made the site look older every month.'],
       ['“Who we are” label', 'Cut', 'The four lines are now that section’s heading.'],
       ['Four lines', 'Kept', 'The most memorable copy on the site, now the heading.'],
@@ -96,13 +96,13 @@ export function render(c) {
     ['Officers', `Officers, ${team.officers_term}`, 'Right year and names? (Lisa Samoylov is off: she is an alumna.)'],
     ['Club name', '“Dartmouth AI Club” (logo, titles, footer)', 'Dartmouth Groups lists the club as “Dartmouth Undergraduate AI Club”. Which is the name the site should use?'],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
-    ['Research groups', 'Not on the new site', 'You have three VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
+    ['Research groups', 'Not on the new site', 'You have two VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role || '(no role yet)', s.confirm]),
   ];
 
   const needed = [
     ['Mazda Moayeri', 'The original photo; it is currently cut out of the event poster (400 px wide).'],
-    ['Andrew Milich, Chetan Patel', 'Larger photos, at least 1000 px wide (now 400 and 554 px): on phones and high-resolution laptops their tiles need about 600 px.'],
+    ['Andrew Milich, Chetan Patel, Ted Li', 'Larger photos, at least 1000 px wide (now 400, 554 and 272 px): on phones and high-resolution laptops their tiles need about 600 px.'],
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284, exported as JPEG at full size with location unchecked.'],
     ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. It would go under the About text.'],
     ['X and YouTube', 'The club’s two URLs. The marks are built and appear in the footer and menu as soon as the links exist.'],
@@ -195,7 +195,7 @@ export function render(c) {
 <section class="row wrap" aria-labelledby="look-h">
   <h2 class="row__title" id="look-h">How to look at it</h2>
   <div class="row__body">
-    <p class="review-text">Open the home page and scroll slowly: the title hands off to the header while the photo grows. Then do it on your phone. Two variants exist only for comparison.</p>
+    <p class="review-text">Open the home page and scroll slowly: the title hands off to the header while the photo grows. Then do it on your phone (on an iPhone, iOS 26.4 or later plays it off the main thread; Settings, General, About shows the version). Two variants exist only for comparison.</p>
     <p class="review-variants">
       <a class="link-arrow" href="${c.link('home')}">Hand-off, as built ${c.arrow('e')}</a>
       <a class="link-arrow" href="index.html#logo">Logo visible from the start ${c.arrow('e')}</a>
@@ -219,7 +219,7 @@ export function render(c) {
       <li><strong>Words.</strong> Plain words a first-year understands. One name per thing: a meeting is the club’s own session, a talk is a guest’s visit, the people who join are undergraduates, and the place to join is Dartmouth Groups. A sentence ends with a full stop, even as a heading (“Join the club.”, “Read the paper.”); a label doesn’t (“Speakers”, “How to join”). A speaker’s role reads “Title, Organisation” as of the talk; dates read “Nov 6, 2026”; an officers’ term reads “2026–27”. Curly quotes, en dashes in ranges, and no sentence ends on a lone word.</li>
       <li><strong>Links and navigation.</strong> Every page links to every other: the header on laptops (the logo is home), the menu on phones, the footer everywhere (also the menu without JavaScript). The page you are on is underlined; hover only changes the colour. → goes somewhere on this site and ↗ leaves it, on standalone links and buttons only. A link inside a sentence carries no arrow and is underlined in its sentence’s colour; a list of pages carries none either; a network’s mark needs no arrow.</li>
       <li><strong>Logo.</strong> One drawing, the club’s name in two lines of TeX Gyre Heros Bold turned into outlines, used at every size: the giant home title, the header, the link preview and the square logo. Never retyped or redrawn. The tab icon is the ↗ on its own: your choice, and not a link.</li>
-      <li><strong>Motion.</strong> One choreographed moment: on the home page the giant title hands off to the header as the photo grows. Everything else moves only when you tap (the menu opening); nothing fades in as you scroll, and scrolling is the browser’s own. A device set to reduce motion, or without JavaScript, gets the still page.</li>
+      <li><strong>Motion.</strong> One choreographed moment: on the home page the giant title hands off to the header as the photo grows. The browser plays it from the scroll position, so it moves with the finger; a script that moves things after each scroll event trails it. Everything else moves only when you tap (the menu opening); nothing fades in as you scroll, and scrolling is the browser’s own. A device set to reduce motion, or without JavaScript, gets the still page.</li>
     </ol>
   </div>
 </section>

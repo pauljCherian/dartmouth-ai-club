@@ -3,8 +3,12 @@
    2. Mobile menu (logo + close, focus kept inside, Escape closes)
    3. The hand-off: scroll-scrubbed hero on the home page.
       The giant title shrinks into the header logo while the photo grows from the
-      thumbnail to fill the frame. Only transform and opacity change, so the
-      browser can run it on the compositor. Native scrolling is never touched.
+      thumbnail to fill the frame. Only transform and opacity change. Native
+      scrolling is never touched. Where the browser has scroll-driven animations
+      (Chrome 115+, Safari 26+, Firefox 159+), this script only measures: it hands
+      the browser the whole path as keyframes tied to the scroll position, and the
+      browser plays them in step with the finger, off the main thread where it can
+      (Chrome; Safari from 26.4). Elsewhere the script moves each frame itself.
 */
 (function () {
   'use strict';
@@ -23,6 +27,7 @@
   var header = document.querySelector('[data-header]');
   var menuPanel = document.getElementById('site-menu');
   var ruleAfter = 4; // px of scroll before the hairline shows; the hand-off raises it on the home page
+  var withRule = null; // the hand-off's header-logo check, run with every header update (scroll, menu open and close)
   function updateRule() {
     if (!header) return;
     var past = window.scrollY > ruleAfter;
@@ -31,6 +36,7 @@
     var menuPast = menuPanel && doc.classList.contains('menu-open') ? menuPanel.scrollTop > 4 : null;
     header.classList.toggle('is-ruled', menuPast === null ? past : menuPast);
     header.classList.toggle('is-solid', past || !!menuPast);
+    if (withRule) withRule();
   }
 
   /* ---------- 2. Mobile menu ---------- */
@@ -110,7 +116,7 @@
         var href = active.getAttribute && active.getAttribute('href');
         for (var i = 0; i < nav.length; i++) {
           if (!href || nav[i].getAttribute('href') !== href) continue;
-          if (getComputedStyle(nav[i]).visibility !== 'hidden') target = nav[i];
+          if (getComputedStyle(nav[i]).visibility !== 'hidden' && !nav[i].hasAttribute('inert')) target = nav[i];
         }
         target = target || document.querySelector('.site-nav a[href]');
         if (target) target.focus({ preventScroll: true });
@@ -172,6 +178,29 @@
     var L = null;
     var target = 0, current = 0, raf = 0;
     var lerp = mq('(pointer: coarse)').matches ? 1 : 0.3;  // fingers drive it directly; wheel steps get smoothed
+    var DOCK = 0.34;  // the title reaches the header logo here and swaps for it
+    // In the scroll-driven path the moving title is a bitmap the browser shrinks, a little rougher than the header
+    // logo, which is drawn at its size. So on screens with whole device pixels (iPhones, Macs, 1x monitors) the swap
+    // is not one step: once docked, the logo fades in over the title (same drawing, same place, the logo on top),
+    // then the title fades out under it, each over 2.5% of the stretch (about 20px of scroll on a phone). Measured:
+    // no single scroll pixel then changes any pixel of the logo visibly. With a fractional pixel ratio (many Android
+    // phones, Windows at 125%) the browser rounds the pinned stage to the pixel grid differently at each scroll
+    // position, so a docked title would wobble under the still logo; there the swap stays one step, at docking.
+    var fadeFor = function () { var r = window.devicePixelRatio || 1; return Math.abs(r - Math.round(r)) > 0.01 ? 0 : 0.025; };
+
+    // Scroll-driven animations: the browser plays the hand-off from keyframes tied to the scroll position, in the
+    // same frame as the scroll itself, so it never trails the finger. On a phone the page scrolls off the main
+    // thread; a script that moves things on each scroll event is always a frame or more behind, and on iPhones it
+    // stutters. Tests can force the script path with window.__daicNoScrollTimeline.
+    var SDA = (function () {
+      if (window.__daicNoScrollTimeline) return null;
+      try {
+        if (!(window.CSS && CSS.supports('animation-timeline: scroll()') && CSS.supports('animation-range: 0px 1px'))) return null;
+        var sheet = new CSSStyleSheet();
+        document.adoptedStyleSheets = Array.prototype.slice.call(document.adoptedStyleSheets || []).concat([sheet]);
+        return { sheet: sheet, gen: 0, on: false, els: [] };
+      } catch (e) { return null; }
+    })();
 
     function rect(el, base) {
       var r = el.getBoundingClientRect();
@@ -182,6 +211,7 @@
     function columns(content, gap, n) { return n * (content - 11 * gap) / 12 + (n - 1) * gap; }
 
     function measure() {
+      stopSDA();  // everything is measured where the CSS puts it, before any animation moves it
       title.style.transform = '';
       title.style.opacity = '';
       var base = stage.getBoundingClientRect();
@@ -348,49 +378,180 @@
       logo.style.visibility = o > 0.01 ? 'visible' : 'hidden';
     }
 
-    function apply(p) {
-      if (!L || dead || parked) return;
+    // Where everything is at progress p (0 to 1 over the pinned stretch), as numbers. The script path writes this to
+    // the page each frame; the scroll-driven path samples it into keyframes once per layout. One path, two players.
+    function state(p) {
+      var o = {};
       // Title: shrinks onto the header logo (the same drawing), then swaps for it in one step.
       if (logoAlways) {
         var fadeOnly = seg(p, 0.06, 0.4);
-        title.style.transform = 'translate3d(0,' + (-24 * fadeOnly) + 'px,0)';
-        title.style.opacity = String(1 - fadeOnly);
+        o.title = { x: 0, y: -24 * fadeOnly, s: 1 };
+        o.titleOpacity = 1 - fadeOnly;
       } else {
         // Arrive first (by p = 0.34). Scale is geometric, so the shrinking looks even.
-        var a = ease(seg(p, 0, L.curve.s)), b = ease(seg(p, L.curve.t, 0.34));
-        var s = Math.pow(L.Lg.w / L.Ti.w, a);
-        var tx = (L.Lg.x - L.Ti.x) * b;
-        var ty = (L.Lg.y - L.Ti.y) * b;
-        title.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + s + ')';
-        // ...then swap in one step once docked: the title and the header logo are the same drawing in the same
-        // place. Near the end the title stops being a pre-drawn layer (will-change), so the browser draws it at its
-        // real size, as crisp as the logo; otherwise it is a shrunken picture of the big title, a little soft, and
-        // the swap would show as a sharpening on phones.
-        title.style.willChange = p >= 0.3 ? 'auto' : '';
-        var docked = p >= 0.34 ? 1 : 0;
-        title.style.opacity = String(1 - docked);
-        setLogo(docked);
+        var a = ease(seg(p, 0, L.curve.s)), b = ease(seg(p, L.curve.t, DOCK));
+        o.title = { x: (L.Lg.x - L.Ti.x) * b, y: (L.Lg.y - L.Ti.y) * b, s: Math.pow(L.Lg.w / L.Ti.w, a) };
+        // ...then swap in one step once docked: the title and the header logo are the same drawing in the same place.
+        o.docked = p >= DOCK ? 1 : 0;
+        o.titleOpacity = 1 - o.docked;
       }
-
       // Tagline steps back first.
       var tg = seg(p, 0, 0.03);
-      if (tagline) {
-        tagline.style.opacity = String(1 - tg);
-        tagline.style.transform = 'translate3d(0,' + (-12 * tg) + 'px,0)';
-      }
-
+      o.tagOpacity = 1 - tg;
+      o.tagY = -12 * tg;
       // Photo: from the thumbnail rectangle T to the final rectangle F.
       var e = ease(seg(p, 0.08, 0.86));
       var R = { x: mix(L.T.x, L.F.x, e), y: mix(L.T.y, L.F.y, e), w: mix(L.T.w, L.F.w, e), h: mix(L.T.h, L.F.h, e) };
       var sx = R.w / L.T.w, sy = R.h / L.T.h;
-      frame.style.transform = 'translate3d(' + (R.x - L.T.x) + 'px,' + (R.y - L.T.y) + 'px,0) scale(' + sx + ',' + sy + ')';
+      o.frame = { x: R.x - L.T.x, y: R.y - L.T.y, sx: sx, sy: sy };
       var si = Math.max(R.w / L.coverW, R.h / L.coverH);  // the image always covers R, never stretched
       var ix = (R.w - L.coverW * si) / 2;
       var iy = (R.h - L.coverH * si) * ANCHOR_Y;
-      inner.style.transform = 'translate3d(' + (ix / sx) + 'px,' + (iy / sy) + 'px,0) scale(' + (si / sx) + ',' + (si / sy) + ')';
-      if (monoMode) mono.style.opacity = String(1 - ease(seg(p, 0.15, 0.75)));
+      o.inner = { x: ix / sx, y: iy / sy, sx: si / sx, sy: si / sy };
+      o.mono = 1 - ease(seg(p, 0.15, 0.75));
+      o.caption = p >= 0.86 ? 1 : 0;
+      return o;
+    }
 
-      caption.style.opacity = p >= 0.86 ? '1' : '0';
+    // The script path.
+    function apply(p) {
+      if (!L || dead || parked) return;
+      var o = state(p);
+      if (logoAlways) {
+        title.style.transform = 'translate3d(0,' + o.title.y + 'px,0)';
+        title.style.opacity = String(o.titleOpacity);
+      } else {
+        title.style.transform = 'translate3d(' + o.title.x + 'px,' + o.title.y + 'px,0) scale(' + o.title.s + ')';
+        // Near the end the title stops being a pre-drawn layer (will-change), so the browser draws it at its real
+        // size, as crisp as the logo; otherwise it is a shrunken picture of the big title, a little soft, and the
+        // swap would show as a sharpening on phones.
+        title.style.willChange = p >= 0.3 ? 'auto' : '';
+        title.style.opacity = String(o.titleOpacity);
+        setLogo(o.docked);
+      }
+      if (tagline) {
+        tagline.style.opacity = String(o.tagOpacity);
+        tagline.style.transform = 'translate3d(0,' + o.tagY + 'px,0)';
+      }
+      frame.style.transform = 'translate3d(' + o.frame.x + 'px,' + o.frame.y + 'px,0) scale(' + o.frame.sx + ',' + o.frame.sy + ')';
+      inner.style.transform = 'translate3d(' + o.inner.x + 'px,' + o.inner.y + 'px,0) scale(' + o.inner.sx + ',' + o.inner.sy + ')';
+      if (monoMode) mono.style.opacity = String(o.mono);
+      caption.style.opacity = String(o.caption);
+    }
+
+    // The scroll-driven path. Keyframes are sampled from state() finely enough that the straight lines between them
+    // stay within a fraction of a pixel of the curves (the title every 0.25% of the stretch, the photo every 0.5%);
+    // a step (the swap on some screens, the caption) is two keyframes a hair apart.
+    var STEP = 0.00001;
+    var num = function (v, d) { var m = Math.pow(10, d); return String(Math.round(v * m) / m); };
+    var tf = function (x, y, sx, sy) {
+      return 'translate3d(' + num(x, 3) + 'px,' + num(y, 3) + 'px,0) scale(' + num(sx, 6) + (sy === undefined ? '' : ',' + num(sy, 6)) + ')';
+    };
+    function sampled(list, a, b, step, fn) {
+      var n = Math.max(1, Math.ceil((b - a) / step - 1e-9));
+      for (var i = 0; i <= n; i++) { var p = a + (b - a) * i / n; list.push([p, fn(p)]); }
+      return list;
+    }
+    function stepAt(at, from, to, prop) {
+      return [[0, prop + ':' + from], [at - STEP, prop + ':' + from], [at, prop + ':' + to], [1, prop + ':' + to]];
+    }
+    function keyframesText(name, list) {
+      var out = '@keyframes ' + name + '{';
+      for (var i = 0; i < list.length; i++) out += num(list[i][0] * 100, 4) + '%{' + list[i][1] + '}';
+      return out + '}';
+    }
+    var ANIM_PROPS = ['animation-name', 'animation-duration', 'animation-timing-function', 'animation-fill-mode',
+      'animation-timeline', 'animation-range', 'animation-range-start', 'animation-range-end'];
+    function startSDA() {
+      if (!SDA || !L) return;
+      var g = 'handoff' + (++SDA.gen) + '-', css = '', set = [];
+      var add = function (el, parts) {
+        if (!el) return;
+        var names = parts.map(function (part) { css += keyframesText(g + part[0], part[1]); return g + part[0]; });
+        set.push([el, names.join(',')]);
+      };
+      var titleMove = function (p) { var t = state(p).title; return 'transform:' + tf(t.x, t.y, t.s); };
+      if (logoAlways) {
+        add(title, [['title', [0, 0.06, 0.4, 1].map(function (p) { var o = state(p); return [p, 'transform:' + tf(o.title.x, o.title.y, 1) + ';opacity:' + num(o.titleOpacity, 4)]; })]]);
+      } else {
+        var move = sampled([], 0, DOCK, 0.0025, titleMove);
+        move.push([1, move[move.length - 1][1]]);
+        var fade = SDA.fade = fadeFor();
+        if (fade) {
+          add(title, [['title', move], ['title-swap', [[0, 'opacity:1'], [DOCK + fade, 'opacity:1'], [DOCK + 2 * fade, 'opacity:0'], [1, 'opacity:0']]]]);
+          add(logo, [['logo', [[0, 'opacity:0'], [DOCK, 'opacity:0'], [DOCK + fade, 'opacity:1'], [1, 'opacity:1']]]]);
+        } else {
+          add(title, [['title', move], ['title-swap', stepAt(DOCK, 1, 0, 'opacity')]]);
+          add(logo, [['logo', stepAt(DOCK, 0, 1, 'opacity')]]);
+        }
+      }
+      add(tagline, [['tagline', [[0, 'opacity:1;transform:translate3d(0,0px,0)'], [0.03, 'opacity:0;transform:translate3d(0,-12px,0)'],
+        [1, 'opacity:0;transform:translate3d(0,-12px,0)']]]]);
+      var fr = [], inn = [];
+      var photo = function (p) {
+        var o = state(p);
+        fr.push([p, 'transform:' + tf(o.frame.x, o.frame.y, o.frame.sx, o.frame.sy)]);
+        inn.push([p, 'transform:' + tf(o.inner.x, o.inner.y, o.inner.sx, o.inner.sy)]);
+      };
+      photo(0);
+      sampled([], 0.08, 0.86, 0.005, function (p) { photo(p); return ''; });
+      photo(1);
+      add(frame, [['frame', fr]]);
+      add(inner, [['inner', inn]]);
+      if (monoMode) {
+        var mo = [[0, 'opacity:1']];
+        sampled(mo, 0.15, 0.75, 0.01, function (p) { return 'opacity:' + num(state(p).mono, 4); });
+        mo.push([1, 'opacity:0']);
+        add(mono, [['mono', mo]]);
+      }
+      add(caption, [['caption', stepAt(0.86, 0, 1, 'opacity')]]);
+      try {
+        SDA.sheet.replaceSync(css);
+      } catch (e) { SDA = null; return; }
+      var range = [num(L.heroTop, 3) + 'px', num(L.heroTop + L.pin, 3) + 'px'];
+      set.forEach(function (item) {
+        var s = item[0].style;
+        s.setProperty('animation-name', item[1]);
+        s.setProperty('animation-duration', '1ms');   // engines without 'auto' scale a time to the range
+        s.setProperty('animation-duration', 'auto');
+        s.setProperty('animation-timing-function', 'linear');
+        s.setProperty('animation-fill-mode', 'both');
+        s.setProperty('animation-timeline', 'scroll(root block)');
+        s.setProperty('animation-range', range.join(' '));
+        s.setProperty('animation-range-start', range[0]);
+        s.setProperty('animation-range-end', range[1]);
+      });
+      SDA.els = set.map(function (item) { return item[0]; });
+      SDA.on = true;
+      doc.classList.add('handoff-sda');
+      // If the browser did not tie every animation to the scroll position, use the script path for good.
+      var tied = SDA.els.every(function (el) {
+        var list = el.getAnimations ? el.getAnimations() : [];
+        return list.length > 0 && list.every(function (an) { return an.timeline && an.timeline !== document.timeline; });
+      });
+      if (!tied) { stopSDA(); SDA = null; }
+    }
+    function stopSDA() {
+      if (!SDA || !SDA.on) return;
+      SDA.els.forEach(function (el) { ANIM_PROPS.forEach(function (prop) { el.style.removeProperty(prop); }); });
+      SDA.els = [];
+      SDA.sheet.replaceSync('');
+      SDA.on = false;
+      doc.classList.remove('handoff-sda');
+      logo.removeAttribute('inert');
+      logo.classList.remove('is-held');
+    }
+    // In the scroll-driven path the browser sets the logo's opacity. Whether it can be focused or clicked is set here
+    // from the same progress: inert while it is invisible, unless it has focus (then it stays, and shows) or the
+    // phone menu is open (which shows it).
+    function syncLogo() {
+      if (!SDA || !SDA.on || logoAlways || !L) return;
+      var docked = clamp((window.scrollY - L.heroTop) / L.pin) >= DOCK + SDA.fade;  // fully shown
+      var focused = document.activeElement === logo;
+      var usable = docked || focused || doc.classList.contains('menu-open');
+      if (usable && logo.hasAttribute('inert')) logo.removeAttribute('inert');
+      else if (!usable && !logo.hasAttribute('inert')) logo.setAttribute('inert', '');
+      logo.classList.toggle('is-held', focused && !docked);
     }
 
     function tick() {
@@ -404,7 +565,48 @@
     function onScroll() {
       if (!L || dead || parked) return;
       target = clamp((window.scrollY - L.heroTop) / L.pin);
+      if (SDA && SDA.on) {
+        // The browser moves it; the logo check runs with the header update. Once, part way through, confirm the
+        // browser's own frame matches the path (an engine that ignored the range would spread the hand-off over
+        // the whole page); if it does not, the script plays it from here on. Checked in the next frame: the
+        // browser reads the scroll position for its animations once per frame, after scroll events.
+        if (!SDA.checked && !SDA.checking && target > 0.02 && target < 0.98) {
+          SDA.checking = true;
+          window.requestAnimationFrame(function () {
+            if (!SDA || !SDA.on || dead || parked || !L) return;
+            SDA.checking = false;
+            var p = clamp((window.scrollY - L.heroTop) / L.pin);
+            if (p > 0.02 && p < 0.98) checkSDA(p);
+          });
+        }
+        return;
+      }
       if (!raf) raf = window.requestAnimationFrame(tick);
+    }
+    function checkSDA(p) {
+      SDA.checked = true;
+      // The browser's own progress for the title's animation must match the scroll position (the range is honoured),
+      // and what it draws at that progress must match the path (the keyframes are applied). Compared at the
+      // browser's progress, so rounding of the scroll position cannot fail it.
+      var list = title.getAnimations ? title.getAnimations() : [];
+      var timing = list.length && list[0].effect && list[0].effect.getComputedTiming ? list[0].effect.getComputedTiming() : null;
+      var prog = timing && typeof timing.progress === 'number' ? timing.progress : -1;
+      var read = function (el) {
+        var m = /matrix(3d)?\(([^)]+)\)/.exec(getComputedStyle(el).transform || '');
+        if (!m) return null;
+        var n = m[2].split(',').map(parseFloat);
+        return m[1] ? { sx: n[0], sy: n[5], x: n[12], y: n[13] } : { sx: n[0], sy: n[3], x: n[4], y: n[5] };
+      };
+      var near = function (a, b, tol) { return Math.abs(a - b) <= tol; };
+      var ok = near(prog, p, 0.02);
+      if (ok) {
+        var o = state(prog), t = read(title), f = read(frame);
+        ok = !!(t && f) &&
+          near(t.sx, o.title.s, 0.01 * o.title.s + 0.002) && near(t.x, o.title.x, 2) && near(t.y, o.title.y, 2) &&
+          near(f.sx, o.frame.sx, 0.01 * o.frame.sx + 0.002) && near(f.sy, o.frame.sy, 0.01 * o.frame.sy + 0.002) &&
+          near(f.x, o.frame.x, 2) && near(f.y, o.frame.y, 2);
+      }
+      if (!ok) { stopSDA(); SDA = null; current = target = p; apply(current); updateRule(); }
     }
 
     var lastW = -1, lastH = -1, resizeTimer = 0;
@@ -425,7 +627,8 @@
       // A title squeezed to a sliver (very short screens with large text) reads worse than the static layout.
       if (L.Ti.w < 0.4 * Math.min(w - 2 * (parseFloat(getComputedStyle(title).left) || 16), CONTENT_MAX)) { park(); return; }
       current = target = clamp((window.scrollY - L.heroTop) / L.pin);
-      apply(current);
+      if (SDA) startSDA();
+      if (!SDA || !SDA.on) apply(current);
       updateRule();
     }
     function onResize() {
@@ -441,6 +644,7 @@
     function toStatic() {
       if (raf) window.cancelAnimationFrame(raf);
       raf = 0;
+      stopSDA();
       doc.classList.remove('js-handoff');
       [title, tagline, frame, inner, caption, logo, mono].forEach(function (el) {
         if (!el) return;
@@ -475,6 +679,9 @@
       if (probe.parentNode) probe.parentNode.removeChild(probe);
     }
 
+    withRule = syncLogo;
+    logo.addEventListener('focus', syncLogo);
+    logo.addEventListener('blur', syncLogo);
     relayout(true);
     if (dead) return null;
     window.addEventListener('scroll', onScroll, { passive: true });

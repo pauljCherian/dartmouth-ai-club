@@ -10,9 +10,10 @@ export const html = (strings, ...values) => strings.reduce((out, s, i) => out + 
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // Escaped text whose last two words never split across lines (no single word left alone on the last line).
-// Only when the pair is short: a long pair ("Superintelligence Labs") held together could not wrap at all in a
-// narrow column. Those lines rely on text-wrap: pretty instead.
-export const keepLast = (text) => esc(text).replace(/(\S+) (\S+)$/, (m, a, b) => (a.length + b.length <= 17 ? `${a}&nbsp;${b}` : m));
+// Only a pair of up to 12 characters is tied: a longer one ("Student, Oxford") can be wider than the narrowest column
+// it appears in (a home tile on a 320px phone with 24px text, about 136px), and a tied pair that does not fit breaks
+// inside a word. Longer pairs rely on text-wrap: pretty instead.
+export const keepLast = (text) => esc(text).replace(/(\S+) (\S+)$/, (m, a, b) => (a.length + b.length <= 12 ? `${a}&nbsp;${b}` : m));
 // Escaped text with dates ("Oct 29, 2026", "Fri Nov 6, 2026") held on one line.
 export const tieDates = (text) =>
   esc(text).replace(/\b((?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) )?(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}, \d{4})\b/g, (d) => d.replace(/ /g, '&nbsp;'));
