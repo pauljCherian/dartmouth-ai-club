@@ -90,7 +90,7 @@ Edit `team.html` and add new team cards following the existing pattern:
 
 ## 📧 Contact
 
-For questions about the website, contact the DAIC team at daic@dartmouth.edu
+For questions about the website, contact the DAIC team at Dartmouth.Undergraduate.AI.Club@dartmouth.edu
 
 ## 📄 License
 
