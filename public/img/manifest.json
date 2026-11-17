@@ -234,11 +234,18 @@
     "webp": "img/people/mazda-moayeri-color-240.webp"
    },
    {
-    "w": 400,
-    "h": 500,
-    "avif": "img/people/mazda-moayeri-color-400.avif",
-    "jpg": "img/people/mazda-moayeri-color-400.jpg",
-    "webp": "img/people/mazda-moayeri-color-400.webp"
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/mazda-moayeri-color-480.avif",
+    "jpg": "img/people/mazda-moayeri-color-480.jpg",
+    "webp": "img/people/mazda-moayeri-color-480.webp"
+   },
+   {
+    "w": 828,
+    "h": 1035,
+    "avif": "img/people/mazda-moayeri-color-828.avif",
+    "jpg": "img/people/mazda-moayeri-color-828.jpg",
+    "webp": "img/people/mazda-moayeri-color-828.webp"
    }
   ]
  },
@@ -252,11 +259,18 @@
     "webp": "img/people/mazda-moayeri-duo-240.webp"
    },
    {
-    "w": 400,
-    "h": 500,
-    "avif": "img/people/mazda-moayeri-duo-400.avif",
-    "jpg": "img/people/mazda-moayeri-duo-400.jpg",
-    "webp": "img/people/mazda-moayeri-duo-400.webp"
+    "w": 480,
+    "h": 600,
+    "avif": "img/people/mazda-moayeri-duo-480.avif",
+    "jpg": "img/people/mazda-moayeri-duo-480.jpg",
+    "webp": "img/people/mazda-moayeri-duo-480.webp"
+   },
+   {
+    "w": 828,
+    "h": 1035,
+    "avif": "img/people/mazda-moayeri-duo-828.avif",
+    "jpg": "img/people/mazda-moayeri-duo-828.jpg",
+    "webp": "img/people/mazda-moayeri-duo-828.webp"
    }
   ]
  },

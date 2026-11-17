@@ -9,7 +9,7 @@
   },
   "join": {
     "groups_url": "https://dartmouthgroups.dartmouth.edu/feeds?type=club&type_id=67574&tab=about",
-    "note": "The club's page on Dartmouth Groups, which takes a Dartmouth login: people join there, members get the GroupMe link there, and each meeting's time and room are posted there."
+    "note": "The club's page on Dartmouth Groups, which takes a Dartmouth login: people join there and get the link to the club's GroupMe there. Each meeting's time and room, and new talks, are posted in the GroupMe. The GroupMe link itself is never on the site."
   },
   "socials": [
     {

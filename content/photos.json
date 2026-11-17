@@ -20,9 +20,9 @@
   },
   {
    "id": "mazda-moayeri",
-   "src": "assets-src/people/mazda-moayeri-poster.jpg",
-   "crop": "224,140,400,500",
-   "note": "cut from the event poster; ask for the original"
+   "src": "assets-src/people/mazda-moayeri.jpg",
+   "crop": "226,0,828,1035",
+   "note": "sent by Charlie Peers (Nov 17, 2026), replacing the cut-out from the event poster; faces the camera. The crop starts at the top of the source, so the eyes sit at about 34% and the head is about 59% of the frame."
   },
   {
    "id": "christina-lu",

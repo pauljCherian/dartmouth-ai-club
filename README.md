@@ -14,7 +14,7 @@ The talks, the people, the links and the contact live in `content/`: edit the JS
 
 When the officers change, update `officers_term` and `officers` in `content/team.json`. The contact in `content/site.json` is the club's own mailbox, so it stays. Check the faculty advisors at COSO's renewal each October, when the club reports them: the names here should match.
 
-What is not on the site, on purpose: the meeting night and room, a member count, and claims nobody can check. Facts still waiting for an officer's answer are listed on the review page of the preview. The night and room change every term, so /join says they are posted on Dartmouth Groups; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
+What is not on the site, on purpose: the meeting night and room, a member count, and claims nobody can check. Facts still waiting for an officer's answer are listed on the review page of the preview. The night and room change every term, so /join says they are posted in the club's GroupMe, and that members get its link on Dartmouth Groups (the link itself is never on the site); a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
 
 ### Add a speaker
 
