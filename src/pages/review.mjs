@@ -36,6 +36,7 @@ export function render(c) {
     ]],
     ['Home', [
       ['Title, tagline, photo and hand-off', 'Kept, remade', 'The one moment of motion. The photo is the strongest reason to join. Remade on Nov 6: on phones it was choppy, because a script moved the title and photo after each scroll event, a frame or more behind the finger. Now, on phones and tablets, the browser plays it from the scroll position itself (scroll-driven animations: Chrome, Safari 26.5 and later, Firefox 159 and later), in step with the finger, and off the main thread in Chrome and Safari. Same path, same positions to within a twentieth of a pixel. Laptops keep the script, which eases each frame so a mouse wheel’s notches become a glide; older browsers keep it too. Looked at and not copied: the Stanford AI Club site (designed by Moto Studios) smooths wheel scrolling on laptops with a library (Lenis), plays its title on a timer when the page loads, and glides to the next section on a timer once you stop scrolling in the first screen; here scrolling stays the browser’s own and the hand-off follows it.'],
+      ['Tagline', 'Decided', `“${site.tagline}” Chosen on Nov 17 over two alternatives; it replaced “the best undergrad AI club”, a claim nobody can check. The banners and the X description use the same line.`],
       ['Photo caption', 'Changed', '“The club with Yann LeCun.” Hanover is obvious; the date is on /speakers, and on the home page it made the site look older every month.'],
       ['“Who we are” label', 'Cut', 'The four lines are now that section’s heading.'],
       ['Four lines', 'Kept', 'The most memorable copy on the site, now the heading.'],
@@ -92,8 +93,6 @@ export function render(c) {
   ];
 
   const confirmations = [
-    ['Tagline', `“${site.tagline}”`, 'My draft, replacing “the best undergrad AI club”: a claim nobody can check.'],
-    ['“Build”', '“study and build AI” (tagline, search description) and “Build the thing.” (About heading)', 'Nothing on the site shows members building anything: the old site’s build nights were never confirmed. If members do build (projects, research groups, build nights), send one sentence and it goes in the About paragraph. If not, “build” comes out of all three places.'],
     ['Every week', '“meets every week” (About), “weekly meetings” (search description), “Each week’s time and room” (/join)', 'The archive shows weekly Wednesdays from Jan 28 to Mar 4, 2026, then only Apr 7, Apr 14 and May 5; and the old site said “bi-weekly sessions” from Dec 30, 2025. Is it every week this term? If the rhythm changes by term, it comes out of all three places.'],
     ['Officers', `Officers, ${team.officers_term}`, 'Right year and names? (Lisa Samoylov is off: she is an alumna.)'],
     ['Faculty advisors', 'Peter Chin (Thayer School of Engineering), Soroush Vosoughi (Department of Computer Science)', 'Both still advising in 2026–27, and fine being named? COSO requires an advisor and asks for the name at each October renewal; no public Dartmouth page shows who advises the club, so this is the one place it appears.'],
