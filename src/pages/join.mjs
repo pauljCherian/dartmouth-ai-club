@@ -9,7 +9,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">${c.keepLast('Join the club.')}</h1>
-  <p class="page-lead">Open to Dartmouth undergraduates, whatever you study. No&nbsp;experience required.</p>
+  <p class="page-lead">Open to Dartmouth undergraduates, whatever you&nbsp;study.</p>
 </header>
 
 <ol class="steps" aria-label="How to join">
@@ -22,7 +22,7 @@ export function render(c) {
   </li>
   <li class="row wrap step">
     <h2 class="row__title step__title"><span class="step__n" aria-hidden="true">2</span><span>Come to a meeting.</span></h2>
-    <div class="row__body step__body"><p>Each week’s time and room are posted on Dartmouth&nbsp;Groups.</p></div>
+    <div class="row__body step__body"><p>Each week’s time and room are posted on ${c.groups()}.</p></div>
   </li>
 </ol>`;
 

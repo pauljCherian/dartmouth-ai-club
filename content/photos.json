@@ -1,11 +1,17 @@
 {
- "_about": "Crop boxes for tools/images.py all. crop = x,y,w,h in source pixels (4:5). frac crops are fractions of the image and survive a higher-resolution source.",
+ "_about": "Crop boxes for tools/images.py all. crop = x,y,w,h in source pixels (4:5 for portraits; any shape for scenes, the photos of the club at work). frac crops are fractions of the image and survive a higher-resolution source.",
  "hero": {
   "src": "assets-src/hero/hero.jpg",
   "ceiling": 0.18,
   "ceiling_note": "Fraction of the photo's height, from the top, that is only ceiling (the highest head starts at about 0.215). Wide screens may crop this much and no more; anything wider gets margins. Re-measure if the photo changes."
  },
  "portraits": [
+  {
+   "id": "nicholas-larus-stone",
+   "src": "assets-src/people/nicholas-larus-stone.jpg",
+   "crop": "0,0,300,375",
+   "note": "from his SynBioBeta 2026 speaker page; the source is 300 × 400, so ask him for a larger photo he is happy for the club to use. Eyes at about 36%, head about 55%."
+  },
   {
    "id": "yann-lecun",
    "src": "assets-src/people/yann-lecun.jpg",
@@ -42,5 +48,16 @@
    "note": "source is 361 × 343; ask for a larger photo"
   }
  ],
- "missing": {}
+ "missing": {},
+ "scenes": [
+  {
+   "id": "talk-2026-11-10",
+   "src": "assets-src/club/talk-2026-11-10.jpg",
+   "crop": "0,245,1760,880",
+   "neutral": "1500,400,180,160",
+   "cast": 0.8,
+   "gain": 1.08,
+   "note": "The club's own photo of Nicholas Larus-Stone's talk by video (Nov 10, 2026), as sent in chat (2000 × 1125): the original from the phone would be sharper on large screens. Crop: 2:1, without the ceiling, the door and the empty chairs on the right. neutral is the white wall right of the lectern: the room light is yellow, and 80% of that cast is taken out."
+  }
+ ]
 }

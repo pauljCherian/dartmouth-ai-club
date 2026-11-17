@@ -1,4 +1,43 @@
 {
+ "club/talk-2026-11-10": {
+  "variants": [
+   {
+    "w": 640,
+    "h": 320,
+    "avif": "img/club/talk-2026-11-10-640.avif",
+    "jpg": "img/club/talk-2026-11-10-640.jpg",
+    "webp": "img/club/talk-2026-11-10-640.webp"
+   },
+   {
+    "w": 960,
+    "h": 480,
+    "avif": "img/club/talk-2026-11-10-960.avif",
+    "jpg": "img/club/talk-2026-11-10-960.jpg",
+    "webp": "img/club/talk-2026-11-10-960.webp"
+   },
+   {
+    "w": 1280,
+    "h": 640,
+    "avif": "img/club/talk-2026-11-10-1280.avif",
+    "jpg": "img/club/talk-2026-11-10-1280.jpg",
+    "webp": "img/club/talk-2026-11-10-1280.webp"
+   },
+   {
+    "w": 1600,
+    "h": 800,
+    "avif": "img/club/talk-2026-11-10-1600.avif",
+    "jpg": "img/club/talk-2026-11-10-1600.jpg",
+    "webp": "img/club/talk-2026-11-10-1600.webp"
+   },
+   {
+    "w": 1760,
+    "h": 880,
+    "avif": "img/club/talk-2026-11-10-1760.avif",
+    "jpg": "img/club/talk-2026-11-10-1760.jpg",
+    "webp": "img/club/talk-2026-11-10-1760.webp"
+   }
+  ]
+ },
  "hero/hero": {
   "variants": [
    {
@@ -218,6 +257,42 @@
     "avif": "img/people/mazda-moayeri-duo-400.avif",
     "jpg": "img/people/mazda-moayeri-duo-400.jpg",
     "webp": "img/people/mazda-moayeri-duo-400.webp"
+   }
+  ]
+ },
+ "people/nicholas-larus-stone-color": {
+  "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/nicholas-larus-stone-color-240.avif",
+    "jpg": "img/people/nicholas-larus-stone-color-240.jpg",
+    "webp": "img/people/nicholas-larus-stone-color-240.webp"
+   },
+   {
+    "w": 300,
+    "h": 375,
+    "avif": "img/people/nicholas-larus-stone-color-300.avif",
+    "jpg": "img/people/nicholas-larus-stone-color-300.jpg",
+    "webp": "img/people/nicholas-larus-stone-color-300.webp"
+   }
+  ]
+ },
+ "people/nicholas-larus-stone-duo": {
+  "variants": [
+   {
+    "w": 240,
+    "h": 300,
+    "avif": "img/people/nicholas-larus-stone-duo-240.avif",
+    "jpg": "img/people/nicholas-larus-stone-duo-240.jpg",
+    "webp": "img/people/nicholas-larus-stone-duo-240.webp"
+   },
+   {
+    "w": 300,
+    "h": 375,
+    "avif": "img/people/nicholas-larus-stone-duo-300.avif",
+    "jpg": "img/people/nicholas-larus-stone-duo-300.jpg",
+    "webp": "img/people/nicholas-larus-stone-duo-300.webp"
    }
   ]
  },

@@ -40,7 +40,8 @@ const content = {
   need(site, ['name', 'origin', 'tagline', 'description'], 'site.json');
   if (site.meetings !== undefined) fail('site.json: "meetings" is not used any more (the night and room change every term, so the site sends people to Dartmouth Groups for them); delete it');
   need(site.hero || {}, ['alt', 'caption'], 'site.json hero');
-  need(site.contact || {}, ['email', 'name', 'role'], 'site.json contact');
+  need(site.contact || {}, ['email'], 'site.json contact');
+  if (site.about_photo) need(site.about_photo, ['photo', 'alt', 'caption'], 'site.json about_photo');
   // Joining goes through the club's page on Dartmouth Groups (a Dartmouth login), never a chat link on the site.
   if ((site.join || {}).form_url !== undefined) fail('site.json: join.form_url is not used any more; people join on Dartmouth Groups (join.groups_url)');
   need(site.join || {}, ['groups_url'], 'site.json join');
@@ -137,6 +138,7 @@ const brand = await readJSON('content/brand.json');
 const manifestPath = rel('public/img/manifest.json');
 const manifest = existsSync(manifestPath) ? JSON.parse(await readFile(manifestPath, 'utf8')) : {};
 if (!manifest['hero/hero']) fail('public/img/manifest.json has no hero image (run tools/images.py)');
+if (content.site.about_photo && !manifest[`club/${content.site.about_photo.photo}`]) fail(`site.json about_photo: no photo "${content.site.about_photo.photo}" in public/img/club (list it under "scenes" in content/photos.json and run tools/images.py all)`);
 // Every portrait must exist, unless photos.json lists it under "missing" (those get an initials tile).
 {
   const treatment = content.site.portrait_treatment || 'duo';

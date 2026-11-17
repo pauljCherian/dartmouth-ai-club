@@ -29,6 +29,13 @@ export function render(c) {
     `--hero-max-aspect:${(heroAspect / (1 - ceiling)).toFixed(4)}`,
   ].join(';');
 
+  // The second photo: the club at work, under the paragraph that describes it. Shown at its own shape.
+  const ap = site.about_photo, apm = ap && c.manifest[`club/${ap.photo}`];
+  const apv = apm && apm.variants[apm.variants.length - 1];
+  const about = apm
+    ? html`<figure class="about__photo"><div class="photo photo--scene" style="aspect-ratio:${apv.w} / ${apv.h}">${c.picture(`club/${ap.photo}`, { alt: ap.alt, sizes: '(min-width: 56.25em) 64vw, 100vw' })}</div><figcaption class="caption">${c.tieDates(ap.caption)}</figcaption></figure>`
+    : '';
+
   const main = html`
 <section class="hero" data-handoff style="${heroVars}">
   <div class="hero__stage">
@@ -51,8 +58,8 @@ export function render(c) {
 <section class="row wrap" id="about" aria-labelledby="about-h">
   <h2 class="row__title row__title--lines" id="about-h"><span>Read the paper.</span> <span>Build the thing.</span> <span>Meet the makers.</span> <span>Bring a friend.</span></h2>
   <div class="row__body">
-    <p class="about__text">The Dartmouth AI Club meets every week: an officer or member presents a paper or a topic, from how transformers work to adversarial attacks and LLMs for math. Through the year we sit down with the people building AI. No&nbsp;experience required. Curiosity is&nbsp;enough.</p>
-    ${c.preview ? html`<figure class="about__photo"><div class="photo photo--wide photo--placeholder" role="img" aria-label="Placeholder for the second photo">Second photo: an ordinary weekly meeting. To come.</div></figure>` : ''}
+    <p class="about__text">The Dartmouth AI Club meets every week: an officer or member presents a paper or a topic, from how transformers work to adversarial attacks and LLMs for math. Through the year we sit down with the people building&nbsp;AI.</p>
+    ${about}
   </div>
 </section>
 

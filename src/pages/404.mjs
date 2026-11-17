@@ -10,5 +10,5 @@ export function render(c) {
   <p class="notfound__links"><a class="link-arrow" href="${c.link('home')}">Home ${c.arrow('e')}</a></p>
 </section>`;
 
-  return c.layout({ page: '404', title: 'Page not found', description: 'This page of the Dartmouth AI Club site does not exist.', path: '/404', main, noindex: true });
+  return c.layout({ page: '404', title: 'Page not found', description: 'This page of the Dartmouth AI Club site doesn’t exist.', path: '/404', main, noindex: true });
 }

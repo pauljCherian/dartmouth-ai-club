@@ -538,7 +538,8 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .photo picture, .photo img { width: 100%; height: 100%; }
 .photo img { object-fit: cover; }
 .photo--placeholder { display: flex; align-items: flex-end; padding: 12px; color: var(--gray); font-size: var(--t-6); line-height: 1.3; }
-.photo--wide { aspect-ratio: 4 / 3; }
+.photo--scene { aspect-ratio: 2 / 1; }  /* a photo of the club at work, at its own shape (set inline from the image) */
+.caption { margin-top: 12px; font-size: var(--t-6); line-height: 1.35; color: var(--gray); text-wrap: balance; }  /* as the hero's caption */
 .photo--initials { display: flex; align-items: center; justify-content: center; color: var(--gray); font-size: var(--t-2); font-weight: 700; letter-spacing: -0.02em; }
 
 /* ---------- Page heads ---------- */
@@ -645,10 +646,11 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .site-footer__action { margin-top: 28px; }
 .site-footer__nav ul { display: grid; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
 .site-footer__nav a { display: inline-block; padding-block: 3px; font-weight: 700; }  /* bold like every list of pages; 24px+ tap targets (WCAG 2.5.8) */
-.site-footer__contact { min-width: 0; }
+.site-footer__contact { min-width: 0; grid-column: 1 / -1; }  /* phones: under the page links, the full width, so the club's long address stays on one line */
 .site-footer__email { display: inline-block; margin-top: -3px; padding-block: 3px; -webkit-user-select: all; user-select: all; }
 .site-footer__socials { margin-top: 16px; }
 .site-footer a:not(.button) { text-decoration: none; }
+.site-footer .site-footer__text a { text-decoration-line: underline; }  /* a link inside a sentence is underlined, here too */
 .site-footer__nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .site-footer__nav .is-join { color: var(--green); }
 .site-footer__nav .is-join:hover { color: var(--green-deep); }

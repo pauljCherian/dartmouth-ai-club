@@ -4,6 +4,9 @@ pillow-heif for iPhone .heic originals (optional: a JPEG export works without it
 
   python3 tools/images.py hero <src.jpg> public/img/hero [--compare review.png]
   python3 tools/images.py portrait <src> <id> public/img/people --crop x,y,w,h
+  python3 tools/images.py scene <src> <id> public/img/club --crop x,y,w,h [--neutral x,y,w,h] [--cast 0.8] [--gain 1.08]
+                                       a photo of the club at work (a talk, a meeting), in colour: cropped, the room
+                                       light's colour cast taken out (measured on --neutral, a patch of white wall)
   python3 tools/images.py manifest public/img
   python3 tools/images.py sheet public/img/people <duo|color> out.png id1 id2 ...
   python3 tools/images.py og public/img/hero assets-src/brand/og-logo.png public/og.jpg
@@ -42,6 +45,7 @@ PAPER = np.array([0xF4, 0xF4, 0xF1], dtype=np.float64) / 255.0
 PAPER_RGB = (0xF4, 0xF4, 0xF1)
 HERO_WIDTHS = [640, 960, 1280, 1600, 2048, 2560, 3200]
 PORTRAIT_WIDTHS = [240, 480, 960]
+SCENE_WIDTHS = [640, 960, 1280, 1600, 1920, 2560]
 FORMATS = (("avif", "AVIF", {"quality": 55, "speed": 6}),
            ("webp", "WEBP", {"quality": 82, "method": 6}),
            ("jpg", "JPEG", {"quality": 84, "progressive": True, "optimize": True, "subsampling": "4:2:0"}))
@@ -242,6 +246,32 @@ def cmd_portrait(src: str, pid: str, outdir: str, crop: str, frac: bool = False)
     print(f"{pid}: crop {w}x{h} from {im.width}x{im.height}{note}")
 
 
+def cmd_scene(src: str, sid: str, outdir: str, crop: str, neutral: str | None = None, cast: float = 0.8, gain: float = 1.0) -> None:
+    """A photo of the club at work, kept in colour like the group photo. `neutral` is a patch of something white
+    in the room (a wall), in source pixels: its colour is the room light's cast, and `cast` (0..1) is how much of
+    it to take out. `gain` brightens a dim room a little. Shadows are opened as for the group photo."""
+    out = Path(outdir)
+    out.mkdir(parents=True, exist_ok=True)
+    im = load_srgb(src)
+    a = to_np(im)
+    box = lambda s: [int(v) for v in s.split(",")]
+    x, y, w, h = box(crop)
+    if x < 0 or y < 0 or x + w > im.width or y + h > im.height:
+        sys.exit(f"{sid}: crop {crop} is outside the {im.width}x{im.height} source")
+    if neutral:
+        nx, ny, nw, nh = box(neutral)
+        a = neutralise(a, a[ny:ny + nh, nx:nx + nw], cast)
+    a = np.clip(lift_shadows(a, 0.15) * gain, 0, 1)
+    fixed = to_im(a).crop((x, y, x + w, y + h))
+    own = re.compile(rf"^{re.escape(sid)}-\d+\.(avif|webp|jpg)$")
+    for old in out.iterdir():
+        if own.match(old.name):
+            old.unlink()
+    for width in widths_for(fixed.width, SCENE_WIDTHS):
+        save_all(resized(fixed, width), out / f"{sid}-{width}")
+    print(f"{sid}: crop {w}x{h} from {im.width}x{im.height} -> {widths_for(fixed.width, SCENE_WIDTHS)}")
+
+
 def cmd_original(src: str, dest: str, force: bool = False) -> None:
     if Path(dest).exists() and not force:
         sys.exit(f"{dest} already exists: add --force to replace it (check it is the photo you mean to replace)")
@@ -281,7 +311,7 @@ def cmd_manifest(imgdir: str) -> None:
     root = Path(imgdir)
     groups: dict[str, list] = {}
     pat = re.compile(r"^(?P<key>.+)-(?P<w>\d+)\.(?P<ext>avif|webp|jpg)$")
-    for sub in ("hero", "people"):
+    for sub in ("hero", "people", "club"):
         for p in sorted((root / sub).glob("*")):
             m = pat.match(p.name)
             if not m:
@@ -334,6 +364,11 @@ def cmd_all(root: str = ".") -> None:
             cmd_portrait(str(base / p["src"]), p["id"], str(base / "public/img/people"), p["crop"], frac=bool(p.get("frac")))
         except (Exception, SystemExit) as e:
             failed.append(f"{p['id']}: {e}")
+    for s in cfg.get("scenes", []):
+        try:
+            cmd_scene(str(base / s["src"]), s["id"], str(base / "public/img/club"), s["crop"], s.get("neutral"), float(s.get("cast", 0.8)), float(s.get("gain", 1.0)))
+        except (Exception, SystemExit) as e:
+            failed.append(f"{s['id']}: {e}")
     try:
         cmd_og(str(base / "public/img/hero"), str(base / "assets-src/brand/og-logo.png"), str(base / "public/og.jpg"))
     except (Exception, SystemExit) as e:
@@ -354,6 +389,9 @@ def main(argv: list[str]) -> None:
         cmd_hero(args[0], args[1], compare)
     elif cmd == "portrait":
         cmd_portrait(args[0], args[1], args[2], args[args.index("--crop") + 1], frac="--frac" in args)
+    elif cmd == "scene":
+        opt = lambda name, default=None: args[args.index(name) + 1] if name in args else default
+        cmd_scene(args[0], args[1], args[2], opt("--crop"), opt("--neutral"), float(opt("--cast", 0.8)), float(opt("--gain", 1.0)))
     elif cmd == "manifest":
         cmd_manifest(args[0])
     elif cmd == "og":

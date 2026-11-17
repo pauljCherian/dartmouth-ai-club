@@ -17,8 +17,12 @@ export const keepLast = (text) => esc(text).replace(/(\S+) (\S+)$/, (m, a, b) =>
 // Escaped text with dates ("Oct 29, 2026", "Fri Nov 6, 2026") held on one line.
 export const tieDates = (text) =>
   esc(text).replace(/\b((?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) )?(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}, \d{4})\b/g, (d) => d.replace(/ /g, '&nbsp;'));
-// Escaped email address that may break after the @ and nowhere else (not before its last letter).
-export const email = (addr) => esc(addr).replace('@', '@<wbr>');
+// Escaped email address that may break after the @, and after a dot in a long name before it
+// (Dartmouth.Undergraduate.AI.Club@…), and nowhere else: never inside a word.
+export const email = (addr) => {
+  const [name, ...rest] = esc(addr).split('@');
+  return `${name.replace(/\./g, '.<wbr>')}@<wbr>${rest.join('@')}`;
+};
 
 export const shortDate = (iso) => {
   const [y, m, d] = iso.slice(0, 10).split('-').map(Number);
@@ -44,6 +48,8 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     const a11y = label ? `role="img" aria-label="${esc(label)}"` : 'aria-hidden="true" focusable="false"';
     return s.markup.replace('<svg', `<svg ${a11y}${cls ? ` class="${cls}"` : ''}`);
   };
+  // "Dartmouth Groups" inside a sentence: always a link to the club's page there (a Dartmouth login), the one place to join.
+  const groups = () => `<a href="${esc(site.join.groups_url)}">Dartmouth&nbsp;Groups</a>`;
   const arrow = (dir = 'e') => svg(dir === 'ne' ? 'arrow-ne' : 'arrow-e', { cls: `arrow arrow--${dir}` });
 
   const picture = (key, { alt = '', sizes = '100vw', cls = '', imgCls = '', loading = 'lazy', fetchpriority = '', decorative = false } = {}) => {
@@ -137,7 +143,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   <div class="site-footer__inner wrap">
     ${page !== 'join' ? html`<section class="site-footer__join" aria-labelledby="footer-join-h">
       <h2 class="site-footer__title" id="footer-join-h">Join the club.</h2>
-      <p class="site-footer__text">Open to Dartmouth undergraduates, whatever you study. Join on Dartmouth Groups, then come to a&nbsp;meeting.</p>
+      <p class="site-footer__text">Open to Dartmouth undergraduates, whatever you study. Join on ${groups()}, then come to a&nbsp;meeting.</p>
       <p class="site-footer__action"><a class="button" href="${link('join')}">How to join ${arrow('e')}</a></p>
     </section>` : ''}
     <nav class="site-footer__nav" id="footer-nav" aria-label="Footer">
@@ -259,6 +265,6 @@ ${preview ? script : ''}
   return {
     mode, preview, now, site, content, brand, manifest,
     link, asset, svg, arrow, picture, photo,
-    ordered, shortDate, socials, layout, esc, html, credits, fill, keepLast, tieDates, email,
+    ordered, shortDate, socials, layout, esc, html, credits, fill, keepLast, tieDates, email, groups,
   };
 }

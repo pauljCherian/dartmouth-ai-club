@@ -4,9 +4,8 @@
   "tagline": "Undergraduates who study and build AI.",
   "description": "Dartmouth undergraduates studying and building AI: weekly meetings on a paper or a topic, and talks with the people building AI.",
   "contact": {
-    "email": "paul.cherian.27@dartmouth.edu",
-    "name": "Paul Cherian",
-    "role": "President"
+    "email": "Dartmouth.Undergraduate.AI.Club@dartmouth.edu",
+    "note": "The club's own mailbox (on the live site since Nov 6, 2026). It stays when the officers change."
   },
   "join": {
     "groups_url": "https://dartmouthgroups.dartmouth.edu/feeds?type=club&type_id=67574&tab=about",
@@ -30,5 +29,11 @@
     "caption": "The club with Yann LeCun.",
     "caption_confirmed": false,
     "caption_source": "Club photo from his visit (Oct 29, 2026, during Dartmouth’s AI at 70 conference); the date is on /speakers"
+  },
+  "about_photo": {
+    "photo": "talk-2026-11-10",
+    "alt": "About fifteen students at long tables, laptops open, watching Nicholas Larus-Stone on a screen at the front of the room; a student stands at the lectern beside it.",
+    "caption": "The club with Nicholas Larus-Stone, by video.",
+    "caption_source": "Club photo from his talk (Nov 10, 2026); the date is on /speakers"
   }
 }

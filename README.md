@@ -12,7 +12,7 @@ The talks, the people, the links and the contact live in `content/`: edit the JS
 | `content/speakers.json` | Every guest talk: who they are, what they do, when they came. The site sorts them by date |
 | `content/team.json` | The officers (name, role, and `linkedin` / `x` profile links), their academic year (`officers_term`), and the faculty advisors (name, school or department). The team page is a list: no photos. It shows the president first, then everyone else by last name, whatever the order in the file |
 
-When the officers change, update `officers_term` and `officers` in `content/team.json` and `contact` (email, name, role) in `content/site.json` in the same commit. Check the faculty advisors at COSO's renewal each October, when the club reports them: the names here should match.
+When the officers change, update `officers_term` and `officers` in `content/team.json`. The contact in `content/site.json` is the club's own mailbox, so it stays. Check the faculty advisors at COSO's renewal each October, when the club reports them: the names here should match.
 
 What is not on the site, on purpose: the meeting night and room, a member count, and claims nobody can check. Facts still waiting for an officer's answer are listed on the review page of the preview. The night and room change every term, so /join says they are posted on Dartmouth Groups; a number nobody keeps up to date costs more trust than it earns. The build refuses `meetings`, `members` or `claims` in `site.json`, and refuses placeholder words (TEMP, TBD, “to come”, “to confirm”…) in anything a page shows.
 
@@ -59,6 +59,14 @@ That rebuilds every image in `public/img/` in AVIF, WebP and JPEG, and the link-
 For the group photo, `hero.ceiling` in `content/photos.json` is the fraction of its height, measured from the top, that is only ceiling (0.18 now; the highest head starts at about 0.215). Wide screens crop that much and no more, and get margins beyond it. Measure it again if the photo changes. Crops marked `"frac": true` (none uses it now) are fractions of the image, so they stay right when a larger copy of the same photo replaces it.
 
 `assets-src/brand/og-logo.png` is the logo for `og.jpg`, rendered from `src/svg/logo-display.svg` (ink on transparent, 544px wide); `public/logo-512.png`, the square logo search engines show, is the same lockup 400px wide on paper. Render both again if the logo changes.
+
+### A photo of the club at work
+
+The home page has a second photo under the About paragraph (`about_photo` in `content/site.json`: which photo, its alt text and its caption). To change it: copy the original into `assets-src/club/` with `python3 tools/images.py original …`, add it under `scenes` in `content/photos.json` (`crop` is any box in the original's pixels; `neutral` is a patch of white wall, which tells the script what colour the room's light is; `cast` is how much of that colour to take out), run `python3 tools/images.py all`, and point `about_photo.photo` at its `id`.
+
+### Profile pictures and banners
+
+`brand/social/` holds the club's picture and banners for GroupMe, LinkedIn, X, Instagram and YouTube, with a note on which file goes where. They are drawn from the site's logo, type and tagline by `node tools/social.cjs`: run it again if the logo or the tagline changes.
 
 ## Build and look at it locally
 
@@ -107,8 +115,9 @@ src/styles/     site.css
 src/scripts/    site.js (hand-off, mobile menu, header rule)
 src/svg/        the logo, arrows, and the LinkedIn, X and YouTube marks
 public/         copied as-is: fonts, images, icons
-tools/          build.mjs, serve.mjs, images.py
+tools/          build.mjs, serve.mjs, images.py; review-sheets.cjs and social.cjs (need Playwright)
 assets-src/     metadata-free originals of the photos, and the logo for og.jpg (not published)
+brand/social/   the profile picture and banners for GroupMe, LinkedIn, X, Instagram and YouTube (not published)
 ```
 
 ## Licences

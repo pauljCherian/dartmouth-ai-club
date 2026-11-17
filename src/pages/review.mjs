@@ -30,7 +30,7 @@ export function render(c) {
       ['Rules', 'Changed', 'Three kinds, by what they separate: the header’s rule runs edge to edge (it divides the fixed bar from the page); a section’s runs from margin to margin; the rules between items in a section (talks, officers, advisors) run across the content column. All three gray (the 404 sign’s own paper rule is an open choice below).'],
       ['Footer', 'Changed', 'The last section of every page, laid out like the others (on /join, where the page itself is the invitation, it has no heading): “Join the club.” top left, its sentence and button on the right (on every page but /join), so every other page ends with the one thing the club asks of a visitor; then the page links and the contact, and the club’s X and YouTube once their links exist. The links list every page, Join included, in bold like every list of pages, because they are also the menu when JavaScript is off. The second logo is gone: the header already shows it on the same screen.'],
       ['Meeting time and room', 'Cut', 'It was wrong (8 pm, not 7) and the night changes every term (Wednesdays in winter, Tuesdays in spring). /join says Dartmouth Groups posts each week’s time and room.'],
-      ['Contact email', 'Changed', 'Paul Cherian’s Dartmouth address, as president (the officers’ decision): in the footer of every page. It changes at each handover, in content/site.json.'],
+      ['Contact email', 'Changed', 'The club’s own mailbox, Dartmouth.Undergraduate.AI.Club@dartmouth.edu, in the footer of every page: the address the live site has used since Nov 6. It stays when the officers change. It may break after a dot or the @, never inside a word; on phones it has the footer’s full width.'],
       ['© line', 'Kept', 'A convention visitors expect at the foot of a page (the club’s old site had one too). On a printed inner page, where the header is hidden, it is the only line that names the club. It shows the year of the last build.'],
       ['Header rule', 'Changed', 'Appears as soon as the page scrolls under the header, without fading in: nothing on the site fades in as you scroll.'],
     ]],
@@ -39,7 +39,8 @@ export function render(c) {
       ['Photo caption', 'Changed', '“The club with Yann LeCun.” Hanover is obvious; the date is on /speakers, and on the home page it made the site look older every month.'],
       ['“Who we are” label', 'Cut', 'The four lines are now that section’s heading.'],
       ['Four lines', 'Kept', 'The most memorable copy on the site, now the heading.'],
-      ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is.'],
+      ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is. “No experience required. Curiosity is enough.” is cut (Nov 17), here and on /join.'],
+      ['Second photo', 'Added', 'Under the About paragraph: the club’s own photo of Nicholas Larus-Stone’s talk by video (Nov 10), the room at work on an ordinary evening, where the top photo is the big occasion. Cropped to the people (no ceiling, no empty chairs), and the room’s yellow light taken out by the same script as the group photo. Captioned like the top photo.'],
       ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
       ['What we do', 'Cut', 'Research groups and Nonprofits were placeholder copy; Speaker series repeated the next section and its link.'],
       ['Speakers', 'Kept', 'The six newest talks: photo, name, role at the time of the talk, date. One “All speakers →”, not two.'],
@@ -47,7 +48,7 @@ export function render(c) {
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
     ['Speakers', [
-      ['Lead', 'Changed', 'Adds “New talks are announced on Dartmouth Groups.”: the job the Next block did, without anyone updating the site. Not a link: the footer’s “How to join →” is on the same page.'],
+      ['Lead', 'Changed', 'Adds “New talks are announced on Dartmouth Groups.”: the job the Next block did, without anyone updating the site. “Dartmouth Groups” is a link to the club’s page there, as it is in every sentence that names it (the footer, /join step 2).'],
       ['Next', 'Cut', 'Nobody would keep it current. A talk is added on its day or after, so the list is a record that never shows a talk as coming up (the site launches the day of Mazda Moayeri’s talk).'],
       ['Each talk', 'Changed', 'The same five things for everyone, in the same order and type sizes as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. The photo is the same crop and tone, smaller. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],
@@ -63,7 +64,7 @@ export function render(c) {
     ['Join', [
       ['Steps', 'Changed', 'Sections like every other page’s: the heading top left, starting with its number in the heading’s own type. The green discs are gone: green means you can press it, and a number can’t be pressed.'],
       ['Step 1', 'Changed', '“Join on Dartmouth Groups.”: sign in with a Dartmouth account and join, with one green button. Dartmouth Groups is the gate: only Dartmouth accounts get in, members get the GroupMe link there, and the link is never on the site.'],
-      ['Step 2', 'Changed', '“Each week’s time and room are posted on Dartmouth Groups.”'],
+      ['Step 2', 'Changed', '“Each week’s time and room are posted on Dartmouth Groups.”, with Dartmouth Groups a link to the club’s page there.'],
       ['Step 3 and Questions', 'Cut', 'Not steps; the footer carries the contact (and the social marks once their links exist).'],
     ]],
     ['404', [
@@ -92,6 +93,7 @@ export function render(c) {
 
   const confirmations = [
     ['Tagline', `“${site.tagline}”`, 'My draft, replacing “the best undergrad AI club”: a claim nobody can check.'],
+    ['“Build”', '“study and build AI” (tagline, search description) and “Build the thing.” (About heading)', 'Nothing on the site shows members building anything: the old site’s build nights were never confirmed. If members do build (projects, research groups, build nights), send one sentence and it goes in the About paragraph. If not, “build” comes out of all three places.'],
     ['Every week', '“meets every week” (About), “weekly meetings” (search description), “Each week’s time and room” (/join)', 'The archive shows weekly Wednesdays from Jan 28 to Mar 4, 2026, then only Apr 7, Apr 14 and May 5; and the old site said “bi-weekly sessions” from Dec 30, 2025. Is it every week this term? If the rhythm changes by term, it comes out of all three places.'],
     ['Officers', `Officers, ${team.officers_term}`, 'Right year and names? (Lisa Samoylov is off: she is an alumna.)'],
     ['Faculty advisors', 'Peter Chin (Thayer School of Engineering), Soroush Vosoughi (Department of Computer Science)', 'Both still advising in 2026–27, and fine being named? COSO requires an advisor and asks for the name at each October renewal; no public Dartmouth page shows who advises the club, so this is the one place it appears.'],
@@ -102,14 +104,13 @@ export function render(c) {
 
   const needed = [
     ['Mazda Moayeri', 'The original photo; it is currently cut out of the event poster (400 px wide).'],
-    ['Andrew Milich, Chetan Patel, Ted Li', 'Larger photos, at least 1000 px wide (now 400, 554 and 272 px): on phones and high-resolution laptops their tiles need about 600 px.'],
+    ['Andrew Milich, Chetan Patel, Ted Li, Nicholas Larus-Stone', 'Larger photos, at least 1000 px wide (now 400, 554, 272 and 300 px): on phones and high-resolution laptops their tiles need about 600 px. Only Yann LeCun’s photo is the club’s own; the others come from posters and public pages, so ask each speaker for one they are happy for the club to use.'],
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284, exported as JPEG at full size with location unchecked.'],
-    ['Second photo', 'An ordinary weekly meeting: what a newcomer walks into. It would go under the About text.'],
+    ['The Nov 10 photo, full size', 'The original from the phone: the copy in use is 2000 px wide, enough for laptops, a little soft on the largest screens.'],
     ['X and YouTube', 'The club’s two URLs. The marks are built and appear in the footer and menu as soon as the links exist.'],
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
-    ['Club email (optional)', 'The club’s own Dartmouth account, Dartmouth.Machine.Learning.Student.Group@dartmouth.edu, is the address on its Dartmouth Groups page. In the footer instead of Paul’s, it would outlive a handover; a personal address doesn’t. Your call.'],
     ['GroupMe link on Dartmouth Groups', 'Post it where members see it once they have joined (for example a members-only post), and keep GroupMe set to approve new members, in case the link travels.'],
   ];
 
