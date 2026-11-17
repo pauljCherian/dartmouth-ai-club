@@ -5,13 +5,15 @@ Made by `node tools/social.cjs` from the site's logo, type, colours and tagline.
 | File | Use it for | Size |
 | --- | --- | --- |
 | `profile.png` | The profile picture everywhere: GroupMe (group avatar), LinkedIn (Page logo), X, Instagram, YouTube | 1600 × 1600. Every platform shrinks it and most cut a circle out of it; the logo sits well inside that circle |
-| `banner-youtube.png` | YouTube channel banner | 2560 × 1440. Phones and laptops show only the middle strip, which holds the words |
-| `banner-linkedin.png` | LinkedIn Page cover | 2256 × 382 (twice LinkedIn's 1128 × 191, the same shape). The words clear the Page logo at the lower left |
-| `banner-x.png` | X header | 1500 × 500. The words clear the profile picture at the lower left |
+| `banner-youtube.png` | YouTube channel banner: the logo, the tagline and the site's address | 2560 × 1440. Phones and laptops show only the middle strip, which holds everything, with a margin on each side |
+| `banner-linkedin.png` | LinkedIn Page cover: the tagline and the address | 2256 × 382 (twice LinkedIn's 1128 × 191, the same shape). The words clear the Page logo at the lower left |
+| `banner-x.png` | X header: the tagline and the address | 1500 × 500. The words clear the profile picture at the lower left |
 
-`alt/` has the opposite pairing (a paper picture with ink banners). Use one pairing or the other, not a mix: a dark picture on a dark banner disappears.
+Why these colours. The profile picture is the logo in paper on Dartmouth green: a coloured disc keeps its shape on white pages and on black ones (a black disc vanishes on a black app, a light one on a white page), and the picture is the one thing on every platform that people press to reach the club, which is what green means on the site. The banners are paper on ink. YouTube's banner carries the logo because the picture sits under it; on LinkedIn and X the picture sits on the banner, so the name is not repeated.
 
-The profile picture is the logo in paper on ink because a dark disc keeps its shape on white pages (LinkedIn, Instagram, YouTube, X), where a paper one melts into the page. Under about 64 px wide nobody can read the words; the club's name is printed beside the picture wherever it is that small.
+Under about 64 px wide nobody can read the words in the picture; the club's name is printed beside it wherever it is that small.
+
+`alt/` has the other colours: the picture in black or light, and the banners on paper. Don't put a black picture on the ink banners: it disappears.
 
 ## Words
 
