@@ -1,40 +1,40 @@
 {
- "club/talk-2026-11-10": {
+ "club/talk-ted-li": {
   "variants": [
    {
     "w": 640,
     "h": 320,
-    "avif": "img/club/talk-2026-11-10-640.avif",
-    "jpg": "img/club/talk-2026-11-10-640.jpg",
-    "webp": "img/club/talk-2026-11-10-640.webp"
+    "avif": "img/club/talk-ted-li-640.avif",
+    "jpg": "img/club/talk-ted-li-640.jpg",
+    "webp": "img/club/talk-ted-li-640.webp"
    },
    {
     "w": 960,
     "h": 480,
-    "avif": "img/club/talk-2026-11-10-960.avif",
-    "jpg": "img/club/talk-2026-11-10-960.jpg",
-    "webp": "img/club/talk-2026-11-10-960.webp"
+    "avif": "img/club/talk-ted-li-960.avif",
+    "jpg": "img/club/talk-ted-li-960.jpg",
+    "webp": "img/club/talk-ted-li-960.webp"
    },
    {
     "w": 1280,
     "h": 640,
-    "avif": "img/club/talk-2026-11-10-1280.avif",
-    "jpg": "img/club/talk-2026-11-10-1280.jpg",
-    "webp": "img/club/talk-2026-11-10-1280.webp"
+    "avif": "img/club/talk-ted-li-1280.avif",
+    "jpg": "img/club/talk-ted-li-1280.jpg",
+    "webp": "img/club/talk-ted-li-1280.webp"
    },
    {
     "w": 1600,
     "h": 800,
-    "avif": "img/club/talk-2026-11-10-1600.avif",
-    "jpg": "img/club/talk-2026-11-10-1600.jpg",
-    "webp": "img/club/talk-2026-11-10-1600.webp"
+    "avif": "img/club/talk-ted-li-1600.avif",
+    "jpg": "img/club/talk-ted-li-1600.jpg",
+    "webp": "img/club/talk-ted-li-1600.webp"
    },
    {
     "w": 1760,
     "h": 880,
-    "avif": "img/club/talk-2026-11-10-1760.avif",
-    "jpg": "img/club/talk-2026-11-10-1760.jpg",
-    "webp": "img/club/talk-2026-11-10-1760.webp"
+    "avif": "img/club/talk-ted-li-1760.avif",
+    "jpg": "img/club/talk-ted-li-1760.jpg",
+    "webp": "img/club/talk-ted-li-1760.webp"
    }
   ]
  },

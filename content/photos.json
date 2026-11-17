@@ -51,13 +51,13 @@
  "missing": {},
  "scenes": [
   {
-   "id": "talk-2026-11-10",
-   "src": "assets-src/club/talk-2026-11-10.jpg",
+   "id": "talk-ted-li",
+   "src": "assets-src/club/talk-ted-li.jpg",
    "crop": "0,245,1760,880",
    "neutral": "1500,400,180,160",
    "cast": 0.8,
    "gain": 1.08,
-   "note": "The club's own photo of Nicholas Larus-Stone's talk by video (Nov 10, 2026), as sent in chat (2000 × 1125): the original from the phone would be sharper on large screens. Crop: 2:1, without the ceiling, the door and the empty chairs on the right. neutral is the white wall right of the lectern: the room light is yellow, and 80% of that cast is taken out."
+   "note": "The club's own photo of Ted Li's talk over Zoom, as sent in chat (2000 × 1125): the original from the phone would be sharper on large screens. Crop: 2:1, without the ceiling, the door and the empty chairs on the right. neutral is the white wall right of the lectern: the room light is yellow, and 80% of that cast is taken out."
   }
  ]
 }

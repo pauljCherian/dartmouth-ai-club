@@ -200,7 +200,7 @@
      "uses": {
       "home: p.about__text": {
        "n": 1,
-       "text": "The Dartmouth AI Club meets every week: an offic"
+       "text": "The Dartmouth AI Club meets every week. An offic"
       }
      }
     },
@@ -514,7 +514,7 @@
       },
       "home: figcaption.caption": {
        "n": 1,
-       "text": "The club with Nicholas Larus-Stone, by video."
+       "text": "The club with Ted Li, over Zoom."
       }
      }
     }
@@ -691,7 +691,7 @@
      "uses": {
       "home: p.about__text": {
        "n": 1,
-       "text": "The Dartmouth AI Club meets every week: an offic"
+       "text": "The Dartmouth AI Club meets every week. An offic"
       }
      }
     },
@@ -1065,7 +1065,7 @@
       },
       "home: figcaption.caption": {
        "n": 1,
-       "text": "The club with Nicholas Larus-Stone, by video."
+       "text": "The club with Ted Li, over Zoom."
       }
      }
     }

@@ -29,7 +29,7 @@ export function render(c) {
   return c.layout({
     page: 'join',
     title: 'Join the club',
-    description: 'How to join the Dartmouth AI Club: join on Dartmouth Groups, then come to a meeting. Open to Dartmouth undergraduates, whatever you study.',
+    description: 'Join the Dartmouth AI Club on Dartmouth Groups, then come to a meeting. Open to Dartmouth undergraduates, whatever you study.',
     path: '/join',
     main,
   });

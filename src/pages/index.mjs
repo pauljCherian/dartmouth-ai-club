@@ -58,7 +58,7 @@ export function render(c) {
 <section class="row wrap" id="about" aria-labelledby="about-h">
   <h2 class="row__title row__title--lines" id="about-h"><span>Read the paper.</span> <span>Build the thing.</span> <span>Meet the makers.</span> <span>Bring a friend.</span></h2>
   <div class="row__body">
-    <p class="about__text">The Dartmouth AI Club meets every week: an officer or member presents a paper or a topic, from how transformers work to adversarial attacks and LLMs for math. Through the year we sit down with the people building&nbsp;AI.</p>
+    <p class="about__text">The Dartmouth AI Club meets every week. An officer or member presents a paper or a topic, from how transformers work to adversarial attacks and LLMs for math. Through the year we sit down with the people building&nbsp;AI.</p>
     ${about}
   </div>
 </section>
