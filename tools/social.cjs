@@ -14,7 +14,6 @@ const OUT = path.join(ROOT, 'brand/social');
 const INK = '#161616', PAPER = '#F4F4F1', GREEN = '#00693E';
 const site = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/site.json'), 'utf8'));
 const logo = fs.readFileSync(path.join(ROOT, 'src/svg/logo-display.svg'), 'utf8');
-const address = site.origin.replace(/^https?:\/\//, '');
 const font = (weight) => {
   const f = fs.readdirSync(path.join(ROOT, 'public/fonts')).find((n) => n.startsWith(`texgyreheros-${weight}.`) && n.endsWith('.woff2'));
   return `@font-face{font-family:"Club Sans";font-weight:${weight};src:url(data:font/woff2;base64,${fs.readFileSync(path.join(ROOT, 'public/fonts', f)).toString('base64')}) format("woff2");ascent-override:77%;descent-override:23%;line-gap-override:0%}`;
@@ -29,11 +28,10 @@ svg{display:block;width:100%;height:auto;overflow:visible}p{margin:0}</style>${b
 const profile = (size, fg, bg) => page(size, size, bg,
   `<div style="position:absolute;left:11%;width:78%;top:50%;transform:translateY(-50%);color:${fg}">${logo}</div>`);
 
-// The words of a banner: the tagline in the site's statement type (regular weight, tight) with the site's address
-// under it, small and bold like the site's links.
-const say = (size, addr = 0.4) =>
-  `<p style="font-size:${size}px;font-weight:400;letter-spacing:-0.02em;line-height:1.08;text-wrap:balance">${esc(site.tagline)}</p>
-   <p style="margin-top:${Math.round(size * 0.42)}px;font-size:${Math.round(size * addr)}px;font-weight:700;line-height:1">${esc(address)}</p>`;
+// The words of a banner: the tagline in the site's statement type (regular weight, tight), as under the title on
+// the home page. Nothing else: no address, no decoration.
+const say = (size) =>
+  `<p style="font-size:${size}px;font-weight:400;letter-spacing:-0.02em;line-height:1.08;text-wrap:balance">${esc(site.tagline)}</p>`;
 // `box` is the part of a banner that every device shows and nothing covers (the platform's safe area, or the part
 // clear of the profile picture), in pixels. Nothing is ever set against its edge: `pad` is the margin inside it.
 const words = (w, h, box, size, fg, bg, pad = 0) => page(w, h, bg,
@@ -45,28 +43,28 @@ const words = (w, h, box, size, fg, bg, pad = 0) => page(w, h, bg,
 const lockup = (w, h, box, size, fg, bg, pad, logoW) => page(w, h, bg,
   `<div data-box style="position:absolute;left:${box.x + pad}px;top:${box.y}px;width:${box.w - 2 * pad}px;height:${box.h}px;display:flex;align-items:center;justify-content:space-between;color:${fg}">
      <div style="width:${logoW}px;flex:none">${logo}</div>
-     <div data-fit style="width:${box.w - 2 * pad - logoW - Math.round(size * 1.6)}px">${say(size, 0.5)}</div>
+     <div data-fit style="width:${box.w - 2 * pad - logoW - Math.round(size * 1.6)}px">${say(size)}</div>
    </div>`);
 
-// The set to use: the profile picture is the logo in paper on Dartmouth green. A coloured disc keeps its shape on
-// white pages and on black ones (an ink disc vanishes on black, a paper one on white), and it is the one thing on
-// every platform that people press to reach the club, which is what green means on the site. The banners are paper
-// on ink. YouTube's has the logo too; on LinkedIn and X the picture sits on the banner, so the name is not repeated.
-// alt/ holds the other colours.
+// The set to use looks like the website: its off-white ground, the logo and the words in ink, nothing else. The
+// profile picture is the logo as it sits in the site's header. YouTube's banner is the logo with the tagline beside
+// it, as on the home page; on LinkedIn and X the profile picture sits on the banner, so there the banner holds the
+// tagline alone and the two together make the same pair. alt/ holds the other colours: the picture on black or on
+// Dartmouth green (either keeps its shape better on a white page), and the banners on ink.
 const YT = { x: 507, y: 508, w: 1546, h: 424 };   // YouTube shows the middle 1546 x 423 everywhere, all 2560 x 1440 only on TVs
 const LI = { x: 520, y: 0, w: 1640, h: 382 };     // LinkedIn Page cover (1128 x 191, drawn at twice that): the logo covers the lower left
 const X = { x: 460, y: 70, w: 1000, h: 360 };     // X header: the picture covers the lower left; narrow windows trim top and bottom
 const FILES = [
   // name, width, height, html
-  ['profile.png', 1600, 1600, profile(1600, PAPER, GREEN)],
-  ['banner-youtube.png', 2560, 1440, lockup(2560, 1440, YT, 68, PAPER, INK, 90, 620)],
-  ['banner-linkedin.png', 2256, 382, words(2256, 382, LI, 80, PAPER, INK)],
-  ['banner-x.png', 1500, 500, words(1500, 500, X, 70, PAPER, INK)],
+  ['profile.png', 1600, 1600, profile(1600, INK, PAPER)],
+  ['banner-youtube.png', 2560, 1440, lockup(2560, 1440, YT, 68, INK, PAPER, 90, 620)],
+  ['banner-linkedin.png', 2256, 382, words(2256, 382, LI, 80, INK, PAPER)],
+  ['banner-x.png', 1500, 500, words(1500, 500, X, 70, INK, PAPER)],
   ['alt/profile-black.png', 1600, 1600, profile(1600, PAPER, INK)],
-  ['alt/profile-light.png', 1600, 1600, profile(1600, INK, PAPER)],
-  ['alt/banner-youtube-light.png', 2560, 1440, lockup(2560, 1440, YT, 68, INK, PAPER, 90, 620)],
-  ['alt/banner-linkedin-light.png', 2256, 382, words(2256, 382, LI, 80, INK, PAPER)],
-  ['alt/banner-x-light.png', 1500, 500, words(1500, 500, X, 70, INK, PAPER)],
+  ['alt/profile-green.png', 1600, 1600, profile(1600, PAPER, GREEN)],
+  ['alt/banner-youtube-dark.png', 2560, 1440, lockup(2560, 1440, YT, 68, PAPER, INK, 90, 620)],
+  ['alt/banner-linkedin-dark.png', 2256, 382, words(2256, 382, LI, 80, PAPER, INK)],
+  ['alt/banner-x-dark.png', 1500, 500, words(1500, 500, X, 70, PAPER, INK)],
 ];
 
 (async () => {
