@@ -1,5 +1,5 @@
 {
-  "officers_term": "2026–27",
+  "officers_term": "Fall 2026",
   "officers": [
     {
       "name": "Paul Cherian",
@@ -7,24 +7,32 @@
       "linkedin": "https://www.linkedin.com/in/paul-cherian-164956311"
     },
     {
-      "name": "Jeffrey Xie",
-      "role": "VP Research",
-      "linkedin": "https://www.linkedin.com/in/jeffreyxiekl"
+      "name": "Annie Yuan",
+      "role": "Officer",
+      "confirm": "Role for Fall 2026? No LinkedIn found: send her link if she wants one on the page."
     },
     {
-      "name": "Sean Noh",
-      "role": "VP Research",
-      "linkedin": "https://www.linkedin.com/in/seannoh"
-    },
-    {
-      "name": "Sol Song",
-      "role": "VP Finance",
-      "linkedin": "https://www.linkedin.com/in/sol-song-s102"
+      "name": "Benjamin Wang",
+      "role": "Officer",
+      "linkedin": "https://www.linkedin.com/in/benjaminwang29",
+      "confirm": "Role for Fall 2026? The LinkedIn link was found by search: open it and check it is him."
     },
     {
       "name": "Charlie Peers",
       "role": "VP Growth",
       "linkedin": "https://www.linkedin.com/in/charlie-peers"
+    },
+    {
+      "name": "Eddie Bae",
+      "role": "Officer",
+      "linkedin": "https://www.linkedin.com/in/eddie-bae-850179324",
+      "confirm": "Role for Fall 2026? The LinkedIn link was found by search: open it and check it is him."
+    },
+    {
+      "name": "Sean Noh",
+      "role": "VP Research",
+      "linkedin": "https://www.linkedin.com/in/seannoh",
+      "confirm": "Still VP Research in Fall 2026?"
     }
   ],
   "advisors": [

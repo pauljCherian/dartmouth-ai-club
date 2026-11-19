@@ -135,7 +135,7 @@
      "color": "ink",
      "uses": {
       "home: h2.row__title.row__title--lines > span": {
-       "n": 4,
+       "n": 3,
        "text": "Read the paper."
       },
       "home: h2.row__title": {
@@ -156,7 +156,7 @@
       },
       "team: h2.row__title": {
        "n": 2,
-       "text": "Officers, 2026–27"
+       "text": "Officers, Fall 2026"
       },
       "team: h2.site-footer__title": {
        "n": 1,
@@ -243,7 +243,7 @@
        "text": "Nicholas Larus-Stone"
       },
       "team: h3.roster__name": {
-       "n": 7,
+       "n": 8,
        "text": "Paul Cherian"
       }
      }
@@ -417,7 +417,7 @@
        "text": "Head of AI, Benchling"
       },
       "team: span.roster__what": {
-       "n": 7,
+       "n": 8,
        "text": "President"
       }
      }
@@ -626,7 +626,7 @@
      "color": "ink",
      "uses": {
       "home: h2.row__title.row__title--lines > span": {
-       "n": 4,
+       "n": 3,
        "text": "Read the paper."
       },
       "home: h2.row__title": {
@@ -647,7 +647,7 @@
       },
       "team: h2.row__title": {
        "n": 2,
-       "text": "Officers, 2026–27"
+       "text": "Officers, Fall 2026"
       },
       "team: h2.site-footer__title": {
        "n": 1,
@@ -734,7 +734,7 @@
        "text": "Nicholas Larus-Stone"
       },
       "team: h3.roster__name": {
-       "n": 7,
+       "n": 8,
        "text": "Paul Cherian"
       }
      }
@@ -968,7 +968,7 @@
        "text": "Head of AI, Benchling"
       },
       "team: span.roster__what": {
-       "n": 7,
+       "n": 8,
        "text": "President"
       }
      }

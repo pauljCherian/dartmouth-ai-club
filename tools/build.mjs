@@ -70,6 +70,8 @@ const content = {
     for (const k of ['org', 'start', 'end', 'date_label', 'format', 'host', 'place', 'title', 'time_label', 'links']) if (ev[k] !== undefined) fail(`${where}: "${k}" is not used any more; delete it (a talk shows name, role, description and date: see README)`);
   });
   need(team, ['officers_term'], 'team.json');
+  // The officers serve by the term, so the heading names it in words anyone reads: "Fall 2026", not "26F".
+  if (team.officers_term && !/^(Fall|Winter|Spring|Summer) \d{4}$|^\d{4}–\d\d$/.test(team.officers_term)) fail(`team.json: "officers_term" must be the term, like "Fall 2026" (not "26F", which only Dartmouth reads), or a year, like "2026–27"`);
   // Only the fields the page shows (plus notes for reviewers), so a misspelt key fails here instead of quietly
   // dropping a link; and each profile link must go to its own network.
   const NOTE = /^(_|confirm$|note$|source$)/;

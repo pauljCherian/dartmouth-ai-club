@@ -38,8 +38,8 @@ export function render(c) {
       ['Title, tagline, photo and hand-off', 'Kept, remade', 'The one moment of motion. The photo is the strongest reason to join. Remade on Nov 6: on phones it was choppy, because a script moved the title and photo after each scroll event, a frame or more behind the finger. Now, on phones and tablets, the browser plays it from the scroll position itself (scroll-driven animations: Chrome, Safari 26.5 and later, Firefox 159 and later), in step with the finger, and off the main thread in Chrome and Safari. Same path, same positions to within a twentieth of a pixel. Laptops keep the script, which eases each frame so a mouse wheel’s notches become a glide; older browsers keep it too. Looked at and not copied: the Stanford AI Club site (designed by Moto Studios) smooths wheel scrolling on laptops with a library (Lenis), plays its title on a timer when the page loads, and glides to the next section on a timer once you stop scrolling in the first screen; here scrolling stays the browser’s own and the hand-off follows it.'],
       ['Tagline', 'Decided', `“${site.tagline}” Chosen on Nov 17 over two alternatives; it replaced “the best undergrad AI club”, a claim nobody can check. The banners and the X description use the same line.`],
       ['Photo caption', 'Changed', '“The club with Yann LeCun.” Hanover is obvious; the date is on /speakers, and on the home page it made the site look older every month.'],
-      ['“Who we are” label', 'Cut', 'The four lines are now that section’s heading.'],
-      ['Four lines', 'Kept', 'The most memorable copy on the site, now the heading.'],
+      ['“Who we are” label', 'Cut', 'The lines are now that section’s heading.'],
+      ['Three lines', 'Changed', '“Read the paper. Build the thing. Meet the makers.” The most memorable copy on the site, now the heading. “Bring a friend.” is cut (Nov 19): the other three say what the club does, it asked the reader for something, and the footer below asks already (“Join the club.”).'],
       ['About paragraph', 'Changed', 'No member count, majors or build nights: none was confirmed, and a number goes stale. Three real topics from the club’s own sessions show a newcomer what a meeting is. “No experience required. Curiosity is enough.” is cut (Nov 17), here and on /join.'],
       ['Second photo', 'Added', 'Under the About paragraph: the club’s own photo of Ted Li’s talk over Zoom, the room at work on an ordinary evening, where the top photo is the big occasion. Cropped to the people (no ceiling, no empty chairs), and the room’s yellow light taken out by the same script as the group photo. Captioned like the top photo.'],
       ['Facts row', 'Cut', 'Member count, meeting time and build nights: unconfirmed or wrong.'],
@@ -94,10 +94,11 @@ export function render(c) {
 
   const confirmations = [
     ['Every week', '“meets every week” (About), “weekly meetings” (search description), “Each week’s time and room” (/join)', 'The archive shows weekly Wednesdays from Jan 28 to Mar 4, 2026, then only Apr 7, Apr 14 and May 5; and the old site said “bi-weekly sessions” from Dec 30, 2025. Is it every week this term? If the rhythm changes by term, it comes out of all three places.'],
-    ['Officers', `Officers, ${team.officers_term}`, 'Right year and names? (Lisa Samoylov is off: she is an alumna.)'],
-    ['Faculty advisors', 'Peter Chin (Thayer School of Engineering), Soroush Vosoughi (Department of Computer Science)', 'Both still advising in 2026–27, and fine being named? COSO requires an advisor and asks for the name at each October renewal; no public Dartmouth page shows who advises the club, so this is the one place it appears.'],
+    ['Officers', `Officers, ${team.officers_term}`, 'Right term and names? (Jeffrey Xie and Sol Song are off for the fall.) Each officer’s own question is below.'],
+    ...team.officers.filter((o) => o.confirm).map((o) => [o.name, o.role, o.confirm]),
+    ['Faculty advisors', 'Peter Chin (Thayer School of Engineering), Soroush Vosoughi (Department of Computer Science)', 'Both still advising this year, and fine being named? COSO requires an advisor and asks for the name at each October renewal; no public Dartmouth page shows who advises the club, so this is the one place it appears.'],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
-    ['Research groups', 'Not on the new site', 'You have two VPs Research. If research groups run, send one sentence on what they do and how to get in.'],
+    ['Research groups', 'Not on the new site', 'The club has a VP Research. If research groups run, send one sentence on what they do and how to get in.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role || '(no role yet)', s.confirm]),
   ];
 
@@ -110,6 +111,7 @@ export function render(c) {
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
+    ['Officers, every term', `The heading says “Officers, ${team.officers_term}”. When the next term starts, change the term and the names in content/team.json, even if nobody changed: a past term dates the page.`],
   ];
 
   // The system, measured from the production build (public/review/system.json, written by the QA sheet script):
