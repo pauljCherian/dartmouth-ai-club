@@ -94,11 +94,10 @@ export function render(c) {
 
   const confirmations = [
     ['Every week', '“meets every week” (About), “weekly meetings” (search description), “Each week’s time and room” (/join)', 'The archive shows weekly Wednesdays from Jan 28 to Mar 4, 2026, then only Apr 7, Apr 14 and May 5; and the old site said “bi-weekly sessions” from Dec 30, 2025. Is it every week this term? If the rhythm changes by term, it comes out of all three places.'],
-    ['Officers', `Officers, ${team.officers_term}`, 'Right term and names? (Jeffrey Xie and Sol Song are off for the fall.) Each officer’s own question is below.'],
-    ...team.officers.filter((o) => o.confirm).map((o) => [o.name, o.role, o.confirm]),
+    ...team.officers.filter((o) => o.confirm).map((o) => [o.name, o.role || '', o.confirm]),
     ['Faculty advisors', 'Peter Chin (Thayer School of Engineering), Soroush Vosoughi (Department of Computer Science)', 'Both still advising this year, and fine being named? COSO requires an advisor and asks for the name at each October renewal; no public Dartmouth page shows who advises the club, so this is the one place it appears.'],
     ['AI Families, Conferences & Trips', 'Not on the new site', 'The old site listed both. If they still run, one true sentence each can go in About.'],
-    ['Research groups', 'Not on the new site', 'The club has a VP Research. If research groups run, send one sentence on what they do and how to get in.'],
+    ['Research groups', 'Not on the new site', 'If research groups run, send one sentence on what they do and how to get in.'],
     ...speakers.filter((s) => s.confirm).map((s) => [s.name, s.role || '(no role yet)', s.confirm]),
   ];
 
@@ -111,6 +110,7 @@ export function render(c) {
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
+    ['Annie Yuan’s LinkedIn (optional)', 'None was found. Add it to content/team.json if she wants it on the Team page.'],
     ['Officers, every term', `The heading says “Officers, ${team.officers_term}”. When the next term starts, change the term and the names in content/team.json, even if nobody changed: a past term dates the page.`],
   ];
 
