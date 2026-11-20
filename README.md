@@ -111,7 +111,7 @@ Vercel reads `vercel.json`: build command `node tools/build.mjs`, output `dist/`
 ## Phones: three things that are easy to break
 
 - **The screen height is frozen per width.** In-app browsers resize the page each time their toolbars slide in or out. The hero is about two screens tall, so the sections under it used to jump in mid-scroll. `site.js` measures the height once per width (the smallest seen) and writes it to `--vh`; turning the phone measures again. Never size the hero from a unit that changes while scrolling.
-- **The header can move.** When an in-app browser hides its address bar, the page can slide under the phone's status bar and the header grows by that safe area. The hand-off re-measures whenever the header's height changes, so the shrunken title still lands on the header logo.
+- **The safe areas can appear in mid-scroll.** When an in-app browser hides its toolbars, the page reaches the bottom of the screen and sometimes slides under the status bar. The title is placed from the bottom, so it moves up by the bottom safe area (34 px on an iPhone), and the header grows by the top one. The hand-off re-measures whenever a safe area or the header's height changes, so the shrunken title still lands on the header logo. To test it without a phone, override the safe areas in Chrome (DevTools protocol, `Emulation.setSafeAreaInsetsOverride`) while scrolled into the hand-off.
 - **No grey box on a tapped link.** `-webkit-tap-highlight-color` is transparent for the whole site; a tapped link turns green instead. On /speakers the tops of each name's capitals sit on the photo's top edge (`text-box-trim`, with a fixed lift for browsers without it).
 
 ## Folders

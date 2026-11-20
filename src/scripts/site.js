@@ -205,6 +205,14 @@
     probe.setAttribute('aria-hidden', 'true');
     probe.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:calc(100 * var(--vh, 1vh));visibility:hidden;pointer-events:none;';
     document.body.appendChild(probe);
+    // The safe areas, as an element: its padding is read back in px, and its size changes when they do (observed
+    // below, in case the browser sends no resize event for it).
+    var safe = document.createElement('div');
+    safe.setAttribute('aria-hidden', 'true');
+    safe.style.cssText = 'position:fixed;left:0;top:0;box-sizing:content-box;visibility:hidden;pointer-events:none;' +
+      'width:calc(env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px));height:calc(env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));' +
+      'padding:env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);';
+    document.body.appendChild(safe);
 
     // Phones: the screen height is frozen per width. In-app browsers (and some others) resize the page each time
     // their toolbars slide in or out, which changes svh; the hero is about two screens tall, so everything below
@@ -681,17 +689,19 @@
       if (!ok) { stopSDA(); SDA = null; current = target = p; apply(current); updateRule(); }
     }
 
-    // The header's height is part of "the same size": when an in-app browser hides its address bar, the page can
-    // slide up under the phone's status bar, the header grows by that safe area and its logo moves down. The docked
-    // title must follow, or it parks above the logo, half under the status bar.
-    var lastW = -1, lastH = -1, lastHeader = -1, resizeTimer = 0;
+    // The phone's safe areas are part of "the same size". When an in-app browser hides its toolbars, the page
+    // reaches the bottom of the screen (and sometimes slides under the status bar), so the safe areas appear: the
+    // title, placed from the bottom, moves up by the bottom one, and the header grows by the top one. Without a new
+    // measurement the shrunken title parks above the header logo, cut off at the top of the screen.
+    var lastW = -1, lastH = -1, lastSafe = '', resizeTimer = 0;
     function relayout(force) {
       if (dead) return;
       lockHeight();
       var w = stage.clientWidth, h = probe.getBoundingClientRect().height;
-      var hh = header ? header.offsetHeight : 0;
-      var same = w === lastW && Math.abs(h - lastH) < 1 && hh === lastHeader;
-      lastHeader = hh;
+      var ss = getComputedStyle(safe);
+      var safeNow = [ss.paddingTop, ss.paddingRight, ss.paddingBottom, ss.paddingLeft, header ? header.offsetHeight : 0].join(' ');
+      var same = w === lastW && Math.abs(h - lastH) < 1 && safeNow === lastSafe;
+      lastSafe = safeNow;
       if (parked && same) return;  // parked at this size: try again only when the window changes
       if (!force && same) return;
       lastW = w; lastH = h;
@@ -761,6 +771,7 @@
       toStatic();
       doc.style.removeProperty('--vh');
       if (probe.parentNode) probe.parentNode.removeChild(probe);
+      if (safe.parentNode) safe.parentNode.removeChild(safe);
     }
 
     withRule = syncLogo;
@@ -770,7 +781,7 @@
     if (dead) return null;
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
-    if (window.ResizeObserver && header) { try { new ResizeObserver(onResize).observe(header); } catch (e) { /* resize events cover it */ } }
+    if (window.ResizeObserver) { try { var ro = new ResizeObserver(onResize); ro.observe(safe); if (header) ro.observe(header); } catch (e) { /* resize events cover it */ } }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { relayout(true); });
     window.addEventListener('load', onLoad);
     window.addEventListener('pageshow', onPageShow);
