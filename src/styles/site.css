@@ -668,6 +668,15 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 }
 
 /* ---------- Motion and print ---------- */
+/* Going from page to page: the old page fades into the new one, quickly, so the change is not a hard cut. The
+   browser does it once the new page is ready (cross-document view transitions: Chrome and Safari; other browsers
+   change pages as before), so it never holds the visitor back, and what is the same on both pages (the header)
+   does not flicker. Not with reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; animation-timing-function: ease-out; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
