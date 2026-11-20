@@ -570,7 +570,9 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 /* Rules between talks only; the section's hairline is the first. */
 .talk:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: 0; }
 .talk__body { min-width: 0; }
-.talk__name { font-size: var(--t-4); line-height: 1.2; }
+/* The tops of the name's capitals sit on the photo's top edge: the line box starts 0.11em above them (half the
+   leading, 0.1em, plus the 0.01em between the font's ascent, 0.77em, and its capitals, 0.76em as drawn). */
+.talk__name { font-size: var(--t-4); line-height: 1.2; margin-top: -0.11em; }
 .talk__affil { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
 .talk__desc { margin-top: 10px; max-width: 34em; }
 .talk__date { margin-top: 10px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
