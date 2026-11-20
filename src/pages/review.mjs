@@ -50,7 +50,7 @@ export function render(c) {
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
     ['Speakers', [
-      ['Lead', 'Changed', 'Adds “New talks are announced on Dartmouth Groups.”: the job the Next block did, without anyone updating the site. Corrected on Nov 17 to “New talks are announced in the GroupMe.”: that is where the club posts, not Dartmouth Groups.'],
+      ['Lead', 'Changed', 'One sentence: “The people building AI, in conversation with Dartmouth undergraduates.” “New talks are announced in the GroupMe.” is cut (Nov 20).'],
       ['Next', 'Cut', 'Nobody would keep it current. A talk is added on its day or after, so the list is a record that never shows a talk as coming up (the site launches the day of Mazda Moayeri’s talk).'],
       ['Each talk', 'Changed', 'The same five things for everyone, in the same order and type sizes as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. The photo is the same crop and tone, smaller. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],
