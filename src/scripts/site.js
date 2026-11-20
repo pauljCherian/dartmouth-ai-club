@@ -176,6 +176,20 @@
     probe.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:calc(100 * var(--vh, 1vh));visibility:hidden;pointer-events:none;';
     document.body.appendChild(probe);
 
+    // Phones: the screen height is frozen per width. In-app browsers (and some others) resize the page each time
+    // their toolbars slide in or out, which changes svh; the hero is about two screens tall, so everything below
+    // it jumped by twice the toolbar's height in the middle of a scroll. The height kept is the smallest seen at
+    // this width (toolbars showing), so the pinned stage always fits; turning the phone starts again.
+    var touch = mq('(pointer: coarse)').matches, lockW = -1, lockH = 0;
+    function lockHeight() {
+      if (!touch) return;
+      doc.style.removeProperty('--vh');
+      var w = window.innerWidth, h = probe.getBoundingClientRect().height;
+      if (!h) return;
+      if (w !== lockW || h < lockH) { lockW = w; lockH = h; }
+      doc.style.setProperty('--vh', (lockH / 100) + 'px');
+    }
+
     var L = null;
     var target = 0, current = 0, raf = 0;
     var lerp = mq('(pointer: coarse)').matches ? 1 : 0.3;  // fingers drive it directly; wheel steps get smoothed
@@ -640,6 +654,7 @@
     var lastW = -1, lastH = -1, resizeTimer = 0;
     function relayout(force) {
       if (dead) return;
+      lockHeight();
       var w = stage.clientWidth, h = probe.getBoundingClientRect().height;
       var same = w === lastW && Math.abs(h - lastH) < 1;
       if (parked && same) return;  // parked at this size: try again only when the window changes
@@ -709,6 +724,7 @@
       if (sizeWatch) sizeWatch.disconnect();
       window.clearTimeout(resizeTimer);
       toStatic();
+      doc.style.removeProperty('--vh');
       if (probe.parentNode) probe.parentNode.removeChild(probe);
     }
 
