@@ -110,7 +110,6 @@ export function render(c) {
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],
-    ['Annie Yuan’s LinkedIn (optional)', 'None was found. Add it to content/team.json if she wants it on the Team page.'],
     ['Officers, every term', `The heading says “Officers, ${team.officers_term}”. When the next term starts, change the term and the names in content/team.json, even if nobody changed: a past term dates the page.`],
   ];
 
