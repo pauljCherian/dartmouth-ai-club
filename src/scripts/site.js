@@ -24,6 +24,36 @@
   var mq = function (q) { return window.matchMedia ? window.matchMedia(q) : { matches: false, addEventListener: function () {} }; };
   var listen = function (m, fn) { if (m.addEventListener) m.addEventListener('change', fn); else if (m.addListener) m.addListener(fn); };
 
+  /* ---------- 0. The next page, fetched early ---------- */
+  // When a finger lands on a link to another page of the site (or a pointer rests on one), the browser starts
+  // fetching that page, so it is there by the time the tap or click ends. Once per page; not when the visitor
+  // has asked the browser to save data.
+  (function () {
+    var conn = navigator.connection;
+    if (conn && conn.saveData) return;
+    var seen = {};
+    var canPrefetch = false;
+    try { canPrefetch = document.createElement('link').relList.supports('prefetch'); } catch (e) { /* older browsers */ }
+    function warm(ev) {
+      var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+      if (!a || a.target === '_blank' || a.origin !== location.origin) return;
+      if (a.pathname === location.pathname) return;  // this page, or a place on it
+      var url = a.origin + a.pathname;
+      if (seen[url]) return;
+      seen[url] = true;
+      if (canPrefetch) {
+        var l = document.createElement('link');
+        l.rel = 'prefetch'; l.href = url;
+        document.head.appendChild(l);
+      } else if (window.fetch) {
+        window.fetch(url, { credentials: 'same-origin' }).catch(function () {});
+      }
+    }
+    document.addEventListener('touchstart', warm, { passive: true, capture: true });
+    document.addEventListener('mouseover', warm, { passive: true, capture: true });
+    document.addEventListener('focusin', warm, { passive: true, capture: true });
+  })();
+
   /* ---------- 1. Header hairline ---------- */
   var header = document.querySelector('[data-header]');
   var menuPanel = document.getElementById('site-menu');
