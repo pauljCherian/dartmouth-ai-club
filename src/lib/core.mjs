@@ -206,7 +206,7 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   // Link previews of Vercel preview deployments must point at that deployment's own og.jpg.
   const ogOrigin = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production' && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : site.origin;
   const layout = ({ page, title, description, path, main, noindex = false }) => {
-    const fullTitle = page === 'home' ? site.name : `${title} – ${site.name}`;
+    const fullTitle = page === 'home' ? site.name : `${title}, ${site.name}`;
     const desc = description || site.description;
     const url = `${site.origin}${path}`;
     const css = inline.css;
