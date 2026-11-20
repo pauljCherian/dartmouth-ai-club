@@ -681,12 +681,17 @@
       if (!ok) { stopSDA(); SDA = null; current = target = p; apply(current); updateRule(); }
     }
 
-    var lastW = -1, lastH = -1, resizeTimer = 0;
+    // The header's height is part of "the same size": when an in-app browser hides its address bar, the page can
+    // slide up under the phone's status bar, the header grows by that safe area and its logo moves down. The docked
+    // title must follow, or it parks above the logo, half under the status bar.
+    var lastW = -1, lastH = -1, lastHeader = -1, resizeTimer = 0;
     function relayout(force) {
       if (dead) return;
       lockHeight();
       var w = stage.clientWidth, h = probe.getBoundingClientRect().height;
-      var same = w === lastW && Math.abs(h - lastH) < 1;
+      var hh = header ? header.offsetHeight : 0;
+      var same = w === lastW && Math.abs(h - lastH) < 1 && hh === lastHeader;
+      lastHeader = hh;
       if (parked && same) return;  // parked at this size: try again only when the window changes
       if (!force && same) return;
       lastW = w; lastH = h;
@@ -765,6 +770,7 @@
     if (dead) return null;
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
+    if (window.ResizeObserver && header) { try { new ResizeObserver(onResize).observe(header); } catch (e) { /* resize events cover it */ } }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { relayout(true); });
     window.addEventListener('load', onLoad);
     window.addEventListener('pageshow', onPageShow);
