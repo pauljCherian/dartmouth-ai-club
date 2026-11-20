@@ -106,7 +106,7 @@ export function render(c) {
     ['Andrew Milich, Chetan Patel, Ted Li, Nicholas Larus-Stone', 'Larger photos, at least 1000 px wide (now 400, 554, 272 and 300 px): on phones and high-resolution laptops their tiles need about 600 px. Only Yann LeCun’s photo is the club’s own; the others come from posters and public pages, so ask each speaker for one they are happy for the club to use.'],
     ['Full-resolution hero photo', 'IMG_0412 at 5712 × 4284, exported as JPEG at full size with location unchecked.'],
     ['The photo of Ted Li’s talk, full size', 'The original from the phone: the copy in use is 2000 px wide, enough for laptops, a little soft on the largest screens.'],
-    ['X and YouTube', 'The club’s two URLs. The marks are built and appear in the footer and menu as soon as the links exist.'],
+    ['X and YouTube', 'Taken off the site until the accounts are ready (Nov 20). The marks are built: put each URL in content/site.json (socials) and they appear in the footer and the phone menu by themselves.'],
     ['Founding (optional)', 'The year the club was founded and by whom, for one line under the officers: “Founded in … by …”. A founding never changes, unlike titles.'],
     ['Class years (optional)', 'Each officer’s class year, if you want “Paul Cherian ’27” in the list: very Dartmouth, and never out of date.'],
     ['Officers', 'Open your own LinkedIn link on the Team page once and confirm it is your profile.'],

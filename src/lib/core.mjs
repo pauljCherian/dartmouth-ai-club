@@ -99,14 +99,14 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
 
   // Social links as the networks' own marks (X, YouTube: src/svg/<name>.svg), in ink, one size, each
   // with its name for screen readers. People find these marks faster than words.
+  // A network without its link in content/site.json is left out everywhere, the preview too (Nov 20): the marks
+  // come back by themselves once the links are filled in.
   const socials = (cls = 'socials') => {
-    const items = site.socials.filter((s) => s.url || preview);
+    const items = site.socials.filter((s) => s.url);
     if (!items.length) return '';
     const mark = (s) => (svgs[String(s.name).toLowerCase()] ? svg(String(s.name).toLowerCase(), { cls: 'social__icon' }) : esc(s.name));
     return html`<ul class="${cls}">${items.map((s) =>
-      s.url
-        ? html`<li><a class="social" href="${esc(s.url)}">${mark(s)}<span class="visually-hidden">${esc(s.name)}</span></a></li>`
-        : html`<li><span class="social is-placeholder" title="${esc(s.name)}: link to come">${mark(s)}<span class="visually-hidden">${esc(s.name)} (link to come)</span></span></li>`
+      html`<li><a class="social" href="${esc(s.url)}">${mark(s)}<span class="visually-hidden">${esc(s.name)}</span></a></li>`
     )}</ul>`;
   };
 
