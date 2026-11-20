@@ -95,6 +95,9 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: calc(var(--header-h) + 24px);
+  /* No grey box over a tapped link on phones (it also froze into the fade between pages): a tapped link turns
+     green, which is the site's own pressed state. */
+  -webkit-tap-highlight-color: transparent;
 }
 body {
   margin: 0;
