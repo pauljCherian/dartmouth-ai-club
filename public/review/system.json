@@ -200,7 +200,7 @@
      "uses": {
       "home: p.about__text": {
        "n": 1,
-       "text": "The Dartmouth AI Club meets every week. An offic"
+       "text": "The Dartmouth AI Club is Dartmouth’s undergradua"
       }
      }
     },
@@ -691,7 +691,7 @@
      "uses": {
       "home: p.about__text": {
        "n": 1,
-       "text": "The Dartmouth AI Club meets every week. An offic"
+       "text": "The Dartmouth AI Club is Dartmouth’s undergradua"
       }
      }
     },
