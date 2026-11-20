@@ -671,14 +671,20 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 }
 
 /* ---------- Motion and print ---------- */
-/* Going from page to page: the old page fades into the new one, quickly, so the change is not a hard cut. The
-   browser does it once the new page is ready (cross-document view transitions: Chrome and Safari; other browsers
-   change pages as before), so it never holds the visitor back, and what is the same on both pages (the header)
-   does not flicker. Not with reduced motion. */
+/* Going from page to page: the old page fades out, then the new one fades in, quickly, so the change is not a
+   hard cut. One after the other, never both at once: two pages of text on top of each other read as a smear. The
+   header is on every page, so it is taken out of the fade and stays put. The browser does this once the new page
+   is ready (cross-document view transitions: Chrome and Safari; other browsers change pages as before), so it
+   never holds the visitor back. Not with reduced motion. */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
-  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; animation-timing-function: ease-out; }
+  .site-header { view-transition-name: site-header; }
+  ::view-transition-old(root) { animation: page-out 70ms ease-in both; }
+  ::view-transition-new(root) { animation: page-in 110ms ease-out 70ms both; }
+  ::view-transition-group(site-header), ::view-transition-old(site-header), ::view-transition-new(site-header) { animation-duration: 180ms; }
 }
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
