@@ -58,7 +58,8 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     const vs = [...m.variants].sort((a, b) => a.w - b.w);
     const set = (fmt) => vs.filter((v) => v[fmt]).map((v) => `${asset(v[fmt])} ${v.w}w`).join(', ');
     const fallback = vs.find((v) => v.w >= 640 && v.jpg) || vs[vs.length - 1];
-    return html`<picture${cls ? ` class="${cls}"` : ''}>${set('avif') ? `<source type="image/avif" srcset="${set('avif')}" sizes="${sizes}">` : ''}${set('webp') ? `<source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">` : ''}<img src="${asset(fallback.jpg)}" srcset="${set('jpg')}" sizes="${sizes}" width="${fallback.w}" height="${fallback.h}" alt="${esc(decorative ? '' : alt)}" loading="${loading}" decoding="async"${fetchpriority ? ` fetchpriority="${fetchpriority}"` : ''}${imgCls ? ` class="${imgCls}"` : ''}${decorative ? ' aria-hidden="true"' : ''}></picture>`;
+    // The preview is shared through Claude, whose share check takes JPEG, PNG, GIF and WebP only: no AVIF there.
+    return html`<picture${cls ? ` class="${cls}"` : ''}>${!preview && set('avif') ? `<source type="image/avif" srcset="${set('avif')}" sizes="${sizes}">` : ''}${set('webp') ? `<source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">` : ''}<img src="${asset(fallback.jpg)}" srcset="${set('jpg')}" sizes="${sizes}" width="${fallback.w}" height="${fallback.h}" alt="${esc(decorative ? '' : alt)}" loading="${loading}" decoding="async"${fetchpriority ? ` fetchpriority="${fetchpriority}"` : ''}${imgCls ? ` class="${imgCls}"` : ''}${decorative ? ' aria-hidden="true"' : ''}></picture>`;
   };
 
   const treatment = site.portrait_treatment || 'duo';
@@ -201,7 +202,6 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
     const desc = description || site.description;
     const url = `${site.origin}${path}`;
     const css = inline.css;
-    const icon = (p) => (preview ? p : `/${p}`);
     const meta = html`
 <meta name="description" content="${esc(desc)}">
 ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${esc(url)}">`}
@@ -217,10 +217,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${esc(site.hero.alt)}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="${icon('favicon.ico')}" sizes="32x32">
-<link rel="icon" href="${icon('favicon.svg')}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="${icon('apple-touch-icon.png')}">
-${preview ? '' : '<link rel="manifest" href="/site.webmanifest">'}
+${preview ? '' : '<link rel="icon" href="/favicon.ico" sizes="32x32">\n<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<link rel="manifest" href="/site.webmanifest">'}
 ${page === 'home' ? `<script type="application/ld+json">${jsonLd(page)}</script>` : ''}`;
     const body = html`
 <a class="skip-link" href="#main">Skip to content</a>

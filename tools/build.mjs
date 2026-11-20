@@ -205,11 +205,13 @@ for (const name of pageNames) {
 }
 
 // ---------- 6. Static files ----------
-const copyIf = async (from, to) => existsSync(rel(from)) && cp(rel(from), path.join(OUT, to), { recursive: true });
+// The preview leaves out AVIF and the favicons: Claude's share check takes JPEG, PNG, GIF and WebP images only,
+// and the artifact shows its own icon.
+const copyIf = async (from, to) => existsSync(rel(from)) && cp(rel(from), path.join(OUT, to), { recursive: true, filter: (f) => !f.endsWith('.avif') });
 if (PREVIEW) {
   await copyIf('public/img', 'img');
   await copyIf('public/review', 'review');
-  for (const f of ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'og.jpg']) await copyIf(`public/${f}`, f);
+  await copyIf('public/og.jpg', 'og.jpg');
   await rm(path.join(OUT, 'img/manifest.json'), { force: true });
   await rm(path.join(OUT, 'review/qa.html'), { force: true });
   await rm(path.join(OUT, 'review/system.json'), { force: true });
