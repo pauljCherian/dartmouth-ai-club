@@ -184,9 +184,17 @@ export function createContext({ mode, now, content, svgs, manifest, brand, inlin
   // Home: the club itself (no talk is announced on the site, so no events).
   const jsonLd = (page) =>
     JSON.stringify([
+      // WebSite: the name search engines show above a result ("Dartmouth AI Club", not the bare "Dartmouth").
       ...(page === 'home' ? [{
         '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: site.name,
+        alternateName: 'Dartmouth Undergraduate AI Club',
+        url: `${site.origin}/`,
+      }, {
+        '@context': 'https://schema.org',
         '@type': 'Organization',
+        description: site.description,
         name: site.name,
         url: site.origin,
         logo: `${site.origin}/logo-512.png`,
@@ -217,7 +225,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${esc(site.hero.alt)}">
 <meta name="twitter:card" content="summary_large_image">
-${preview ? '' : '<link rel="icon" href="/favicon.ico" sizes="32x32">\n<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<link rel="manifest" href="/site.webmanifest">'}
+${preview ? '' : '<link rel="icon" href="/favicon.ico" sizes="32x32">\n<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<link rel="manifest" href="/site.webmanifest">'}
 ${page === 'home' ? `<script type="application/ld+json">${jsonLd(page)}</script>` : ''}`;
     const body = html`
 <a class="skip-link" href="#main">Skip to content</a>
