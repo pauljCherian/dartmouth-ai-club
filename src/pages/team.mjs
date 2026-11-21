@@ -22,7 +22,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Team</h1>
-  <p class="page-lead">These are the undergraduates who make the club&nbsp;happen.</p>
+  <p class="page-lead">The undergraduates who make the club&nbsp;happen.</p>
 </header>
 
 <section class="row wrap" aria-labelledby="officers-h">
