@@ -30,7 +30,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">Speakers</h1>
-  <p class="page-lead">Researchers, founders and engineers from across AI have spoken at the&nbsp;club.</p>
+  <p class="page-lead">The people building AI, in conversation with the&nbsp;club.</p>
 </header>
 ${groups.map((g) => html`
 <section class="row wrap" aria-labelledby="y${esc(g.year)}">

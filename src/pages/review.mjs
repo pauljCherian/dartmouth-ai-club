@@ -50,7 +50,7 @@ export function render(c) {
       ['Old posters', 'Cut', 'Two event posters with the old 8 pm time were still published; they are gone, and the old poster address goes to /speakers.'],
     ]],
     ['Speakers', [
-      ['Lead', 'Changed', '“Researchers, founders and engineers from across AI have spoken at the club.” (Nov 21): a full sentence that says who comes, which the list below proves. The Join lead is a full sentence too; the Team lead (“The undergraduates who make the club happen.”) is a caption to its list, by choice.'],
+      ['Lead', 'Changed', '“The people building AI, in conversation with the club.” (Nov 21): short enough to sit on one line under the title on laptops, like Team’s. The Join lead is a full sentence too; the Team lead (“The undergraduates who make the club happen.”) is a caption to its list, by choice.'],
       ['Next', 'Cut', 'Nobody would keep it current. A talk is added on its day or after, so the list is a record that never shows a talk as coming up (the site launches the day of Mazda Moayeri’s talk).'],
       ['Each talk', 'Changed', 'The same five things for everyone, in the same order and type sizes as the home tiles: photo, name, role at the time of the talk, one line on their own work, date last. The photo is the same crop and tone, smaller. No format, interviewer, room, poster or talk title.'],
       ['Year', 'Changed', 'A section heading like any other.'],

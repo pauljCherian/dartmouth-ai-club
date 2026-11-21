@@ -223,13 +223,15 @@ main .wrap, .site-footer .wrap, .site-header__inner { max-width: calc(1920px + v
 .site-nav__join { color: var(--green); }
 .site-nav__join:hover { color: var(--green-deep); }
 @media (min-width: 56.25em) {
-  /* The nav sits on the baseline of "AI CLUB". The logo has no text, so its baseline is its bottom edge, which is
-     that baseline (the viewBox is tight to the letters). The negative margin takes out what hangs below the
-     links' baseline (0.455em: half-leading 0.225 + descent 0.23), so the line is exactly as tall as the logo and
-     align-content centres the logo in the header as before. */
-  .site-header__inner { flex-wrap: wrap; align-content: center; align-items: baseline; }
-  .site-nav { display: flex; align-items: baseline; gap: clamp(24px, 3.4vw, 52px); margin-bottom: calc(var(--t-5) * -0.455); }
-  .site-nav a { padding-block: 6px 0; }  /* nothing below the text: the focus ring stays inside the header */
+  /* The links are centred on the logo: the middle of their capitals level with the middle of its two lines. Each
+     link is trimmed to its capitals (with the same padding above and below), so its box centre is the capitals'
+     centre in any font; browsers without text-box-trim centre the line box, within about a pixel. */
+  .site-header__inner { flex-wrap: wrap; align-content: center; align-items: center; }
+  .site-nav { display: flex; align-items: center; gap: clamp(24px, 3.4vw, 52px); }
+  .site-nav a { padding-block: 6px; }
+}
+@supports (text-box-trim: trim-both) {
+  @media (min-width: 56.25em) { .site-nav a { text-box-trim: trim-both; text-box-edge: cap alphabetic; } }
 }
 
 .menu-button {
