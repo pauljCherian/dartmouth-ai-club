@@ -9,7 +9,7 @@ export function render(c) {
   const main = html`
 <header class="page-head wrap">
   <h1 class="page-title">${c.keepLast('Join the club.')}</h1>
-  <p class="page-lead">Open to all Dartmouth&nbsp;undergraduates.</p>
+  <p class="page-lead">The club is open to all Dartmouth&nbsp;undergraduates.</p>
 </header>
 
 <ol class="steps" aria-label="How to join">
@@ -29,7 +29,7 @@ export function render(c) {
   return c.layout({
     page: 'join',
     title: 'Join the club',
-    description: 'Join the Dartmouth AI Club on Dartmouth Groups, then come to a meeting. Open to all Dartmouth undergraduates.',
+    description: 'Join the Dartmouth AI Club on Dartmouth Groups, then come to a meeting. The club is open to all Dartmouth undergraduates.',
     path: '/join',
     main,
   });
