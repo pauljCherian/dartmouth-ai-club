@@ -656,7 +656,7 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
 .site-footer__nav ul { display: grid; margin-top: -3px; }  /* the links' tap padding, so the column starts level */
 .site-footer__nav a { display: inline-block; padding-block: 3px; font-weight: 700; }  /* bold like every list of pages; 24px+ tap targets (WCAG 2.5.8) */
 .site-footer__contact { min-width: 0; grid-column: 1 / -1; }  /* phones: under the page links, the full width, so the club's long address stays on one line */
-.site-footer__email { display: inline-block; margin-top: -3px; padding-block: 3px; -webkit-user-select: all; user-select: all; }
+.site-footer__email { display: inline-block; margin-top: -3px; padding-block: 3px; }
 .site-footer__socials { margin-top: 16px; }
 .site-footer a:not(.button) { text-decoration: none; }
 .site-footer .site-footer__text a { text-decoration-line: underline; }  /* a link inside a sentence is underlined, here too */
