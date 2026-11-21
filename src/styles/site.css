@@ -593,7 +593,9 @@ html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
   .talk__name { margin-top: 0; text-box-trim: trim-start; text-box-edge: cap alphabetic; }
 }
 .talk__affil { margin-top: 3px; font-size: var(--t-5); line-height: 1.35; color: var(--gray); }
-.talk__desc { margin-top: 10px; max-width: 34em; }
+/* The whole column, so a one-sentence line stays on one line wherever it fits; where it cannot, the two lines
+   are balanced, so neither is a stub. A hyphenated word (co-founding) never breaks at its hyphen. */
+.talk__desc { margin-top: 10px; text-wrap: balance; }
 .talk__date { margin-top: 10px; font-size: var(--t-5); color: var(--gray); font-variant-numeric: tabular-nums; }
 
 /* ---------- Roster (team page): name and links, then the role, flush left like every name and role ---------- */

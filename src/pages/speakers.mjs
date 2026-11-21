@@ -21,7 +21,7 @@ export function render(c) {
       <div class="talk__body">
         <h3 class="talk__name">${esc(ev.name)}</h3>
         <p class="talk__affil">${c.fill(ev.role, 'Role to confirm')}</p>
-        <p class="talk__desc">${c.fill(ev.description, 'Line to come')}</p>
+        <p class="talk__desc">${c.fill(ev.description, 'Line to come').replace(/[^\s&;<>]+-[^\s&;<>]+/g, (w) => `<span class="nowrap">${w}</span>`)}</p>
         <p class="talk__date">${esc(c.shortDate(ev.date))}</p>
       </div>
     </li>`;
