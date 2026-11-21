@@ -515,6 +515,20 @@ body { overflow-wrap: break-word; }  /* a single word wider than the screen (ver
   .row__title { grid-column: 1 / span 4; }
   .row__body { grid-column: 5 / -1; }
 }
+/* Laptops, where a section's heading and its content sit side by side: both start on one line, the tops of the
+   heading's capitals level with the top of the content's first capitals or of its first photo. Each first line is
+   trimmed to its capitals, so this holds whatever font the browser uses and whatever the sizes; the hairline to
+   capital gap is then the section's own spacing. Browsers without text-box-trim keep the plain line boxes. */
+@supports (text-box-trim: trim-start) {
+  @media (min-width: 56.25em) {
+    .row__title:not(.step__title), .step__title > span, .site-footer__title,
+    .row__body > p:first-child, .site-footer__text,
+    .roster__row:first-child .roster__name {
+      text-box-trim: trim-start;
+      text-box-edge: cap alphabetic;
+    }
+  }
+}
 /* Inner pages: the page title already opens the page, so its sections sit closer to it and to each other,
    and the footer (a section like them) keeps the same rhythm. */
 html:not(.page-home) { --row-y: clamp(32px, 4.5vw, 64px); }
